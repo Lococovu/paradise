@@ -1,0 +1,70 @@
+# 
+# Прислушиваемся к евенту нажатия кнопки
+# 
+on right click:
+  if name of player's held item contains "Кошелёк":
+    cancel event
+
+    # Теперь давайте попытаемся взять ид кошелька
+    set {_lore::*} to lore of player's held item
+    set {_id} to uncolored {_lore::1}
+
+    set {temp::%player%::wallet::currentInventoryId} to {_id}
+
+    # Теперь давайте откроем менюшку
+    open virtual chest inventory with size 1 named "&8&lКошелёк" to player
+
+    # И заполним её контентом,
+    # который уже сохранён в кошельке
+    set {_slot} to 0
+    set {_inventory::*} to {data::wallet::%{_id}%::inventory::*}
+
+    loop {_inventory::*}:
+      set slot {_slot} of player's current inventory to loop-value
+      add 1 to {_slot}
+
+    # Так же давайте добавим один дополнительный предмет,
+    # который немного опишет суть кошелька
+    set {_help} to player head named "&eⓘ &fПомощь" with lore "", "&f &fКошелёк - это место, где могут хранится ваши", "&f &fденьги и ваши документы. Именно от сюда", "&f &fвам нужно будет брать документы/деньги для", "&f &fподальшего РП-процесcа", "", "&f &fВ кошелёк можно положить ТОЛЬКО деньги и документы.", "&f &fВсе другие предметы будут отдаваться вам в руки."
+    add "{SkullOwner:{Id:""32f9f141-4960-4b2c-b09b-3d963db58a3f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=""}]}}}" to item-nbt of {_help}
+
+    format gui slot 8 of player with {_help}
+
+on inventory close:
+  if name of event-inventory contains "Кошелёк":
+    # Берём ид этого кошелька
+    set {_id} to {temp::%player%::wallet::currentInventoryId}
+    
+    # И сразу же его удаляем
+    delete {temp::%player%::wallet::currentInventoryId}
+
+    # Теперь давайте возьмём все предметы
+    # этого инвентаря и сохраним их
+    # в базу данных
+    set {_items::current} to 0
+    set {_items::end} to 8
+
+    while {_items::current} <= {_items::end}:
+      if slot {_items::current} of player's current inventory is set:
+        set {_item} to slot {_items::current} of player's current inventory
+
+        if "%{_item}%" doesn't contain "paper":
+          if "%{_item}%" doesn't contain "Помощь":
+            if "%{_item}%" contain "air":
+              set {data::wallet::%{_id}%::inventory::%{_items::current}%} to slot {_items::current} of player's current inventory
+            else:
+              add {_item} to {_return::*}
+        else:
+          if "%{_item}%" contains "Кошелёк":
+            add {_item} to {_return::*}
+          else:
+            set {data::wallet::%{_id}%::inventory::%{_items::current}%} to slot {_items::current} of player's current inventory
+            set {_saved} to true
+
+      add 1 to {_items::current}
+
+    # Возвращаем неподходящие предметы
+    if size of {_return::*} > 0:
+      loop {_return::*}:
+        sendNotification(player, "&c⚠ &fВы не можете положить сюда этот предмет", 3)
+        add loop-value to player's inventory

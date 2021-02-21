@@ -1,0 +1,2 @@
+on server ping:
+  set motd to "&fParadise &7- Роле-Плей сервер%newline%&7⚠ &7Проводятся тех. работы"

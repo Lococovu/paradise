@@ -1,0 +1,39 @@
+# ------------------------------------  #
+#                                       #
+#       never touch the system-ID !     #
+#                                       #
+# ------------------------------------  #
+
+BigStrafficlight:
+  displayName: '&cBigStrafficlight'
+  system-ID: BigStrafficlight
+  spawnMaterial: PIG_SPAWN_EGG
+  itemGlowEffect: false
+  itemLore: []
+  crafting:
+    disable: true
+    recipe: xxx,xxx,xxx
+    index:
+      x: BEDROCK
+  projectData:
+    entities:
+      '0': H4sIAAAAAAAAAI1SsW7TUBS9adLUDSNCYqwQA0skO00TytK6je04Suw0MWmel/JiP8dOnp3KdhqciZUJMfEb/AGCATEwMLDzAWxI7DwnTltASHi697xzzvM795YA8nBHwz4ZeJE3ogQgRXZPcES6FMdpn8vDdt/HlK7rguyFGa0ghn6UKdTg6tqBsYodHE5JuG52FDpbeME4pZagJM0pCcVgTEkJuLYkGxdtSSlCbvju9TflwdfjC1YjyD5WmxuciQtNSWyk3Fvnv3E3NWy8xV5n5f3x/P73l92rv7wzPPU+0RvoP713e6rSvDH/8r775hN38qfg6MY8E2QvPfrHSzf46goWKQniWZhwsH3alPoGFDRdk7IQONjybLjnewGxQuzETy4pTkh44RJs55hgNg/iXAnyMR6zzPvTOaX6IiAh06k2PLTrvOBUqrUyHlmVcrVS5cuP6/VR2cHCYXVfqIx4UmG6bji7JGHskWgXuJg8j+chiUrpWNlPDTCdE3hLkhZvDl3eHraolag11ht9nurq5LKuBoNkdKrWVJ+dN8VaOzm8xT2I8fkBRfst1wzO5iN/wLf3e5Q0e4LlP70yJ2cCWlIXVQaurvRcbSl7moISzWhNzEZvap6rgm6cLRnvwDTsKfI7C22J+M7E4tFEFZBhupqPBL1hCciXKTI6njMUDlcD3LG9KE2MY6Gy9Ye7SkhIsGewKB3P2mt7YzcG2IJiA/t4TNiKc7Cjy3JT1BrrOXDAdURVuw0U2Hj7140sSdnIYHPLaitnFo69WVAEbljWHSci8c0KcGYGHX1+9PPDq2cphDbQjxcr1jbkEV6sFb8AbWGW2sEDAAA=
+      '1': H4sIAAAAAAAAAI1STY/SUBS9DF8FdyYmLifGhRsSBigT3MyUoUAJbfkaSrsZH+WVFl4LaQtM+QeujCv/hv/A6MK4cOHCvT/AtYlLX6HMoMbEru4975zz+s69WYA4PJCQjYeWZ40JBgiRTBV5uEOQH/axOCT7NiJkXyfqlhvREpxre5FCcNZ3DpSVEpE7x+6+STfIYmM505CahSy/ItjlnCnBWWDafH1w0+YbKYiN3r3+1njy9fKG1ipEH621A07FiSbP1ULu0flv3EMNB2+uJ+68PyqPv7/srP/yjvDQuyrX1P/0zvSERvPe/Mv7zptPTPVPwcW9eSSIXnrxj5ce8N0VNFLs+As3YCB51eT7A0hIssRHITBwYk3gkW05WHeR4T9fEhRg98bEaBKjgsXK8WNZiPtoSjPvz1eEyBsHu1QnTOAprpTySC/pOeMcVXIVVCzlcIFFuULFmIzZPCrqpXOq67iLJXZ9C3sZYHx8669c7GXDsdKfGiKywvAWB628NjLzk1GL6IFQpv2gnyeyMFueC84wGF8JZcGm502u3A4qR1zWRwpL1GLL1JzuamwP8+1ij+Bm70y3r9faQN2KDTGQG92CujVtbSbcSjPNFJX6TJ3prDQQt+KsRWRFLWi1KSsr15QrFkSlNRcLfFHaaqY26BblWpdVFTFQFd4yRmeV3QDTE8sLE2NoqHT94aGKCd3S0z7NC5+2ranpA5xAqoZsCtANZyAt1+tNTqrtx8AAI3KCdAwk6HT7d02d56OJweGS3VIudORbCycFzCgnG4aH/fsNYLQIuvj87MeHVy9CSD1AP/esJMRVtNnXvwBIDdmRwAMAAA==
+      '2': H4sIAAAAAAAAAI1SPZPSUBS9LCxkY+2MpeNY2DATZlk+bNawBAhDEoQskDTrI3mEhJfAJGHZUNlaOVb+DQt7RwvHwsLC3h9gbev4AmFBHWdMk3vPO+ck79zLAqThjoxcPLADe0wwQIyc1FCAuwSFcZ9Kw3HfRYRs60zD9hNahvfdIFGI3vWtA2VlJeTPsL9tck0yX9meFVNZYIUlwT7vWQSzwHSEhnrVEZpZSI3evfrWfPD1yRWtNUgeWus7nIozLYGvx9yD89+4uxp23nxP2nh/HN77/qJ7/Zd3gsfeNaWu/af3SU9stvbmX953X39ian8KzvfmiSC56fk/brrDN5+gkWIvnPsRA8cXLaGvQkZWZCEJgYEj24S7ru1hw0eT8PGCoAj7V1OMzBQVzJdemGIhHSKLZt6fLQlRVh72qU404SGqTrixWebyXLmC8sWKUcxXSlw5X6ielsdobFarFToetuvPF9gPbRycABPim3Dp44CNx0p/aoDIEsMbHLU5fTTlzFGbGJFYor3a54giOouy6A2i8YVYEl163uJLnah6wD0L0fCMaKftqe49XY7dAdc57RHc6hUM9/JaXlsr3RULmmOtFVXkZMdYSUOhqDmXN7IqFLShTGS152jOrKgNNU5SjUivCzeKKkXaesbFb9mRVrrTdnRVXEuOYU9GhepmgDnTDuLEGBoqXX9ge9i837GtaUg3+giydeQiC9PNZiCnNBotXq5v42eAkXhRPgQydKr926YhCMmkYGe+Wca5gUJ77mWBGeWVySTA4X7yjJ5A558f/fjw8lkMaTvo5/MN6xjSGlrV3sb1L/3ty064AwAA
+    blockList:
+      '0':
+        xOffset: 0.0
+        yOffset: 2.0
+        zOffset: 0.0
+        blockData: minecraft:iron_bars
+      '1':
+        xOffset: 0.0
+        yOffset: 0.0
+        zOffset: 0.0
+        blockData: minecraft:iron_bars
+      '2':
+        xOffset: 0.0
+        yOffset: 1.0
+        zOffset: 0.0
+        blockData: minecraft:iron_bars
+  placeAbleSide: TOP

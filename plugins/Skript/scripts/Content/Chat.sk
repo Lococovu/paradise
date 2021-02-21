@@ -1,0 +1,175 @@
+on chat:
+  cancel event
+
+  if {temp::%player%::chat::input} is set:
+    set {temp::%player%::chat::output} to message
+    delete {temp::%player%::chat::input}
+    stop
+
+  if {authorized::%player%} is not true:
+    stop
+
+  if {defaultRoom::%player%} is true:
+    if {%player%::chat} is 1:
+      set {%player%::chat} to 0
+      sendNotification(player, "&c⚠ &fВ этой комнате можно общаться только в &7OOC &fчате.", 6)
+
+  if {%player%::chat} is 1:
+    # Начальное...
+    if message contains "((":
+      set {_prep::*} to message split at "(("
+      loop {_prep::*}:
+        if loop-value contains "))":
+          set {_loop-prep::*} to loop-value split at "))"
+          if {_loop-prep::1} is set:
+            add "((%{_loop-prep::1}%))" to {_messages::nonrp::*}
+    set {_message} to message
+    loop {_messages::nonrp::*}:
+      replace all loop-value in {_message} with "&7%loop-value%"
+    #
+    # Строим само сообщение...
+    #
+    
+    set {_message::radius} to 15
+    set {_message::action} to false
+    
+    set {_profile::uid} to {auth::ip::%player%::email}
+    set {_card::name} to {accounts::%{_profile::uid}%::server::name}
+
+    if {_card::name} is not set:
+      set {_card::name} to "*%player%"
+
+    if message starts with ">":
+      set {_message} to subtext of {_message} from characters 2 to (length of {_message})
+      set {_message} to "&7%{_card::name}% &cкрикнул&f: %coloured {_message}%"
+      
+      set {_message::radius} to 25
+    else if message starts with "<":
+      set {_message} to subtext of {_message} from characters 2 to (length of {_message})
+      set {_message} to "&7%{_card::name}% &9прошептал&f: %coloured {_message}%"
+      
+      set {_message::radius} to 5
+    else if message start with "*":
+      set {_message} to subtext of {_message} from characters 2 to (length of {_message})
+      set {_message} to "&e%{_card::name}% %{_message}%"
+      
+      set {_message::radius} to 25
+      set {_message::action} to true
+    else:
+      set {_message} to "&7%{_card::name}%&f: %{_message}%"
+    
+    #
+    # Система отправки сообщения
+    #
+    loop all players in radius {_message::radius} around player:
+      send "%{_message}%" to loop-player
+      
+    add coloured message to {%player%::VisualChat::*}
+
+  else:
+    loop all players:
+      if "%loop-player%" is "%player%":
+        set {_color} to "&6"
+      else:
+        set {_color} to "&f"
+      if {_card::name} is set:
+        set {_string::name} to "%{_color}%%player% &7(%{_card::name}%)"
+      else:
+        set {_string::name} to "%{_color}%*%player%"
+      send "&7[OOC] %{_string::name}%&f: %message%" to loop-player
+        
+every 1 tick:
+  loop all players:
+    set {_player} to loop-player
+
+    if {chat::%{_player}%::last} is set:
+      reduce {chat::%{_player}%::last} by 0.05
+      if {chat::%{_player}%::last} < 0:
+        delete {chat::%{_player}%::last}
+    # delete {%{_player}%::VisualChat::*}
+    if size of {%{_player}%::VisualChat::*} >= 1:
+      if {%{_player}%::VisualMessage} is not set:
+        loop {%{_player}%::VisualChat::*}:
+          set {%{_player}%::VisualMessage} to true
+          set {_message} to loop-value-2
+
+          set {_number::*} to {_message} split at ""
+          set {_number} to size of {_number::*}
+
+          if size of {_number::*} >= 35:
+            remove {_message} from {%{_player}%::VisualChat::*}
+            set {_message1} to first 35 characters of {_message}
+            set {_number::*} to {_message1} split at ""
+            set {_number} to size of {_number::*}
+            set {_message2} to subtext of {_message} from characters 35 to (length of {_message})
+
+            if {_message} starts with "*":
+              add "*...%{_message2}%" to {%{_player}%::VisualChat::*}
+            else if {_message} starts with ">":
+              add ">...%{_message2}%" to {%{_player}%::VisualChat::*}
+            else if {_message} starts with "<":
+              add 1 to {_nothgin}
+            else:
+              add "...%{_message2}%" to {%{_player}%::VisualChat::*}
+            set {_message} to "%{_message1}%..."
+          set {_time} to "%{_number}*0.1% seconds" parsed as timespan
+
+          remove {_message} from {%{_player}%::VisualChat::*}
+          # Звуки...
+          play sound "entity.villager.yes" with volume 2 with pitch 1 at loop-player
+          # Спавним...
+          if {_message} starts with "*":
+            set {chat::%{_player}%::last} to 2
+
+            #set {_card::name} to characterGetName(loop-player, getCharacter(loop-player))
+            set {_message} to subtext of {_message} from characters 2 to (length of {_message})
+            set {_message} to "&e%{_message}%"
+          else if {_message} starts with ">":
+            set {_message} to subtext of {_message} from characters 2 to (length of {_message})
+
+            #set {_card::gender} to getGender(loop-player, getCharacter(loop-player))
+            if {_card::gender} contains "жен":
+              set {_message} to "&cКрикнула: &f%{_message}%"
+            else:
+              set {_message} to "&cКрикнул: &f%{_message}%"
+          else if {_message} starts with "<":
+            delete {%{_player}%::VisualMessage}
+            stop
+          else:
+            #set {_card::gender} to getGender(loop-player, getCharacter(loop-player))
+            if {_card::gender} contains "жен":
+              set {_message} to "&6Сказала: &f%{_message}%"
+            else:
+              set {_message} to "&6Сказал: &f%{_message}%"
+          create new hologram with lines "%{_message}%" that follows loop-player with offset 2.4 blocks above and store it in the variable {_holo}
+
+          wait {_time}
+          # Удаляем...
+          delete hologram {_holo}
+          delete {%{_player}%::VisualMessage}
+        
+command ooc:
+  aliases: nonrp, nrp
+  trigger:
+    if {%player%::chat} is not set:
+      set {%player%::chat} to 1
+    if {%player%::chat} is 1:
+      play sound "block.end_portal_frame.fill" with pitch 0.5 to player
+      sendNotification(player, "&7▽ &fВы переключили чат на &7OOC", 6)
+      set {%player%::chat} to 0
+    else:
+      sendNotification(player, "&c⚠ &fВы уже находитесь в этом чате.", 6)
+    
+command rp:
+  trigger:
+    if {%player%::chat} is not set:
+      set {%player%::chat} to 1
+    if {%player%::chat} is 0:
+      if {defaultRoom::%player%} is true:
+        sendNotification(player, "&c⚠ &fВ этой комнате можно общаться только в &7OOC &fчате.", 6)
+      else:
+        play sound "block.end_portal_frame.fill" with pitch 1.5 to player
+        sendNotification(player, "&a△ &fВы переключили чат на &aRP", 6)
+        set {%player%::chat} to 1
+    else:
+      sendNotification(player, "&c⚠ &fВы уже находитесь в этом чате.", 6)

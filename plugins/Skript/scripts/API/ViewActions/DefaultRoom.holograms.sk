@@ -1,0 +1,151 @@
+# 
+# Функция, которая будет обрабатывать
+# процесс создания новых голограмм
+# модуля "DefaultRoom"
+# 
+
+function DR_Holo_CharactersCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&e▷ &fПКМ"
+  set {_hologram::location} to getLocation("-3967.5, 98, -2217", "world")
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    # Проверяем состояние текущего блока
+    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+  
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+
+
+function DR_Holo_StorageCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", "&7&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&e▷ &fПКМ"
+  set {_hologram::location} to getLocation("-3965.500, 98, -2226", "world")
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    # Проверяем состояние текущего блока
+    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+  
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+
+function DR_Holo_ExitCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", "&7&lВыход", "&fВыходите из комнаты", "&fиз исследуйте этот мир!", "&9▷ &fПКМ"
+  set {_hologram::location} to getLocation("-3968.5, 98, -2227.5", "world")
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    # Проверяем состояние текущего блока
+    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+  
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+function DR_Holo_ExitClick(player: player):
+  # Открываем небольшую менюшку, в которой пользователь
+  # должен будет подтвердить то, что он хочет выйти
+  open virtual chest inventory with size 3 named "&8&lПодтверждение" to {_player}
+
+  # Пустые слота
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  format gui slot 12,14 of {_player} with {_empty}
+
+  # Выйти
+  set {_exit} to player head named "&9▯ &fВыйти из комнаты" with lore "", "&f &fВыходя из комнаты вы попадает в мир Парадайса.", "&f &fТут можно делать всё, что захочешь - главное что бы", "&f &fэто было в рамках законов правительства. Выходите", "&f &fиз своей комнатушки и исследуйте этот мир!", "", "&9▷ &fНажмите, что бы выйти"
+  add "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}" to item-nbt of {_exit}
+
+  format gui slot 12 of {_player} with {_exit} to run:
+    close {_player}'s inventory
+
+    set {defaultRoom::%{_player}%::action} to "exit"
+
+function DR_Holo_CharactersClick(player: player):
+  OpenCharacterEditorMenu({_player})
+
+function DR_Holo_StorageClick(player: player):
+  openWorkingSpace({_player})

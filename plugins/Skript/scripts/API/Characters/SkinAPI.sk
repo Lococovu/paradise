@@ -1,0 +1,10 @@
+function setSkin(player: player, skin: string):
+  # Давайте сначала возьмём данные этого аккаунта
+  set {_profile::id} to {auth::ip::%{_player}%::uid}
+  
+  # И теперь давайте поменяем этот скин
+  set {accounts::%{_profile::id}%::server::skin} to {_skin}
+  execute console command "/skin set %{_player}% %{_skin}%"
+
+  wait 2 ticks
+  execute console command "/skin update skin %{_skin}%"

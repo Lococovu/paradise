@@ -1,0 +1,45 @@
+# ------------------------------------  #
+#                                       #
+#       never touch the system-ID !     #
+#                                       #
+# ------------------------------------  #
+
+Torch-Lamp:
+  displayName: '&cTorch-Lamp'
+  system-ID: Torch-Lamp
+  spawnMaterial: COW_SPAWN_EGG
+  itemGlowEffect: false
+  itemLore: []
+  crafting:
+    disable: true
+    recipe: xxx,xxx,xxx
+    index:
+      x: BEDROCK
+  projectData:
+    entities:
+      '0': H4sIAAAAAAAAAI2SzU7CQBDHp7bAUl6AxJt3rx681CL9IIGW0EYol2bBBRvbrWlXCI/g0ZOPQ7wYjyR69wG8e3ZLy4cSE/f03//O/GZ2Z2UAEWoWjshVkAajkABkTsmJcBjmWlKTKM1luYOTW5JwLYhQMcJ4HtBpdoRAyhiZkDXKArZwF3cEamqvY/d8x1WtpgjVBk5JN8SM5ABJD5KiXrVFZ9v6gswh9yFJVDoNiQyoremu39aMMgiD5eOHcfJ+4XPtQbG4Hm58kEEyNbWZxe6d/4jdaNiweZtZvPLVr5+9ibUD9ku//vnQnWXsht30/smu9lqGuYUvV8/dp1fU+J2g7OBFQnFT5Y+bbvx1Cf5uhLI4WSAoXZqa4/JB2JZWPAKCo+AajqOAknGCJ+w8jeKY3fgpiynx0xCPBJ4W31Mm8MlVbF03+aRyBALUUVvWviHxzpztRte0otr6HeMxZkFMy4AGp/ZkkhK2axoNDy2vsJRVbpVA9PAc8v9QMRI8479ovf0GI095CaQCAAA=
+      '1': H4sIAAAAAAAAAI2Sz07CQBDGp7bAUq4ePHv3BbxgkW1LAi2hjVIuzYoLadxuSVsgPIJHTz6O8WI8evDuA/gSbv8BQkzc07ffzvxmdmdVABlaFgnpTZAEd4wCZE7NCQljhVa0OEwKWR+Q+IHGQksyNAwWrQM+z44QKBkjEyrmaZBu3M2CQksbDeyR77ia1ZWh2SEJHTKS0gKg6EFc1mv2+GpbX1IFZMlorPE5oyqgPtZdv4+NOkjjl6cv4/zzyhfag3IJPal8UEExsdbNYvfOf8VWGiq2aDNnv92efT8OV0fs0s/YHbvr/ZPdHPUMcwf/eB0+v6POYUJ7By8Typu2/7hp5eclxLtRnkbxBkHt2sSOKwZhW7h8BAQnwT2chgGn05jM0ss5I0niLwinkoiPljyVxMgatq6bYkRFLgI00HrWvqGIlpztRse4LJM/YDQlaRDxOqDxhT2bJTTddYsmx5Z3YNVA9sgaio/QMGKyEt8n3/4Aeex/XJ0CAAA=
+      '2': H4sIAAAAAAAAAI2SzU7CQBDHp7bAUq4ePHv3BbxgK/0gAUpoo5RLs+JCNrZb0i4YHsGjJ1/Eu/FiPHrw7gP4Em6/ACEm9vTvf2Z+M7uzKoAMrQGOyBVN6U1IADKn5kY4DAutaEmUFrLex8kdSYSWZGhYYXxP2TwLIVAyRiZUg3HK1956QaCljfrOKHA9bdCRoanjlAxDzEkBUEyalP2aXbba9JdUAVmGJNHYPCQqoJ5hekHPsOogjV8ev6zTz4tAaB/KT+hJ5YMKim1onSx3J/4rt9JQscWYOfvt+uT7Ybg6YJd+xtadjv9PdnPUtewt/ON1+PSO9P2C9hZeFpQnbf9x0srPW4h7I4zHyRpB7dI2XE8swhkY5SUgOKK3cBxRRqYJnvHzeYjTNFhgRiSRHy8Zl8TKGo5p2mJFRS0C1Ne6g11DESO5mx/TMMo2+QXGU8xpzOqAxmfObJYSvp0WTQ4tf8+qgezje/05fwgNK8Er8XzyyA9PovblnQIAAA==
+      '3': H4sIAAAAAAAAAI2Sv1LCQBDGNybAEVoLa3s7KxsMkARmIGFIRglN5sSDuTG5MJcAwyNYWvk4jo1jaWHvA/gSXv4Bwjhjqi/f7v527/ZUABkaFg7JDY3pXUAAUqfihDgIcq1oPIxzWR1g/kC40JIMNTOI1pTN0xACJWWkQtVZQpONu1kQaGijgT3yHVezOjLUWzgmwwAnJAcoBuVFv3qPrbb9JVVAlgHhGpsHRAXU1w3X7+tmFaTxy9OXef557QvtQfEJPSl9UEHp6lonzd2L/8otNZRsMWbGfrs9+34cro7YhZ+yW3bH+ye7PuqZ3R3843X4/I5ahwXNHbwoKE7a/OOkpZ+1EPdGWBLxDYJKu6s7rliEbenFJSA4ofdwGlJGphzPkqt5gOPYX2BGJJEfLVkiiZXVbMPoihXltQjQQOtZ+4YiRnK2P4auF22yC4ymOKERqwIaX9izWUyS3bRocmx5B1YFZA+v25fZQ6iZHK/E88kiP1lBgBqdAgAA
+      '4': H4sIAAAAAAAAAI2Sz07CQBDGp7bAUq4ePHv3BbxggW1LApTQRimXZsWFbGy3pC0QnsB49OTjGC/GowfvPoAv4fYfIMTEnr5+M/Ob2Z1VAWRoDEhAr1nMbn0KkDoVOyC+n2tFi4I4l9U+ie5pJLQkQ83wwzXj8zSEQEkZqVAxT1iycTYLCg1t1LdGnu1og44M9RaJ6dAnCc0Bis6iol+9y1fb/pIqIEufRhqf+1QF1MO64/WwUQVp/PL0ZZx/XnlCu1B8Qk9KH1RQTKx10ty9+K/cUkPJFmNm7Lebs+/H4eqIXfgpu2V13H+y66OuYe7gH6/D53fUOixo7uBFQXHS5h8nLf2shbg3ypMw2iCotE1sO2IR1gAXl4DghN3BacA4nUZkllzOfRLH3oJwKon8cMkTSaysZum6KVaU1yJAfa072DcUMZK9/dExLtpkFxhOScJCXgU0vrBms5gmu2nR5NhyD6wKyC5Ztx+yh1AzIrISzyeL/AC+UgEWnQIAAA==
+      '5': H4sIAAAAAAAAAI2SzU7CQBDHp7bAUl7AxJt3X8ALFukHCbSENkq5NAsu2NhuzXbB8AgePfk4xovx6MG7D+DJN3D7BSgxcU///e/Ob2ZnVgWQoWXjmFyEaTiNCEDm1NwYR1GhFY3FaSHrA8xuCBNakqFhRsldSBfZEQIlY2RC1SkP+dpb3xJoaaOBMwpcT7O7MjQ7OCXDCHNSABQjZGW+Zo+uNvklVUCWEWEaXUREBdTXDS/o62YdpPHTw4d5/H4WCO1DuYSeVD6ooFi61s3u7pz/uFtpqNiizJz9cnn4eT9c7bFLP2N3nK7/T3Zz1DOtLfztefj4ijq/A9pbeBlQvrT9x0srP08h+kYoT9gaQe3c0l1PDMKx9bIJCA7CKziKQ0pmDM/5aRonCb8OUp5QEqQRnkoiLFlSLonJNRzDsMSkCgQCNNB69q6hiMrczcbQ9TJb3sdkhnmY0Dqg8Ykzn6eEb4tGk33LL632V2HVQPbxHRT/oWEyvBK/KN9+A03ge3KkAgAA
+      '6': H4sIAAAAAAAAAI2SS07DMBCGp0rSOukFWLPnDCWlzkNqk6iJoOmmMsitIpwEOaFVjsCSFcdBbBBLFuw5AJfAeZHSCgmv/vnt+caesQYgwdAhMb2MsuiaUYDSUfyYMFZrWedxVsv+jPBbyoXuSTAwWbqLkk25hUAuGaXQcJJHeREUdxSG+nzmzld+oDsTCdQxyajHSE5rgGxEvKmn2sm2q68JyD2jXE82jGqAptgIVlNs9qG3eH78NE8/zldCh9AsoZetL5JlC+uT8uze/q+zrYaWLa5ZsV+vTr4evO0Ru/FL9tidhP9kq3PbtDr4+4v39IbGhwmjDt4kNC8d/fHS1q9KiL7RJE95gUC5sLAfiEG4DkZ1E9pg4BqGJWbQxmim286+IYua/k9gYNxwqg6lNySP0qQPaHHmrtcZzbvroOWxFR5YCkgh2UE96YHJyVb8jyr8Bl58Td9+AgAA
+      '7': H4sIAAAAAAAAAI2Sz06DQBDGp4HSLX0Bz959hgp2gSYFmkK09NKsZtsQt2AWpOERPHryRbw3XoxHD959AF/C5Z/UNiZy+uabnd/szqACSDBwyIZehkl4zShA4XS9DWGs0rLGN0klFZvwW8qF7kjQM1m8DaN1kUIgF4xCqDhKwzT38zsKA21mu7Ol52vOSIK+ThI6ZSSlFUA2Ql7364+jrO2vCsg9o1yL1oyqgCbY8JcTbCrQme8eP83Tj/Ol0AHUn9CLxhfFsoW1UXF2L//rbKOhYYtrluzXq5Ovh2l2xK79gq27o+Cf7P5sbFot/P1l+vSG9MOCYQuvC+qXDv94aeOXLcTcaJTGPEfQvbCw54tFuA5G1RCaoOcahiV20MTI1sbOviGLnt5PYGBcc8oJxTckDeNIATQ/c1erhKbtddDi2AoOrC5IAdnqz+WmeyYnmfg/ysw3aDLEZn4CAAA=
+      '8': H4sIAAAAAAAAAI2Sz07CQBDGp7bAUl7AxJt3X8ALFOkfEmgJbZRyaRZcsLHdmnbB8AgePfk4xovx6MG7D+BLuG23gBIT9/Tttzu/mZ1ZFUCGlo1jchlm4SwiALlTc2McRVxKMihaGmelXR/i9Jakpd8wo+Q+pMv8CIGSM3Kh6pSFbONt7gi0tPHQGQeup9k9GZpdnJFRhBkRYCNMRb5mn663+SWVQ1YRSTW6jIgKaKAbXjDQzTpIk+fHT/P0oxNw7YNYXE8rH1RQLF3r5Xf3zn/crTRUbF5mwX69Ov56GK0P2MLP2V2n5/+T3Rz3TWsHf38ZPb2h7u+A9g4uAsRL23+8tPKLFLxvhLIk3SCoXVi66/FBOLYumoDgKLyGkzikZJ7iBTvP4iRhN0HGEkqCLMIziYclK8okPrmGYxgWn1SJQICGWt/eNxRembvdGLoushV9TOaYhQmtA5qcOYtFRtiuaDQ9tHxhdYRVA9nH91D+h4aZ4jX/RcX2G4kkOEykAgAA
+    blockList:
+      '0':
+        blockData: minecraft:oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+        xOffset: 0.0
+        yOffset: 1.0
+        zOffset: 0.0
+      '1':
+        blockData: minecraft:end_rod[facing=up]
+        xOffset: 0.0
+        yOffset: 2.0
+        zOffset: 0.0
+      '2':
+        blockData: minecraft:oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+        xOffset: 0.0
+        yOffset: 0.0
+        zOffset: 0.0
+  placeAbleSide: TOP

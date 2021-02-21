@@ -1,0 +1,69 @@
+function SP_Holo_ShopStandCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте сначала загрузим информацию
+  # об данной голограмме
+  set {_location::block} to location of block at {_location}
+  set {_shopId} to {block::%{_location::block}%::shopId}
+
+  set {_shop::location} to {block::%{_location::block}%::location}
+  set {_description::*} to {shop::%{_shopId}%::%{_shop::location}%::description::*}
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", coloured {_description::*}, "&e▷ &fПКМ"
+  
+  set {_hologram::location} to {_location}
+  set {_hologram::location}'s y coordinate to 69
+
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    if {temp::%{_player}%::blockTerminalViewAction} > 0:
+      reduce {temp::%{_player}%::blockTerminalViewAction} by 0.05
+      hide hologram {_hologram} from {_player}
+    else:
+      delete {temp::%{_player}%::blockTerminalViewAction}
+      if {_player} can not see hologram {_hologram}:
+        reveal hologram {_hologram} to {_player}
+
+    # Проверяем состояние текущего блока
+    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+  
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+function SP_Holo_ShopStandClick(player: player):
+  loop all blocks in radius 3 around {_player}:
+    set {_location::block} to location of block at loop-value
+    set {_shopId} to {block::%{_location::block}%::shopId}
+
+    set {_shop::location} to {block::%{_location::block}%::location}
+
+    if {_shopId} is set:
+      exit 1 loop
+
+  broadcast "SHOPID: %{_shopId}% || Location: %{_shop::location}% 2"

@@ -1,0 +1,41 @@
+command test5:
+  trigger:
+    sendNotification(player, "&c⚠ &fВаша база в опасности. &7~ Идите её защищать!", 6)
+
+function sendNotification(player: player, text: string, time: number):
+  set {_random} to random integer between 000 and 999
+  
+  set {_notification} to skellett new bossbar
+
+  skellett add {_player} to the bossbar {_notification}
+  skellett show bossbar {_notification}
+
+  set skellett colour of bossbar {_notification} to WHITE
+  # set skellett style of bossbar {_notification} to SEGMENTED_6
+  
+  play sound "block.brewing_stand.brew" with pitch 2 at {_player} for {_player}
+
+  set {_waiting} to true
+
+  # set {_cooldown} to now
+  # add 45 seconds to {_cooldown}
+  # set {notifications::%{_player}%::cooldown} to convert date {_cooldown} to unix date
+            
+  while {_waiting} is true:
+    if {_player} is offline:
+      stop
+
+    if {_time} <= 0:
+      skellett hide bossbar {_notification} 
+      stop
+    
+    if {_time} <= {_time}/2:
+      if {_time} <= {_time}/3:
+        set skellett colour of bossbar {_notification} to RED      
+      else:
+        set skellett colour of bossbar {_notification} to YELLOW
+    set skellett title of bossbar {_notification} to {_text}
+    set skellett progress of bossbar {_notification} to {_time}/6
+    
+    reduce {_time} by 0.05
+    wait 1 tick

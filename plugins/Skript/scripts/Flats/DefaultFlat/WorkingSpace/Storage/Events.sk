@@ -1,0 +1,18 @@
+on inventory close:
+  if name of player's current inventory contains "Склад":
+    # Сохраняем инвентарь
+    set {_profile::uid} to {auth::ip::%player%::uid}
+    if {_profile::uid} is not set:
+      stop
+
+    set {_items::current} to 0
+    set {_items::end} to 27
+
+    while {_items::current} <= {_items::end}:
+      if slot {_items::current} of player's current inventory is set:
+        set {data::storage::%player%::inventory::%{_items::current}%} to slot {_items::current} of player's current inventory
+
+      add 1 to {_items::current}
+
+    wait 1 tick
+    openWorkingSpace(player)

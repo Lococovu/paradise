@@ -1,0 +1,164 @@
+# ---------------------------
+# Отменяем изменение погоды
+# Это очень важно, да. Погода
+# будет во всех мирах одинаковая,
+# но не щас.
+on weather change:
+  set event-world's weather to clear
+  cancel event
+
+command startAgain [<number>]:
+  trigger:
+    # Месяца
+    set {server::time} to "23:55"
+
+    set {server::time::months::visual::1} to "Января"
+    set {server::time::months::visual::2} to "Февраля"
+    set {server::time::months::visual::3} to "Марта"
+    set {server::time::months::visual::4} to "Апреля"
+    set {server::time::months::visual::5} to "Мая"
+    set {server::time::months::visual::6} to "Июня"
+    set {server::time::months::visual::7} to "Июля"
+    set {server::time::months::visual::8} to "Августа"
+    set {server::time::months::visual::9} to "Сентября"
+    set {server::time::months::visual::10} to "Октября"
+    set {server::time::months::visual::11} to "Ноября"
+    set {server::time::months::visual::12} to "Декабря"
+
+    set {server::time::month} to "Январь"
+    set {server::time::days} to arg 1
+
+    set {server::time::year} to 2020
+
+    # delete {server::time::months::*}
+
+# ---------------------------
+# Дни, месяца, недели.
+# Вот тут вот всё самое интересное!
+# Тут происходит изменение дней,
+# месяцев, и так далее!
+every 10 seconds:
+  if {server::time} is not set:
+    set {server::time} to "00:00"
+  # Обработка времени...
+  set {_prep::*} to {server::time} split at ":"
+  set {_hours} to {_prep::1} parsed as number
+  set {_minutes} to {_prep::2} parsed as number
+
+  if {_minutes} >= 60:
+    # Меняем...
+    set {_minutes} to 00
+    if {_hours} >= 23:
+      # --------------------------------
+      # Прошёл день. Добавляем один день
+      # к дням, и если прошёл месяц -
+      # то меняем месяц.
+
+      if {server::time::days} is not set:
+        set {server::time::days} to 0
+
+      add 1 to {server::time::days}
+      # Месяца
+      if {server::time::days} >= 30:
+        set {server::time::days} to 1
+        set {_month} to {server::time::month}
+
+        # Меняем месяц...
+        set {_index} to 1
+        loop {server::time::months::*}:
+          if "%loop-value%" is "%{_month}%":
+            exit 1 loop
+          add 1 to {_index}
+
+        add 1 to {_index}
+        if {_index} > 12:
+          # Новый год! Юхуу!
+          set {_index} to 1
+
+          add 1 to {server::time::year}
+
+        set {server::time::month} to {server::time::months::%{_index}%}
+
+      # Добавляем баланс игрокам...
+      loop all players:
+        sendNotification(loop-player, "&a &fВам было начисленно: &a25$", 6)
+
+        set {_money} to getMoney(loop-player)
+        set {_money} to {_money} + 25
+
+        setMoney(loop-player, {_money})
+
+      set {_hours} to 00
+    else:
+      add 1 to {_hours}
+  if {_minutes} is not set:
+    set {_minutes} to 00
+  if {_hours} is not set:
+    set {_hours} to 00
+
+  # Ещё одна проверка...
+  set {_msg} to "%{_minutes}%"
+
+  # delete last element of {_minutes::*}
+  set {_length} to length of "%{_minutes}%"
+  if {_length} <= 1:
+    set {_minutes::rollback} to {_minutes}
+    set {_minutes} to "0%{_minutes}%"
+  set {server::time::visual} to "%{_hours}%:%{_minutes}%"
+  loop all worlds:
+    set {_world} to loop-value-1
+    evaluate logging in {_errors::*}:
+      set "%{_world}%"'s time to %{_hours}%:%{_minutes}%
+    if {_errors::*} is set:
+      loop {_errors::*}:
+        broadcast "&cerror in time (World: %loop-value-1%) &f%loop-value-2%"
+
+  if {_minutes::rollback} is set:
+    set {_minutes} to {_minutes::rollback}
+  add 1 to {_minutes}
+  set {server::time} to "%{_hours}%:%{_minutes}%"
+
+# ---------------------------
+#     FUNCTION GETDATE()
+# Функция, которая отвечает
+# за визуальное "взятие" даты.
+#
+# Возвращяет:
+# - текст: Дата в текстовом
+# формате.
+
+function getDate(type: number) :: string:
+  # Подготовка данных
+  set {_date::year} to {server::time::year}
+  if {_date::year} is not set:
+    set {server::time::year} to 0
+    set {_date::year} to 0
+  set {_date::month} to {server::time::month}
+  if {_date::month} is not set:
+    set {server::time::month} to "Январь"
+    set {_date::month} to "Январь"
+  set {_date::day} to {server::time::days}
+  if {_date::day} is not set:
+    set {server::time::days} to 1
+    set {_date::day} to 1
+  set {_date::time} to {server::time}
+  if {_date::time} is not set:
+    set {server::time} to "00:00"
+    set {_date::time} to "00:00"
+
+  if {_type} is 0:
+    set {_index} to 1
+    loop {server::time::months::*}:
+      if "%loop-value%" is "%{_date::month}%":
+        exit 1 loop
+      add 1 to {_index}
+    set {_date::month} to {server::time::months::visual::%{_index}%}
+    return "%{_date::day}% %{_date::month}%"
+  if {_type} is 1:
+    set {_index} to 1
+    loop {server::time::months::*}:
+      if "%loop-value%" is "%{_date::month}%":
+        exit 1 loop
+      add 1 to {_index}
+    set {_date::month} to {server::time::months::visual::%{_index}%}
+    return "&9%{_date::day}% &f%{_date::month}%"

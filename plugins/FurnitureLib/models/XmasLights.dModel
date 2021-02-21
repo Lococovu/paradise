@@ -1,0 +1,24 @@
+# ------------------------------------  #
+#                                       #
+#       never touch the system-ID !     #
+#                                       #
+# ------------------------------------  #
+
+XmasLights:
+  displayName: '&cXmasLights'
+  system-ID: XmasLights
+  spawnMaterial: PIG_SPAWN_EGG
+  itemGlowEffect: false
+  itemLore: []
+  crafting:
+    disable: true
+    recipe: xxx,xxx,xxx
+    index:
+      x: BEDROCK
+  projectData:
+    entities:
+      '0': H4sIAAAAAAAAAONiYGBm4PZLzE0NyyzOTMpJZWAAiXA6JRanBuQklkD5rMG5iTk5EDaLW2YRVJjFsSi3GKrDM68MbgIjMwObb2JRdmoRhMPunpNfnpmXDlLKxcDlWpqTWuSYl56TysXA4ePqFhLv4+rOxsAYsX/ifXelKw7xQHYkAxQA2VEwcaBmFg9XRxeQWiR5FLX2LxV/h7joijPAzHYM8gWbfSxc4nVnQBmG2VBxkNlO/i6R+MyGsYFqOYM83T0Qhl84GDD9BIcThmMQhkM1QH1qj8OnMHGwFcAgTc0ryS+q5GBgdfZwDQ5hYPHz93OFBgIHA1NmCgN/bmZeanJRYlqJVXFJZnI2I1BpfmleCSMTA5tLYm5iOig+OBjY/d3cPBz9XCAmcDBw+Dp6+iELsAAdFgznuLm6Qi0D6mUBJQ8GcHjmJyeWZObnsTFwROj6p6UVp5bsfyZS9dB9nQJQKAomdEbj66H+GKB/OCJhQl8awF5kZWCOTCyHeBcAqrA6R3sCAAA=
+      '1': H4sIAAAAAAAAAONiYGBm4PZLzE0NyyzOTMpJZWAAiXA6JRanBuQklkD5rMG5iTk5EDaLW2YRVJjFsSi3GKrDM68MbgIjMwObb2JRdmoRhMPunpNfnpmXDlLKxcDlWpqTWuSYl56TysXA4ePqFhLv4+rOxsAYsX/ifXelKw7xQHYkAxQA2VEwcaBmFg9XRxeQWiR5FLX2LxV/h7joijPAzHYM8gWbfSxc4nVnQBmG2VBxkNlO/i6R+MyGsYFqOYM83T0Qhl84GDD9BIcThmMQhkM1QH1qj8OnMHGwFcAgTc0ryS+q5GBgdfZwDQ5hYPHz93OFBgIHA1NmCgN/bmZeanJRYlqJVXFJZnI2I1BpfmleCSMTA5tLYm5iOig+OBjY/d3cPBz9XCAmcDBw+Dp6+iELsAAdFgznuLm6Qi0D6mUBJQ8GcHjmJyeWZObnsTFwROj6p6UVp5bsv2VbsPg6lwNQKAomdEbj66H+GKB/OCJhQl8awF5kZWCOTCyHeBcAh2Cth3sCAAA=
+      '2': H4sIAAAAAAAAAI1SPUvDQBh+a79iBWcnUTspBJQqrUXR1CZtoU1rK9q4hEt7icF8SBIVf4CDoz/AzUlBVzdxcXAUd1eh/gGdvLMXq4jgTc/z3Ps+78ddCiAKIzKy8abpm5qFAagyXEA+blgoYDzespFlERiJQkwyPSbHBM/2WUbFOfhyIFGJGvJ2sdcnyZLlHpqOQUNTkBL3LewJjmHhFHBVUdpQq2IpAZH27elzaeppVSVYAXYI3g51khwri0KRxn67/xEbYgi9hWbt0/t+a6x30jj45c106l2oF5V/eg83K6XywPxt8v115pE2piydX0xfXh8/sMaFs8Ly3SCBTbryx6Sh/lmCrBQ7gesdcRBfK4utDYjJdVnk+ksISbIuSWVBZpxMXRMqMhU4GDK7MGGbDu54SA/yHu6qfoAI76qGhXxf3UMOjhBzd98JIkOQKCIbGRhGgdQgnba+CkqiyKrTK/pfYDZdNY2dIK9rOYSz2TkeawsaP6/NZ3kN5xb5rpbTM7Oog3Scybu6nqYP4nZQYLpOArg2X9d1Hwe3VzfrveNxMj23HUov4UI4JZSe+lIcogo67OMPrGfhnrwCAAA=
+      '3': H4sIAAAAAAAAAONiYGBm4PZLzE0NyyzOTMpJZWAAiXA6JRanBuQklkD5rMG5iTk5QCYjMwOLW2YRVJjFsSi3GKrDM68MbgJQFZtvYlF2ahGEw+6ek1+emZcOUsrFwOVampNa5JiXnpPKxcDh4+oWEu/j6s7GwBixf+J9d6UrDvFAdiQDFADZUTBxoGYWD1dHF5BaJHkUtTA2A8xsxyBfsNnHwiVedwaUYZgNFQeZ7eTvEkmk2ZxBnu4eCMN/Kv56o3UJ5LBImyWrNFevbz0FdbjjXCfbgwgNUJ/a4/ApTBxsBTBIU/NK8osqORhYnT1cg0MYWPz8/Vw5IIEA47D7u7l5OPpB+UBf+zp6+oEEOBiYMlMYFHMz81KTixLTSqxyMnNT44tLEoECKfHpOYnFxfEFiXmpjEDT80vzShiZGNhcEnMT01MZWBmAlgCdGgy30c3VFWo9SAqUYBgMlH0y0zNKrIyTTEwNzMwMdI0t0gx0TdIMLHQtUwwNdQ2SLVJNzY3MLdMsUq3y09KUQTGSn5xYkpmfx8bAEaHrn5ZWnFpif0fj66H+GAegUBRUaP8LWIhwRMKErkCEWBmYIxPLIWwArBbhC70CAAA=
+  placeAbleSide: TOP

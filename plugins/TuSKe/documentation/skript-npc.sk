@@ -1,0 +1,269 @@
+Events:
+	On Citizen Create:
+		ID: citizen_create
+		Description:
+			Called when a citizen is created.
+		Examples:
+			on citizen create:
+		Patterns:
+			[on] (citizen|npc) create
+		Event values:
+			event-citizen
+		Cancellable: false
+	On Citizen Despawn:
+		ID: citizen_despawn
+		Description:
+			Called when a citizen is despawned.
+		Examples:
+			on citizen despawn:
+		Patterns:
+			[on] (citizen|npc) despawn
+		Event values:
+			event-citizen
+		Cancellable: true
+	On Citizen Spawn:
+		ID: citizen_spawn
+		Description:
+			Called when a citizen is spawned.
+		Examples:
+			on citizen spawn:
+		Patterns:
+			[on] (citizen|npc) spawn
+		Event values:
+			event-citizen
+		Cancellable: true
+Conditions:
+	Citizen Is Navigating:
+		ID: CondIsNavigating
+		Description:
+			Checks if a citizen is navigating.
+		Examples:
+			if the last citizen is navigating:
+		Since:
+			0.1
+		Patterns:
+			[the] %citizen% (is (navigating|moving)|has [a] navigation)
+	Citizen Is Paused:
+		ID: CondIsPaused
+		Description:
+			Checks if a citizen is paused.
+		Examples:
+			if the last citizen is paused:
+		Since:
+			0.1
+		Patterns:
+			[the] %citizen% is paused
+	Entity Is Citizen:
+		ID: CondIsCitizen
+		Description:
+			Checks if an entity is a citizen.
+		Examples:
+			if target entity is a citizen:
+		Since:
+			0.1.1
+		Patterns:
+			%entity% is [a] (citizen|npc)
+Effects:
+	Animate Citizen:
+		ID: EffAnimateCitizen
+		Description:
+			Makes a citizen do the given animation.
+		Examples:
+			make the last citizen sneak
+		Since:
+			0.1
+		Patterns:
+			make %citizen% [do] [anim[ation]] %npcanimation%
+	Cancel Citizen Navigation:
+		ID: EffCancelNavigation
+		Description:
+			Cancels/Stops the navigation of a citizen.
+		Examples:
+			cancel navigation of the last citizen
+		Since:
+			0.1
+		Patterns:
+			(cancel|stop) navigation of %citizen%
+			(cancel|stop) %citizen%'s navigation
+	Citizen Attack/Follow:
+		ID: EffCitizenAttack
+		Description:
+			Makes a citizen attack or follow an entity.
+		Examples:
+			make the last citizen follow player
+			make the last citizen attack player
+		Since:
+			0.1
+		Patterns:
+			make %citizen% (attack|follow) %livingentity%
+	Create Citizen:
+		ID: EffCreateCitizen
+		Description:
+			Creates a citizen with name, type and optional location.
+		Examples:
+			create npc named "Nano" with type player at player's location
+		Since:
+			0.1
+		Patterns:
+			create [a] (citizen|npc) [(named|with name)] %string% [and] [with] [entity] type %entitytype% [at %-location%]
+	Despawn Citizen:
+		ID: EffDespawnCitizen
+		Description:
+			Despawns a spawned citizen.
+		Examples:
+			despawn the last created citizen
+		Since:
+			0.1
+		Patterns:
+			despawn %citizen%
+	Destroy Citizen:
+		ID: EffDestroyCitizen
+		Description:
+			Destroys a citizen.
+		Examples:
+			destroy the last created citizen
+		Since:
+			0.1
+		Patterns:
+			destroy %citizen%
+	Move Citizen:
+		ID: EffMoveCitizen
+		Description:
+			Makes a citizen move to a specific location with optional speed.
+		Examples:
+			make the last citizen move to player's location at speed 2
+		Since:
+			0.1
+		Patterns:
+			make %citizen% (go|move|travel) to [the] %location% [(at|with) speed %-number%]
+	Pause/Continue Citizen Navigation:
+		ID: EffPauseNavigation
+		Description:
+			Pauses/Continues the navigation of a citizen.
+		Examples:
+			pause navigation of the last citizen
+		Since:
+			0.1
+		Patterns:
+			(pause|continue) navigation of %citizen%
+			(pause|continue) %citizen%'s navigation
+	Spawn Citizen:
+		ID: EffSpawnCitizen
+		Description:
+			Spawns a citizen at specific location.
+		Examples:
+			spawn the last created citizen at player's location
+		Since:
+			0.1
+		Patterns:
+			spawn %citizen% at %location%
+Expressions:
+	All Citizens:
+		ID: ExprAllCitizens
+		Description:
+			Returns all citizens.
+		Examples:
+			set {_x::*} to all created citizens
+		Since:
+			0.1
+		Return type: citizen
+		Changers:
+			none
+		Patterns:
+			all [created] (citizen|npc)s
+	Citizen ID:
+		ID: ExprPropCitizenId
+		Description:
+			Returns the ID of a citizen. Cannot be changed.
+		Examples:
+			if id of the event-citizen is 5:
+		Since:
+			0.1.1
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[the] [npc] id[entifier] of %citizen%
+			%citizen%'[s] [npc] id[entifier]
+	Citizen Name:
+		ID: ExprPropCitizenName
+		Description:
+			Returns the name of a citizen. Can be set and reset to its ID.
+		Examples:
+			set name of the last npc to "Nano"
+		Since:
+			0.1.1
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			[the] [npc] name of %citizen%
+			%citizen%'[s] [npc] name
+	Citizen Skin:
+		ID: ExprPropCitizenSkin
+		Description:
+			Returns the skin name of a citizen. Can be set and reset to "Steve" skin.
+		Examples:
+			set skin of the last npc to "Nano"
+		Since:
+			0.1.1
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			[the] [npc] skin [name] of %citizen%
+			%citizen%'[s] [npc] skin [name]
+	Citizen Vulnerability:
+		ID: ExprPropCitizenVulnerability
+		Description:
+			Returns the vulnerability of a citizen. Can be set and reset to true.
+		Examples:
+			set vulnerability of the last npc to false
+		Since:
+			0.1.1
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			[the] [npc] vulnerability of %citizen%
+			%citizen%'[s] [npc] vulnerability
+	Citizen from ID:
+		ID: ExprCitizenFromId
+		Description:
+			Returns a citizen from its ID.
+		Examples:
+			set {_x} to the citizen from id 1
+		Since:
+			0.1
+		Return type: citizen
+		Changers:
+			none
+		Patterns:
+			[the] (citizen|npc) (with|from) id[entifier] %number%
+	Entity Citizen:
+		ID: ExprPropEntityCitizen
+		Description:
+			Returns the citizen of an entity. Cannot be changed.
+		Examples:
+			if citizen of target entity is the last citizen:
+		Since:
+			0.1.1
+		Return type: citizen
+		Changers:
+			none
+		Patterns:
+			[the] citizen of %entity%
+			%entity%'[s] citizen
+	Last Created Citizen:
+		ID: ExprLastCitizen
+		Description:
+			Returns the last created citizen.
+		Examples:
+			set {_x} to the last created citizen
+		Since:
+			0.1
+		Return type: citizen
+		Changers:
+			none
+		Patterns:
+			[the] last[ly] [created] (citizen|npc)

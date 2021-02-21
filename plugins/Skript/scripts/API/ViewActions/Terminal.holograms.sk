@@ -1,0 +1,52 @@
+function TR_Holo_TerminalCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", "&7&lТерминал", "&fВыводите и вводите деньги", "&fна ваш кредитный счёт.", "&e▷ &fПКМ"
+  set {_hologram::location} to {_location}
+  set {_hologram::location}'s y coordinate to 69
+
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    if {temp::%{_player}%::blockTerminalViewAction} > 0:
+      reduce {temp::%{_player}%::blockTerminalViewAction} by 0.05
+      hide hologram {_hologram} from {_player}
+    else:
+      delete {temp::%{_player}%::blockTerminalViewAction}
+      if {_player} can not see hologram {_hologram}:
+        reveal hologram {_hologram} to {_player}
+
+    # Проверяем состояние текущего блока
+    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+  
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+function TR_Holo_TerminalClick(player: player):
+  # Открываем меню терминала
+  openTerminal({_player}, 0)

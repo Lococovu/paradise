@@ -1,0 +1,102 @@
+function StartViewWorker(player: player):
+  # Сначала давайте выключим предыдущий воркер
+  set {workers::%{_player}%::viewWorker} to "stop"
+
+  wait 2 ticks
+  delete {workers::%{_player}%::viewWorker}
+
+  # А теперь давайте создадим воркер, который
+  # будет делать эту проверку.
+  set {_current} to false
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      # Удаляем всю инфу про воркер
+      delete {workers::%{_player}%::viewWorker::*}
+      stop
+
+    # Проверяем переменные
+    if {workers::%{_player}%::viewWorker} is not set:
+      set {workers::%{_player}%::viewWorker} to true
+    else:
+      set {_action} to {workers::%{_player}%::viewWorker}
+      if {_action} is "stop":
+        delete {workers::%{_player}%::viewWorker::*}
+        stop
+
+    # Берём текущую позицию игрока и блок
+    # на дистанции два блока от игрока
+    set {_target} to block infront of {_player}
+
+    loop all blocks in radius 3 around {_target}:
+      set {_loc} to location of loop-block
+
+      if {workers::%{_player}%::viewWorker::block::%{_loc}%::type} is set:
+        set {_current} to {_loc}
+        set {workers::%{_player}%::viewWorker::currentBlock} to {_loc}
+
+        # Подготавливаем информацию про этот
+        # объект
+        set {_function::create} to {workers::%{_player}%::viewWorker::block::%{_loc}%::hoverAction}
+        
+        # И теперь давайте вызовем функцию hover
+        evaluate:
+          %{_function::create}%({_player}, {_loc})
+
+    # Проверяем локацию текущего блока
+    # (если текущий установленный блок находится на расстоянии
+    # более двух блоков от {_location::end}, то мы его убираем)
+    if {_current} is not false:
+      if distance between {_current} and {_target} >= 3.5:
+        set {_current} to false
+
+    if {workers::%{_player}%::viewWorker::currentBlock} is not {_current}:
+      set {workers::%{_player}%::viewWorker::currentBlock} to {_current}
+    
+    wait 1 tick
+
+# 
+# Прослушиваем все клики на голограммы
+# 
+on hologram click:
+  set {_player} to event-player
+  set {_location} to location of event-hologram
+
+  loop all blocks in radius 1.5 around {_location}:
+    set {_loc} to location of loop-block
+    if {workers::%{_player}%::viewWorker::block::%{_loc}%::type} is set:
+      set {_function::click} to {workers::%{_player}%::viewWorker::block::%{_loc}%::clickAction}
+        
+      evaluate:
+        %{_function::click}%({_player})
+
+# command test:
+#   trigger:
+#     delete {workers::%player%::viewWorker::*}
+
+#     # Characters
+#     set {_location} to getLocation("-3967.5, 97, -2217", "world")
+#     set {_location} to location of block at {_location}
+
+#     set {workers::%player%::viewWorker::block::%{_location}%::type} to "hologram"
+#     set {workers::%player%::viewWorker::block::%{_location}%::hoverAction} to "DR_Holo_CharactersCreate"
+#     set {workers::%player%::viewWorker::block::%{_location}%::clickAction} to "DR_Holo_CharactersClick"
+
+#     # Storage
+#     set {_location} to getLocation("-3965.5, 97, -2226", "world")
+#     set {_location} to location of block at {_location}
+    
+#     set {workers::%player%::viewWorker::block::%{_location}%::type} to "hologram"
+#     set {workers::%player%::viewWorker::block::%{_location}%::hoverAction} to "DR_Holo_StorageCreate"
+#     set {workers::%player%::viewWorker::block::%{_location}%::clickAction} to "DR_Holo_StorageClick"
+
+#     # Exit
+#     set {_location} to getLocation("-3968.5, 97, -2227.5", "world")
+#     set {_location} to location of block at {_location}
+
+#     set {workers::%player%::viewWorker::block::%{_location}%::type} to "hologram"
+#     set {workers::%player%::viewWorker::block::%{_location}%::hoverAction} to "DR_Holo_ExitCreate"
+#     set {workers::%player%::viewWorker::block::%{_location}%::clickAction} to "DR_Holo_ExitClick"
+
+    # StartViewWorker(player)

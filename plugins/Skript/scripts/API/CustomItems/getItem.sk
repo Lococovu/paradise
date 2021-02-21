@@ -1,0 +1,27 @@
+function getRItem(id: string) :: item:
+  set {_item::item} to "%{data::ritems::%{_id}%::item}%" parsed as item
+  set {_item::name} to {data::ritems::%{_id}%::name}
+  set {_item::lore::*} to {data::ritems::%{_id}%::lore::*}
+
+  if {_item::item} is not set:
+    set {_item::item} to player head
+
+  if {_item::name} is not set:
+    set {_item::name} to "&7Пустышка"
+  
+  if {_item::lore::*} is not set:
+    set {_item::lore::*} to "", "&f &fПросто пустой предмет."
+
+  if "%{_item::item}%" contains "player head":
+    set {_head::uid} to {data::ritems::%{_id}%::head::uid}
+    set {_head::texture} to {data::ritems::%{_id}%::head::texture}
+
+    if {_head::uid} is not set:
+      set {_head::uid} to {_player}'s uuid
+
+    if {_head::texture} is set:
+      add "{SkullOwner:{Id:""%{_head::uid}%"",Properties:{textures:[{Value:""%{_head::texture}%""}]}}}" to item-nbt of {_item::item}
+
+  set {_item} to {_item::item} named "%coloured {_item::name}%" with lore coloured {_item::lore::*}
+
+  return {_item}

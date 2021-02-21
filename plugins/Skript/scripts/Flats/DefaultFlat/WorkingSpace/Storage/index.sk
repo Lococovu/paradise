@@ -1,0 +1,16 @@
+function openStorage(player: player):
+  # Подготавливаем данные
+  set {_profile::uid} to {auth::ip::%{_player}%::uid}
+  if {_profile::uid} is not set:
+    stop
+
+  # Открываем инвентарь
+  open virtual chest inventory with size 3 named "&8&lСклад" to {_player}
+
+  # Заполняем инвентарь
+  set {_slot} to 0
+  set {_inventory::*} to {data::storage::%{_player}%::inventory::*}
+
+  loop {_inventory::*}:
+    set slot {_slot} of {_player}'s current inventory to loop-value
+    add 1 to {_slot}

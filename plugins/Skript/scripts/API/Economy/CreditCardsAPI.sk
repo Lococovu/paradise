@@ -1,0 +1,36 @@
+# 
+# Функция, которая возьмёт кол-во денег на кредитной карте
+# 
+function getCardBalance(card: number) :: number:
+  # Давайте просто вощьмём кредитный баланс этой карты
+  set {_balance} to {data::card::%{_card}%::balance}
+  if {_balance} is not set:
+    set {_balance} to 100
+
+  broadcast "GET BALANCE %{_balance}%"
+
+  return {_balance}
+
+# 
+# Функция, которая устанавливает баланс на карте
+# 
+function setCardBalance(card: number, balance: number):
+  set {data::card::%{_card}%::balance} to {_balance}
+
+# 
+# Функция, которая возьмёт пинкод кредитной карты
+# 
+function getCardPincode(card: number) :: string:
+  # Просто возвращаем
+  return {data::card::%{_card}%::pincode}
+
+# 
+# Функция, которая просто установит новый пинкод для карты
+# 
+function setCardPincode(card: number, pincode: string):
+  set {data::card::%{_card}%::pincode} to {_pincode}
+
+command testc:
+  trigger:
+    set {_random} to random integer between 10000 and 99999
+    add paper named "Карта" with lore "&0%{_random}%" to player's inventory

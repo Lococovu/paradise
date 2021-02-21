@@ -1,0 +1,343 @@
+function loadShopPoints():
+  delete {shop::*}
+  # Подгружаем файл конфигурации
+  reload yaml "plugins/Shops/config.yaml" as "shops"
+
+  set {_list::*} to all yaml nodes of "shops"
+
+  # Подтогавливаем все позиции магазинов
+  set {_shops::*} to "1"
+
+  # Подгружаем все магазины
+  loop {_shops::*}:
+    delete {_stands::*}
+    delete {_points::*}
+    delete {_terminals::*}
+    set {_shopId} to loop-value
+
+    # Точки магазина
+    set {_points::*} to yaml list "shop.%{_shopId}%.pointsList" from "shops"
+    loop {_points::*}:
+      set {_location} to loop-value-2
+    
+      set {_location} to getLocation("%{_location}%", "world")
+      set {_location} to location of block at {_location}
+
+      set {block::%{_location}%::type} to "shop"
+      set {block::%{_location}%::shopId} to {_shopId}
+
+      wait 1 tick
+
+    # Подгружаем терминалы магазина
+    set {_terminals::*} to yaml list "shop.%{_shopId}%.terminalsList" from "shops"
+    loop {_terminals::*}:
+      set {_location} to loop-value-2
+
+      set {_location} to getLocation("%{_location}%", "world")
+
+      add {_location} to {shop::%{_shopId}%::terminals::*}
+
+      wait 1 tick
+
+    # Магазиные "стойки"
+    set {_stands::*} to yaml list "shop.%{_shopId}%.standsList" from "shops"
+    loop {_stands::*}:
+      delete {_title}
+      delete {_description::*}
+      delete {_items::*}
+
+      set {_prep::*} to loop-value-2 split at ";"
+
+      set {_id} to {_prep::1}
+      set {_location} to {_prep::2}
+      set {_location} to getLocation("%{_location}%", "world")
+
+      set {_location::block} to location of block at {_location}
+
+      set {block::%{_location::block}%::shopId} to {_shopId}
+      set {block::%{_location::block}%::location} to {_location}
+
+      broadcast "%{block::%{_location::block}%::location}%"
+
+      # Подгружаем описание и название для голограммы
+      # из файлов
+      # TODO
+      set {_title} to yaml value "shop.%{_shopId}%.stand.%{_id}%.title" from "shops"
+      set {_description::*} to yaml list "shop.%{_shopId}%.stand.%{_id}%.description" from "shops"
+
+      set {shop::%{_shopId}%::%{_location}%::title} to {_title}
+      set {shop::%{_shopId}%::%{_location}%::description::*} to {_description::*}
+
+      # Подгружаем товары этой стойки из конфигов
+      # TODO
+      set {_items::*} to yaml list "shop.%{_shopId}%.stand.%{_id}%.itemsList" from "shops"
+
+      loop {_items::*}:
+        delete {_item}
+        delete {_price}
+
+        set {_item} to yaml value "shop.%{_shopId}%.stand.%{_id}%.item.%loop-value-3%.id" from "shops"
+        set {_price} to yaml value "shop.%{_shopId}%.stand.%{_id}%.item.%loop-value-3%.price" from "shops"
+
+        if {_item} and {_price} is set:
+          broadcast "ADD ITEM || %{_item}% || %{_price}%"
+          add "%{_item}%=%{_price}%" to {shop::%{_shopId}%::%{_location}%::items::*}
+
+          broadcast "&c%{shop::%{_shopId}%::%{_location}%::items::*}%"
+
+      add {_location} to {shop::%{_shopId}%::stands::*}
+
+      wait 1 tick
+
+on load:
+  loadShopPoints()
+
+command tests:
+  trigger:
+    startShopWorker(player)
+
+function loadShopStandsHolograms(player: player, shopId: string):
+  # Проверим кое-что
+  if {workers::shopWorker::%{_player}%::currentShopId} isn't {_shopId}:
+    stop
+
+  # Ну а теперь давайте загрузим все голограммы
+  set {_locations::*} to {shop::%{_shopId}%::stands::*}
+
+  # И так же давайте добавим ViewWorker'ы для этих голограмм
+  # (если их нет)
+  loop {_locations::*}:
+    set {_location} to location of block at loop-value
+
+    if {workers::%{_player}%::viewWorker::block::%{_location}%::type} is not set:
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "SP_Holo_ShopStandCreate"
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "SP_Holo_ShopStandClick"
+
+  loop {_locations::*}:
+    delete {_create}
+    set {_location} to loop-value
+
+    # Проверяем, есть ли у нас уже эта голограмма или нет
+    if {holograms::%{_player}%::%{_location}%} is not set:
+      set {_create} to true
+    else:
+      if hologram {holograms::%{_player}%::%{_location}%} is deleted:
+        set {_create} to true
+    
+    if {_create} is true:
+      # Создаём голограммы
+      set {_title} to {shop::%{_shopId}%::%{_location}%::title}
+      if {_title} is not set:
+        set {_title} to "&cНеизвестно"
+
+      set {_lines::*} to coloured {_title}
+      set {_hologram::location} to {_location}
+
+      create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+      make hologram {_hologram} invisible by default
+      reveal hologram {_hologram} to {_player}
+
+      set {holograms::%{_player}%::%{_location}%} to {_hologram}
+      add {_hologram} to {_holograms::*}
+    else:
+      add {holograms::%{_player}%::%{_location}%} to {_holograms::*}
+
+  # Ну а теперь создаём воркер, который
+  # будет проверять текущий ID магазина (и который удалит голограммы
+  # если ID измениться)
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {workers::shopWorker::%{_player}%::terminalWorker}
+      stop
+
+    # Переменные
+    if {workers::shopWorker::%{_player}%::terminalWorker} is not set:
+      set {workers::shopWorker::%{_player}%::terminalWorker} to true
+    else:
+      set {_action} to {workers::shopWorker::%{_player}%::terminalWorker}
+      if {_action} is "stop":
+        delete {workers::shopWorker::%{_player}%::terminalWorker}
+        stop
+
+    if {workers::shopWorker::%{_player}%::currentShopId} isn't {_shopId}:
+      # Удаляем голограммы и останавливаем воркер
+      loop {_holograms::*}:
+        delete hologram loop-value
+
+      delete {workers::shopWorker::%{_player}%::terminalWorker}
+      stop
+
+    wait 1 tick
+
+
+function loadShopTerminalsHolograms(player: player, shopId: string):
+  # Сначала давайте проверим другие воркеры
+  if {workers::shopWorker::%{_player}%::currentShopId} isn't {_shopId}:
+    stop
+
+  # Ну а теперь давайте возьмём все позиции терминалов и создадим для них голограммы
+  # которые удалим если ID магазина измениться.
+  set {_terminals::*} to {shop::%{_shopId}%::terminals::*}
+
+  loop {_terminals::*}:
+    delete {_create}
+    set {_location} to loop-value
+    # Проверяем, есть ли у нас эта голограмма или нет
+    
+    if {holograms::%{_player}%::%{_location}%} is not set:
+      set {_create} to true
+    else:
+      if hologram {holograms::%{_player}%::%{_location}%} is deleted:
+        set {_create} to true
+
+    if {_create} is true:
+      # Создаём голограммы
+      set {_lines::*} to "", "", "&7&lКасса", "&fВыбирайте товары в магазине", "&fи потом оплачивайте их на &7Кассе", "&e▷ &fПКМ"
+      set {_hologram::location} to {_location}
+      add 2 to y coordinate of {_hologram::location}
+
+      create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+      make hologram {_hologram} invisible by default
+      reveal hologram {_hologram} to {_player}
+
+      set {holograms::%{_player}%::%{_location}%} to {_hologram}
+      add {_hologram} to {_holograms::*}
+    else:
+      add {holograms::%{_player}%::%{_location}%} to {_holograms::*}
+
+  # Ну а теперь создаём воркер, который
+  # будет проверять текущий ID магазина (и который удалит голограммы
+  # если ID измениться)
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {workers::shopWorker::%{_player}%::terminalWorker}
+      stop
+
+    # Переменные
+    if {workers::shopWorker::%{_player}%::terminalWorker} is not set:
+      set {workers::shopWorker::%{_player}%::terminalWorker} to true
+    else:
+      set {_action} to {workers::shopWorker::%{_player}%::terminalWorker}
+      if {_action} is "stop":
+        delete {workers::shopWorker::%{_player}%::terminalWorker}
+        stop
+
+    if {workers::shopWorker::%{_player}%::currentShopId} isn't {_shopId}:
+      # Удаляем голограммы и останавливаем воркер
+      loop {_holograms::*}:
+        delete hologram loop-value
+
+      delete {workers::shopWorker::%{_player}%::terminalWorker}
+      stop
+
+    wait 1 tick
+
+function startShopWorker(player: player):
+  # Сначала выключим прошлый воркер
+  if {workers::shopWorker::%{_player}%} is set:
+    set {workers::shopWorker::%{_player}%} to "stop"
+    wait 2 seconds
+
+  delete {workers::shopWorker::%{_player}%}
+  delete {workers::shopWorker::%{_player}%::*}
+
+  # И теперь давайте запустим этот воркер
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      hide bossbar {_bossbar}
+
+      delete {workers::shopWorker::%{_player}%}
+      delete {workers::shopWorker::%{_player}%::*}
+      stop
+
+    # Проверяем переменные
+    if {workers::shopWorker::%{_player}%} is not set:
+      set {workers::shopWorker::%{_player}%} to true
+    else:
+      set {_action} to {workers::shopWorker::%{_player}%}
+      if {_action} is "stop":
+        if {_bossbar} is set:
+          hide bossbar {_bossbar}
+
+        delete {workers::shopWorker::%{_player}%}
+        delete {workers::shopWorker::%{_player}%::*}
+
+        stop
+
+    # Лупаем все блоки вокруг игрока
+    set {_location} to {_player}'s location
+
+    loop all blocks in radius 3 around {_location}:
+      set {_loc} to location of loop-block
+
+      if {block::%{_loc}%::type} is set:
+        # И теперь проверяем этот блок
+        set {_type} to {block::%{_loc}%::type}
+        if {_type} is "shop":
+          # Показываем системе то, что игрок находится в магазине
+          if {workers::shopWorker::%{_player}%::inShop} is not true:
+            set {workers::shopWorker::%{_player}%::inShop} to true
+
+          # Обновляем позицию текущего блока
+          if {workers::shopWorker::%{_player}%::currentShopBlock} is not {_loc}:
+            set {workers::shopWorker::%{_player}%::currentShopBlock} to {_loc}
+
+    # Проверяем, в магазине ли игрок
+    if {workers::shopWorker::%{_player}%::inShop} is true:
+      # Проверяем текущий шоп-блок и расстояние от игрока
+      # до этого шоп-блока (если расстояние больше 4 - значит игрок вышел из магазина)
+      set {_shopBlock} to {workers::shopWorker::%{_player}%::currentShopBlock}
+      set {_shopId} to {block::%{_shopBlock}%::shopId}
+      
+      if {workers::shopWorker::%{_player}%::currentShopId} isn't {_shopId}:
+        set {workers::shopWorker::%{_player}%::currentShopId} to {_shopId}
+
+      # Давайте включим голограммы для этого магазина
+      loadShopTerminalsHolograms({_player}, {_shopId})
+      loadShopStandsHolograms({_player}, {_shopId})
+
+      if distance between {_shopBlock} and {_location} > 4:
+        # Игрок вышел из магазина - удалим боссбар, голограмму
+        # и подобные визуальные предметы
+        delete {workers::shopWorker::%{_player}%::cart::*}
+        delete {workers::shopWorker::%{_player}%::inShop}
+        delete {workers::shopWorker::%{_player}%::currentShopBlock}
+        delete {workers::shopWorker::%{_player}%::currentShopId}
+
+        if {_bossbar} is set:
+          hide bossbar {_bossbar}
+        delete {_bossbar}
+      else:
+        # Проверяем состояние боссбара, количество предметов
+        # в корзине и подобные визуальные данные
+        set {_cart::*} to {workers::shopWorker::%{_player}%::cart::*}
+        set {_size} to size of {_cart::*}
+
+        # Подготавливаем боссбар
+        if {_bossbar} is not set:
+          set {_bossbar} to skellett new bossbar
+
+          skellett add {_player} to the bossbar {_bossbar}
+          skellett show bossbar {_bossbar}
+
+          set skellett colour of bossbar {_bossbar} to WHITE
+
+          set skellett title of bossbar {_bossbar} to "&e▤ &fКорзина: &7%{_size}% шт."
+
+        else:
+          # Визуализируем боссбар
+          set {_title} to "&e▤ &fКорзина: &7%{_size}% шт."
+
+          if skellett title of bossbar {_bossbar} isn't {_title}:
+            set skellett title of bossbar {_bossbar} to {_title}
+
+    wait 1 tick

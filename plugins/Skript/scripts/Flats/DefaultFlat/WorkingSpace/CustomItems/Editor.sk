@@ -1,0 +1,273 @@
+function openRItemEditor(player: player, id: string):
+  # Подготовка данных
+  set {_profile::uid} to getAccountID({_player})
+  if {_profile::uid} is not set:
+    stop
+
+  # Открываем меню
+  open virtual chest inventory with size 6 named "&8&lРедактор Предмета" to {_player}
+
+  # Подготавливаем данные предмета (и создаём его, если данных нету)
+  if {data::ritems::global::list::*} doesn't contain {_id}:
+    # Добавляем этот предмет в список
+    add {_id} to {data::ritems::global::list::*}
+    set {data::ritems::%{_id}%::creator} to {_profile::uid}
+
+  set {_item::item} to {data::ritems::%{_id}%::item}
+  set {_item::name} to {data::ritems::%{_id}%::name}
+  set {_item::lore::*} to {data::ritems::%{_id}%::lore::*}
+
+  # TODO
+
+  # Пустые слоты
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  format gui slot 13, 21,22,23, 30,31,32, 39,40,41 of {_player} with {_empty}
+
+  set {_slots::*} to 21,22,23,30,31,32,39,40,41
+
+  # Сам предмет
+  set {_item} to getRItem({_id})
+
+  format gui slot 13 of {_player} with {_item}
+
+  # ID предмета
+  set {_itemId} to player head named "&eᶦᵈ &fID Предмета" with lore "", "&f &fВы можете выбрать любой из доступных в", "&f &fмайне предметов! Ну, почти любой. У нас тут небольшой", "&f &fсписочек есть. Да, вы можете выбрать не все предметы", "&f &fиз майна. Но поверьте - библиотека доступных", "&f &fпредметов невероятно огромна и удобна для", "&f &fиспользования!", "", "&e▢ &fНажмите, бы открыть"
+  add "{SkullOwner:{Id:""4e49245d-0ac2-4c6e-aff8-2894c8878eec"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ4MGMyNmY5MDRiNTdlNjMxZTM5ZWJjNDQ2ZWMxYWYyZGNlMzQzMmViODQzMWZiZDE5MDg3YWRiNGFiY2IifX19""}]}}}" to item-nbt of {_itemId}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  format gui slot {_slot} of {_player} with {_itemId} to run:
+    openItemPicker({_player}, {_id}, 0)
+  
+  # Название предмета
+  set {_itemName} to player head named "&eⁿᵃᵐᵉ &fНазвание предмета" with lore "&7Текущее: %name of {_item}%", "&f &fПоменяйте название вашего предмета на то,", "&f &fкоторое вам больше всего нравится! Тут можно", "&f &fиспользовать цвета, символы ну и всё-всё что", "&f &fтолько можно!", "", "&e✎ &fНажмите, что бы изменить"
+  add "{SkullOwner:{Id:""50817ea4-f13d-47e5-ba1d-055df073bedc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI4ZDk4Y2U0N2ZiNzdmOGI2MDRhNzY2ZGRkMjU0OTIzMjU2NGY5NTYyMjVjNTlmM2UzYjdiODczYTU4YzQifX19""}]}}}" to item-nbt of {_itemName}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  format gui slot {_slot} of {_player} with {_itemName} to run:
+    ChangeRItemSetting({_player}, "item.name", {_id})
+
+  # Описание предмета
+  set {_lore::*} to {_item}'s lore
+
+  add "", "", "&e▮ &fНажмите &eЛКМ &fчто бы &eдобавить&f", "&f &fновую строку", "&e▯ &fНажмите &eПКМ &fчто бы &eудалить", "&f &f&fпоследнюю строку", "", "&7Находясь в режиме добавления новой строки,", "&7вы можете создавать сразу несколько строк.", "&7Просто разделите их этим знаком: \\" to {_lore::*}
+  set {_itemLore} to player head named "&e &fОписание предмета" with lore {_lore::*}
+  add "{SkullOwner:{Id:""538a7620-6569-4421-8675-7261b22a7617"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=""}]}}}" to item-nbt of {_itemLore}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  format gui slot {_slot} of {_player} with {_itemLore} to run:
+    if "%click type%" contains "right":
+      # Удаляем строку
+
+      # КОСТЫЛЬ НАХУЙ
+      set {_lore::*} to {_item}'s lore
+      set {_number} to 1
+      loop {_lore::*}:
+        if {_number} < size of {_lore::*}:
+          add loop-value to {_newLore::*}
+        add 1 to {_number}
+
+      set {data::ritems::%{_id}%::lore::*} to {_newLore::*}
+
+      wait 1 tick
+      openRItemEditor({_player}, {_id})
+
+    else:
+      # Добавляем строку
+      ChangeRItemSetting({_player}, "item.lore", {_id})
+
+  # Head NBT
+  set {_head::nbt} to player head named "&e☆ &fКастомная текстура головы" with lore "&7Применяется только к голове", "&f &fДа-да, вы можете поставить абсолютно кастомную", "&f &fтекстуру для головы! Просто выберите голову игрока как", "&f &fID предмета и нажмите сюда!"
+  add "{SkullOwner:{Id:""fe358563-d1df-40f4-9bbf-e7e3c4a6ac22"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiYTcyNzdmYzg5NWJmM2I2NzM2OTQxNTk4NjRiODMzNTFhNGQxNDcxN2U0NzZlYmRhMWMzYmYzOGZjZjM3In19fQ==""}]}}}" to item-nbt of {_head::nbt}
+
+  if "%{_item}%" contains "player head":
+    add "", "&e✎ &fНажмите, что бы изменить" to {_head::nbt}'s lore
+  else:
+    add "", "&eⓘ &fПредмет должен быть головой" to {_head::nbt}'s lore
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+
+  format gui slot {_slot} of {_player} with {_head::nbt} to run:
+    if "%{_item}%" contains "player head":
+      ChangeRItemSetting({_player}, "head.texture", {_id})
+
+  # Удалить
+  set {_delete} to player head named "&c✕ &fУдалить" with lore "&7Это действие не отменить!", "&f &fМешает предмет? Просто удалите его и забудьте", "&f &fпро него навсегда! И да, вы всегда можете восстановить", "&f &fудалённый предмет. Все удалённые предметы хранятся", "&f &fв &7Корзине", "", "&c▷ &fНажмите, бы удалить"
+  add "{SkullOwner:{Id:""9b677d11-a27b-4b63-b230-0347b35d81fc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQ2NWY4MGJmMDJiNDA4ODg1OTg3YjAwOTU3Y2E1ZTllYjg3NGMzZmE4ODMwNTA5OTU5N2EzMzNhMzM2ZWUxNSJ9fX0=""}]}}}" to item-nbt of {_delete}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+
+  format gui slot {_slot} of {_player} with {_delete} to run:
+    remove {_id} from {data::ritems::global::list::*}
+    delete {data::ritems::%{_id}%::creator}
+
+    openRItemsList({_player})
+
+
+
+function openItemPicker(player: player, id: string, page: number):
+  set {temp::%{_player}%::itemPickerId} to {_id}
+
+  # Подготавливаем ID всех доступных предметов
+  set {_ids::*} to player head, leather helmet, leather chestplate, leather leggings, leather boots
+
+  # Открываем меню
+  open virtual chest inventory with size 6 named "&8&lВыбор предмета" to {_player}
+
+  # Пустые слоты
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  format gui slot 3,4,5, 48, 50 of {_player} with {_empty}
+
+  # Назад
+  set {_back} to player head named "&e &fНазад" with lore "", "&f &fПросто возвращает вас назад. Ничего", "&f &fнеобычного", "", "&e▢ &fНажмите, что бы открыть"
+  add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
+
+  format gui slot 3 of {_player} with {_back} to run:
+    close {_player}'s inventory
+
+  # Кастом ID
+  set {_customId} to player head named "&e✎ &fВписать ID предмета" with lore "", "&f &fДа-да, вы можете выбрать абсолютно любой предмет", "&f &fиз майнкрафта! У нас есть специальный сайт, на котором", "&f &fвы сможете просмотреть весь список предметов и то,", "&f &fкак именно их надо вписывать.", "", "&e▷ &fНажмите, что бы выбрать"
+  add "{SkullOwner:{Id:""50817ea4-f13d-47e5-ba1d-055df073bedc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI4ZDk4Y2U0N2ZiNzdmOGI2MDRhNzY2ZGRkMjU0OTIzMjU2NGY5NTYyMjVjNTlmM2UzYjdiODczYTU4YzQifX19""}]}}}" to item-nbt of {_customId}
+
+  format gui slot 4 of {_player} with {_customId} to run:
+    set {temp::%{_player}%::chooseCustomId} to true
+    
+    wait 1 tick
+    ChangeRItemSetting({_player}, "item.id", {_id})
+
+  # Помощь
+
+  # Отображаем предметы
+  set {_slot} to 9
+  set {_current} to 0
+  set {_startFrom} to {_page} * 36
+
+  loop {_ids::*}:
+    if {_current} >= {_startFrom}:
+      set {_item} to loop-value
+
+      # Отображаем предмет
+      format gui slot {_slot} of {_player} with loop-value to run:
+        # Меняем настройки этого предмета и открываем предыдущую менюшку
+        set {data::ritems::%{_id}%::item} to "%{_item}%"
+
+        wait 1 tick
+        openRItemEditor({_player}, {_id}) 
+
+      add 1 to {_slot}
+    add 1 to {_current}
+
+
+
+
+# 
+# Функция, которая будет заниматься
+# процессом изменения профиля пользователя
+# 
+function ChangeRItemSetting(player: player, setting: string, id: string):
+  # Давайте сначала сохраним текущую локацию игрока
+  delete {authorized::%{_player}%}
+  set {temp::%{_player}%::location} to {_player}'s location
+
+  # Подготавливаем тайтл и субтайтл
+  set {_title} to "&e▽ &fВпишите в чат"
+  if {_setting} is "item.name":
+    set {_subtitle} to "&7Название этого предмета"
+  else if {_setting} is "item.lore":
+    set {_subtitle} to "&7Строку описания для этого предмета"
+  else if {_setting} is "head.texture":
+    set {_subtitle} to "&7Значение текстуры головы"
+  else if {_setting} is "item.id":
+    set {_subtitle} to "&7ID предмета. (Пример: leather helmet)"
+
+  # Ну а теперь давайте телепортируем игрока
+  # в тёмную комнату
+  set {_location} to getLocation("-3942, 12, -2764", "world")
+  teleport {_player} to {_location}
+  
+  # Запускаем воркер и ждём ответа игрока
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {temp::%{_player}%::location}
+      delete {temp::%{_player}%::chat::input}
+      delete {temp::%{_player}%::chat::output}
+      stop
+    
+    # Визуальное отображение
+    send title "%{_title}%" with subtitle "%{_subtitle}%" to {_player} for 2 seconds with 0 ticks fade in and 0 ticks fade out
+
+    # Получаем ответ и обрабатываем его
+    if {temp::%{_player}%::chat::output} is set:
+      delete {_error}
+
+      set {_output} to {temp::%{_player}%::chat::output}
+
+      delete {temp::%{_player}%::chat::output}
+
+      # Обрабатываем ответ
+      if {_setting} is "item.name":
+        # Сохраняем значение в бд и открываем меню обратно
+        set {data::ritems::%{_id}%::name} to {_output}
+
+      else if {_setting} is "item.lore":
+        if {_output} contains "\\":
+          set {_add::*} to {_output} split at "\\"
+
+          add {_add::*} to {data::ritems::%{_id}%::lore::*}
+        else:
+          add {_output} to {data::ritems::%{_id}%::lore::*}
+      else if {_setting} is "head.texture":
+        set {data::ritems::%{_id}%::head::uid} to {_player}'s uuid
+        set {data::ritems::%{_id}%::head::texture} to {_output}
+
+      else if {_setting} is "item.id":
+        delete {_item}
+        set {_item} to "%{_output}%" parsed as item
+
+        if {_item} is set:
+          # Обновляем
+          set {data::ritems::%{_id}%::item} to "%{_output}%"
+        else:
+          # Выдаём ошибку
+          set {_error} to true
+          set {_title} to "&c▽ &fВыберите из &cсписка"
+
+      if {_error} is not true:
+        # И теперь перенесём игрока обратно
+        set {_location} to {temp::%{_player}%::location}
+        if {_location} is not set:
+          set {_location} to getLocation("-3964.5, 96, -2217", "world")
+          set {_location}'s yaw to 166
+
+        set {authorized::%{_player}%} to true
+        set {_player}'s gamemode to adventure
+
+        teleport {_player} to {_location}
+
+        send title "&f" with subtitle "&f" to {_player} for 2 seconds with 0 ticks fade in and 1 second fade out
+
+        delete {temp::%{_player}%::chat::input}
+        delete {temp::%{_player}%::chat::output}
+
+        # Открываем менюшку редактора
+        openRItemEditor({_player}, {_id})
+        stop
+
+    # Проверяем переменные
+    if {temp::%{_player}%::chat::input} is not set:
+      set {temp::%{_player}%::chat::input} to true
+
+    if {_player}'s gamemode isn't spectator:
+      set {_player}'s gamemode to spectator
+
+    wait 1 tick

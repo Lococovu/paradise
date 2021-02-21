@@ -1,0 +1,28 @@
+command testr [<text>]:
+  trigger:
+    # Запоминаем позицию игрока
+    set {_location} to player's location
+
+    # Создаём голограмму
+    set {_location::hologram} to {_location}
+    add 2.4 to y coordinate of {_location::hologram}
+    create new hologram with clickable lines "&7%arg 1%" at {_location::hologram} and store it in variable {_hologram}
+
+    # Запускаем воркер
+    set {_waiting} to true
+
+    while {_waiting} is true:
+      if player is offline:
+        delete hologram {_hologram}
+        stop
+
+      if {temp::%player%::holoAction} is not set:
+        set {temp::%player%::holoAction} to true
+
+      # Удаляем голограмму, если дистанция между
+      # игроком и голграммой слишком большая
+      if distance between {_location} and player's location > 1:
+        delete hologram {_hologram}
+        stop
+
+      wait 1 tick

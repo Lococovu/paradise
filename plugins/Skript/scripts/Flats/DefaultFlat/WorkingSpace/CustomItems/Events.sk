@@ -1,0 +1,16 @@
+on inventory close:
+  if name of player's current inventory contains "Выбор предмета":
+    set {_id} to {temp::%player%::itemPickerId}
+    delete {temp::%player%::itemPickerId}
+
+    if {_id} is set:
+      if {temp::%player%::chooseCustomId} is true:
+        delete {temp::%player%::chooseCustomId}
+      else:
+        wait 1 tick
+        openRItemEditor(player, "%{_id}%")
+
+on right click:
+  set {_lore::*} to lore of player's held item
+  if {_lore::1} contains "UID":
+    cancel event

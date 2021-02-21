@@ -1,0 +1,20 @@
+# 
+# Функция, которая возвращает денежный
+# предмет. Как бы странно это не звучало бы
+# 
+function GetMoneyBillItem(quantity: number) :: item:
+  if {_quantity} is 1:
+    set {_item} to paper named "&e1&f$" with lore "", "&f &fОбычная 1 долларовая купюра."
+  else if {_quantity} is 5:
+    set {_item} to paper named "&e5&f$" with lore "", "&f &fОбычная 5 долларовая купюра."
+  else if {_quantity} is 10:
+    set {_item} to paper named "&e10&f$" with lore "", "&f &fОбычная 10 долларовая купюра."
+  else if {_quantity} is 20:
+    set {_item} to paper named "&e20&f$" with lore "", "&f &fОбычная 20 долларовая купюра."
+  else if {_quantity} is 50:
+    set {_item} to paper named "&e50&f$" with lore "", "&f &fОбычная 50 долларовая купюра."
+  else if {_quantity} is 100:
+    set {_item} to paper named "&e100&f$" with lore "", "&f &fОбычная 50 долларовая купюра."
+
+  if {_item} is set:
+    return {_item}

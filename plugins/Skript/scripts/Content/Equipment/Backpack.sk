@@ -1,0 +1,173 @@
+# 
+# Функция, которая будет отображать рюкзак
+# на спине игрока.
+# 
+function ShowBackpack(player: player, item: item):
+  stop
+  if {temp::%{_player}%::backpack} is set:
+    delete {temp::%{_player}%::backpack}
+    wait 2 ticks
+    if {temp::%{_player}%::backpack} is set:
+      stop
+
+  # Сначала давайте создадим армор-стенд, который
+  # будет преследовать игрока
+  set {_head} to player head
+
+  spawn armor stand at {_player}'s location with nbt "{Invisible:1b,Invulnerable:1b,NoBasePlate:1b,NoGravity:1b,ShowArms:1b,Small:1b,Pose:{Head:[0f,180f,0f],LeftArm:[90f,0f,0f]}}"
+  set {_entity} to last spawned armor stand
+
+  make {_entity} wear {_head}
+
+  # И теперь давайте запустим небольшой воркер,
+  # который будет следить за игроком и телепортировать
+  # армор стенд за него
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      kill {_entity}
+      stop
+
+    if {temp::%{_player}%::backpack} is not set:
+      set {temp::%{_player}%::backpack} to true
+
+    if {temp::%{_player}%::stopBackpack} is true:
+      delete {temp::%{_player}%::stopBackpack}
+
+      kill {_entity}
+      stop
+
+    set {_location} to {_player}'s location
+    # Подготавливаем саму позицию
+    add 0.2 to y coordinate of {_location}
+
+    teleport {_entity} to {_location}
+
+    wait 1 tick
+
+# 
+# Прислушиваемся к евенту нажатия кнопки
+# 
+on right click:
+  if name of player's held item contains "Рюкзак":
+    CheckBackpacks(player)
+    wait 2 ticks
+
+    if name of player's held item contains "Заблокировано":
+      stop
+
+    # Теперь давайте попытаемся взять ид кошелька
+    set {_lore::*} to lore of player's held item
+    set {_id} to uncolored {_lore::1}
+
+    set {temp::%player%::backpack::currentInventoryId} to {_id}
+
+    # Теперь давайте откроем менюшку
+    open virtual chest inventory with size 2 named "&8&lРюкзак" to player
+
+    # И заполним её контентом,
+    # который уже сохранён в кошельке
+    set {_slot} to 0
+    set {_inventory::*} to {data::backpack::%{_id}%::inventory::*}
+
+    loop {_inventory::*}:
+      set slot {_slot} of player's current inventory to loop-value
+      add 1 to {_slot}
+
+    # Так же давайте добавим один дополнительный предмет,
+    # который немного опишет суть кошелька
+    set {_help} to player head named "&eⓘ &fПомощь" with lore "", "&f &fВ рюкзаке вы можете хранить абсолютно всё, что вам", "&f &fтолько захочется. Только будьте максимально осторожны", "&f &fи бдительны - ваш рюкзак могут ограбить или же украсть!", "", "&f &fВы можете носить только один рюкзак в инвентаре,", "&f &fплюс рюкзак отображается на вашей спине."
+    add "{SkullOwner:{Id:""32f9f141-4960-4b2c-b09b-3d963db58a3f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=""}]}}}" to item-nbt of {_help}
+
+    format gui slot 17 of player with {_help}
+
+# 
+# Проверка кол-ва рюкзаков при drop/pickup/inventory click
+# 
+on pickup:
+  wait 2 ticks
+  CheckBackpacks(player)
+
+on drop:
+  wait 2 ticks
+  CheckBackpacks(player)
+
+on inventory click:
+  wait 2 ticks
+  CheckBackpacks(player)
+
+on right click:
+  if name of player's held item contains "Рюкзак":
+    cancel event
+
+on hotbar switch:
+  CheckBackpacks(player)
+  if name of player's held item contains "Рюкзак":
+    # Сначала проверим кол-во рюкзаков в инвентаре
+    # игрока
+    set {_name} to name of player's held item
+
+    loop all items in player's inventory:
+      if name of loop-item contains "Рюкзак":
+        add loop-item to {_backpacks::*}
+
+    if size of {_backpacks::*} <= 1:
+      if {_name} contains "Заблокировано":
+        set name of player's held item to "&e▤ &fРюкзак"
+
+# 
+# Функция, которая будет проверять все рюкзаки
+# в инвентаре игрока и блокировать их (если их больше одного)
+# 
+function CheckBackpacks(player: player):
+  loop all items in {_player}'s inventory:
+    if name of loop-item contains "Рюкзак":
+      add loop-item to {_backpacks::*}
+
+  loop all items in {_player}'s inventory:
+    if name of loop-item contains "Рюкзак":
+      if size of {_backpacks::*} > 1:
+        set loop-item's name to "&e▤ &fРюкзак &c(Заблокировано)"
+      else:
+        set loop-item's name to "&e▤ &fРюкзак"
+
+  # Првоеряем кол-во рюкзаков и то, нужно ли
+  # нам отображать рюкзак или нет
+  if size of {_backpacks::*} > 0:
+    if size of {_backpacks::*} < 2:
+      ShowBackpack({_player}, first element of {_backpacks::*})
+  else:
+    set {temp::%{_player}%::stopBackpack} to true
+
+on inventory close:
+  if name of event-inventory contains "Рюкзак":
+    # Берём ид этого кошелька
+    set {_id} to {temp::%player%::backpack::currentInventoryId}
+    
+    # И сразу же его удаляем
+    delete {temp::%player%::backpack::currentInventoryId}
+
+    # Теперь давайте возьмём все предметы
+    # этого инвентаря и сохраним их
+    # в базу данных
+    set {_items::current} to 0
+    set {_items::end} to 17
+
+    while {_items::current} <= {_items::end}:
+      if slot {_items::current} of player's current inventory is set:
+        set {_item} to slot {_items::current} of player's current inventory
+
+        if "%{_item}%" doesn't contain "Помощь":
+          if "%{_item}%" contains "Рюкзак":
+            add {_item} to {_return::*}
+          else:
+            set {data::backpack::%{_id}%::inventory::%{_items::current}%} to slot {_items::current} of player's current inventory
+
+      add 1 to {_items::current}
+
+    # Возвращаем неподходящие предметы
+    if size of {_return::*} > 0:
+      loop {_return::*}:
+        sendNotification(player, "&c⚠ &fВы не можете положить сюда этот предмет", 3)
+        add loop-value to player's inventory
