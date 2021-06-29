@@ -1,0 +1,5 @@
+function getIpAuthType(player: player) :: string:
+  set {_uuid} to {_player}'s uuid
+  set {_type} to {ip::%{_uuid}%::auth::type}
+
+  return {_type}

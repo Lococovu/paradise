@@ -1,0 +1,8 @@
+function getCharacterSkin(player: player, character: string) :: string:
+  return yaml value "character.%{_character}%.skin" from "player-%{_player}'s uuid%"
+
+function setCharacterSkin(player: player, character: string, skin: string):
+  set yaml value "character.%{_character}%.skin" from "player-%{_player}'s uuid%" to {_skin}
+  save yaml "player-%{_player}'s uuid%"
+  
+  setSkin({_player}, {_skin})

@@ -1,11 +1,11 @@
 every 1 tick:
   loop all players:
     # Прячем всех игроков
-    hide all players in tablist of loop-player
+    # hide all players in tablist of loop-player
 
     # Обновляем таблист
     # Хеадер
-    set loop-player's tablist header to "Putin%newline%Король мира"
+    set loop-player's tablist header to "йоу йоу йоу"
 
     # Футер
-    set loop-player's tablist footer to "s"
+    set loop-player's tablist footer to "йоу йоу йоу"

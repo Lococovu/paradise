@@ -80,13 +80,13 @@ every 10 seconds:
         set {server::time::month} to {server::time::months::%{_index}%}
 
       # Добавляем баланс игрокам...
-      loop all players:
-        sendNotification(loop-player, "&a &fВам было начисленно: &a25$", 6)
-
-        set {_money} to getMoney(loop-player)
-        set {_money} to {_money} + 25
-
-        setMoney(loop-player, {_money})
+      # loop all players:
+      #   sendNotification(loop-player, "&a &fВам было начисленно: &a25$", 6)
+      # 
+      #   set {_money} to getMoney(loop-player)
+      #   set {_money} to {_money} + 25
+      # 
+      #   setMoney(loop-player, {_money})
 
       set {_hours} to 00
     else:

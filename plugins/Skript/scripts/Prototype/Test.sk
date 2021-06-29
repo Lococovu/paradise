@@ -1,0 +1,130 @@
+command getUno:
+  trigger:
+    give player 1 paper named "&e⬛ &fИгра в Уно"
+
+    give player 6 paper named "&7⬜ &fКолода карт"
+
+on right click:
+  if name of player's held item contains "Колода карт":
+    add "&e" to {_colors::*}
+    add "&a" to {_colors::*}
+    add "&c" to {_colors::*}
+    add "&b" to {_colors::*}
+    
+    add "➊" to {_cards::*}
+    add "➋" to {_cards::*}
+    add "➌" to {_cards::*}
+    add "➍" to {_cards::*}
+    add "➎" to {_cards::*}
+    add "➏" to {_cards::*}
+
+    add "+2" to {_cards::*}
+    add "+4" to {_cards-nonColor::*}
+
+    add "⬛" to {_cards-nonColor::*}
+    add "♺" to {_cards-nonColor::*}
+
+    loop {_colors::*}:
+      set {_color} to loop-value
+      loop {_cards::*}:
+        add "%{_color}%%loop-value-2%" to {_random::*}
+
+    
+
+    # delete player's held item from player's inventory
+    loop 4 times:
+      set {_random} to random element of {_random::*}
+
+      send title "&e⚋ &fВы получили карту:" with subtitle "%{_random}%" to player
+
+      add 1 paper named "%{_random}%" to player's inventory
+      wait 1 seconds
+
+    loop 2 times:
+      set {_random} to random element of {_cards-nonColor::*}
+
+      send title "&e⚋ &fВы получили карту:" with subtitle "%{_random}%" to player
+
+      add 1 paper named "%{_random}%" to player's inventory
+      wait 1 seconds
+on right click:
+  if name of player's held item contains "Игра в уно":
+    set {_location} to location of event-block
+    add 1 to y coordinate of {_location}
+
+    set {games::uno::%{_location}%} to true
+
+    set {_waiting} to true
+    set {_stage} to 1
+
+    while {_waiting} is true:
+
+      if {_stage} is 1:
+        add "➊" to {_random::*}
+        add "➋" to {_random::*}
+        add "➌" to {_random::*}
+        add "➍" to {_random::*}
+        add "➎" to {_random::*}
+        add "➏" to {_random::*}
+
+        set {_random} to random element of {_random::*}
+
+        if {_cooldown} is not set:
+          set {_cooldown} to 2
+
+          if {_random} is not {_random::old}:
+            set all lines of hologram {games::uno::%{_location}%::holo} to "&a%{_random}% &fИгра в UNO", "&e⚋ &fКиньте карту, что бы начать"
+          set {_random::old} to {_random}
+
+      if {games::uno::%{_location}%} is not set:
+        set {games::uno::%{_location}%} to true
+
+      if {games::uno::%{_location}%::holo} is not set:
+        # Создаём голограмму..
+        create new hologram with lines "Загрузка..." at {_location} and store it in variable {games::uno::%{_location}%::holo}
+      if hologram {games::uno::%{_location}%::holo} is deleted:
+        delete {games::uno::%{_location}%::*}
+        stop
+
+      set {_card} to last element of {games::uno::%{_location}%::cards::*}
+      if {_card} is set:
+        # 
+        set {_stage} to 2
+        if line 2 of hologram {games::uno::%{_location}%::holo} is not "&7~ Кидайте, что бы играть!":
+          set line 2 of hologram {games::uno::%{_location}%::holo} to "&7~ Кидайте, что бы играть!"
+        
+        if line 1 of hologram {games::uno::%{_location}%::holo} is not "&fКарта на столе: %{_card}%":
+          set line 1 of hologram {games::uno::%{_location}%::holo} to "&fКарта на столе: %{_card}%"
+
+      if {games::uno::stop} is true:
+        delete hologram {games::uno::%{_location}%::holo}
+        delete {games::uno::%{_location}%::*}
+
+        stop
+
+      if {_cooldown} is set:
+        reduce {_cooldown} by 0.05
+        if {_cooldown} < 0:
+          delete {_cooldown}
+      wait 1 tick
+
+command stopUno:
+  trigger:
+    set {games::uno::stop} to true
+
+    wait 5 seconds
+    delete {games::uno::stop}
+
+command del:
+  trigger:
+    delete {games::*}
+
+on drop:
+  if name of event-item contains "♺" or "⬛" or "+4" or "+2" or "➊" or "➋" or "➌" or "➍" or "➎" or "➏":
+    loop all blocks in radius 1 around player:
+      if {games::uno::%location of loop-block%} is set:
+        set {_card} to name of event-item
+
+        add {_card} to {games::uno::%location of loop-block%::cards::*}
+        kill event-dropped item
+        delete event-dropped item

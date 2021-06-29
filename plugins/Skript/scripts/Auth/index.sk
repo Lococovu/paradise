@@ -1,0 +1,438 @@
+# 
+# Запрещаем игроку делать то,
+# что ему нельзя делать (пока он не авторизовался)
+# 
+
+on inventory click:
+  if {authorized::%player%} is not set:
+    cancel event
+
+on command:
+  executor is player
+  if {authorized::%player%} is not set:
+    cancel event
+
+on quit:
+  set leave message to ""
+
+# 
+# Телепорт игрока на точку авториазации
+# и начало этой самой авторизации.
+# 
+on join:
+  load yaml "datastore/players/%player's uuid%.yml" as "player-%player's uuid%"
+
+  set join message to ""
+
+  delete {authorized::%player%}
+  delete {temp::%player%::*}
+
+  # Телепортируем игрока на нужную локацию
+  set {_location} to getLocation("-15, 4, -195.5", "lobby")
+  teleport player to {_location}
+
+  wait 1 tick
+  StartAuthorization(player)
+
+  # Сначала проверяем текущую сессию игрока
+  # set {_ip} to player's ip
+  # if {ip::%{_ip}%::auth::discordId} is set:
+  #   # Игрок уже авторизован:
+  #   # теперь нам надо проверить текущее состояние сессии
+  #   # и, если авторизация прошла более чем день назад,
+  #   # запросить авторизацию со стороны игрока
+  #   set {_player::time} to {ip::%{_ip}%::auth::authTime}
+  #   if {_player::time} is not set:
+  #     set {_player::time} to now
+  #     add 2 days to {_player::time}
+
+  #   set {_now} to now
+  #   if difference between {_now} and {_player::time} >= 6 hours:
+  #     # Удаляем всё самое ненужное
+  #     delete {ip::%{_ip}%::*}
+
+  #     # И стартуем авторизацию заного
+  #     StartAuthorization(player)
+  #   else:
+  #     AuthorizationDone(player)
+  # else:
+  #   # Игроку нужно авторизоваться
+  #   StartAuthorization(player)
+
+on right click:
+  if {authorized::%player%} is not true:
+    set {temp::%player%::authClicked} to true
+
+# 
+# Функция авторизации игрока
+# 
+function StartAuthorization(player: player):
+  delete {temp::%{_player}%::authClicked}
+
+  set {_empty} to player head named "&e"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
+
+  loop 9 times:
+    set {_slot} to loop-number - 1
+    set slot {_slot} of {_player}'s inventory to {_empty}
+
+  # Давайте сначала телепортируем игрока на нужное место
+  set {_location} to getLocation("-15, 4, -195.5", "lobby")
+
+  teleport {_player} to {_location}
+
+  # Настраиваем голограммы
+  set {_holo::web::lines::*} to "&9☁ &fАвторизация", "&fЯ хочу авторизоваться", "&fв свой аккаунт."
+  set {_holo::web::hover::*} to {_holo::web::lines::*}, "", "&e○ &fНажмите &eПКМ &fчто бы выбрать"
+
+  # Проверяем, подключен ли этот аккаунт к дискорду или нет
+  set {_discordId} to getPlayerDiscordId({_player})
+  if {_discordId} is set:
+    set {_guestLogin::disabled} to true
+    
+    set {_holo::guest::lines::*} to "&e⚔ &fИграть", "&fВам нужно пройти авторизацию", "&fперед тем, как играть."
+    set {_holo::guest::hover::*} to "&e⚔ &fИграть", "&fВам нужно пройти авторизацию", "&fперед тем, как играть.", "&0ПКМ"
+  else:
+    set {_holo::guest::lines::*} to "&e⚔ &fИграть", "&fЯ уже хочу играть! Просто", "&fпустите меня на сервер!"
+    set {_holo::guest::hover::*} to {_holo::guest::lines::*}, "", "&e○ &fНажмите &eПКМ &fчто бы выбрать"
+
+  set {_holo::guest::location} to getLocation("-18, 6, -191", "lobby")
+  {_guestLogin::disabled} is not true:
+    set {_holo::web::location} to getLocation("-13, 6, -191", "lobby")
+  else:
+    set {_holo::web::location} to getLocation("-15, 6, -191", "lobby")
+
+  # Создаём голограммы
+  # Web
+  if {_guestLogin::disabled} is not true:
+    create new hologram with clickable lines {_holo::web::lines::*} at {_holo::web::location} and store it in variable {_holo::web}
+
+    make hologram {_holo::web} invisible by default
+    reveal hologram {_holo::web} to {_player}
+
+  # Guest
+    create new hologram with clickable lines {_holo::guest::lines::*} at {_holo::guest::location} and store it in variable {_holo::guest}
+
+    make hologram {_holo::guest} invisible by default
+    reveal hologram {_holo::guest} to {_player}
+
+  # Запускаем небольшой воркер
+  set {_time} to 60
+  set {_action} to 1 if {_guestLogin::disabled} is true else 0
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      delete hologram {_holo::web}
+      delete hologram {_holo::guest}
+
+      stop
+
+    if {authorized::%{_player}%} is true:
+      delete {authorized::%{_player}%}
+
+    # Гейммод игрока
+    if {_player}'s gamemode isn't survival:
+      set {_player}'s gamemode to survival
+
+    if distance between {_player} and {_location} > 0:
+      teleport {_player} to {_location}
+
+    if {_player} doesn't have night vision:
+      apply potion of night vision of tier 4 without any particles to {_player} for 1 day
+
+    hide {_player}
+
+    # Боссбар
+    if {_bossbar} is not set:
+      set {_bossbar} to skellett new bossbar
+      set skellett colour of bossbar {_bossbar} to WHITE
+      skellett add {_player} to bossbar {_bossbar}
+
+      set skellett title of bossbar {_bossbar} to "&f..."
+
+      skellett show bossbar {_bossbar}
+    else:
+      # Меняем статус боссбара
+      if {_action} is 0:
+        set skellett title of bossbar {_bossbar} to "&e &fВремя на авторизацию &e%round({_time})% с."
+        set skellett progress of bossbar {_bossbar} to (1/60) * {_time}
+
+    # Проверяем, не нажал ли игрок куда либо
+    if {temp::%{_player}%::authClicked} is true:
+      delete {temp::%{_player}%::authClicked}
+      set {_yaw} to yaw of {_player}'s location
+
+      if {_moved} is true:
+        # Удаляем голограммы
+        delete hologram {_holo::web}
+        delete hologram {_holo::guest}
+
+        {_guestLogin::disabled} is not true:
+          if {_yaw} >= 180:
+            set {_action} to 1
+          else:
+            hide bossbar {_bossbar}
+
+            set {_uuid} to {_player}'s uuid
+            set {ip::%{_uuid}%::auth::type} to "guest"
+
+            AuthorizationDone({_player})
+            stop
+        else:
+          set {_action} to 1
+
+    # Состояние голограмм
+    if {_action} is 0:
+      set {_yaw} to yaw of {_player}'s location
+      if {_moved} is not set:
+        if {_yaw} isn't 0:
+          set {_moved} to true
+
+      if {_moved} is set:
+        {_guestLogin::disabled} is not true:
+          # Игрок смотрит на {_holo::guest}
+          if {_yaw} >= 180:
+            if last line of hologram {_holo::web} doesn't contain "ПКМ":
+              set all lines of hologram {_holo::web} to {_holo::web::hover::*}
+
+            if last line of hologram {_holo::guest} contains "ПКМ":
+              set all lines of hologram {_holo::guest} to {_holo::guest::lines::*}
+          # Игрок смотрит на {_holo::web}
+          else:
+            if last line of hologram {_holo::guest} doesn't contain "ПКМ":
+              set all lines of hologram {_holo::guest} to {_holo::guest::hover::*}
+
+            if last line of hologram {_holo::web} contains "ПКМ":
+              set all lines of hologram {_holo::web} to {_holo::web::lines::*}
+        else:
+          if last line of hologram {_holo::web} doesn't contain "ПКМ":
+            set all lines of hologram {_holo::web} to {_holo::web::hover::*}
+
+    else:
+      # 
+      # 
+      # Процесс авторизации через Discord
+      # 
+      # 
+
+      # Проверяем, подключен ли дискорд у этого игрока или нет
+      set {_discordId} to getPlayerDiscordId({_player})
+
+      if {_discordId} is not set:
+        # Создаём новый код
+        # Отправляем личное сообщение в дискорд игроку
+        set {_code} to "%random integer between 0 and 9%%random integer between 0 and 9%%random integer between 0 and 9%"
+        set {data::discord::%{_code}%::player} to {_player}
+
+        set {_cancel} to player head named "&c✕ &fОтменить регистрацию"
+        add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_cancel}
+
+        set slot 4 of {_player} to {_cancel}
+
+        # Создадим специальную голограмму
+        set {_holo::lines::*} to "&9☁ &fРегистрация", "&fДля того, что бы зарегистрироваться вам нужно:", "&91 &fНайти нашего бота для &9Авторизации &fв нашем", "дискорд-сервере: &9https&f://discord.lococovu.me", "&92 &fОтправить ему сообщение: !code &9%{_code}%", "", "&fПередумали? Нажмите на красную кнопку в хотбаре."
+        set {_holo::location} to getLocation("-15, 6, -191", "lobby")
+
+        create new hologram with clickable lines {_holo::lines::*} at {_holo::location} and store it in variable {_holo}
+
+        make hologram {_holo} invisible by default
+        reveal hologram {_holo} to {_player}
+
+        # И теперь давайте запустим воркера,
+        # который будет проверять этот код.
+        set {_waiting::time} to 0
+
+        set {_dots::times} to 1
+
+        while {_working} is true:
+          if {_player} is offline:
+            delete hologram {_holo}
+
+            set {_working} to false
+            stop
+
+          # Проверка локации
+          if yaw of {_player}'s location isn't yaw of {_location}:
+            teleport {_player} to {_location}
+
+          if pitch of {_player}'s location isn't pitch of {_location}:
+            teleport {_player} to {_location}
+
+          # Проверка действия
+          if {temp::%{_player}%::authClicked} is set:
+            delete {temp::%{_player}%::authClicked}
+
+            # Удаляем всё ненужное
+            hide bossbar {_bossbar}
+            delete hologram {_holo}
+
+            delete {ip::%{_player}%::*}
+            StartAuthorization({_player})
+
+            set {_working} to false
+            stop
+
+          # Боссбар
+          if {_bossbar} is set:
+            set skellett title of bossbar {_bossbar} to "&fСледуйте за инструкциями на экране"
+            set skellett progress of bossbar {_bossbar} to (1/300) * {_waiting::time} 
+
+          # Проверяем статус авторизации игрока
+          if {data::discord::%{_code}%::authorized} is true:
+            # Удаляем всё самое ненужное
+            hide bossbar {_bossbar}
+            delete hologram {_holo}
+
+            set {_uuid} to {_player}'s uuid
+            
+            set {ip::%{_uuid}%::auth::type} to "web"
+            set {ip::%{_uuid}%::auth::discordId} to getPlayerDiscordId({_player})
+            set {ip::%{_uuid}%::auth::authTime} to now
+
+            # И теперь вызываем функцию, которая
+            # подтверждает авторизацию игрока.
+            AuthorizationDone({_player})
+
+            delete {data::discord::authorization::%{_code}%::*}
+            delete {data::discord::authorization::%{_code}%::approved}
+            set {_working} to false
+            stop
+
+
+          add 0.05 to {_waiting::time}
+          if {_waiting::time} >= 300:
+            delete hologram {_holo}
+
+            kick {_player} due to "&fЧувааак, ты не успел авторизоваться. У нас%newline% тут денег на серверное оборудывание-то нету,%newline% так что не занимай линию."
+            
+            set {_working} to false
+            stop
+
+          # Визуальный таймер точек
+          if {_dots::times} > 3:
+            set {_dots::times} to 1
+
+          wait 1 tick
+
+      else:
+
+        # Создаём новый код
+        # Отправляем личное сообщение в дискорд игроку
+        set {_code} to "%random integer between 0 and 9%%random integer between 0 and 9%%random integer between 0 and 9%"
+
+        sendAuthorizationRequest({_player}, {_code})
+
+        # Создадим специальную голограмму
+        set {_holo::lines::*} to "&9☁ &fАвторизация", "&fДля того, что бы закончить процесс", "&fавторизации, Вам нужно зайти в личные сообщения в", "&fDiscord'е и подтвердить авторизацию.", "", "&fПроверьте код сессии: &9%{_code}% &fс кодом, представленным", "&fвнизу сообщения в Discord'е"
+        set {_holo::location} to getLocation("-15, 6, -191", "lobby")
+
+        create new hologram with clickable lines {_holo::lines::*} at {_holo::location} and store it in variable {_holo}
+
+        make hologram {_holo} invisible by default
+        reveal hologram {_holo} to {_player}
+
+        # И теперь давайте запустим воркера,
+        # который будет проверять этот код.
+        set {_waiting::time} to 0
+
+        set {_dots::times} to 1
+
+        while {_working} is true:
+          if {_player} is offline:
+            delete hologram {_holo}
+
+            set {_working} to false
+            stop
+
+          # Проверка локации
+          if yaw of {_player}'s location isn't yaw of {_location}:
+            teleport {_player} to {_location}
+
+          if pitch of {_player}'s location isn't pitch of {_location}:
+            teleport {_player} to {_location}
+
+          # Боссбар
+          if {_bossbar} is set:
+            set skellett title of bossbar {_bossbar} to "&fПроверьте личные сообщения в Дискорде"
+            set skellett progress of bossbar {_bossbar} to (1/300) * {_waiting::time} 
+
+          # Проверяем статус авторизации игрока
+          if {data::discord::authorization::%{_code}%::approved} is true:
+            # Удаляем всё самое ненужное
+            hide bossbar {_bossbar}
+            delete hologram {_holo}
+
+            set {_uuid} to {_player}'s uuid
+            
+            set {ip::%{_uuid}%::auth::type} to "web"
+            set {ip::%{_uuid}%::auth::discordId} to "%{data::discord::authorization::%{_code}%::discordId}%"
+            set {ip::%{_uuid}%::auth::authTime} to now
+
+            # И теперь вызываем функцию, которая
+            # подтверждает авторизацию игрока.
+            AuthorizationDone({_player})
+
+            delete {data::discord::authorization::%{_code}%::*}
+            delete {data::discord::authorization::%{_code}%::approved}
+            set {_working} to false
+            stop
+
+
+          add 0.05 to {_waiting::time}
+          if {_waiting::time} >= 300:
+            delete hologram {_holo}
+
+            kick {_player} due to "&fЧувааак, ты не успел авторизоваться. У нас%newline% тут денег на серверное оборудывание-то нету,%newline% так что не занимай линию."
+            
+            set {_working} to false
+            stop
+
+          # Визуальный таймер точек
+          if {_dots::times} > 3:
+            set {_dots::times} to 1
+
+          wait 1 tick
+
+    # Время авториазации
+    if {_action} is 0:
+      reduce {_time} by 0.05
+      if {_time} <= 0:
+        # Удалем боссбар
+        skellett hide bossbar {_bossbar}
+        delete {_bossbar}
+
+        # Удаляем голограммы
+        delete hologram {_holo::web}
+        delete hologram {_holo::guest}
+
+        {_guestLogin::disabled} is not true:
+          set {_ip} to {_player}'s ip
+          set {ip::%{_ip}%::auth::type} to "guest"
+
+          wait 1 tick
+
+          AuthorizationDone({_player})
+          stop
+        else:
+          kick {_player} due to "&fЧувааак, ты не успел авторизоваться. У нас%newline% тут денег на серверное оборудывание-то нету,%newline% так что не занимай линию."
+
+    wait 1 tick
+
+# 
+# Авторизация выполенна успешно
+# 
+function AuthorizationDone(player: player):
+  reveal {_player}
+
+  remove night vision from {_player}
+
+  set {authorized::%{_player}%} to true
+  # Берём информацию про аккаунт игрока.
+  
+  send title "&e☀ &fДобро пожаловать!" with subtitle "&7Мы действительно рады вас видеть." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
+
+  wait 2 seconds
+
+  # Просто телепортируем игрока на квартирку
+  PlayerEntry({_player}, false)

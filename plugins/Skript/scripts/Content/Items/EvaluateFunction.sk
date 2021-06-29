@@ -1,0 +1,9 @@
+function evaluateFunction(functionId: string):
+  # Берём данные этой функции...
+  set {_function} to {function::%{_functionId}%}
+
+  # Берём переменные этой функции...
+  set {_variables::*} to {function::%{_functionId}%::variables::*}
+
+  {_function} is set
+  # Обрабатываем сами переменные

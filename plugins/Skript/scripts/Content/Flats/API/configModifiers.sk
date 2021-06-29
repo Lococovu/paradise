@@ -1,0 +1,15 @@
+# Функция, которая возвращает булевое значение
+# Обозначает, можно ли взять комнату в оренду
+function rooms_isRentable(modifiers: string) :: boolean:
+  {_modifiers::*} contains "rentable":
+    return true
+  else:
+    return false
+
+# Функция, которая возвращает булевое значение
+# Описывает, можно ли купить комнату на постоянной основе
+function rooms_isBuyable(modifiers: string) :: boolean:
+  {_modifiers::*} contains "buyable":
+    return true
+  else:
+    return false

@@ -16,7 +16,10 @@ function WR_Holo_DefaultHotelReceptionistCreate(player: player, location: locati
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
   set {_lines::*} to "", "", "&7&lОтель", "&fПереместитесь в свою личную", "&fкомнату без всяких проблем!", "&e▷ &fПКМ"
-  set {_hologram::location} to getLocation("-3988.500, 69, -2787", "world")
+  set {_hologram::location} to getLocation("532.5, 54, 591", "world")
+
+  if distance between {_player} and {_hologram::location} >= 3.5:
+    stop
   create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
 
   make hologram {_hologram} invisible by default
@@ -33,7 +36,7 @@ function WR_Holo_DefaultHotelReceptionistCreate(player: player, location: locati
       stop
 
     # Проверяем состояние текущего блока
-    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+    if distance between {_player} and {_hologram::location} >= 3.5:
       delete {hologram::%{_player}%::%{_location}%}
       delete hologram {_hologram}
       stop
@@ -72,7 +75,7 @@ function WR_Holo_DefaultHotelReceptionistClick(player: player):
   # Пустые слоты
   
   # Список квартир
-  set {_rooms::list} to player head named "&7☷ &fСписок квартир" with lore "&7В разработке", "&f &fВесь список купленных вами тут квартир.", "&f &fИменно перейдя в это меня вы сможете купить", "&f &fещё одну квартиру, продать старые, ну или", "&f &fчто-то ещё с ними сделать!"
-  add "{SkullOwner:{Id:""af78fbcb-985a-4511-a13b-7ae2718d15ef"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODJiMjJiZGFlNzk5MDgzYWQ4N2Q5ZDI1MWRlYzhiZDVkNTc0NGZiZTNiOGE1YmE0MDkxYmE1NTk3NGI4NWIifX19""}]}}}" to item-nbt of {_rooms::list}
+  # set {_rooms::list} to player head named "&7☷ &fСписок квартир" with lore "&7В разработке", "&f &fВесь список купленных вами тут квартир.", "&f &fИменно перейдя в это меня вы сможете купить", "&f &fещё одну квартиру, продать старые, ну или", "&f &fчто-то ещё с ними сделать!"
+  # add "{SkullOwner:{Id:""af78fbcb-985a-4511-a13b-7ae2718d15ef"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODJiMjJiZGFlNzk5MDgzYWQ4N2Q5ZDI1MWRlYzhiZDVkNTc0NGZiZTNiOGE1YmE0MDkxYmE1NTk3NGI4NWIifX19""}]}}}" to item-nbt of {_rooms::list}
 
-  format gui slot 13 of {_player} with {_rooms::list}
+  # format gui slot 13 of {_player} with {_rooms::list}

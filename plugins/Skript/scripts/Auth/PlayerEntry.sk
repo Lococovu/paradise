@@ -1,0 +1,155 @@
+# 
+# Функция, которая означает что игрок закончил
+# процесс авторизации.
+# 
+function PlayerEntry(player: player, empty: boolean):
+  set {authorized::%{_player}%} to true
+  # Берём информацию про аккаунт игрока.
+  
+  # Устанавливаем игровой скин
+  set {_skin} to {characters::%{_profile::uid}%::0::skin}
+  setSkin({_player}, {_skin})
+
+  send title "&e☀ &fДобро пожаловать!" with subtitle "&7Мы действительно рады вас видеть." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
+
+  wait 2 seconds
+
+  # Предметы
+  loadPlayerInventory({_player})
+
+  set {_auth::type} to getIpAuthType({_player})
+  set {_receivedItems} to getReceivedDefaultItems({_player})
+
+  if {_receivedItems} is not set:
+    setReceivedDefaultItems({_player}, true)
+
+    if {_auth::type} isn't "guest":
+      # Подготавливаем кошелёк
+      set {_wallet::random::1} to random integer between 0000 and 9999
+      set {_wallet::random::2} to random integer between 0000 and 9999
+
+      set {_wallet} to player head named "&e▨ &fКошелёк" with lore "&0%{_wallet::random::1}%-%{_wallet::random::2}%", "&f &fКошелёк - это именно то место, где хранятся", "&f &fвсе ваши сбережения и все ваши документы. Главное", "&f &fего не потерять, ибо потом придётся все документы", "&f &fсамому восстанавливать!", "", "&7С его внешним видом вам придётся смириться.", "&7Таков майнкрафт.", "", "&e▢ &fНажмите, что бы открыть"
+      add "{SkullOwner:{Id:""ad2afd41-5cf0-4e11-bb8c-1a8253f1bfdb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRkNzUwMzEzYThjZmJjOTYxMTM5NmQ4Mjk5Y2QxMDgxNDZmN2JkMDllMjdlMTQwZTMyNGJjOWUyOThiZDY1YiJ9fX0=""}]}}}" to item-nbt of {_wallet}
+
+      # И теперь давайте добавим начальные купюры в этот
+      # кошелёк
+      set {_id} to "%{_wallet::random::1}%-%{_wallet::random::2}%"
+
+      set {_money::1} to GetMoneyBillItem(1)
+      set {_money::5} to GetMoneyBillItem(5)
+      set {_money::50} to GetMoneyBillItem(50)
+
+      set {data::wallet::%{_id}%::inventory::0} to 5 of {_money::1}
+      set {data::wallet::%{_id}%::inventory::1} to 2 of {_money::5}
+      set {data::wallet::%{_id}%::inventory::2} to 1 of {_money::50}
+
+      # Подготавливаем рюкзак
+      set {_backpack::random::1} to random integer between 0000 and 9999
+      set {_backpack::random::2} to random integer between 0000 and 9999
+      
+      set {_backpack} to player head named "&e▤ &fРюкзак" with lore "&0%{_backpack::random::1}%-%{_backpack::random::2}%", "&f &fРюкзак - это универсальное переносимое хранилище", "&f &fдля всех ваших предметов. Тут вы можете хранить", "&f &fдокументы, деньги, и подобное.", "", "&e▢ &fНажмите, что бы открыть"
+      add "{SkullOwner:{Id:""5b699579-5444-a846-b7f9-dc0693b09586"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWJkZjhkNTNiZGI5MzJjMjIzYzYyN2JiYjhjMWUwYzVlMzUxYTYxNmNkODA1NjkyOWM2NmU2ZGNlNDQ0MzNkYiJ9fX0=""}]}}}" to item-nbt of {_backpack}
+
+      # И теперь давайте заполним этот рюкзак кое-чем
+      set {_id} to "%{_backpack::random::1}%-%{_backpack::random::2}%"
+
+      add {_wallet} to {data::backpack::%{_id}%::inventory::*}
+
+      # Подготавливаем карту
+      set {_random} to random integer between 10000 and 99999
+      set {_card} to netherite ingot named "&e▬ &fКарта" with lore "&0%{_random}%", "&f &fКредитная карта - это отличный способ хранения денег.", "&f &fТут нет никаких лимитов или налогов, но оплавиваться", "&f &fкартой вы сможете не везде! Главное - это не потерять", "&f &fкарточку и позаботиться о защите и способах", "&f &fвосстановления карты. Всё это вы можете сделать или в самом", "&f &fтерминале или в отделении банка.", "", "&eⓘ &fКарточку нужно вставлять в &7Терминал"
+
+      setCardBalance({_card}, 100)
+
+      add {_card} to {data::backpack::%{_id}%::inventory::*}
+
+      # Книга
+      add {server::defaultBook} to {data::backpack::%{_id}%::inventory::*}
+
+      # Выдаём рюкзак
+      if {_player}'s inventory has enough space for 1 stone:
+        add {_backpack} to {_player}'s inventory
+    else:
+      set {_wallet::random::1} to random integer between 0000 and 9999
+      set {_wallet::random::2} to random integer between 0000 and 9999
+
+      set {_wallet} to player head named "&e▨ &fКошелёк" with lore "&0%{_wallet::random::1}%-%{_wallet::random::2}%", "&f &fКошелёк - это именно то место, где хранятся", "&f &fвсе ваши сбережения и все ваши документы. Главное", "&f &fего не потерять, ибо потом придётся все документы", "&f &fсамому восстанавливать!", "", "&7С его внешним видом вам придётся смириться.", "&7Таков майнкрафт.", "", "&e▢ &fНажмите, что бы открыть"
+      add "{SkullOwner:{Id:""ad2afd41-5cf0-4e11-bb8c-1a8253f1bfdb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRkNzUwMzEzYThjZmJjOTYxMTM5NmQ4Mjk5Y2QxMDgxNDZmN2JkMDllMjdlMTQwZTMyNGJjOWUyOThiZDY1YiJ9fX0=""}]}}}" to item-nbt of {_wallet}
+
+      # И теперь давайте добавим начальные купюры в этот
+      # кошелёк
+      set {_id} to "%{_wallet::random::1}%-%{_wallet::random::2}%"
+
+      set {_money::1} to GetMoneyBillItem(1)
+      set {_money::5} to GetMoneyBillItem(5)
+
+      set {data::wallet::%{_id}%::inventory::0} to 5 of {_money::1}
+      set {data::wallet::%{_id}%::inventory::1} to 2 of {_money::5}
+
+      if {_player}'s inventory has space for 1 stone:
+        add {_wallet} to {_player}'s inventory
+      if {_player}'s inventory has space for 1 stone:
+        add {server::defaultBook} to {_player}'s inventory
+
+  # Просто телепортируем игрока в его квартирку
+
+  wait 2 ticks
+  TeleportToDefaultFlat({_player})
+
+command test:
+  trigger:
+    # Подготавливаем кошелёк
+    set {_wallet::random::1} to random integer between 0000 and 9999
+    set {_wallet::random::2} to random integer between 0000 and 9999
+
+    set {_wallet} to player head named "&e▨ &fКошелёк" with lore "&0%{_wallet::random::1}%-%{_wallet::random::2}%", "&f &fКошелёк - это именно то место, где хранятся", "&f &fвсе ваши сбережения и все ваши документы. Главное", "&f &fего не потерять, ибо потом придётся все документы", "&f &fсамому восстанавливать!", "", "&7С его внешним видом вам придётся смириться.", "&7Таков майнкрафт.", "", "&e▢ &fНажмите, что бы открыть"
+    add "{SkullOwner:{Id:""ad2afd41-5cf0-4e11-bb8c-1a8253f1bfdb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRkNzUwMzEzYThjZmJjOTYxMTM5NmQ4Mjk5Y2QxMDgxNDZmN2JkMDllMjdlMTQwZTMyNGJjOWUyOThiZDY1YiJ9fX0=""}]}}}" to item-nbt of {_wallet}
+
+    # И теперь давайте добавим начальные купюры в этот
+    # кошелёк
+    set {_id} to "%{_wallet::random::1}%-%{_wallet::random::2}%"
+
+    set {_money::1} to GetMoneyBillItem(1)
+    set {_money::5} to GetMoneyBillItem(5)
+    set {_money::50} to GetMoneyBillItem(50)
+
+    set {data::wallet::%{_id}%::inventory::0} to 5 of {_money::1}
+    set {data::wallet::%{_id}%::inventory::1} to 2 of {_money::5}
+    set {data::wallet::%{_id}%::inventory::2} to 1 of {_money::50}
+
+    # Подготавливаем рюкзак
+    set {_backpack::random::1} to random integer between 0000 and 9999
+    set {_backpack::random::2} to random integer between 0000 and 9999
+    
+    set {_backpack} to player head named "&e▤ &fРюкзак" with lore "&0%{_backpack::random::1}%-%{_backpack::random::2}%", "&f &fРюкзак - это универсальное переносимое хранилище", "&f &fдля всех ваших предметов. Тут вы можете хранить", "&f &fдокументы, деньги, и подобное.", "", "&e▢ &fНажмите, что бы открыть"
+    add "{SkullOwner:{Id:""5b699579-5444-a846-b7f9-dc0693b09586"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWJkZjhkNTNiZGI5MzJjMjIzYzYyN2JiYjhjMWUwYzVlMzUxYTYxNmNkODA1NjkyOWM2NmU2ZGNlNDQ0MzNkYiJ9fX0=""}]}}}" to item-nbt of {_backpack}
+
+    # И теперь давайте заполним этот рюкзак кое-чем
+    set {_id} to "%{_backpack::random::1}%-%{_backpack::random::2}%"
+
+    add {_wallet} to {data::backpack::%{_id}%::inventory::*}
+
+    # Подготавливаем карту
+    set {_random} to random integer between 10000 and 99999
+    set {_card} to netherite ingot named "&e▬ &fКарта" with lore "&0%{_random}%", "&f &fКредитная карта - это отличный способ хранения денег.", "&f &fТут нет никаких лимитов или налогов, но оплавиваться", "&f &fкартой вы сможете не везде! Главное - это не потерять", "&f &fкарточку и позаботиться о защите и способах", "&f &fвосстановления карты. Всё это вы можете сделать или в самом", "&f &fтерминале или в отделении банка.", "", "&eⓘ &fКарточку нужно вставлять в &7Терминал"
+
+    setCardBalance({_card}, 100)
+
+    add {_card} to {data::backpack::%{_id}%::inventory::*}
+
+    # Книга
+    add {server::defaultBook} to {data::backpack::%{_id}%::inventory::*}
+
+    # Выдаём рюкзак
+    add {_backpack} to player's inventory
+
+on quit:
+  set {_slot} to 0
+  loop 9 times:
+    set {_item} to slot {_slot} of player's inventory
+    set {data::%player's uuid%::item::%{_slot}%} to {_item}
+
+    add 1 to {_slot}
+
+  save yaml "player-%player's uuid%"
+  unload yaml "player-%player's uuid%"

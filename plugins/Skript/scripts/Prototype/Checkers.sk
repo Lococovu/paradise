@@ -1,0 +1,144 @@
+options:
+    permission: checkers.command
+    prefix: &c[&7Checkers&c]&f
+
+on tab complete of "/checkers":
+    set tab completions for position 1 to "help" and "despawnall" and "spawn" and "despawn" and "blackchecker" and "whitechecker" and "removesingle"
+command /checkers [<text>]:
+    permission: {@permission}
+    trigger:
+        if arg-1 is not set:
+            send "{@prefix}: This is version &b1.0.0 &fof &eSkript Checkers!"
+        else if arg-1 = "despawnall":
+            kill all armor stands in world of player where [getIC(input) is set]
+            send "{@prefix}: Killed all checkers and boards in your world!"
+        else if arg-1 = "spawn":
+            set {_loc} to location .95 south and .8 east and .25 below highest solid block at location of block at player
+            spawnBoard({_loc})
+            send "{@prefix}: Spawned a checkers board! Good luck!"
+        else if arg-1 = "despawn":
+            set {_ic} to getIC(target entity of player)
+            loop all armor stands in radius 5 of player where [getIC(input) = {_ic}]:
+                kill loop-value
+            send "{@prefix}: Despawned a checkers board!"
+        else if arg-1 = "blackchecker":
+            spawn armor stand at player with nbt "{NoGravity:1b,Small:1b,Invisible:1b}"
+            setIC((last spawned armor stand), "0")
+            set helmet slot of last spawned armor stand to warped button
+        else if arg-1 = "whitechecker":
+            spawn armor stand at player with nbt "{NoGravity:1b,Small:1b,Invisible:1b}"
+            set helmet slot of last spawned armor stand to birch button
+            setIC((last spawned armor stand), "0")
+        else if arg-1 = "removesingle":
+            if target entity of player is an armor stand:
+                kill target entity of player
+                send "{@prefix}: Killed an armor stand!"
+        else if arg-1 = "help":
+            helpMsg(player)
+        else:
+            helpMsg(player)
+
+function helpMsg(p: player):
+    send " %nl%&c/Checkers &bSpawn - &eSpawn a Checkerboard" to {_p}
+    send "&c/Checkers &bDespawn - &eDespawn target Checkerboard" to {_p}
+    send "&c/Checkers &bBlackchecker - &eSpawn a black checker" to {_p}
+    send "&c/Checkers &bWhitechecker - &eSpawn a white checker" to {_p}
+    send "&c/Checkers &bRemovesingle - &eRemove target armor stand%nl% " to {_p}
+
+function spawnBoard(l: location):
+    set {_ic} to "%random integer from 1 to 9999999999999%"
+    set {_color} to "white"
+    set {_x} to (x-coordinate of {_l}) - .15
+    set {_z} to (z-coordinate of {_l}) - .16
+    loop 8 times:
+        set {_x} to (x-coordinate of {_l}) - .15
+        add -.19 to {_z}
+        if {_color} = "white":
+            set {_color} to "black"
+        else:
+            set {_color} to "white"
+        loop 8 times:
+            set {_new} to location({_x}, (y-coord of {_l}), {_z}, (world of {_l}))
+            spawnPiece({_new}, {_color}, loop-value-2, loop-value-1, {_ic})
+            add -.19 to {_x}
+            if {_color} = "white":
+                set {_color} to "black"
+            else:
+                set {_color} to "white"
+            wait 1 tick
+
+function spawnPiece(l: location, c: text, x: number, z: number, ic: text):
+    spawn armor stand .28 above and .12 north and .33 east of {_l} with nbt "{Invisible:1b,Marker:1b,Small:1b,ShowArms:1b,NoGravity:1b,Pose:{RightArm:[345f,45f,0f]}}"
+    set {_e2} to last spawned armor stand
+    set tool of last spawned armor stand to white concrete if {_c} = "white"
+    set tool of last spawned armor stand to black concrete if {_c} = "black"
+    if {_c} = "black":
+        spawn armor stand at {_l} with nbt "{Invisible:1b,NoGravity:1b,Small:1b}"
+        set {_e} to last spawned armor stand
+        if {_x} = 1 or 2 or 3:
+            set helmet slot of {_e} to birch button
+        else if {_x} = 6 or 7 or 8:
+            set helmet slot of {_e} to warped button
+        else:
+            kill last spawned armor stand
+    setID({_e}, {_x}, {_z})
+    setIC({_e2}, {_ic})
+    setIC({_e}, {_ic})
+
+
+    
+function setID(e: entity, x: Number, z: number):
+    set {_compound} to nbt compound of {_e}
+    set {_letter} to "A" if {_x} = 1
+    set {_letter} to "B" if {_x} = 2
+    set {_letter} to "C" if {_x} = 3
+    set {_letter} to "D" if {_x} = 4
+    set {_letter} to "E" if {_x} = 5
+    set {_letter} to "F" if {_x} = 6
+    set {_letter} to "G" if {_x} = 7
+    set {_letter} to "H" if {_x} = 8
+    set (tag "custom;ID" of {_compound}) to "%{_letter}%%{_z}%"
+function setIC(e: entity, ic: text):
+    set {_compound} to nbt compound of {_e}
+    set (tag "custom;IC" of {_compound}) to {_ic}
+function getIC(e: entity) :: text:
+    set {_compound} to nbt compound of {_e}
+    if (tag "custom;IC" of {_compound}) is set:
+        return "%(tag ""custom;IC"" of {_compound})%"  
+function getID(e: entity) :: text:
+    set {_compound} to nbt compound of {_e}
+    if (tag "custom;ID" of {_compound}) is set:
+        return "%(tag ""custom;ID"" of {_compound})%"
+
+on right click on armor stand:
+    getIC(clicked entity) is set
+    if helmet slot of clicked entity is air:
+        kill clicked entity
+        stop
+    helmet slot of clicked entity is not air
+    set {_e} to clicked entity
+    metadata "moving" of player is not set
+    if metadata "clicked" of {_e} is not true:
+        cancel event
+
+        wait 1 tick
+        set metadata "moving" of player to {_e}
+        set metadata "clicked" of {_e} to true
+        teleport {_e} to location .5 above {_e}
+        set {_y} to y-coord of {_e}
+        while metadata "clicked" of {_e} is true:
+            set {_loc} to location 1.5 in front of player
+            set yaw of {_loc} to 0
+            set y-coordinate of {_loc} to {_y}
+            teleport {_e} to {_loc}
+            wait 3 ticks
+
+on right click:
+    set {_e} to metadata "moving" of player 
+    if {_e} is set:
+        if metadata "clicked" of {_e} is true:
+            cancel event
+            wait 2 ticks
+            set metadata "clicked" of {_e} to false
+            teleport {_e} to location .5 below {_e}
+            clear metadata "moving" of player

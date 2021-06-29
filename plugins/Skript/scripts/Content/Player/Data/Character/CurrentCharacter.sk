@@ -1,0 +1,6 @@
+function getCurrentCharacter(player: player) :: string:
+  set {_current} to yaml value "character.current" from "player-%{_player}'s uuid%"
+  {_current} is not set:
+    set {_current} to "main"
+
+  return {_current}

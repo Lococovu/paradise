@@ -1,0 +1,30 @@
+function loadPlayerInventory(player: player):
+
+  # Отчищаем инвентарь
+  set {_slot} to 0
+  loop 50 times:
+    set slot {_slot} of {_player}'s inventory to air
+
+    add 1 to {_slot}
+
+  set {_slot} to 0
+  loop 36 times:
+    set slot {_slot} of {_player}'s inventory to barrier
+
+    add 1 to {_slot}
+
+  # Загружаем все предметы игрока
+  set {_slot} to 0
+  loop 9 times:
+    set {_uuid} to {_player}'s uuid
+    set {_item} to {data::%{_uuid}%::item::%{_slot}%}
+    set slot {_slot} of {_player}'s inventory to {_item}
+
+    add 1 to {_slot}
+
+  # 
+  # Загружаем OOC предметы
+
+  # Статические
+
+  # Динамические

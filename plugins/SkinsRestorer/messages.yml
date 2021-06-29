@@ -67,3 +67,12 @@ HELP_PLAYER: |2-
      &2/skin <skinname> &7-&f Changes your skin.
       &2/skin update &7-&f Updates your skin.
       &2/skin clear &7-&f Clears your skin.
+HELP_SR_APPLY_SKIN: Re-apply the skin for target user.
+HELP_SR_CreateCustom: Create a custom server wide skin
+Completions_Skin: <Skin>
+Completions_SkinName: <SkinName>
+Completions_SkinUrl: <SkinUrl>
+SKINURL_DISALLOWED: '&4Error&8: &cThis domain has not been allowed by the administrator.'
+SUCCESS_CREATE_SKIN: '&2Skin %skin has been created!'
+ERROR_INVALID_URLSKIN: "&4Error&8: &cInvalid skin url or format, \n&cTry uploading\
+  \ your skin to imgur and right click 'copy image address' \n&cFor guide see: &c&oskinsrestorer.net/skinurl"

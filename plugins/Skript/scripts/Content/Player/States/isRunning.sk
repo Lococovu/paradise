@@ -1,0 +1,24 @@
+on join:
+  isRunningWorker(player)
+
+function isRunningWorker(player: player):
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      stop
+
+    # Проверяем
+    set {_location} to {_player}'s location
+    if {workers::%{_player}%::states::isRunning::lastLocation} is not set:
+      set {workers::%{_player}%::states::isRunning::lastLocation} to {_location}
+    else:
+      set {_lastLocation} to {workers::%{_player}%::states::isRunning::lastLocation}
+      if distance between {_location} and {_lastLocation} >= 4.5:
+        set {workers::%{_player}%::states::isRunning} to true
+      else:
+        set {workers::%{_player}%::states::isRunning} to false
+
+      set {workers::%{_player}%::states::isRunning::lastLocation} to {_location}
+
+    wait 1 second

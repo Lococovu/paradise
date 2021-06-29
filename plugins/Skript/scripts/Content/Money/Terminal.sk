@@ -210,9 +210,11 @@ function openWithdrawMenu(player: player, card: number):
 
 function loadTerminalViewWorkers(player: player):
   # Локации
-  set {_locations::*} to "-3982.5, 67, -2781.5", "-3915.5, 67, -2761.5", "-3854.5, 67, -2771.5", "-3863.5, 67, -2878.5", "-3861.5, 67, -2679.5", "-3880.5, 67, -2632.5", "-3866.5, 67, -2728.5", "-3889.5, 67, -2694.5", "-3922.5, 67, -2612.5", "-3918.5, 67, -2671.5", "-3945.5, 67, -2698.5", "-3970.5, 67, -2648.5", "-3971.5, 67, -2591.5"
+  load yaml "/plugins/Terminals/config.yml" as "terminals-config"
+  set {_locations::*} to yaml list "points" from "terminals-config"
 
   loop {_locations::*}:
+    broadcast "%loop-value%"
     set {_location} to getLocation("%loop-value%", "world")
     set {_location} to location of block at {_location}
 

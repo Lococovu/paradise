@@ -1,0 +1,14 @@
+authorization:
+    discordId: 769956791135371304
+
+character:
+    main:
+        name: Шелби Эткинсон
+        age: 23
+        gender: Мужской
+        skin: Voyaje
+
+relationship:
+    04a097ae-9262-3ac7-a809-39e7d46f9528:
+        knows:
+        - firstName

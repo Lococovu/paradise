@@ -25,7 +25,8 @@ on chat:
             add "((%{_loop-prep::1}%))" to {_messages::nonrp::*}
     set {_message} to message
     loop {_messages::nonrp::*}:
-      replace all loop-value in {_message} with "&7%loop-value%"
+      replace all loop-value in {_message} with "&7%loop-value%&f"
+
     #
     # Строим само сообщение...
     #
@@ -33,51 +34,92 @@ on chat:
     set {_message::radius} to 15
     set {_message::action} to false
     
-    set {_profile::uid} to {auth::ip::%player%::email}
-    set {_card::name} to {accounts::%{_profile::uid}%::server::name}
+    set {_character::gender} to getCharacterGender(player, getCurrentCharacter(player))
 
-    if {_card::name} is not set:
-      set {_card::name} to "*%player%"
+    if {_character::gender} contains "жен":
+      set {_gender::suffix} to "а"
+    else:
+      set {_gender::suffix} to ""
 
     if message starts with ">":
       set {_message} to subtext of {_message} from characters 2 to (length of {_message})
-      set {_message} to "&7%{_card::name}% &cкрикнул&f: %coloured {_message}%"
+      set {_message::original} to "&7+name &cкрикнул%{_gender::suffix}%&f: %coloured {_message}%"
       
       set {_message::radius} to 25
     else if message starts with "<":
       set {_message} to subtext of {_message} from characters 2 to (length of {_message})
-      set {_message} to "&7%{_card::name}% &9прошептал&f: %coloured {_message}%"
+      set {_message::original} to "&7+name &9прошептал%{_gender::suffix}%&f: %coloured {_message}%"
       
       set {_message::radius} to 5
     else if message start with "*":
       set {_message} to subtext of {_message} from characters 2 to (length of {_message})
-      set {_message} to "&e%{_card::name}% %{_message}%"
+      set {_message::original} to "&e+name %{_message}%"
       
       set {_message::radius} to 25
       set {_message::action} to true
     else:
-      set {_message} to "&7%{_card::name}%&f: %{_message}%"
+      set {_message::original} to "&7+name&f: %{_message}%"
     
     #
     # Система отправки сообщения
     #
+    set {_character::name} to getCharacterName(player, getCurrentCharacter(player))
+    set {_splittedName::*} to {_character::name} split at " "
+
+    set {_character::gender} to getCharacterGender(player, getCurrentCharacter(player))
+
     loop all players in radius {_message::radius} around player:
+      # Смотрим - знает ли данный игрок
+      # про нашего отправителя сообщения
+      set {_message} to {_message::original}
+
+      if "%loop-player%" is "%player%":
+        replace all "+name" in {_message} with "&6◇ &7%{_character::name}%"
+      else:
+        # Имя
+        if doTargetKnownToPlayer(player, loop-player, "firstName") is true:
+          set {_firstName} to {_splittedName::1}
+        
+        if {_firstName} is not set:
+          set {_firstName} to "&7??????"
+      
+        # Фамилия
+        if doTargetKnownToPlayer(player, loop-player, "lastName") is true:
+          set {_lastName} to {_splittedName::2}
+        
+        if {_lastName} is not set:
+          set {_lastName} to "&7??????"
+
+        # Меняем
+        if {_firstName} is {_lastName}:
+          if {_character::gender} contains "муж":
+            replace all "+name" in {_message} with "&7Незнакомец"
+          else:
+            replace all "+name" in {_message} with "&7Незнакомка"
+        else:
+          replace all "+name" in {_message} with "%{_firstName}% %{_lastName}%"
+
       send "%{_message}%" to loop-player
       
     add coloured message to {%player%::VisualChat::*}
 
   else:
+    set {_character::name} to getCharacterName(player, getCurrentCharacter(player))
+
     loop all players:
       if "%loop-player%" is "%player%":
         set {_color} to "&6"
       else:
         set {_color} to "&f"
-      if {_card::name} is set:
-        set {_string::name} to "%{_color}%%player% &7(%{_card::name}%)"
-      else:
+      if {_character::name} contains "%player%":
         set {_string::name} to "%{_color}%*%player%"
+      else:
+        if "%loop-player%" is "%player%":
+          set {_string::name} to "%{_character::name}% %{_color}%(Вы)"
+        else:
+          set {_string::name} to "%{_character::name}% (%player%)"
       send "&7[OOC] %{_string::name}%&f: %message%" to loop-player
-        
+
 every 1 tick:
   loop all players:
     set {_player} to loop-player
@@ -121,14 +163,13 @@ every 1 tick:
           if {_message} starts with "*":
             set {chat::%{_player}%::last} to 2
 
-            #set {_card::name} to characterGetName(loop-player, getCharacter(loop-player))
             set {_message} to subtext of {_message} from characters 2 to (length of {_message})
             set {_message} to "&e%{_message}%"
           else if {_message} starts with ">":
             set {_message} to subtext of {_message} from characters 2 to (length of {_message})
 
-            #set {_card::gender} to getGender(loop-player, getCharacter(loop-player))
-            if {_card::gender} contains "жен":
+            set {_character::gender} to getCharacterGender(loop-player, getCurrentCharacter(loop-player))
+            if {_character::gender} contains "жен":
               set {_message} to "&cКрикнула: &f%{_message}%"
             else:
               set {_message} to "&cКрикнул: &f%{_message}%"
@@ -136,12 +177,12 @@ every 1 tick:
             delete {%{_player}%::VisualMessage}
             stop
           else:
-            #set {_card::gender} to getGender(loop-player, getCharacter(loop-player))
-            if {_card::gender} contains "жен":
+            set {_character::gender} to getCharacterGender(loop-player, getCurrentCharacter(loop-player))
+            if {_character::gender} contains "жен":
               set {_message} to "&6Сказала: &f%{_message}%"
             else:
               set {_message} to "&6Сказал: &f%{_message}%"
-          create new hologram with lines "%{_message}%" that follows loop-player with offset 2.4 blocks above and store it in the variable {_holo}
+          create new hologram with lines "%{_message}%" that follows loop-player with offset 2.8 blocks above and store it in the variable {_holo}
 
           wait {_time}
           # Удаляем...

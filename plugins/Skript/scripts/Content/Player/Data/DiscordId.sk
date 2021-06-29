@@ -1,0 +1,6 @@
+function getPlayerDiscordId(player: player) :: string:
+  return yaml value "authorization.discordId" from "player-%{_player}'s uuid%"
+
+function setPlayerDiscordId(player: player, value: string):
+  set yaml value "authorization.discordId" from "player-%{_player}'s uuid%" to {_value}
+  save yaml "player-%{_player}'s uuid%"

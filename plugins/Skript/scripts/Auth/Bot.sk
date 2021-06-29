@@ -1,0 +1,134 @@
+on load:
+  wait 10 seconds
+  # Авторизовываемся
+  login to "ODU3ODc1ODMxMjQ5NDM2Njky.YNV9IA.k96H3lc3NVBbABmWRaqANE-B5DU" with name "AuthBot"
+
+  # Изменяем статус
+  set online status of bot "AuthBot" to online
+  set presence of bot named "AuthBot" to watching "за игроками на сервере"
+
+on unload:
+  shutdown the bot named "AuthBot"
+
+# Функция, которая 
+
+discord command code [<text>]:
+  prefixes: !
+  executable in: guild
+  trigger:
+    if argument 1 is not set:
+      make embed:
+        set color of embed to red
+        set description of embed to "🚨 Вам нужно указать специальный код авторизации для того, что бы использовать эту команду."
+        set footer of embed to "Сообщение об ошибке"
+        set timestamp of embed to now
+
+      reply with last embed
+      stop
+    
+    # Проверяем код
+    set {_code} to argument 1
+    
+    set {_player} to {data::discord::%{_code}%::player}
+    {_player} is set:
+      # Проверяем, существует ли связь между аккаунтом в дс
+      # и игроком в майне.
+      set {_discordId} to getPlayerDiscordId({_player})
+      if {_discordId} is set:
+        make embed:
+          set color of embed to red
+          set description of embed to "🚨 Данный майнкрафт-аккаунт уже привязан к дискорд аккаунту"
+          set footer of embed to "Сообщение об ошибке"
+          set timestamp of embed to now
+
+        reply with last embed
+        stop
+      else:
+        # Проверяем - загружен ли файл с данными игрока
+        if yaml "player-%{_player}'s uuid%" is loaded:
+          # Привязываем этот дискорд-аккаунт к этому аккаунту в майнкрафте
+          setPlayerDiscordId({_player}, discord id of event-member)
+          set {data::discord::%{_code}%::authorized} to true
+
+          make embed:
+            set title of embed to "👍 Аккаунт успешно привязан"
+            set color of embed to green
+            set description of embed to "Ура-ура-ура! Вы успешно привязали ваш дискорд-аккаунт к майнкарфт-аккаунту! Теперь вы сможете пользоваться полным функционалом всех наших серверов, весь ваш прогресс будет храниться на наших серверах ну и многое-многое другое!\n\nКруто короче, да?"
+            set footer of embed to "Сообщение об привязке аккаунте"
+            set timestamp of embed to now
+
+          reply with last embed
+        else:
+          make embed:
+            set color of embed to red
+            set description of embed to "🚨 Данный игрок не находится на сервере. Пожалуйста, зайдите на сервер `(Парадайс)` и попробуйте ещё раз."
+            set footer of embed to "Сообщение об ошибке"
+            set timestamp of embed to now
+
+          reply with last embed
+          stop
+    else:
+      make embed:
+        set color of embed to red
+        set description of embed to "🚨 Данный код не является действительным. Попробуйте ещё раз."
+        set footer of embed to "Сообщение об ошибке"
+        set timestamp of embed to now
+
+      reply with last embed
+      stop
+
+on button click:
+  set {_id} to discord id of event-button
+
+  {_id} contains "discordAuth":
+    set {_temp::*} to {_id} split at "-"  
+    set {_code} to {_temp::2}
+    
+    # Ставим статус авторизации в значение "Авторизованно"
+    set {data::discord::authorization::%{_code}%::approved} to true
+    
+    # Удаляем сообщение
+    set {_userId} to {data::discord::authorization::%{_code}%::discordId}
+    delete discord entity {data::discord::authorization::%{_code}%::message}
+
+    set {_user} to user with id "%{_userId}%"
+
+    make embed:
+      set title of embed to "🔓 Авторизация подтвержденна"
+      set footer of embed to "Код сессии: %{_code}%"
+      set timestamp of embed to now
+
+    send last embed to user {_user}
+
+# Функция, которая отправит сообщение об авторизации игроку
+function sendAuthorizationRequest(player: player, code: string):
+  set {_discordId} to yaml value "authorization.discordId" from "player-%{_player}'s uuid%"
+
+  # Берём пользователя
+  set {_user} to user with id "%{_discordId}%"
+
+  # Подготавливаем сообщение
+  set {_row} to new buttons row
+  set {_approve} to new button with id "discordAuth-%{_code}%" styled success with content "Подтвердить" with emoji "👌"
+  set {_cancel} to new button with id "discordAuth-cancel" styled danger with content "Отменить" with emoji "✋"
+
+  # Сохраняем данные
+  set {data::discord::authorization::%{_code}%::discordId} to {_discordId}
+
+  add {_approve} to row {_row}
+  add {_cancel} to row {_row}
+
+  make embed:
+    set title of embed to "🔐 Подтвердите авторизацию"
+    set description of embed to "Мы получили запрос на авторизацию Вашего аккаунта в майнкрафт (`%{_player}%`). Если это Вы хотите авторизоваться - то просто нажмите на соответствующую кнопку снизу! В ином же случае просто проигнорируйте данное сообщение"
+    set footer of embed to "Код сессии: %{_code}%"
+    set timestamp of embed to now
+
+  # Отправляем
+  send last embed to user {_user} and store it in {_message}
+  set {data::discord::authorization::%{_code}%::message} to {_message}
+
+  add row {_row} to message {_message}
+
+on unload:
+  delete {data::discord::*}

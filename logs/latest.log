@@ -1,8 +1,937 @@
-[02:34:13] [Craft Scheduler Thread - 5687/INFO]: [Vault] Checking for Updates ... 
-[02:34:14] [Craft Scheduler Thread - 5687/INFO]: [Vault] No new version available
-[03:26:08] [Server thread/INFO]: [ProtocolLib] The updater found an update: 4.6.0 (Running 4.6.0-SNAPSHOT-b493). Download at https://www.spigotmc.org/resources/protocollib.1997/
-[08:34:13] [Craft Scheduler Thread - 5834/INFO]: [Vault] Checking for Updates ... 
-[08:34:13] [Craft Scheduler Thread - 5834/INFO]: [Vault] No new version available
-[14:34:13] [Craft Scheduler Thread - 5981/INFO]: [Vault] Checking for Updates ... 
-[14:34:13] [Craft Scheduler Thread - 5981/INFO]: [Vault] No new version available
-[15:26:09] [Server thread/INFO]: [ProtocolLib] The updater found an update: 4.6.0 (Running 4.6.0-SNAPSHOT-b493). Download at https://www.spigotmc.org/resources/protocollib.1997/
+[14:04:12] [main/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[14:04:13] [main/INFO]: Reloading ResourceManager: Default, bukkit
+[14:04:14] [Worker-Main-2/INFO]: Loaded 7 recipes
+[14:04:17] [Server thread/INFO]: Starting minecraft server version 1.16.5
+[14:04:17] [Server thread/INFO]: Loading properties
+[14:04:17] [Server thread/INFO]: This server is running Paper version git-Paper-439 (MC: 1.16.5) (Implementing API version 1.16.5-R0.1-SNAPSHOT)
+[14:04:17] [Server thread/INFO]: Debug logging is disabled
+[14:04:17] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[14:04:17] [Server thread/INFO]: Using 4 threads for Netty based IO
+[14:04:17] [Server thread/INFO]: Default game type: SURVIVAL
+[14:04:17] [Server thread/INFO]: Generating keypair
+[14:04:18] [Server thread/INFO]: Starting Minecraft server on *:25565
+[14:04:18] [Server thread/INFO]: Using epoll channel type
+[14:04:19] [Server thread/WARN]: Initializing Legacy Material Support. Unless you have legacy plugins and/or data this is a bug!
+[14:04:27] [Server thread/WARN]: Legacy plugin skript-npc v0.1.2 does not specify an api-version.
+[14:04:27] [Server thread/WARN]: Legacy plugin HideNametags v1.3 does not specify an api-version.
+[14:04:27] [Server thread/WARN]: Legacy plugin ProtectionLib v0.9.9 does not specify an api-version.
+[14:04:27] [Server thread/WARN]: Legacy plugin Reqn v1.2.3 does not specify an api-version.
+[14:04:27] [Server thread/WARN]: Legacy plugin SkriptJSON v1.0.0 does not specify an api-version.
+[14:04:28] [Server thread/WARN]: Legacy plugin TuSKe v1.8.2-Pikachu-Patch-3 does not specify an api-version.
+[14:04:28] [Server thread/INFO]: [SimpleLay] Loading SimpleLay v1.0.10
+[14:04:28] [Server thread/INFO]: [skript-npc] Loading skript-npc v0.1.2
+[14:04:28] [Server thread/INFO]: [HideNametags] Loading HideNametags v1.3
+[14:04:28] [Server thread/INFO]: [ViaVersion] Loading ViaVersion v3.2.1
+[14:04:28] [Server thread/INFO]: [ViaVersion] ViaVersion 3.2.1 is now loaded, injecting!
+[14:04:28] [Via-Mappingloader-0/INFO]: [ViaVersion] Loading 1.12 -> 1.13 mappings...
+[14:04:28] [Via-Mappingloader-1/INFO]: [ViaVersion] Loading 1.13 -> 1.13.2 mappings...
+[14:04:28] [Via-Mappingloader-2/INFO]: [ViaVersion] Loading 1.13.2 -> 1.14 mappings...
+[14:04:28] [Via-Mappingloader-3/INFO]: [ViaVersion] Loading 1.14 -> 1.15 mappings...
+[14:04:28] [Via-Mappingloader-4/INFO]: [ViaVersion] Loading 1.15 -> 1.16 mappings...
+[14:04:29] [Server thread/INFO]: [Vault] Loading Vault v1.7.3-b131
+[14:04:29] [Server thread/INFO]: [ViaBackwards] Loading ViaBackwards v3.2.0
+[14:04:29] [Server thread/INFO]: [ProtocolLib] Loading ProtocolLib v4.6.0-SNAPSHOT-b493
+[14:04:29] [Via-Mappingloader-1/INFO]: [ViaVersion] Loading 1.16 -> 1.16.2 mappings...
+[14:04:29] [Via-Mappingloader-0/INFO]: [ViaVersion] Loading block connection mappings ...
+[14:04:31] [Server thread/INFO]: [Multiverse-Core] Loading Multiverse-Core v4.2.2-b812
+[14:04:31] [Server thread/INFO]: [Citizens] Loading Citizens v2.0.27-SNAPSHOT (build 2247)
+[14:04:31] [Server thread/INFO]: [FastAsyncWorldEdit] Loading FastAsyncWorldEdit v1.16-578;16f72d1
+[14:04:32] [Server thread/INFO]: Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@2026c2d1]
+[14:04:32] [Server thread/INFO]: [Skript] Loading Skript v2.5.3
+[14:04:32] [Server thread/INFO]: [SkBee] Loading SkBee v1.10.2
+[14:04:32] [Server thread/INFO]: [ProtectionLib] Loading ProtectionLib v0.9.9
+[14:04:32] [Server thread/INFO]: [DiSky] Loading DiSky v1.13
+[14:04:32] [Server thread/INFO]: [skript-reflect] Loading skript-reflect v2.1.0
+[14:04:32] [Server thread/INFO]: [Reqn] Loading Reqn v1.2.3
+[14:04:32] [Server thread/INFO]: [SkQuery] Loading SkQuery v4.1.3
+[14:04:32] [Server thread/INFO]: [SkriptJSON] Loading SkriptJSON v1.0.0
+[14:04:32] [Server thread/INFO]: [HolographicDisplays] Loading HolographicDisplays v2.4.6
+[14:04:32] [Server thread/INFO]: [skript-holo] Loading skript-holo v1.0.2
+[14:04:32] [Server thread/INFO]: [Skellett] Loading Skellett v1.9.11
+[14:04:32] [Server thread/INFO]: [skript-yaml] Loading skript-yaml v1.3.2
+[14:04:32] [Server thread/INFO]: [TuSKe] Loading TuSKe v1.8.2-Pikachu-Patch-3
+[14:04:32] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[14:04:32] [Server thread/INFO]: [Vault] Enabling Vault v1.7.3-b131
+[14:04:33] [Server thread/INFO]: [Vault] [Permission] SuperPermissions loaded as backup permission system.
+[14:04:33] [Server thread/INFO]: [Vault] Enabled Version 1.7.3-b131
+[14:04:33] [Server thread/INFO]: [ViaBackwards] Enabling ViaBackwards v3.2.0
+[14:04:33] [Server thread/INFO]: [ViaBackwards] Loading translations...
+[14:04:33] [Server thread/INFO]: [ViaBackwards] Registering protocols...
+[14:04:33] [Via-Mappingloader-0/INFO]: [ViaVersion] Loading 1.13 -> 1.12 mappings...
+[14:04:33] [Via-Mappingloader-1/INFO]: [ViaVersion] Loading 1.13.2 -> 1.13 mappings...
+[14:04:33] [Via-Mappingloader-1/INFO]: [ViaVersion] Loading 1.14 -> 1.13.2 mappings...
+[14:04:33] [Via-Mappingloader-0/INFO]: [ViaVersion] Loading 1.15 -> 1.14 mappings...
+[14:04:33] [Via-Mappingloader-1/INFO]: [ViaVersion] Loading 1.16 -> 1.15 mappings...
+[14:04:33] [Via-Mappingloader-4/INFO]: [ViaVersion] Loading 1.16.2 -> 1.16 mappings...
+[14:04:33] [Server thread/INFO]: [ProtocolLib] Enabling ProtocolLib v4.6.0-SNAPSHOT-b493
+[14:04:33] [Server thread/INFO]: [ProtocolLib] Started structure compiler thread.
+[14:04:33] [Server thread/INFO]: [FastAsyncWorldEdit] Enabling FastAsyncWorldEdit v1.16-578;16f72d1
+[14:04:33] [Server thread/INFO]: WEPIF: Vault detected! Using Vault for permissions
+[14:04:34] [Server thread/INFO]: Using com.sk89q.worldedit.bukkit.adapter.impl.FAWE_Spigot_v1_16_R3 as the Bukkit adapter
+[14:04:34] [Server thread/INFO]: Ignoring invalid block minecraft:sign
+[14:04:34] [Server thread/INFO]: Ignoring invalid block minecraft:wall_sign
+[14:04:34] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[14:04:34] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[14:04:34] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[14:04:34] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[14:04:34] [Server thread/INFO]: Preparing level "world"
+[14:04:35] [Server thread/INFO]: Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+[14:04:35] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[14:04:36] [Server thread/INFO]: Loaded 0 spawn chunks for world world
+[14:04:36] [Server thread/INFO]: Preparing spawn area: 0%
+[14:04:36] [Server thread/INFO]: Preparing spawn area: 0%
+[14:04:36] [Server thread/INFO]: Preparing spawn area: 0%
+[14:04:36] [Server thread/INFO]: Preparing spawn area: 0%
+[14:04:37] [Server thread/INFO]: Time elapsed: 1878 ms
+[14:04:37] [Server thread/INFO]: [SimpleLay] Enabling SimpleLay v1.0.10
+[14:04:37] [Server thread/INFO]: [skript-npc] Enabling skript-npc v0.1.2*
+[14:04:37] [Server thread/INFO]: [skript-npc] skript-npc is warming up...
+[14:04:37] [Server thread/INFO]: [skript-npc] Metrics are enabled.
+[14:04:37] [Server thread/WARN]: [skript-npc] Loaded class ch.njol.skript.Skript from Skript v2.5.3 which is not a depend, softdepend or loadbefore of this plugin.
+[14:04:37] [Server thread/WARN]: [skript-npc] Loaded class net.citizensnpcs.api.event.NPCCreateEvent from Citizens v2.0.27-SNAPSHOT (build 2247) which is not a depend, softdepend or loadbefore of this plugin.
+[14:04:37] [Server thread/INFO]: [skript-npc] Loaded all addon classes.
+[14:04:37] [Server thread/INFO]: [skript-npc] Finished loading.
+[14:04:37] [Server thread/INFO]: [HideNametags] Enabling HideNametags v1.3*
+[14:04:37] [Server thread/INFO]: [ViaVersion] Enabling ViaVersion v3.2.1
+[14:04:37] [Server thread/INFO]: [Multiverse-Core] Enabling Multiverse-Core v4.2.2-b812
+[14:04:37] [Server thread/WARN]: [Multiverse-Core] "Multiverse-Core v4.2.2-b812" has registered a listener for org.bukkit.event.entity.EntityCreatePortalEvent on method "public void com.onarandombox.MultiverseCore.listeners.MVPortalListener.entityPortalCreate(org.bukkit.event.entity.EntityCreatePortalEvent)", but the event is Deprecated. "Server performance will be affected"; please notify the authors [dumptruckman, Rigby, fernferret, lithium3141, main--].
+[14:04:37] [Server thread/INFO]: [Multiverse-Core] We are aware of the warning about the deprecated event. There is no alternative that allows us to do what we need to do and performance impact is negligible. It is safe to ignore.
+[14:04:37] [Server thread/WARN]: [Multiverse-Core] WorldManager: Can't load this world because the folder was deleted/moved: greenfield
+[14:04:37] [Server thread/WARN]: [Multiverse-Core] Use '/mv remove' to remove it from the config!
+[14:04:37] [Server thread/INFO]: Preparing start region for dimension minecraft:lobby
+[14:04:38] [Server thread/INFO]: Loaded 0 spawn chunks for world lobby
+[14:04:38] [Server thread/INFO]: Preparing spawn area: 0%
+[14:04:38] [Server thread/INFO]: Preparing spawn area: 4%
+[14:04:39] [Server thread/INFO]: Preparing spawn area: 19%
+[14:04:39] [Server thread/INFO]: Time elapsed: 1085 ms
+[14:04:39] [Server thread/WARN]: [Multiverse-Core] WorldManager: Can't load this world because the folder was deleted/moved: doom
+[14:04:39] [Server thread/WARN]: [Multiverse-Core] Use '/mv remove' to remove it from the config!
+[14:04:39] [Server thread/INFO]: [Multiverse-Core] 2 - World(s) loaded.
+[14:04:39] [Server thread/WARN]: Warning: Nashorn engine is planned to be removed from a future JDK release
+[14:04:39] [Server thread/INFO]: [Multiverse-Core] Version 4.2.2-b812 (API v24) Enabled - By dumptruckman, Rigby, fernferret, lithium3141 and main--
+[14:04:39] [Server thread/INFO]: [Citizens] Enabling Citizens v2.0.27-SNAPSHOT (build 2247)
+[14:04:40] [Server thread/INFO]: [Skript] Enabling Skript v2.5.3
+[14:04:42] [ForkJoinPool.commonPool-worker-3/INFO]: [Skript] You're currently running the latest stable version of Skript.
+[14:04:49] [Server thread/INFO]: [Skript] Loaded 128188 aliases in 8928ms
+[14:04:50] [Server thread/INFO]: [Skript]  ~ created by & © Peter Güttinger aka Njol ~
+[14:04:50] [Server thread/INFO]: [SkBee] Enabling SkBee v1.10.2
+[14:04:50] [Server thread/INFO]: [SkBee] Loading NBTApi...
+[14:04:50] [Server thread/INFO]: [SkBee] [NBTAPI] Found Spigot: v1_16_R3! Trying to find NMS support
+[14:04:50] [Server thread/INFO]: [SkBee] [NBTAPI] NMS support 'MC1_16_R3' loaded!
+[14:04:50] [Server thread/INFO]: [SkBee] [NBTAPI] Found Gson: class com.google.gson.Gson
+[14:04:50] [Server thread/INFO]: [SkBee] Successfully loaded NBTApi!
+[14:04:50] [Server thread/INFO]: [SkBee] NBT Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Recipe Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Scoreboard Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Bound Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Text Component Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Pathfinding Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Structure Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Other Elements successfully loaded
+[14:04:50] [Server thread/INFO]: [SkBee] Virtual Furnace Elements disabled via config
+[14:04:51] [Server thread/INFO]: [SkBee] World Creator Elements successfully loaded
+[14:04:51] [Server thread/INFO]: [SkBee] Successfully enabled v1.10.2 in 0.38 seconds
+[14:04:51] [Server thread/INFO]: [SkBee] Loading custom worlds...
+[14:04:51] [Server thread/INFO]: [SkBee] Successfully loaded 0 custom world
+[14:04:51] [Server thread/INFO]: [ProtectionLib] Enabling ProtectionLib v0.9.9*
+[14:04:51] [Server thread/INFO]: [DiSky] Enabling DiSky v1.13
+[14:04:51] [Server thread/INFO]: DiSky is loading ...
+[14:04:51] [Server thread/INFO]: Skript found! Starting registration ...
+[14:04:51] [Server thread/INFO]: You're using the JDA version 4.2.1_273
+[14:04:51] [Server thread/INFO]: DiSky seems to be loaded correctly!
+[14:04:51] [Server thread/INFO]: Join our Discord for new update and support:
+[14:04:51] [Server thread/INFO]: https://discord.gg/whWuXwaVwM
+[14:04:51] [Server thread/INFO]: [skript-reflect] Enabling skript-reflect v2.1.0
+[14:04:51] [Server thread/INFO]: [Reqn] Enabling Reqn v1.2.3*
+[14:04:51] [Server thread/INFO]: [SkQuery] Enabling SkQuery v4.1.3
+[14:04:51] [Server thread/INFO]: [skQuery] Locating classes from SkQuery...
+[14:04:52] [Server thread/INFO]: [skQuery] Beginning to process a total of 139 from SkQuery
+[14:04:52] [Server thread/INFO]: [skQuery] Out of 139 classes, 137 classes were loaded from SkQuery
+[14:04:52] [Server thread/INFO]: [SkriptJSON] Enabling SkriptJSON v1.0.0*
+[14:04:52] [Server thread/INFO]: [HolographicDisplays] Enabling HolographicDisplays v2.4.6
+[14:04:52] [Server thread/INFO]: [HolographicDisplays] Enabled player relative placeholders with ProtocolLib.
+[14:04:52] [Server thread/INFO]: [skript-holo] Enabling skript-holo v1.0.2
+[14:04:52] [Server thread/INFO]: [skript-holo] Started metrics!
+[14:04:52] [Server thread/INFO]: [skript-holo] Finished loading!
+[14:04:52] [Server thread/INFO]: [Skellett] Enabling Skellett v1.9.11
+[14:04:53] [Server thread/INFO]: [Skellett] Registered 47 Effects, 16 Conditions, 128 Expressions and 25 Events
+[14:04:53] [Server thread/INFO]: [Skellett] Has been enabled!
+[14:04:53] [Server thread/INFO]: [skript-yaml] Enabling skript-yaml v1.3.2
+[14:04:53] [Server thread/INFO]: [TuSKe] Enabling TuSKe v1.8.2-Pikachu-Patch-3*
+[14:04:53] [Server thread/INFO]: [TuSKe] Enabling Metrics... Done!
+[14:04:53] [Server thread/INFO]: [TuSKe] Check for updates enabled. It will check in some seconds.
+[14:04:53] [Server thread/INFO]: [TuSKe] Documentation enabled. Some files containing all syntax of all addons will be generated.
+[14:04:54] [Server thread/INFO]: [TuSKe] Loaded 8 events, 12 conditions, 20 effects, 62 expressions and 0 types. Have fun!
+[14:04:54] [Server thread/INFO]: Running delayed init tasks
+[14:04:54] [Server thread/INFO]: [ViaVersion] ViaVersion detected server version: 1.16.4(754)
+[14:04:55] [Server thread/INFO]: [Skript] Loading variables...
+[14:04:55] [Server thread/INFO]: [Skript] Loaded 413 variables in 0.1 seconds
+[14:04:55] [Server thread/WARN]: [Skript] 'API/Items/getItem.sk' is empty
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (API/ViewActions/DefaultRoom.holograms.sk, line 12: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (API/ViewActions/DefaultRoom.holograms.sk, line 63: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (API/ViewActions/DefaultRoom.holograms.sk, line 112: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (API/ViewActions/Shop.holograms.sk, line 6: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (API/ViewActions/Terminal.holograms.sk, line 6: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (API/ViewActions/World.holograms.sk, line 12: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] 'Content/Characters/Relationships/menus/InteractionMenu.sk' is empty
+[14:04:55] [Server thread/WARN]: [Skript] Empty configuration section! You might want to indent one or more of the subsequent lines to make them belong to this section or remove the colon at the end of the line if you don't want this line to start a section. (Content/Flats/ViewAction.holograms.sk, line 6: if hologram {_hologram} is deleted:')
+[14:04:55] [Server thread/WARN]: [Skript] 'Content/Mass.sk' is empty
+[14:04:55] [Server thread/WARN]: [Skript] 'Prototype/Food/Book.sk' is empty
+[14:04:56] [Server thread/WARN]: [Skript] coloured {_item::name} is already a text, so you should not put it in one (e.g. coloured {_item::name} instead of "%coloured {_item::name}%") (API/CustomItems/getItem.sk, line 25: set {_item} to {_item::item} named "%coloured {_item::name}%" with lore coloured {_item::lore::*}')
+[14:05:02] [User Authenticator #1/INFO]: UUID of player FoxInDirt is ed7692b0-1c65-3d75-b703-ae314bee4b74
+[14:05:12] [Server thread/WARN]: [Skript] List is missing 'and' or 'or', defaulting to 'and': 21,22,23,30,31,32,39,40,41 (Content/Flats/DefaultFlat/WorkingSpace/CustomItems/Editor.sk, line 28: set {_slots::*} to 21,22,23,30,31,32,39,40,41')
+[14:05:12] [Server thread/WARN]: [Skript] List is missing 'and' or 'or', defaulting to 'and': player head, leather helmet, leather chestplate, leather leggings, leather boots (Content/Flats/DefaultFlat/WorkingSpace/CustomItems/Editor.sk, line 118: set {_ids::*} to player head, leather helmet, leather chestplate, leather leggings, leather boots')
+[14:05:17] [Server thread/INFO]: [burger] Загружен предмет (ITEM ID: player head, TITLE: Голова, ACTION TYPE: click, ACTION FUNCTION: AC_FeedPlayer({player}, 5))
+[14:05:25] [Server thread/INFO]: [Skript] All scripts loaded without errors.
+[14:05:25] [Server thread/INFO]: [Skript] Loaded 58 scripts with a total of 56 triggers and 15 commands in 30.34 seconds
+[14:05:25] [Server thread/INFO]: [Skript] Finished loading.
+[14:05:25] [Server thread/INFO]: [Citizens] Loaded 1 NPCs.
+[14:05:25] [Server thread/INFO]: [ViaVersion] Finished mapping loading, shutting down loader executor!
+[14:05:25] [Server thread/WARN]: [ViaVersion] There is a newer version available: 4.0.0, you're on: 3.2.1
+[14:05:25] [Server thread/INFO]: [HolographicDisplays] Found a new version available: v2.4.8
+[14:05:25] [Server thread/INFO]: [HolographicDisplays] Download it on Bukkit Dev:
+[14:05:25] [Server thread/INFO]: [HolographicDisplays] dev.bukkit.org/projects/holographic-displays
+[14:05:25] [Server thread/INFO]: Done (68.565s)! For help, type "help"
+[14:05:25] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 31404ms or 628 ticks behind
+[14:05:25] [Server thread/INFO]: Timings Reset
+[14:05:25] [Craft Scheduler Thread - 7/INFO]: [Vault] Checking for Updates ... 
+[14:05:26] [Server thread/INFO]: com.mojang.authlib.GameProfile@1298d85d[id=ed7692b0-1c65-3d75-b703-ae314bee4b74,name=FoxInDirt,properties={},legacy=false] (/127.0.0.1:52864) lost connection: Disconnected
+[14:05:26] [Craft Scheduler Thread - 7/INFO]: [Vault] No new version available
+[14:05:26] [Craft Scheduler Thread - 8/INFO]: [TuSKe] Checking for latest update...
+[14:05:27] [Craft Scheduler Thread - 8/INFO]: [TuSKe] New update available: v1.8.2
+[14:05:27] [Craft Scheduler Thread - 8/INFO]: [TuSKe] Check what's new in: https://github.com/Tuke-Nuke/TuSKe/releases/tag/1.8.2
+[14:05:27] [Craft Scheduler Thread - 8/INFO]: [TuSKe] You can download and update it with /tuske update.
+[14:05:27] [Server thread/INFO]: x: -3882.5, y: 68.8, z: -2841
+[14:05:27] [Server thread/INFO]: ADD ITEM || bread || 10
+[14:05:27] [Server thread/INFO]: bread=10
+[14:05:27] [Server thread/INFO]: x: -3876.5, y: 68.8, z: -2848.5
+[14:05:27] [Server thread/INFO]: x: -3867.5, y: 68.8, z: -2842.5
+[14:05:27] [Server thread/INFO]: x: -3867.5, y: 68.8, z: -2846.5
+[14:05:29] [User Authenticator #1/INFO]: UUID of player HornyDog is 04a097ae-9262-3ac7-a809-39e7d46f9528
+[14:05:30] [Server thread/INFO]: HornyDog[/127.0.0.1:52892] logged in with entity id 216 at ([lobby]-15.0, 4.0, -195.5)
+[14:05:31] [Craft Scheduler Thread - 9/INFO]: [TuSKe] Generating documentation of Skript & Addons.
+[14:05:31] [Craft Scheduler Thread - 9/INFO]: [TuSKe] Documentation was generated successfully.
+[14:05:36] [User Authenticator #1/INFO]: UUID of player BagelBen is de7c8bdc-7714-32cc-88f5-99f4b88c66e4
+[14:05:36] [Server thread/INFO]: BagelBen[/127.0.0.1:52904] logged in with entity id 239 at ([lobby]-15.0, 4.0, -195.5)
+[14:05:37] [Craft Scheduler Thread - 9/INFO]: [info.itsthesky.libs.jda.api.JDA] Login Successful!
+[14:05:37] [Craft Scheduler Thread - 9/INFO]: [DiSky] The bot named 'AuthBot' seems to be loaded correctly!
+[14:05:38] [JDA MainWS-ReadThread/INFO]: [info.itsthesky.libs.jda.internal.requests.WebSocketClient] Connected to WebSocket
+[14:05:38] [JDA MainWS-ReadThread/INFO]: [info.itsthesky.libs.jda.api.JDA] Finished Loading!
+[14:05:46] [User Authenticator #1/INFO]: UUID of player FoxInDirt is ed7692b0-1c65-3d75-b703-ae314bee4b74
+[14:05:46] [Server thread/INFO]: FoxInDirt[/127.0.0.1:52918] logged in with entity id 261 at ([lobby]-15.0, 4.0, -195.5)
+[14:05:47] [Server thread/INFO]: HornyDog lost connection: Disconnected
+[14:05:49] [User Authenticator #1/INFO]: UUID of player HornyDog is 04a097ae-9262-3ac7-a809-39e7d46f9528
+[14:05:49] [Server thread/INFO]: HornyDog[/127.0.0.1:52928] logged in with entity id 285 at ([lobby]-15.0, 4.0, -195.5)
+[14:05:51] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:05:51] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:06:06] [Server thread/INFO]: 530.5, 53, 649.5
+[14:06:06] [Server thread/INFO]: 530.5, 53, 655.5
+[14:06:07] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:06:08] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:06:15] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[14:06:15] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[14:06:17] [Server thread/INFO]: BagelBen lost connection: Disconnected
+[14:06:18] [User Authenticator #1/INFO]: UUID of player BagelBen is de7c8bdc-7714-32cc-88f5-99f4b88c66e4
+[14:06:19] [Server thread/INFO]: BagelBen[/127.0.0.1:52934] logged in with entity id 392 at ([lobby]-15.0, 4.0, -195.5)
+[14:06:29] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:06:29] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:06:36] [Server thread/INFO]: HornyDog issued server command: /clear
+[14:06:36] [Server thread/INFO]: [HornyDog: Removed 36 items from player HornyDog]
+[14:06:48] [Server thread/INFO]: 530.5, 53, 649.5
+[14:06:48] [Server thread/INFO]: 530.5, 53, 655.5
+[14:06:49] [Server thread/INFO]: 530.5, 53, 649.5
+[14:06:49] [Server thread/INFO]: 530.5, 53, 655.5
+[14:07:05] [Server thread/INFO]: BagelBen issued server command: /gm 1
+[14:07:07] [Server thread/INFO]: BagelBen issued server command: /gamemode 1
+[14:07:11] [Server thread/INFO]: BagelBen issued server command: /gamemode creative
+[14:07:11] [Server thread/INFO]: [BagelBen: Set own game mode to Creative Mode]
+[14:07:15] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[14:07:15] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[14:07:30] [User Authenticator #2/INFO]: UUID of player negar is 1bfc5a52-a9b7-34de-b054-37c3ed0c77f9
+[14:07:30] [Server thread/INFO]: negar[/127.0.0.1:52950] logged in with entity id 583 at ([lobby]-15.0, 4.0, -195.5)
+[14:07:36] [Server thread/INFO]: HornyDog issued server command: /tp BagelBen
+[14:07:36] [Server thread/INFO]: [HornyDog: Teleported HornyDog to BagelBen]
+[14:07:44] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:07:44] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:07:44] [Server thread/INFO]: HornyDog issued server command: /gamemode creative
+[14:07:44] [Server thread/INFO]: [HornyDog: Set own game mode to Creative Mode]
+[14:08:10] [Netty Epoll Server IO #1/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.brewing_stand.brew
+[14:08:24] [Netty Epoll Server IO #1/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.brewing_stand.brew
+[14:08:27] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[14:08:27] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[14:08:43] [Server thread/INFO]: 530.5, 53, 649.5
+[14:08:43] [Server thread/INFO]: 530.5, 53, 655.5
+[14:09:27] [Server thread/INFO]: negar issued server command: /ooc
+[14:09:27] [Server thread/INFO]: negar [1bfc5a52-a9b7-34de-b054-37c3ed0c77f9]: /ooc
+[14:09:27] [Netty Epoll Server IO #1/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.end_portal_frame.fill
+[14:09:27] [Netty Epoll Server IO #1/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.brewing_stand.brew
+[14:09:33] [Server thread/WARN]: [Skellett] Loaded class org.json.JSONObject from SkQuery v4.1.3 which is not a depend, softdepend or loadbefore of this plugin.
+[14:10:09] [Server thread/INFO]: BagelBen issued server command: /ok
+[14:10:27] [Server thread/INFO]: FoxInDirt issued server command: /tp negar
+[14:10:27] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to negar]
+[14:10:33] [Server thread/INFO]: HornyDog issued server command: /whitelist
+[14:10:36] [Server thread/INFO]: HornyDog issued server command: /whitelist on
+[14:10:36] [Server thread/INFO]: [HornyDog: Whitelist is now turned on]
+[14:12:20] [Server thread/INFO]: HornyDog issued server command: /testrel
+[14:12:20] [Server thread/INFO]: HornyDog [04a097ae-9262-3ac7-a809-39e7d46f9528]: /testrel
+[14:12:22] [Server thread/INFO]: START REL WORKER
+[14:12:26] [Server thread/INFO]: negar issued server command: /testRel
+[14:12:26] [Server thread/INFO]: negar [1bfc5a52-a9b7-34de-b054-37c3ed0c77f9]: /testRel
+[14:12:26] [Server thread/INFO]: START REL WORKER
+[14:12:36] [Server thread/INFO]: FoxInDirt issued server command: /gamemode spectator
+[14:12:36] [Server thread/INFO]: [FoxInDirt: Set own game mode to Spectator Mode]
+[14:12:38] [Server thread/INFO]: OPEN MENU
+[14:12:42] [Server thread/INFO]: OPEN MENU
+[14:12:42] [Server thread/INFO]: OPEN MENU
+[14:12:42] [Server thread/INFO]: OPEN MENU
+[14:12:43] [Server thread/INFO]: OPEN MENU
+[14:12:43] [Server thread/INFO]: OPEN MENU
+[14:12:43] [Server thread/INFO]: OPEN MENU
+[14:12:43] [Server thread/INFO]: OPEN MENU
+[14:12:43] [Server thread/INFO]: OPEN MENU
+[14:12:44] [Server thread/INFO]: OPEN MENU
+[14:12:44] [Server thread/INFO]: OPEN MENU
+[14:12:44] [Server thread/INFO]: OPEN MENU
+[14:12:48] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[14:12:48] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[14:13:08] [Server thread/INFO]: BagelBen issued server command: //set 208
+[14:13:19] [Server thread/INFO]: BagelBen issued server command: /tp BagelBen negar
+[14:13:19] [Server thread/INFO]: [BagelBen: Teleported BagelBen to negar]
+[14:13:52] [Server thread/INFO]: FoxInDirt issued server command: /tp negar
+[14:13:52] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to negar]
+[14:13:55] [Server thread/INFO]: BagelBen issued server command: /tp BagelBen negar
+[14:13:55] [Server thread/INFO]: [BagelBen: Teleported BagelBen to negar]
+[14:14:19] [Server thread/INFO]: negar tried to swim in lava
+[14:14:20] [Server thread/INFO]: Attempt to teleport dead player negar restricted
+[14:14:20] [Server thread/INFO]: Attempt to teleport dead player negar restricted
+[14:14:24] [Server thread/INFO]: FoxInDirt issued server command: /gamemode spectator
+[14:14:24] [Server thread/INFO]: [FoxInDirt: Set own game mode to Spectator Mode]
+[14:14:27] [Server thread/INFO]: BagelBen issued server command: /gamemode spectator
+[14:14:27] [Server thread/INFO]: [BagelBen: Set own game mode to Spectator Mode]
+[14:14:27] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[14:14:27] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[14:14:42] [Server thread/INFO]: BagelBen issued server command: /gamemode creative
+[14:14:42] [Server thread/INFO]: [BagelBen: Set own game mode to Creative Mode]
+[14:14:53] [Server thread/INFO]: negar issued server command: /tp BagelBen
+[14:15:38] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[14:15:38] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[14:15:40] [Server thread/INFO]: BagelBen issued server command: /tp negar BagelBen
+[14:15:40] [Server thread/INFO]: [BagelBen: Teleported negar to BagelBen]
+[14:16:52] [Server thread/INFO]: BagelBen issued server command: /gamemode 1 negar
+[14:17:00] [Server thread/INFO]: BagelBen issued server command: /gamemode creative negar
+[14:17:00] [Server thread/INFO]: [BagelBen: Set negar's game mode to Creative Mode]
+[14:17:43] [Server thread/INFO]: negar lost connection: Disconnected
+[14:17:43] [Server thread/INFO]: STOP REL WORKER
+[14:17:55] [Server thread/INFO]: BagelBen issued server command: //set 13 1:3 1
+[14:18:08] [Server thread/INFO]: BagelBen issued server command: //set 13, 1:3, 1
+[14:18:13] [Server thread/INFO]: BagelBen issued server command: //set 13,1:3,1
+[14:18:22] [Server thread/INFO]: BagelBen issued server command: //set 13,1:5,1
+[14:20:30] [Server thread/INFO]: BagelBen issued server command: //set
+[14:20:59] [Server thread/INFO]: BagelBen issued server command: //set 159:9,252:7,35:7
+[14:21:10] [Server thread/INFO]: BagelBen issued server command: //set 159:9,252:7,35:7
+[14:21:53] [Server thread/INFO]: BagelBen issued server command: /gamemode spectator
+[14:21:53] [Server thread/INFO]: [BagelBen: Set own game mode to Spectator Mode]
+[14:21:56] [Server thread/INFO]: BagelBen issued server command: /gamemode creative
+[14:21:56] [Server thread/INFO]: [BagelBen: Set own game mode to Creative Mode]
+[14:22:03] [Server thread/INFO]: BagelBen issued server command: /gamemode spectator
+[14:22:03] [Server thread/INFO]: [BagelBen: Set own game mode to Spectator Mode]
+[14:22:11] [Server thread/INFO]: BagelBen issued server command: /gamemode creative
+[14:22:11] [Server thread/INFO]: [BagelBen: Set own game mode to Creative Mode]
+[14:23:18] [Server thread/INFO]: BagelBen issued server command: //set 13,1:5,1
+[14:23:48] [Server thread/INFO]: FoxInDirt issued server command: //set grass_path
+[14:32:10] [Server thread/INFO]: FoxInDirt issued server command: //expand 1 up
+[14:32:11] [Server thread/INFO]: FoxInDirt issued server command: //set 0
+[14:32:14] [Server thread/INFO]: BagelBen issued server command: /gamemode spectator
+[14:32:14] [Server thread/INFO]: [BagelBen: Set own game mode to Spectator Mode]
+[14:32:16] [Server thread/INFO]: BagelBen issued server command: /gamemode creative
+[14:32:16] [Server thread/INFO]: [BagelBen: Set own game mode to Creative Mode]
+[14:32:17] [Server thread/INFO]: FoxInDirt issued server command: //set dirt
+[14:32:24] [Server thread/INFO]: FoxInDirt issued server command: //set 2
+[14:33:37] [Server thread/INFO]: FoxInDirt issued server command: /gamemode spectator
+[14:33:37] [Server thread/INFO]: [FoxInDirt: Set own game mode to Spectator Mode]
+[14:33:47] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[14:33:47] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[14:34:04] [Server thread/INFO]: HornyDog lost connection: Timed out
+[14:34:04] [Server thread/INFO]: STOP REL WORKER
+[14:43:30] [Server thread/INFO]: BagelBen issued server command: //set 159:9,252:7,35:7
+[14:43:57] [Server thread/INFO]: BagelBen issued server command: //set 0
+[14:44:22] [Server thread/INFO]: BagelBen issued server command: //copy
+[14:44:30] [Server thread/INFO]: BagelBen issued server command: //paste
+[14:44:46] [Server thread/INFO]: BagelBen issued server command: //set 0
+[14:44:50] [Server thread/INFO]: TPS from last 1m, 5m, 15m: 20.0, 20.0, 20.0
+[14:44:53] [Server thread/INFO]: BagelBen issued server command: //set 0
+[14:45:02] [Server thread/INFO]: BagelBen issued server command: //set 0
+[14:47:04] [Server thread/INFO]: BagelBen issued server command: //set 0
+[14:47:26] [Server thread/INFO]: BagelBen issued server command: /tp BagelBen FoxInDirt
+[14:47:26] [Server thread/INFO]: [BagelBen: Teleported BagelBen to FoxInDirt]
+[14:47:26] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen FoxInDirt
+[14:47:26] [Server thread/INFO]: [FoxInDirt: Teleported BagelBen to FoxInDirt]
+[14:47:31] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen FoxInDirt
+[14:47:31] [Server thread/INFO]: [FoxInDirt: Teleported BagelBen to FoxInDirt]
+[14:48:27] [Server thread/INFO]: BagelBen issued server command: //set 13,1:5,1
+[14:49:45] [Server thread/INFO]: FoxInDirt issued server command: //wand
+[14:50:03] [Server thread/INFO]: FoxInDirt issued server command: //set grass_path
+[14:59:08] [User Authenticator #3/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[14:59:08] [Server thread/INFO]: Semyon[/127.0.0.1:53124] logged in with entity id 1388 at ([lobby]-15.0, 4.0, -195.5)
+[14:59:25] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:59:26] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[14:59:35] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[14:59:35] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[14:59:53] [Netty Epoll Server IO #3/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.brewing_stand.brew
+[15:00:06] [Server thread/INFO]: 530.5, 53, 649.5
+[15:00:06] [Server thread/INFO]: 530.5, 53, 655.5
+[15:00:10] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[15:00:10] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[15:00:15] [Server thread/INFO]: Semyon issued server command: /tp BagelBen
+[15:00:15] [Server thread/INFO]: [Semyon: Teleported Semyon to BagelBen]
+[15:02:19] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen FoxInDirt
+[15:02:19] [Server thread/INFO]: [FoxInDirt: Teleported BagelBen to FoxInDirt]
+[15:02:21] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen FoxInDirt
+[15:02:21] [Server thread/INFO]: [FoxInDirt: Teleported BagelBen to FoxInDirt]
+[15:03:19] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon 111 1111 111
+[15:03:21] [Server thread/INFO]: [FoxInDirt: Teleported Semyon to 111.5, 1111.0, 111.5]
+[15:03:35] [Server thread/INFO]: Semyon issued server command: /gamemode survival
+[15:03:35] [Server thread/INFO]: [Semyon: Set own game mode to Survival Mode]
+[15:03:36] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen FoxInDirt
+[15:03:36] [Server thread/INFO]: [FoxInDirt: Teleported BagelBen to FoxInDirt]
+[15:03:44] [Server thread/INFO]: Semyon fell from a high place
+[15:03:46] [Server thread/INFO]: FoxInDirt issued server command: /gamemode spectator
+[15:03:46] [Server thread/INFO]: [FoxInDirt: Set own game mode to Spectator Mode]
+[15:03:48] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen FoxInDirt
+[15:03:48] [Server thread/INFO]: [FoxInDirt: Teleported BagelBen to FoxInDirt]
+[15:03:50] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[15:03:50] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[15:04:09] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[15:04:09] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[15:04:11] [Server thread/INFO]: Semyon issued server command: /tp BagelBen
+[15:04:11] [Server thread/INFO]: [Semyon: Teleported Semyon to BagelBen]
+[15:12:54] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon 111111 1111111 111111
+[15:12:54] [Server thread/INFO]: [FoxInDirt: Teleported Semyon to 111111.5, 1111111.0, 111111.5]
+[15:13:04] [Server thread/INFO]: Semyon issued server command: /tp BagelBen
+[15:13:04] [Server thread/INFO]: [Semyon: Teleported Semyon to BagelBen]
+[15:13:07] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[15:13:07] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[15:14:06] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,172,1:1
+[15:14:08] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,172,1:1
+[15:14:09] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,172,1:1
+[15:14:10] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,172,1:1
+[15:14:15] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:20] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:26] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:30] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:31] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:32] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:33] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:34] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:39] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:41] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:45] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:47] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:47] [Server thread/INFO]: FoxInDirt issued server command: /sphere
+[15:14:48] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:48] [Server thread/INFO]: FoxInDirt issued server command: /sphere
+[15:14:49] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:51] [Server thread/INFO]: FoxInDirt issued server command: //sphere
+[15:14:52] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:53] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:54] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:55] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:56] [Server thread/INFO]: FoxInDirt issued server command: //sphere 1 1 1
+[15:14:56] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:14:59] [Server thread/INFO]: FoxInDirt issued server command: //sphere 1 1
+[15:15:01] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:15:58] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:16:01] [Server thread/INFO]: BagelBen issued server command: //set 45,1:2,1:1
+[15:16:12] [Server thread/INFO]: FoxInDirt issued server command: //undo
+[15:17:29] [Server thread/INFO]: BagelBen issued server command: //set 0
+[15:19:31] [Server thread/INFO]: FoxInDirt issued server command: //sphere 1 1
+[15:25:31] [Server thread/INFO]: FoxInDirt issued server command: /co i
+[15:41:22] [Server thread/INFO]: BagelBen issued server command: //set andesite
+[15:41:31] [Server thread/INFO]: BagelBen issued server command: //set 1:5
+[15:41:36] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:44] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:45] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:45] [Server thread/INFO]: BagelBen issued server command: /
+[15:41:46] [Server thread/INFO]: BagelBen issued server command: /
+[15:41:47] [Server thread/INFO]: BagelBen issued server command: /
+[15:41:48] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:48] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:49] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:50] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:50] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:51] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:51] [Server thread/INFO]: BagelBen issued server command: /
+[15:41:52] [Server thread/INFO]: BagelBen issued server command: /
+[15:41:53] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:54] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:55] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:56] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:41:56] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:02] [Server thread/INFO]: BagelBen issued server command: //set 1:6
+[15:42:14] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:18] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:19] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:31] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:33] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:33] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:34] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:35] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:35] [Server thread/INFO]: BagelBen issued server command: /
+[15:42:37] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:37] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:38] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:39] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:40] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:45] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:46] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:47] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:48] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:48] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:49] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:50] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:50] [Server thread/INFO]: BagelBen issued server command: /
+[15:42:52] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:52] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:53] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:42:56] [Server thread/INFO]: BagelBen issued server command: //set 1:5,1:6
+[15:44:01] [Server thread/INFO]: Semyon issued server command: /gamemode survival FoxInDirt
+[15:44:01] [Server thread/INFO]: [Semyon: Set FoxInDirt's game mode to Survival Mode]
+[15:44:10] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[15:44:10] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[15:44:16] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon FoxInDirt
+[15:44:16] [Server thread/INFO]: [FoxInDirt: Teleported Semyon to FoxInDirt]
+[15:44:23] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[15:44:23] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[15:46:29] [Server thread/INFO]: Semyon issued server command: /gamemode survival
+[15:46:29] [Server thread/INFO]: [Semyon: Set own game mode to Survival Mode]
+[15:46:31] [Server thread/INFO]: Semyon fell from a high place
+[15:46:40] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[15:46:40] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[15:54:54] [Server thread/INFO]: FoxInDirt issued server command: /day
+[15:54:56] [Server thread/INFO]: FoxInDirt issued server command: /time set day
+[15:54:56] [Server thread/INFO]: [FoxInDirt: Set the time to 1000]
+[15:55:00] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[15:55:00] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[15:55:02] [Server thread/INFO]: FoxInDirt issued server command: /time set night
+[15:55:02] [Server thread/INFO]: [FoxInDirt: Set the time to 13000]
+[15:55:08] [Server thread/INFO]: FoxInDirt issued server command: /time set midnight
+[15:55:08] [Server thread/INFO]: [FoxInDirt: Set the time to 18000]
+[15:55:12] [Server thread/INFO]: FoxInDirt issued server command: /time set noon
+[15:55:12] [Server thread/INFO]: [FoxInDirt: Set the time to 6000]
+[15:55:17] [Server thread/INFO]: FoxInDirt issued server command: /time set noon
+[15:55:17] [Server thread/INFO]: [FoxInDirt: Set the time to 6000]
+[15:55:18] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[15:55:18] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[15:55:21] [Server thread/INFO]: FoxInDirt issued server command: /time set midnight
+[15:55:21] [Server thread/INFO]: [FoxInDirt: Set the time to 18000]
+[15:55:27] [Server thread/INFO]: BagelBen issued server command: /kick Semyon
+[15:55:27] [Server thread/INFO]: Semyon lost connection: Kicked by an operator
+[15:55:27] [Server thread/INFO]: [BagelBen: Kicked Semyon: Kicked by an operator]
+[15:55:29] [Server thread/INFO]: BagelBen issued server command: /kick FoxInDirt
+[15:55:29] [Server thread/INFO]: FoxInDirt lost connection: Kicked by an operator
+[15:55:29] [Server thread/INFO]: [BagelBen: Kicked FoxInDirt: Kicked by an operator]
+[15:55:32] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[15:55:32] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[15:55:33] [User Authenticator #4/INFO]: UUID of player FoxInDirt is ed7692b0-1c65-3d75-b703-ae314bee4b74
+[15:55:33] [Server thread/INFO]: FoxInDirt[/127.0.0.1:53314] logged in with entity id 1623 at ([lobby]-15.0, 4.0, -195.5)
+[15:55:37] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[15:55:37] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[15:55:38] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[15:55:38] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[15:55:45] [User Authenticator #4/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[15:55:45] [Server thread/INFO]: Semyon[/127.0.0.1:53320] logged in with entity id 1717 at ([lobby]-15.0, 4.0, -195.5)
+[15:55:48] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[15:55:48] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[15:55:52] [Server thread/INFO]: 530.5, 53, 649.5
+[15:55:52] [Server thread/INFO]: 530.5, 53, 655.5
+[15:55:57] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[15:55:57] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[15:56:00] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[15:56:00] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[15:56:02] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[15:56:02] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[15:56:12] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[15:56:12] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[15:56:21] [Netty Epoll Server IO #1/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.brewing_stand.brew
+[15:56:26] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[15:56:26] [Netty Epoll Server IO #1/WARN]: [ViaBackwards] Unknown named sound in 1.13->1.12 protocol: minecraft:block.brewing_stand.brew
+[15:56:27] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[15:56:46] [Server thread/INFO]: 530.5, 53, 649.5
+[15:56:46] [Server thread/INFO]: 530.5, 53, 655.5
+[15:56:53] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[15:56:53] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[15:57:11] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor
+[15:57:14] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor 5
+[15:57:15] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor 4
+[15:57:19] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor:4
+[15:57:21] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor:5
+[15:57:23] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor:
+[15:57:25] [Server thread/INFO]: BagelBen issued server command: //set iron_Trapdoor
+[15:57:38] [Server thread/INFO]: BagelBen issued server command: /give BagelBen minecraft:debug_stick
+[15:57:38] [Server thread/INFO]: [BagelBen: Gave 1 [Debug Stick] to BagelBen]
+[15:57:49] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[15:57:49] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:00:11] [Server thread/INFO]: Semyon lost connection: Disconnected
+[16:00:36] [User Authenticator #5/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:00:36] [Server thread/INFO]: Semyon[/127.0.0.1:53358] logged in with entity id 1926 at ([lobby]-15.0, 4.0, -195.5)
+[16:00:49] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[16:00:49] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[16:01:06] [Server thread/INFO]: 530.5, 53, 649.5
+[16:01:06] [Server thread/INFO]: 530.5, 53, 655.5
+[16:01:09] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:01:09] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:01:46] [Server thread/INFO]: Semyon fell from a high place
+[16:01:55] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:01:55] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:02:10] [Server thread/INFO]: FoxInDirt issued server command: /gamemode spectator
+[16:02:10] [Server thread/INFO]: [FoxInDirt: Set own game mode to Spectator Mode]
+[16:02:12] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[16:02:12] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[16:02:39] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:02:39] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:02:47] [Server thread/INFO]: Semyon fell from a high place
+[16:02:52] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:02:52] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:03:11] [Server thread/WARN]: Semyon moved wrongly!
+[16:03:51] [Server thread/INFO]: FoxInDirt issued server command: /gamemode spectator
+[16:03:51] [Server thread/INFO]: [FoxInDirt: Set own game mode to Spectator Mode]
+[16:03:54] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[16:03:54] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[16:04:24] [Server thread/INFO]: Semyon was slain by FoxInDirt
+[16:04:28] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:28] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:33] [Server thread/INFO]: Semyon issued server command: /gamemode spectator
+[16:04:33] [Server thread/INFO]: [Semyon: Set own game mode to Spectator Mode]
+[16:04:40] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:40] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:41] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:41] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:42] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:42] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:43] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:43] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:43] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:43] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:44] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:44] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:44] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:44] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:45] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:45] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:45] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:45] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:47] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:47] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:47] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:47] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:48] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:48] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:48] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:48] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:49] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:49] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:50] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:50] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:50] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:50] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:51] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:51] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:51] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:51] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:52] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:52] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:52] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:52] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:53] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:53] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:53] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:53] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:54] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:54] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:54] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:54] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:54] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:54] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:55] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:55] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:55] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:55] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:56] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:56] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:57] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:57] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:58] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:58] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:58] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:58] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:04:59] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:04:59] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:01] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:01] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:01] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:01] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:02] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:02] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:02] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:02] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:03] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:03] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:08] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:08] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:09] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:09] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:10] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon
+[16:05:10] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to Semyon]
+[16:05:12] [Server thread/INFO]: Semyon issued server command: /gamemode survival FoxInDirt
+[16:05:12] [Server thread/INFO]: [Semyon: Set FoxInDirt's game mode to Survival Mode]
+[16:05:12] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[16:05:12] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[16:05:15] [Server thread/INFO]: FoxInDirt issued server command: /tp Semyon BagelBen
+[16:05:15] [Server thread/INFO]: [FoxInDirt: Teleported Semyon to BagelBen]
+[16:05:20] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[16:05:20] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[16:06:40] [Server thread/INFO]: Semyon issued server command: /gamemode survival FoxInDirt
+[16:06:40] [Server thread/INFO]: [Semyon: Set FoxInDirt's game mode to Survival Mode]
+[16:06:45] [Server thread/INFO]: FoxInDirt issued server command: /gamemode creative
+[16:06:45] [Server thread/INFO]: [FoxInDirt: Set own game mode to Creative Mode]
+[16:06:46] [Server thread/INFO]: Semyon issued server command: /tphere FoxInDirt
+[16:06:48] [Server thread/INFO]: FoxInDirt issued server command: /kill Semyon
+[16:06:48] [Server thread/INFO]: Semyon fell out of the world
+[16:06:48] [Server thread/INFO]: [FoxInDirt: Killed Semyon]
+[16:06:55] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:06:55] [Server thread/INFO]: FoxInDirt fell out of the world
+[16:06:55] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:06:59] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:06:59] [Server thread/INFO]: FoxInDirt fell out of the world
+[16:06:59] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:00] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:00] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:01] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:01] [Server thread/INFO]: FoxInDirt fell out of the world
+[16:07:01] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:02] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:02] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:02] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:02] [Server thread/INFO]: FoxInDirt fell out of the world
+[16:07:02] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:03] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:03] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:04] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:04] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:04] [Server thread/INFO]: Semyon issued server command: /kill FoxInDirt
+[16:07:04] [Server thread/INFO]: [Semyon: Killed FoxInDirt]
+[16:07:09] [Server thread/INFO]: Semyon issued server command: /ban Semyon
+[16:07:09] [Server thread/INFO]: [Semyon: Banned Semyon: Banned by an operator.]
+[16:07:09] [Server thread/INFO]: Semyon lost connection: You are banned from this server
+[16:07:14] [Server thread/INFO]: FoxInDirt issued server command: /kill se
+[16:07:16] [Server thread/INFO]: FoxInDirt issued server command: /tp BagelBen
+[16:07:16] [Server thread/INFO]: [FoxInDirt: Teleported FoxInDirt to BagelBen]
+[16:07:17] [User Authenticator #6/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:07:17] [Server thread/INFO]: Disconnecting com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53374): You are banned from this server.
+Reason: Banned by an operator.
+[16:07:17] [Server thread/INFO]: com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53374) lost connection: You are banned from this server.
+Reason: Banned by an operator.
+[16:07:37] [User Authenticator #6/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:07:37] [Server thread/INFO]: Disconnecting com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53378): You are banned from this server.
+Reason: Banned by an operator.
+[16:07:37] [Server thread/INFO]: com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53378) lost connection: You are banned from this server.
+Reason: Banned by an operator.
+[16:07:55] [User Authenticator #6/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:07:55] [Server thread/INFO]: Disconnecting com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53384): You are banned from this server.
+Reason: Banned by an operator.
+[16:07:55] [Server thread/INFO]: com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53384) lost connection: You are banned from this server.
+Reason: Banned by an operator.
+[16:08:32] [Server thread/INFO]: BagelBen issued server command: /time set day\
+[16:08:35] [Server thread/INFO]: BagelBen issued server command: /time set day
+[16:08:35] [Server thread/INFO]: [BagelBen: Set the time to 1000]
+[16:08:39] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[16:08:39] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[16:08:47] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[16:08:47] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[16:08:49] [User Authenticator #6/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:08:49] [Server thread/INFO]: Disconnecting com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53400): You are banned from this server.
+Reason: Banned by an operator.
+[16:08:49] [Server thread/INFO]: com.mojang.authlib.GameProfile@74f6fb3f[id=3e1d3a79-50ff-317d-a31f-93ff28919ef7,name=Semyon,properties={},legacy=false] (/127.0.0.1:53400) lost connection: You are banned from this server.
+Reason: Banned by an operator.
+[16:08:54] [Server thread/INFO]: BagelBen issued server command: /pardon Semyon
+[16:08:54] [Server thread/INFO]: [BagelBen: Unbanned Semyon]
+[16:08:55] [User Authenticator #6/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:08:55] [Server thread/INFO]: Semyon[/127.0.0.1:53408] logged in with entity id 2083 at ([lobby]-15.0, 4.0, -195.5)
+[16:08:59] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[16:08:59] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[16:09:02] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[16:09:02] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[16:09:13] [Server thread/INFO]: Semyon lost connection: Disconnected
+[16:09:19] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[16:09:19] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[16:09:36] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[16:09:36] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[16:09:48] [Server thread/INFO]: BagelBen issued server command: /time set 5000
+[16:09:48] [Server thread/INFO]: [BagelBen: Set the time to 5000]
+[16:10:03] [Server thread/INFO]: FoxInDirt issued server command: /time set day
+[16:10:03] [Server thread/INFO]: [FoxInDirt: Set the time to 1000]
+[16:10:13] [Server thread/INFO]: FoxInDirt issued server command: /time set midnight
+[16:10:13] [Server thread/INFO]: [FoxInDirt: Set the time to 18000]
+[16:10:16] [Server thread/INFO]: FoxInDirt issued server command: /time set night
+[16:10:16] [Server thread/INFO]: [FoxInDirt: Set the time to 13000]
+[16:14:57] [Server thread/INFO]: BagelBen issued server command: /kick FoxInDirt
+[16:14:57] [Server thread/INFO]: FoxInDirt lost connection: Kicked by an operator
+[16:14:57] [Server thread/INFO]: [BagelBen: Kicked FoxInDirt: Kicked by an operator]
+[16:15:02] [Server thread/INFO]: BagelBen lost connection: Disconnected
+[16:23:16] [User Authenticator #7/INFO]: UUID of player Semyon is 3e1d3a79-50ff-317d-a31f-93ff28919ef7
+[16:23:16] [Server thread/INFO]: Semyon[/127.0.0.1:53488] logged in with entity id 2156 at ([lobby]-15.0, 4.0, -195.5)
+[16:23:24] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[16:23:24] [Server thread/INFO]: ⚠ Неизвестная команда. Используйте /help для помощи
+[16:23:41] [Server thread/INFO]: 530.5, 53, 649.5
+[16:23:41] [Server thread/INFO]: 530.5, 53, 655.5
+[16:23:52] [Server thread/INFO]: Semyon issued server command: /gamemode creative
+[16:23:52] [Server thread/INFO]: [Semyon: Set own game mode to Creative Mode]
+[16:24:40] [Server thread/INFO]: Semyon issued server command: /time set day
+[16:24:40] [Server thread/INFO]: [Semyon: Set the time to 1000]
+[16:26:33] [Server thread/INFO]: Semyon issued server command: /time set day
+[16:26:33] [Server thread/INFO]: [Semyon: Set the time to 1000]
+[16:31:46] [Server thread/INFO]: Semyon issued server command: //copy
+[16:31:53] [Server thread/INFO]: Semyon issued server command: //paste
+[16:31:57] [Server thread/INFO]: Semyon issued server command: //undo
+[16:32:01] [Server thread/INFO]: Semyon issued server command: //set 0
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! [Skript] Severe Error:
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Something went horribly wrong with Skript.
+[16:32:02] [Server thread/ERROR]: #!#! This issue is NOT your fault! You probably can't fix it yourself, either.
+[16:32:02] [Server thread/ERROR]: #!#! It looks like you are using some plugin(s) that alter how Skript works (addons).
+[16:32:02] [Server thread/ERROR]: #!#! Here is full list of them:
+[16:32:02] [Server thread/ERROR]: #!#! skript-reflect v2.1.0 (https://github.com/TPGamesNL/skript-reflect) SkriptJSON v1.0.0 TuSKe v1.8.2-Pikachu-Patch-3 (github.com/Tuke-Nuke/TuSKe) DiSky v1.13 (https://disky.itsthesky.info/) skript-holo v1.0.2 (https://github.com/Blueyescat/skript-holo) SkBee v1.10.2 (https://github.com/ShaneBeee/SkBee) skript-yaml v1.3.2 SkQuery v4.1.3 Skellett v1.9.11 (https://forums.skunity.com/resources/skellett.24/) Reqn v1.2.3 
+[16:32:02] [Server thread/ERROR]: #!#! We could not identify which of those are specially related, so this might also be Skript issue.
+[16:32:02] [Server thread/ERROR]: #!#! You should try disabling those plugins one by one, trying to find which one causes it.
+[16:32:02] [Server thread/ERROR]: #!#! If the error doesn't disappear even after disabling all listed plugins, it is probably Skript issue.
+[16:32:02] [Server thread/ERROR]: #!#! In that case, you will be given instruction on how should you report it.
+[16:32:02] [Server thread/ERROR]: #!#! On the other hand, if the error disappears when disabling some plugin, report it to author of that plugin.
+[16:32:02] [Server thread/ERROR]: #!#! Only if the author tells you to do so, report it to Skript's issue tracker.
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Stack trace:
+[16:32:02] [Server thread/ERROR]: #!#! java.lang.ClassCastException: class org.bukkit.event.hanging.HangingBreakEvent cannot be cast to class org.bukkit.event.hanging.HangingBreakByEntityEvent (org.bukkit.event.hanging.HangingBreakEvent and org.bukkit.event.hanging.HangingBreakByEntityEvent are in unnamed module of loader 'app')
+[16:32:02] [Server thread/ERROR]: #!#!     at com.gmail.thelimeglass.Register$46.get(Register.java:566)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.registrations.EventValues$2.get(EventValues.java:267)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.registrations.EventValues$2.get(EventValues.java:1)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.expressions.base.EventValueExpression.getValue(EventValueExpression.java:100)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.expressions.base.EventValueExpression.get(EventValueExpression.java:86)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.util.SimpleExpression.getArray(SimpleExpression.java:100)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.expressions.ExprEntity.get(ExprEntity.java:112)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.expressions.ExprEntity.get(ExprEntity.java:1)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.util.SimpleExpression.getArray(SimpleExpression.java:100)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.VariableString.toString(VariableString.java:464)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Variable.getRaw(Variable.java:275)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Variable.get(Variable.java:287)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Variable.getConverted(Variable.java:431)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Variable.getAll(Variable.java:660)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Variable.check(Variable.java:682)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.conditions.CondCompare.check(CondCompare.java:308)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Condition.run(Condition.java:55)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Conditional.walk(Conditional.java:50)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.TriggerItem.walk(TriggerItem.java:88)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.lang.Trigger.execute(Trigger.java:56)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.SkriptEventHandler.check(SkriptEventHandler.java:153)
+[16:32:02] [Server thread/ERROR]: #!#!     at ch.njol.skript.SkriptEventHandler$1.execute(SkriptEventHandler.java:111)
+[16:32:02] [Server thread/ERROR]: #!#!     at co.aikar.timings.TimedEventExecutor.execute(TimedEventExecutor.java:80)
+[16:32:02] [Server thread/ERROR]: #!#!     at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:70)
+[16:32:02] [Server thread/ERROR]: #!#!     at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:607)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.EntityHanging.tick(EntityHanging.java:116)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.WorldServer.entityJoinedWorld(WorldServer.java:845)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.World.a(World.java:887)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.WorldServer.doTick(WorldServer.java:530)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.MinecraftServer.b(MinecraftServer.java:1355)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.DedicatedServer.b(DedicatedServer.java:377)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.MinecraftServer.a(MinecraftServer.java:1208)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.MinecraftServer.w(MinecraftServer.java:996)
+[16:32:02] [Server thread/ERROR]: #!#!     at net.minecraft.server.v1_16_R3.MinecraftServer.lambda$a$0(MinecraftServer.java:173)
+[16:32:02] [Server thread/ERROR]: #!#!     at java.base/java.lang.Thread.run(Thread.java:829)
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Version Information:
+[16:32:02] [Server thread/ERROR]: #!#!   Skript: 2.5.3 (latest)
+[16:32:02] [Server thread/ERROR]: #!#!     Flavor: skriptlang-github
+[16:32:02] [Server thread/ERROR]: #!#!     Date: 2020-12-11
+[16:32:02] [Server thread/ERROR]: #!#!   Bukkit: 1.16.5-R0.1-SNAPSHOT
+[16:32:02] [Server thread/ERROR]: #!#!   Minecraft: 1.16.5
+[16:32:02] [Server thread/ERROR]: #!#!   Java: 11.0.11 (OpenJDK 64-Bit Server VM 11.0.11+9-Ubuntu-0ubuntu2.20.04)
+[16:32:02] [Server thread/ERROR]: #!#!   OS: Linux amd64 5.8.0-59-generic
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Server platform: Paper
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Current node: null
+[16:32:02] [Server thread/ERROR]: #!#! Current item: {defaultRoom::%the player%}(as java.lang.Object) is equal to [[boolean:true]] (comparator: null)
+[16:32:02] [Server thread/ERROR]: #!#! Current trigger: break (break/place/burn/fade/form of <none>) (index.sk, line 200)
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Thread: Server thread
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! Language: english
+[16:32:02] [Server thread/ERROR]: #!#! Link parse mode: DISABLED
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:02] [Server thread/ERROR]: #!#! End of Error.
+[16:32:02] [Server thread/ERROR]: #!#! 
+[16:32:07] [Server thread/INFO]: Semyon issued server command: //paste
+[16:32:54] [Server thread/INFO]: Semyon issued server command: //set 0
+[16:33:02] [Server thread/INFO]: Semyon issued server command: //undo
+[16:33:03] [Server thread/INFO]: Semyon issued server command: //undo
+[16:33:04] [Server thread/INFO]: Semyon issued server command: //undo
+[16:38:32] [Server thread/INFO]: Semyon issued server command: /give Semyon Debug_stick
+[16:38:52] [Server thread/INFO]: Semyon issued server command: /give Semyon Debug_stick
+[16:39:13] [Server thread/INFO]: Semyon issued server command: /give Semyon debug_stick
+[16:39:13] [Server thread/INFO]: [Semyon: Gave 1 [Debug Stick] to Semyon]
+[16:48:27] [Server thread/INFO]: Semyon issued server command: //set 145
+[16:48:46] [Server thread/INFO]: Semyon issued server command: //set 145
+[16:48:48] [Server thread/INFO]: Semyon issued server command: //set 145
+[16:48:52] [Server thread/INFO]: Semyon issued server command: //set 145
+[16:48:54] [Server thread/INFO]: Semyon issued server command: //set 145:1
+[16:48:57] [Server thread/INFO]: Semyon issued server command: //set 145:1
+[16:48:59] [Server thread/INFO]: Semyon issued server command: //set 145:1
+[16:49:01] [Server thread/INFO]: Semyon issued server command: //set 145:1
+[16:49:03] [Server thread/INFO]: Semyon issued server command: //set 145:1
+[16:49:05] [Server thread/INFO]: Semyon issued server command: //set 145:1
+[16:52:20] [Server thread/INFO]: Semyon issued server command: //set 35:7,159:9
+[16:52:29] [Server thread/INFO]: Semyon issued server command: //set 35:7,159:9,252:7
+[16:52:46] [Server thread/INFO]: Semyon issued server command: //set 35:7,159:9,252:7
+[16:53:10] [Server thread/INFO]: Semyon issued server command: //set 1,1:5,13
+[16:56:39] [Server thread/INFO]: Semyon issued server command: //replace 35:7,159:9,252:7 1,1:5,13
+[16:57:21] [Server thread/INFO]: Semyon issued server command: //replace 35:7,159:9,252:7 1,1:5,13
+[17:52:18] [Server thread/INFO]: Semyon lost connection: Timed out
+[18:21:19] [Server thread/INFO]: There are 0 of a max of 20 players online: 
+[18:21:21] [Server thread/INFO]: Stopping the server
+[18:21:21] [Server thread/INFO]: Stopping server
+[18:21:21] [Server thread/INFO]: [TuSKe] Disabling TuSKe v1.8.2-Pikachu-Patch-3
+[18:21:21] [Server thread/INFO]: [skript-yaml] Disabling skript-yaml v1.3.2
+[18:21:21] [Server thread/INFO]: [Skellett] Disabling Skellett v1.9.11
+[18:21:21] [Server thread/INFO]: [skript-holo] Disabling skript-holo v1.0.2
+[18:21:21] [Server thread/INFO]: [HolographicDisplays] Disabling HolographicDisplays v2.4.6
+[18:21:21] [Server thread/INFO]: [SkriptJSON] Disabling SkriptJSON v1.0.0
+[18:21:21] [Server thread/INFO]: [SkQuery] Disabling SkQuery v4.1.3
+[18:21:21] [Server thread/INFO]: [Reqn] Disabling Reqn v1.2.3
+[18:21:21] [Server thread/INFO]: [skript-reflect] Disabling skript-reflect v2.1.0
+[18:21:21] [Server thread/INFO]: [DiSky] Disabling DiSky v1.13
+[18:21:21] [Server thread/WARN]: [DiSky] The bot 'AuthBot' has been disconnected!
+[18:21:21] [Server thread/INFO]: [ProtectionLib] Disabling ProtectionLib v0.9.9
+[18:21:21] [Server thread/INFO]: [SkBee] Disabling SkBee v1.10.2
+[18:21:21] [Server thread/INFO]: [Skript] Disabling Skript v2.5.3
+[18:21:21] [Server thread/INFO]: [FastAsyncWorldEdit] Disabling FastAsyncWorldEdit v1.16-578;16f72d1
+[18:21:21] [Server thread/INFO]: Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[18:21:21] [Server thread/INFO]: [Citizens] Disabling Citizens v2.0.27-SNAPSHOT (build 2247)
+[18:21:21] [Server thread/INFO]: [Multiverse-Core] Disabling Multiverse-Core v4.2.2-b812
+[18:21:21] [Server thread/INFO]: [ProtocolLib] Disabling ProtocolLib v4.6.0-SNAPSHOT-b493
+[18:21:21] [Server thread/INFO]: [ViaBackwards] Disabling ViaBackwards v3.2.0
+[18:21:21] [Server thread/INFO]: [Vault] Disabling Vault v1.7.3-b131
+[18:21:21] [Server thread/INFO]: [ViaVersion] Disabling ViaVersion v3.2.1
+[18:21:21] [Server thread/INFO]: [ViaVersion] ViaVersion is disabling, if this is a reload and you experience issues consider rebooting.
+[18:21:21] [Server thread/INFO]: [HideNametags] Disabling HideNametags v1.3
+[18:21:21] [Server thread/INFO]: [skript-npc] Disabling skript-npc v0.1.2
+[18:21:21] [Server thread/INFO]: [SimpleLay] Disabling SimpleLay v1.0.10
+[18:21:21] [Server thread/INFO]: Saving players
+[18:21:21] [Server thread/INFO]: Saving worlds
+[18:21:21] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[18:21:21] [Server thread/INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[18:21:21] [Server thread/INFO]: Saving chunks for level 'ServerLevel[lobby]'/minecraft:lobby
+[18:21:21] [Server thread/INFO]: ThreadedAnvilChunkStorage (lobby): All chunks are saved
+[18:21:21] [Server thread/INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[18:21:22] [Server thread/INFO]: ThreadedAnvilChunkStorage (lobby): All chunks are saved
+[18:21:22] [Server thread/INFO]: Flushing Chunk IO
+[18:21:22] [Server thread/INFO]: Closing Thread Pool
+[18:21:22] [Server thread/INFO]: Closing Server

@@ -1,4 +1,0 @@
-# TODO:
-# Сделать по-нормальному
-function getAccountID(player: player) :: string:
-  return "%{_player}'s uuid%"

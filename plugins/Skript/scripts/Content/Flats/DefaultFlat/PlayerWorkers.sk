@@ -1,0 +1,9 @@
+function playerWorkers(player: player):
+  # Загружаем данные про ViewWorker'ы для игрока
+  loadRoomsHolograms({_player})
+  loadTerminalViewWorkers({_player})
+  startShopWorker({_player})
+
+  # Запускаем сам ViewWorker
+  wait 5 seconds
+  StartViewWorker({_player})

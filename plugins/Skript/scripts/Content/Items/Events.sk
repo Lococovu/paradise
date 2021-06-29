@@ -1,0 +1,132 @@
+function loadItems():
+  load all yaml from directory "/plugins/Items"
+  loop all of the currently loaded yaml files:
+    set {_file} to loop-value-1
+    set {_nodes::*} to all yaml nodes of {_file}
+
+    loop {_nodes::*}:
+      set {_node} to loop-value-2
+      set {_index} to loop-index parsed as number
+      set {_value} to yaml value loop-value-2 from {_file}
+      
+      # Проверяем...
+      set {_temp::*} to {_node} split at "."
+      set {_size} to size of {_temp::*}
+      {_temp::%{_size}%} is "type"
+      {_value} is "item":
+        set {_node::previous} to {_index} - 1
+        loadItemNode({_nodes::%{_node::previous}%}, {_file})
+
+# Функция, которая займётся загрузкой одного предмета
+# (нужно передать файл, в котором этот предмет находится
+# и местонахождение главной ноды)
+function loadItemNode(node: string, file: string):
+  # Подготавливаем ИД предмета
+  set {_temp::*} to {_node} split at "."
+  set {_size} to size of {_temp::*}
+  set {_id} to {_temp::%{_size}%}
+
+  # Берём самые важные данные про этот предмет
+  set {_item::id} to yaml value "%{_node}%.item" from {_file}
+
+  # @visual
+  set {_item::title} to yaml value "%{_node}%.visual.title" from {_file}
+  if {_item::title} is not set:
+    set {_item::title} to "Пустышка"
+    
+  set {_item::description::*} to yaml list "%{_node}%.visual.description" from {_file}
+  if size of {_item::description::*} is 0:
+    set {_item::description::*} to "Пустое описание"
+
+  set {_item::nbt} to yaml value "%{_node}%.visual.nbt" from {_file}
+
+  # @action
+  set {_action::type} to yaml value "%{_node}%.action.type" from {_file}
+  set {_action::function} to yaml value "%{_node}%.action.function" from {_file}
+
+  {_action::type} is not set:
+    set {_action::type} to "click"
+  {_action::function} is not set:
+    set {_action::function} to "AC_EmptyAction({_player})"
+
+  {_id}, {_item::id} and {_item::title} is set:
+    # Подготавливаем сам предмет
+    set {_item} to {_item::id} parsed as item
+    if {_item} is not set:
+      set {_item} to grass
+    
+    # set {_item}'s name to {_item::title}
+    # set {_item}'s lore to "&0i/%{_item::id}%", "", {_item::description::*}
+
+    # Специальное: nbt
+    if {_item::nbt} is set:
+      add {_item::nbt} to item-nbt of {_item}
+
+    # Загружаем сам предмет в базу данных
+    set {data::items::%{_id}%::id} to {_id}
+    set {data::items::%{_id}%::item} to {_item}
+    set {data::items::%{_id}%::action::type} to {_action::type}
+    set {data::items::%{_id}%::action::function} to {_action::function}
+
+    broadcast "[%{_id}%] Загружен предмет (ITEM ID: %{_item::id}%, TITLE: %{_item::title}%, ACTION TYPE: %{_action::type}%, ACTION FUNCTION: %{_action::function}%)"
+
+    add {_id} to {data::items::list::*}
+
+# Загружаем все предметы
+# из файлов конфигурации
+on load:
+  delete {data::items::*}
+  loadItems()
+
+on place:
+  set {_item} to player's held item
+  set {_lore::*} to lore of {_item}
+  if line 1 of {_item}'s lore contains "i/":
+    set {_line} to {_lore::1}
+    set {_temp::*} to {_line} split at "/"
+    set {_id} to {_temp::2}
+
+    # Берём информацию об предмете
+    set {_action::type} to {data::items::%{_id}%::action::type}
+    if {_action::type} is "place":
+      # Вызываем функцию этого предмета
+      set {_functionId} to "%player%-%random integer between 000 and 999%"
+
+      # Настраиваем переменные
+      set {function::%{_functionId}%::variables::player} to player
+      set {function::%{_functionId}%::variables::location} to event-location
+      set {function::%{_functionId}%::variables::block} to block
+
+      # Сохраняем данные
+      set {function::%{_functionId}%} to {data::items::%{_id}%::action::function}
+
+      # Запускаем функцию
+      evaluateFunction({_functionId})
+    else:
+      cancel event
+
+on click:
+  set {_item} to player's held item
+  set {_lore::*} to lore of {_item}
+  if line 1 of {_item}'s lore contains "i/":
+    set {_line} to {_lore::1}
+    set {_temp::*} to {_line} split at "/"
+    set {_id} to {_temp::2}
+
+    # Берём информацию об предмете
+    set {_action::type} to {data::items::%{_id}%::action::type}
+    if {_action::type} is "click":
+      # Вызываем функцию этого предмета
+      set {_functionId} to "%player%-%random integer between 000 and 999%"
+
+      # Настраиваем переменные
+      set {function::%{_functionId}%::variables::player} to player
+      # set {function::%{_functionId}%::variables::location} to
+
+      # Сохраняем данные
+      set {function::%{_functionId}%} to {data::items::%{_id}%::action::function}
+
+      # Запускаем функцию
+      evaluateFunction({_functionId})
+    else:
+      cancel event

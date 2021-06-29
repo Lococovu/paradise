@@ -13,10 +13,20 @@ function DR_Holo_CharactersCreate(player: player, location: location):
     else:
       stop
 
+
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
-  set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&e▷ &fПКМ"
-  set {_hologram::location} to getLocation("-3967.5, 98, -2217", "world")
+  set {_auth::type} to getIpAuthType({_player})
+
+  if {_auth::type} isn't "guest":
+    set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&e▷ &fПКМ"
+  else:
+    set {_lines::*} to "", "", "&c&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&c✕ &fРазблокируется", "&fпосле Авторизации"
+  
+  set {_hologram::location} to getLocation("530, 65, 588.5", "world")
+
+  if distance between {_player} and {_hologram::location} >= 3.5:
+    stop
   create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
 
   make hologram {_hologram} invisible by default
@@ -33,11 +43,11 @@ function DR_Holo_CharactersCreate(player: player, location: location):
       stop
 
     # Проверяем состояние текущего блока
-    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+    if distance between {_player} and {_hologram::location} >= 3.5:
       delete {hologram::%{_player}%::%{_location}%}
       delete hologram {_hologram}
       stop
-  
+
     if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
       set {hologram::%{_player}%::%{_location}%} to {_hologram}
 
@@ -56,8 +66,17 @@ function DR_Holo_StorageCreate(player: player, location: location):
 
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
-  set {_lines::*} to "", "", "&7&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&e▷ &fПКМ"
-  set {_hologram::location} to getLocation("-3965.500, 98, -2226", "world")
+  set {_auth::type} to getIpAuthType({_player})
+
+  if {_auth::type} isn't "guest":
+    set {_lines::*} to "", "", "&7&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&e▷ &fПКМ"
+  else:
+    set {_lines::*} to "", "", "&c&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&c✕ &fРазблокируется", "&fпосле Авторизации"
+
+  set {_hologram::location} to getLocation("526.5, 65, 588.5", "world")
+
+  if distance between {_player} and {_hologram::location} >= 3.5:
+    stop
   create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
 
   make hologram {_hologram} invisible by default
@@ -74,11 +93,11 @@ function DR_Holo_StorageCreate(player: player, location: location):
       stop
 
     # Проверяем состояние текущего блока
-    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+    if distance between {_player} and {_hologram::location} >= 3.5:
       delete {hologram::%{_player}%::%{_location}%}
       delete hologram {_hologram}
       stop
-  
+
     if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
       set {hologram::%{_player}%::%{_location}%} to {_hologram}
 
@@ -97,7 +116,10 @@ function DR_Holo_ExitCreate(player: player, location: location):
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
   set {_lines::*} to "", "", "&7&lВыход", "&fВыходите из комнаты", "&fиз исследуйте этот мир!", "&9▷ &fПКМ"
-  set {_hologram::location} to getLocation("-3968.5, 98, -2227.5", "world")
+  set {_hologram::location} to getLocation("530.5, 65, 585.5", "world")
+
+  if distance between {_player} and {_hologram::location} >= 3.5:
+    stop
   create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
 
   make hologram {_hologram} invisible by default
@@ -114,11 +136,11 @@ function DR_Holo_ExitCreate(player: player, location: location):
       stop
 
     # Проверяем состояние текущего блока
-    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
+    if distance between {_player} and {_hologram::location} >= 3.5:
       delete {hologram::%{_player}%::%{_location}%}
       delete hologram {_hologram}
       stop
-  
+
     if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
       set {hologram::%{_player}%::%{_location}%} to {_hologram}
 

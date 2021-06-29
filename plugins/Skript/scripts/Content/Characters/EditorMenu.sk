@@ -1,0 +1,216 @@
+function OpenCharacterEditorMenu(player: player):
+  # Открываем меню редактирования персонажа
+  # TODO: Обновить меню под систему мульти-персонажей
+  open virtual chest inventory with size 6 named "&8&lПерсонаж" to {_player}
+
+  # Заполняем всё пустыми блоками
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  format gui slot 13, 21,22,23, 30,31,32, 39,40,41 of {_player} with {_empty}
+
+  # Информация об аккаунте
+  # TODO: доделать
+  # set {_account} to player head named "&e☺ &fАккаунт &7(%{_account::email}%)" with lore "", "&f &fНастройки вашего личного аккаунта &9Lococovu&f,", "&f &fс помощью которого вы заходили на этот сервер.", "", "&7В разработке"
+  # add "{SkullOwner:{Id:""38b6c0a5-c1cb-4e73-927e-178ee492dc52"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTNiZTk3ZDMxOTYyNzg1ZTU3ZjdlMzhlNDkzYjhkM2MwZWIyZjE5OTkzZDBiODJkNjdjYjY5ODM0MmQxODQ2ZiJ9fX0=""}]}}}" to {_account}'s nbt
+
+  # format gui slot 13 of {_player} with {_account}
+
+  # 
+  # РП-Имя
+  set {_profile::name} to getCharacterName({_player}, getCurrentCharacter({_player}))
+
+  set {_rp::name} to player head named "&e♢ &f%{_profile::name}%" with lore "&7Имя вашего персонажа", "", "&f &fИмя и Фамилия вашего персонажа, которые", "&f &fбудут писаться знакомым в чате. Так же", "&f &fданное имя будет фигурировать в вашем паспорте", "&f &fи в других важных вещах, связаанных с РП отыгровкой.", "", "&e✎ &fНажмите, что бы изменить"
+  add "{SkullOwner:{Id:""bd526a61-12d9-4f85-a133-c790c2da83bd"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRiODlhZDA2ZDMxOGYwYWUxZWVhZjY2MGZlYTc4YzM0ZWI1NWQwNWYwMWUxY2Y5OTlmMzMxZmIzMmQzODk0MiJ9fX0=""}]}}}" to {_rp::name}'s nbt
+
+  format gui slot 21 of {_player} with {_rp::name} to run:
+    ChangeProfileSetting({_player}, "rp.name")
+
+  # 
+  # РП-Возраст
+  set {_profile::age} to getCharacterAge({_player}, getCurrentCharacter({_player}))
+
+  set {_rp::age} to  player head named "&e⁰ &f%{_profile::age}% лет" with lore "&7Возраст вашего персонажа", "", "&f &fВозраст вашего персонажа так же будет", "&f &fфигурировать в вашем паспорте, в документах ну", "&f &fи в других вещах, связанных с РП процессом.", "", "&e✎ &fНажмите, что бы изменить"
+  add "{SkullOwner:{Id:""ba0e7621-d257-4ff6-82a0-655d55bacf37"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2YwOTAxOGY0NmYzNDllNTUzNDQ2OTQ2YTM4NjQ5ZmNmY2Y5ZmRmZDYyOTE2YWVjMzNlYmNhOTZiYjIxYjUifX19""}]}}}" to item-nbt of {_rp::age}
+
+  format gui slot 22 of {_player} with {_rp::age} to run:
+    ChangeProfileSetting({_player}, "rp.age")
+
+  # 
+  # РП-Пол
+  set {_profile::gender} to getCharacterGender({_player}, getCurrentCharacter({_player}))
+
+  if {_profile::gender} contains "муж":
+    set {_profile::gender} to "Мужской"
+
+    set {_profile::gender::icon} to "&9♂"
+    set {_profile::gender::nbt} to "{SkullOwner:{Id:""1f1b44f6-2e08-4b78-a9a9-3c07a84e9929"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM5ZDlmZDU3ODM0OGIzYWQwMWE3NzgxZTA5MjA4NTZiOGUzNjFlNDU2MTdjZTM4YWYwNDgxMTUxM2Y2ODE5NyJ9fX0=""}]}}}"
+  else:
+    set {_profile::gender} to "Женский"
+
+    set {_profile::gender::icon} to "&d♀"
+    set {_profile::gender::nbt} to "{SkullOwner:{Id:""c4c4c21c-a887-4728-8148-462147c6b52b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmZkYTU5NmRjYzgxNzk4YmYwZjJmZTgxY2U4M2Y2MmM5MmI5Y2I2MGI0ZjYxZDRjZDZiYjMzNTliZjNlOWE3ZiJ9fX0=""}]}}}"
+
+  set {_rp::gender} to player head named "%{_profile::gender::icon}% &f%{_profile::gender}%" with lore "&7Пол вашего персонажа", "", "&f &fПол, так же как и имя и возраст тоже будет", "&f &fфигурировать во всех вещах связанных с РП. Так же", "&f &fв зависимости от пола персонажа будет", "&f &fменяться некоторый системный РП текст на сервере. &7Ну а", "&7 &7что ещё сюда написать?", "", "&e✎ &fНажмите, что бы изменить"
+  add "%{_profile::gender::nbt}%" to item-nbt of {_rp::gender}
+
+  format gui slot 23 of {_player} with {_rp::gender} to run:
+    ChangeProfileSetting({_player}, "rp.gender")
+
+  # 
+  # Скин
+  set {_rp::skin} to player head named "&e❃ &fИгровой Скин" with lore "", "&f &fУстановите именно тот скин, который вам", "&f &fбольше всего понравится! Главное что бы", "&f &fскин был максимально подходящим под тематику", "&f &fданного рп сервера.", "", "&e✎ &fНажмите, что бы изменить"
+  add "{SkullOwner:{Id:""4e49245d-0ac2-4c6e-aff8-2894c8878eec"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ4MGMyNmY5MDRiNTdlNjMxZTM5ZWJjNDQ2ZWMxYWYyZGNlMzQzMmViODQzMWZiZDE5MDg3YWRiNGFiY2IifX19""}]}}}" to item-nbt of {_rp::skin}
+
+  format gui slot 30 of {_player} with {_rp::skin} to run:
+    ChangeProfileSetting({_player}, "rp.skin")
+
+  # 
+  # Другие персонажи
+  set {_other} to player head named "&eⓘ &fСистема мульти-персонажей" with lore "", "&f &fВ скором времени мы представим систему", "&f &fмульти-персонажей, которая позволит вам создавать", "&f &fмножество личностей и менять их прямо на лету!", "", "&7В разработке"
+  add "{SkullOwner:{Id:""da4d885d-2505-4f25-bfee-a0de07950191"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDAxYWZlOTczYzU0ODJmZGM3MWU2YWExMDY5ODgzM2M3OWM0MzdmMjEzMDhlYTlhMWEwOTU3NDZlYzI3NGEwZiJ9fX0=""}]}}}" to item-nbt of {_other}
+
+  format gui slot 31 of {_player} with {_other}
+
+# 
+# Функция, которая будет заниматься
+# процессом изменения профиля пользователя
+# 
+function ChangeProfileSetting(player: player, setting: string):
+  # Давайте сначала сохраним текущую локацию игрока
+  delete {authorized::%{_player}%}
+  set {temp::%{_player}%::location} to {_player}'s location
+
+  # Подготавливаем тайтл и субтайтл
+  set {_title} to "&e▽ &fВпишите в чат"
+  if {_setting} is "rp.name":
+    set {_subtitle} to "&7Имя и Фамилию персонажа, разделённые пробелом"
+  else if {_setting} is "rp.age":
+    set {_subtitle} to "&7Возраст вашего персонажа. Только числом."
+  else if {_setting} is "rp.gender":
+    set {_subtitle} to "&7Ваш пол. Допустимые значения: &9♂ &7мужской, &d♀ &7женский"
+  else if {_setting} is "rp.skin":
+    set {_subtitle} to "&7Имя аккаунта с скином."
+  
+
+  # Ну а теперь давайте телепортируем игрока
+  # в тёмную комнату
+  set {_location} to getLocation("538.5, 59, 586.5", "world")
+  teleport {_player} to {_location}
+  
+  # Запускаем воркер и ждём ответа игрока
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {temp::%{_player}%::location}
+      delete {temp::%{_player}%::chat::input}
+      delete {temp::%{_player}%::chat::output}
+      stop
+    
+    # Визуальное отображение
+    send title "%{_title}%" with subtitle "%{_subtitle}%" to {_player} for 2 seconds with 0 ticks fade in and 0 ticks fade out
+
+    # Получаем ответ и обрабатываем его
+    if {temp::%{_player}%::chat::output} is set:
+      delete {_error}
+
+      set {_output} to {temp::%{_player}%::chat::output}
+
+      delete {temp::%{_player}%::chat::output}
+
+      # Обрабатываем ответ
+      if {_setting} is "rp.name":
+        delete {_name::*}
+        delete {_error}
+
+        set {_name::*} to {_output} split at " "
+        
+        set {_name::first} to {_name::1}
+        set {_name::second} to {_name::2}
+
+        # Давайте теперь сохраним эти значения
+        if {_name::first} or {_name::second} is not set:
+          set {_error} to true
+
+        setCharacterName({_player}, getCurrentCharacter({_player}), "%{_name::first}% %{_name::second}%")
+
+        if {_error} is set:
+          set {_title} to "&c▽ &fВпишите &cимя и фамилию"
+        else:
+          # Написав об удачном изменении (с помощью уведомления)
+          sendNotification({_player}, "&a✔ &fВаше имя успешно изменено &7(%getCharacterName({_player}, getCurrentCharacter({_player}))%)", 6)
+      else if {_setting} is "rp.age":
+        delete {_age}
+        set {_age} to {_output} parsed as number
+
+        if {_age} is not set:
+          set {_error} to true
+          set {_title} to "&c▽ &fВпишите &cчисло"
+        else:
+          if {_age} > 100:
+            set {_error} to true
+            set {_title} to "&c▽ &fНедопустимое число"
+          else:
+            if {_age} < 0:
+              set {_error} to true
+              set {_title} to "&c▽ &fНедопустимое число"
+            else:
+              # Меняем возраст персонажа
+              setCharacterAge({_player}, getCurrentCharacter({_player}), {_age})
+
+              sendNotification({_player}, "&a✔ &fВаш возраст успешно изменен &7(%{_age}%)", 6)
+      else if {_setting} is "rp.gender":
+        delete {_continue}
+        set {_gender} to {_output}        
+        
+        if {_gender} contains "муж":
+          set {_gender} to "Мужской"
+          set {_continue} to true
+        else if {_gender} contains "жен":
+          set {_gender} to "Женский"
+          set {_continue} to true
+
+        if {_continue} is true:
+          setCharacterGender({_player}, getCurrentCharacter({_player}), {_gender})
+          
+          if {_gender} contains "муж":
+            set {_icon} to "♂"
+          else:
+            set {_icon} to "♀"
+
+          sendNotification({_player}, "&a✔ &fВаш пол успешно изменен &7(%{_icon}% %{_gender}%)", 6)
+        else:
+          set {_error} to true
+          set {_title} to "&c▽ &fВыберите из &cсписка"
+
+      else if {_setting} is "rp.skin":
+        setCharacterSkin({_player}, getCurrentCharacter({_player}), {_output})
+        sendNotification({_player}, "&a✔ &fВаш скин успешно изменен &7(%{_output}%)", 6)
+
+      if {_error} is not true:
+        # И теперь перенесём игрока обратно
+        set {_location} to {temp::%{_player}%::location}
+        if {_location} is not set:
+          set {_location} to getLocation("-3964.5, 96, -2217", "world")
+          set {_location}'s yaw to 166
+
+        set {authorized::%{_player}%} to true
+        set {_player}'s gamemode to adventure
+
+        teleport {_player} to {_location}
+
+        send title "&f" with subtitle "&f" to {_player} for 2 seconds with 0 ticks fade in and 1 second fade out
+
+        delete {temp::%{_player}%::chat::input}
+        delete {temp::%{_player}%::chat::output}
+        stop
+
+    # Проверяем переменные
+    if {temp::%{_player}%::chat::input} is not set:
+      set {temp::%{_player}%::chat::input} to true
+
+    if {_player}'s gamemode isn't spectator:
+      set {_player}'s gamemode to spectator
+
+    wait 1 tick

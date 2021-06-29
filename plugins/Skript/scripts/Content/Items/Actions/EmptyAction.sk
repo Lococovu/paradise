@@ -1,0 +1,2 @@
+function AC_EmptyAction(player: player):
+  send "Пустое действие предмета" to {_player}

@@ -1,0 +1,214 @@
+# 
+# Функция, которая будет телепортировать игрока
+# в его дефолтную квартирку.
+# 
+function TeleportToDefaultFlat(player: player):
+  # Сначала давайте спрячем всех игроков от этого
+  # игрока
+  hide all players from {_player}
+  hide {_player} from all players
+
+  # Поставим ему специальный режим игры
+  set {_player}'s gamemode to adventure
+
+  # Теперь же давайте телепортируем его
+  set {_location} to getLocation("527.5, 63, 585.5", "world")
+  set {_location}'s yaw to 0
+
+  teleport {_player} to {_location}
+
+  # Запускаем небольшой воркер, который будет проверять
+  # текущее положение игрока и сравнивать
+  # его с положением каких-либо главных вещей
+  # в комнате.
+
+  # Так же в этом цикле будет проверяется текущее
+  # направление взгляда игрока, по которому
+  # так же будут происходить кое-какие действия.
+
+  # Давайте сначала создадим объекты, на которые будет идти
+  # "проверка"
+
+  # Персонажи
+  set {_location} to getLocation("530, 64, 588.5", "world")
+  set {_location} to location of block at {_location}
+
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "DR_Holo_CharactersCreate"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "DR_Holo_CharactersClick"
+
+  # Склад
+  set {_location} to getLocation("526.5, 64, 588.5", "world")
+  set {_location} to location of block at {_location}
+  
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "DR_Holo_StorageCreate"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "DR_Holo_StorageClick"
+
+  # Выход
+  set {_location} to getLocation("530.5, 64, 585.5", "world")
+  set {_location} to location of block at {_location}
+
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "DR_Holo_ExitCreate"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "DR_Holo_ExitClick"
+
+  # Запускаем viewWorker
+  StartViewWorker({_player})
+
+  # Давайте создадим боссбар с текущим уровнем игрока
+  set {_notification} to skellett new bossbar
+
+  skellett add {_player} to the bossbar {_notification}
+  skellett show bossbar {_notification}
+
+  set skellett colour of bossbar {_notification} to WHITE
+
+  set {_notification::stage} to 1
+  set {_notification::time} to 6
+
+  # Запускаем обычный воркер
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::viewWorker} to "stop"
+      stop
+
+    # Строка уведомлений
+    if {_notification::stage} is 1:
+      set {_title} to "&e➁ &fТекущий уровень: &f2 Уровень"
+    else if {_notification::stage} is 2:
+      set {_title} to "&e♡ &fДискорд-канал: &9discord&f.lococovu.me"
+    else if {_notification::stage} is 3:
+      set {_title} to "&e✌ &fБольше про сервер: &flococovu.me/&9prds"
+    else if {_notification::stage} is 4:
+      set {_title} to "&eⓘ &fПомощь: &9/&fhelp"
+    
+    if skellett title of bossbar {_notification} isn't {_title}:
+      set skellett title of bossbar {_notification} to {_title}
+
+    # Проверяем гейм-мод игрока и пару
+    # глобальных вариаблов
+    if {defaultRoom::%{_player}%} is not true:
+      set {defaultRoom::%{_player}%} to true
+
+    if {defaultRoom::%{_player}%::action} is set:
+      set {_action} to {defaultRoom::%{_player}%::action}
+      delete {defaultRoom::%{_player}%::action}
+
+      if {_action} is "exit":
+        set {workers::%{_player}%::viewWorker} to "stop"
+        wait 2 ticks
+
+        # Прячем боссбары
+        skellett hide bossbar {_notification}
+
+        if {temp::%{_player}%::currentSessionId} isn't {temp::%{_player}%::currentSessionId}:
+          # Давайте отобразим небольшую анимацию времени
+          set {authorized::%{_player}%} to false
+          set {_location} to getLocation("-3942, 12, -2764", "world")
+
+          teleport {_player} to {_location}
+          set {_player}'s gamemode to spectator
+
+          send title "&e☀ &fг. Лоунайт, %{server::time::year}% год" with subtitle "" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
+          wait 4.5 seconds
+
+          loop 4 times:
+            set {_time::*} to {server::time} split at ":"
+            
+            set {_hours} to {_time::1}
+            if {_hours} is not set:
+              set {_hours} to 0
+            set {_minutes} to {_time::2}
+            if {_minutes} is not set:
+              set {_minutes} to 0
+
+            # hours
+            set {_length} to length of "%{_hours}%"
+            if {_length} <= 1:
+              set {_hours} to "0%{_hours}%"
+
+            # minutes
+            set {_length} to length of "%{_minutes}%"
+            if {_length} <= 1:
+              set {_minutes} to "0%{_minutes}%"
+
+            send title "%{_hours}%:%{_minutes}%" with subtitle "&7%getDate(0)%, %{server::time::year}%" to {_player} for 2 seconds with 0 ticks fade in and 2 ticks fade out
+            wait 1 second
+
+          wait 1 seconds
+
+        # Настраиваем ViewWorker'ы
+        delete {workers::%{_player}%::viewWorker}
+        delete {workers::%{_player}%::viewWorker::*}
+
+        playerWorkers({_player})
+
+        set {_location} to getLocation("532.5, 53, 591", "world")
+        set {_location} to location of block at {_location}
+
+        set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+        set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_DefaultHotelReceptionistCreate"
+        set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_DefaultHotelReceptionistClick"
+
+        # Телепортируем игрока туда, куда нужно
+        set {_location} to getLocation("528.5, 52, 588.5", "world")
+        set {_location}'s yaw to -70
+
+        teleport {_player} to {_location}
+        
+        set {_player}'s gamemode to survival
+
+        # Показываем этого игрока всем другим игрокам
+        reveal all players to {_player}
+        reveal {_player} to all players
+
+        # Стопаем воркер
+        delete {defaultRoom::%{_player}%}
+        delete {defaultRoom::%{_player}%::*}
+
+        set {authorized::%{_player}%} to true
+        set {temp::%{_player}%::currentSessionId} to {temp::%{_player}%::currentSessionId}
+
+        stop
+
+    # Таймер строки уведомлений
+    reduce {_notification::time} by 0.05
+    if {_notification::time} < 0:
+      set {_notification::time} to 6
+      add 1 to {_notification::stage}
+
+      if {_notification::stage} > 4:
+        set {_notification::stage} to 1
+
+    wait 1 tick
+
+on place:
+  if {defaultRoom::%player%} is true:
+    cancel event
+
+on pickup:
+  if {defaultRoom::%player%} is true:
+    cancel event
+
+on drop:
+  if {defaultRoom::%player%} is true:
+    cancel event
+
+on break:
+  if {defaultRoom::%player%} is true:
+    cancel event
+
+on right click:
+  if {defaultRoom::%player%} is true:
+    cancel event
+
+on left click:
+  if {defaultRoom::%player%} is true:
+    cancel event
+
+on damage:
+  if {defaultRoom::%victim%} is true:
+    cancel event

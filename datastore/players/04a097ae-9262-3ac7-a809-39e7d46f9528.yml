@@ -1,0 +1,16 @@
+authorization:
+    discordId: 155749532615966720
+
+character:
+    main:
+        gender: Мужской
+        name: Марш Джеймсон
+
+relationship:
+    560cec29-100e-3876-a126-3974fc67875d:
+        knows:
+        - secondName
+    d5c22930-ff45-34b4-8c2d-08a1afd136cc:
+        knows:
+        - firstName
+        - lastName

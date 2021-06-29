@@ -1,0 +1,15 @@
+rooms:
+  test:
+    type: 'room'
+
+    roomType: '2'
+    address: ''
+
+    price: 30000
+    modifiers:
+    - 'buyable'
+
+    hologramLocation: ''
+
+    regions:
+    - '0;0;0/1;1;1'

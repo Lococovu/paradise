@@ -1,0 +1,221 @@
+# Главная функция для начала работы с 
+# отношениями
+function startRelationshipWorker(player: player):
+  # Проверяем, работает ли этот воркер уже или нет.
+  if {workers::%{_player}%::relationship} is set:
+    set {workers::%{_player}%::relationship} to "stop"
+
+    wait 2 seconds
+
+  # Отчищаем данные воркера
+  delete {workers::%{_player}%::relationship}
+
+  # Запускаем сам воркер
+  broadcast "START REL WORKER"
+  set {_working} to true
+  while {_working} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::relationship} to "stop"
+
+    # Проверяем главную переменную воркера
+    if {workers::%{_player}%::relationship} is not set:
+      set {workers::%{_player}%::relationship} to true
+    else:
+      set {_action} to {workers::%{_player}%::relationship}
+
+      # Действие: остановка воркера
+      if {_action} is "stop":
+        broadcast "STOP REL WORKER"
+
+        if size of {workers::%{_player}%::relationship::holograms::*} > 0:
+          loop {workers::%{_player}%::relationship::holograms::*}:
+            delete hologram loop-value
+            delete {workers::%{_player}%::relationship::holograms::%loop-value%}
+        stop
+
+    # Сначала нам нужно понять - что сейчас делает игрок
+    # Если игрок бежит - то мы не будем отображать 
+    # голограммы
+    if {workers::%{_player}%::states::isRunning} is not true:
+      loop all players in radius 4.5 around {_player}:
+        loop-player isn't {_player}
+
+        # Удаляем все временные переменные
+        delete {_create}
+        delete {_hologram}
+        
+        # Создаём голограммы (если ещё не созданы)
+        set {_hologram} to {workers::%{_player}%::relationship::holograms::%loop-player%}
+
+        if {_hologram} is not set:
+          set {_create} to true
+        else:
+          if hologram {_hologram} is deleted:
+            set {_create} to true
+          else:
+            set {_create} to false
+        
+        if {_create} is true:
+          # Создаём новую голограмму
+          createRelationshipHologram({_player}, loop-player)
+
+    else:
+      # Удаляем все ненужные голограммы
+      if size of {workers::%{_player}%::relationship::holograms::*} > 0:
+        loop {workers::%{_player}%::relationship::holograms::*}:
+          delete hologram loop-value
+          delete {workers::%{_player}%::relationship::holograms::%loop-index%}
+
+    wait 1 tick
+
+# Функция-воркер, которая займётся созданием новой голограммы
+# для цели
+function createRelationshipHologram(player: player, target: player):
+  # Создаём голограмму
+  set {_location} to {_target}'s location
+  add 2.25 to y coordinate of {_location}
+
+  if block at {_location} isn't air:
+    stop
+
+  create new hologram with clickable lines "*" at {_target}'s location and store it in variable {_hologram}
+
+  # Настраиваем её
+  make hologram {_hologram} invisible by default
+
+  # Запускаем небольшой воркер
+  set {_working} to true
+  while {_working} is true:
+    if {_player} is offline:
+      set {_delete} to true
+
+    if {_target} is offline:
+      set {_delete} to true
+
+    # Удаляем голограмму
+    if {_delete} is true:
+      delete hologram {_hologram}
+      delete {workers::%{_player}%::relationship::holograms::%{_target}%}
+      delete {workers::%{_player}%::relationship::holograms::%{_target}%::*}
+
+      stop
+
+    # Проверяем дистанцию
+    if distance between {_player} and {_target} >= 4:
+      set {_delete} to true
+
+    # Перемещаем голограмму
+
+    # Выбираем немного другую локацию для расширенного
+    # меню
+    {_expandedMenu} is true:
+      set {_location} to location 2 meters horizontally to the right of {_target}
+      add 1.85 to y coordinate of {_location}
+    else:
+      set {_location} to {_target}'s location
+      add 2.35 to y coordinate of {_location}
+
+    if {_expandedMenu} isn't true:
+      if block at {_location} is air:
+        teleport hologram {_hologram} to {_location}
+
+        # Показываем голограмму
+        if {_player} can't see hologram {_hologram}:
+          reveal hologram {_hologram} to {_player}
+      else:
+        # Прячем голограмму
+        if {_player} can see hologram {_hologram}:
+          hide hologram {_hologram} from {_player}
+    else:
+      teleport hologram {_hologram} to {_location}
+
+      if {_player} can't see hologram {_hologram}:
+        reveal hologram {_hologram} to {_player}
+
+    if {workers::%{_player}%::relationship::holograms::%{_target}%} isn't {_hologram}:
+      set {workers::%{_player}%::relationship::holograms::%{_target}%} to {_hologram}
+
+    if {_expandedMenu} isn't {workers::%{_player}%::relationship::holograms::%{_target}%::expandedMenu}:
+      set {_expandedMenu} to {workers::%{_player}%::relationship::holograms::%{_target}%::expandedMenu}
+
+    # Проверяем статус отношений между игроками
+    set {_name} to getCharacterName({_target}, getCurrentCharacter({_target}))
+    set {_splittedName::*} to {_name} split at " "
+
+    set {_gender} to getCharacterGender({_target}, getCurrentCharacter({_target}))
+
+    # Проверяем имя
+    if doTargetKnownToPlayer({_target}, {_player}, "firstName") is true:
+      set {_firstName} to "&f%{_splittedName::1}%"
+    
+    if {_firstName} is not set:
+      set {_firstName} to "&7??????"
+
+    # Проверям фамилию
+    if doTargetKnownToPlayer({_target}, {_player}, "lastName") is true:
+      set {_lastName} to "&f%{_splittedName::2}%"
+
+    if {_lastName} is not set:
+      set {_lastName} to "&7??????"
+
+    if {_expandedMenu} is not true:
+      set {_holoLines::*} to all lines of hologram {_hologram}
+      if size of {_holoLines::*} > 1:
+        set all lines of hologram {_hologram} to "*"
+
+      # Меняем текст голограммы
+      if {_firstName} is {_lastName}:
+        if {_gender} contains "муж":
+          set line 1 of {_hologram} to "&7Незнакомец &9[F]"
+        else:
+          set line 1 of {_hologram} to "&7Незнакомка &9[F]"
+      else:
+        set line 1 of {_hologram} to "&7%{_firstName}% %{_lastName}% &9[F]"
+
+
+    else:
+      # Берём всю другую информацию про игрока
+
+      # Меняем линии голограммы
+      delete {_update}
+      delete {_holoLines::*}
+
+      set {_lines::*} to "%{_firstName}% %{_lastName}% &9[F]", "&7Мужчина, 30 лет;", "&7грустный и уставший;", "&7имеется жетон полиции.", "", "&e[ПКМ] &f- открыть меню"
+
+      set {_holoLines::*} to content of all lines of hologram {_hologram}
+
+      loop {_lines::*}:
+        set {_index} to loop-index
+        if "%{_holoLines::%{_index}%}%" isn't "%loop-value%":
+          set {_update} to true
+
+      if {_update} is true:
+        set all lines of hologram {_hologram} to {_lines::*}
+
+    wait 4 ticks
+
+on right click:
+  if targeted player is set:
+    if {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} is true:
+      broadcast "OPEN MENU"
+
+on offhand switch:
+  # Проверяем...
+  if size of {workers::%player%::relationship::holograms::*} > 0:
+    loop {workers::%player%::relationship::holograms::*}:
+      set {_index} to loop-index
+
+      if {workers::%player%::relationship::holograms::%{_index}%::expandedMenu} is set:
+        if {_index} isn't targeted player:
+          set {workers::%player%::relationship::holograms::%{_index}%::expandedMenu} to false
+
+    if targeted player is set:
+      set {_value} to {workers::%player%::relationship::holograms::%targeted player%::expandedMenu}
+      if {_value} is true:
+        set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to false
+      else:
+        set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to true
+
+command testRel:
+  trigger:
+    startRelationshipWorker(player)

@@ -1,0 +1,11 @@
+function getReceivedDefaultItems(player: player) :: boolean:
+  set {_value} to yaml value "receivedDefaultItems" from "player-%{_player}'s uuid%"
+
+  if {_value} is "true" or true:
+    return true
+  else:
+    return false
+
+function setReceivedDefaultItems(player: player, value: boolean):
+  set yaml value "receivedDefaultItems" from "player-%{_player}'s uuid%" to {_value}
+  save yaml "player-%{_player}'s uuid%"

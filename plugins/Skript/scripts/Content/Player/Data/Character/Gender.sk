@@ -1,0 +1,11 @@
+function getCharacterGender(player: player, character: string) :: string:
+  set {_gender} to yaml value "character.%{_character}%.gender" from "player-%{_player}'s uuid%"
+
+  {_gender} contains "муж":
+    return "мужской"
+  else:
+    return "женский"
+
+function setCharacterGender(player: player, character: string, gender: string):
+  set yaml value "character.%{_character}%.gender" from "player-%{_player}'s uuid%" to {_gender}
+  save yaml "player-%{_player}'s uuid%"

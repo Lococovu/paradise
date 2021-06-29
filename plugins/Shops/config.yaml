@@ -1,5 +1,6 @@
 shop:
   1:
+    type: 'shop'
     # Stand-related configuration
     stand:
       1:

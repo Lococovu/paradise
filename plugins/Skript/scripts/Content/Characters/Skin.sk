@@ -1,0 +1,6 @@
+function setSkin(player: player, skin: string):
+  # Давайте сначала возьмём данные этого аккаунта
+  execute console command "/skin set %{_player}% %{_skin}%"
+
+  wait 2 ticks
+  execute console command "/skin update skin %{_skin}%"

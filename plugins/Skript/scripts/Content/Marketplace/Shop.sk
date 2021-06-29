@@ -240,6 +240,8 @@ function loadShopTerminalsHolograms(player: player, shopId: string):
     wait 1 tick
 
 function startShopWorker(player: player):
+  stop
+
   # Сначала выключим прошлый воркер
   if {workers::shopWorker::%{_player}%} is set:
     set {workers::shopWorker::%{_player}%} to "stop"
@@ -253,8 +255,6 @@ function startShopWorker(player: player):
 
   while {_waiting} is true:
     if {_player} is offline:
-      hide bossbar {_bossbar}
-
       delete {workers::shopWorker::%{_player}%}
       delete {workers::shopWorker::%{_player}%::*}
       stop
