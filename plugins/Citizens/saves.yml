@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: type,location,owner,mounttrait,equipment,inventory,scoreboardtrait,skintrait,spawned
+    traitnames: equipment,type,skintrait,location,spawned,scoreboardtrait,mounttrait,inventory,owner
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

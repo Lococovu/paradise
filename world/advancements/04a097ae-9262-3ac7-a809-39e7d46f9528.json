@@ -83,6 +83,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/decorations/red_banner": {
+    "criteria": {
+      "has_red_wool": "2021-06-29 19:05:05 +0300"
+    },
+    "done": true
+  },
   "minecraft:recipes/redstone/oak_pressure_plate": {
     "criteria": {
       "has_planks": "2021-06-29 13:56:46 +0300"
@@ -164,6 +170,18 @@
   "minecraft:recipes/decorations/barrel": {
     "criteria": {
       "has_planks": "2021-06-29 13:53:35 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/red_carpet": {
+    "criteria": {
+      "has_red_wool": "2021-06-29 19:05:05 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/red_bed": {
+    "criteria": {
+      "has_red_wool": "2021-06-29 19:05:05 +0300"
     },
     "done": true
   },

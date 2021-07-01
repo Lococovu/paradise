@@ -240,8 +240,6 @@ function loadShopTerminalsHolograms(player: player, shopId: string):
     wait 1 tick
 
 function startShopWorker(player: player):
-  stop
-
   # Сначала выключим прошлый воркер
   if {workers::shopWorker::%{_player}%} is set:
     set {workers::shopWorker::%{_player}%} to "stop"

@@ -9,7 +9,7 @@ function SP_Holo_ShopStandCreate(player: player, location: location):
 
   # Давайте сначала загрузим информацию
   # об данной голограмме
-  set {_location::block} to location of block at {_location}
+  set {_location::block} to {_location}
   set {_shopId} to {block::%{_location::block}%::shopId}
 
   set {_shop::location} to {block::%{_location::block}%::location}
