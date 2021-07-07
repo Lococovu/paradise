@@ -1,0 +1,26 @@
+function checkEmotions(player: player):
+  # Берём необработанный список всех эмоций игрока
+  set {_emotions} to getAllEmotions()
+  set {_emotions::*} to {_emotions} split at ","
+
+  # Лупим их
+  loop {_emotions::*}:
+    set {_temp::*} to loop-value split at ";"
+    set {_code} to {_temp::1}
+
+    # Проверяем статус и время
+    checkEmotion({_player}, {_code})
+
+function checkEmotion(player: player, emotionCode: string):
+  set {_code} to {_emotionCode}
+
+  evaluate:
+    EM_%{_code}%Check({_player})
+
+  if {emotions::%{_player}%::%{_code}%::active} is true:
+    # Проверяем воркер эффектов
+    delete {workers::%{_player}%::emotions::%{_code}%::effecting}
+    wait 2 ticks
+
+    if {workers::%{_player}%::emotions::%{_code}%::effecting} is not set:
+      delete {emotions::%{_player}%::%{_code}%::active}

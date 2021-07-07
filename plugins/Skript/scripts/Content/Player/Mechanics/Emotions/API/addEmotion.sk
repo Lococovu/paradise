@@ -1,0 +1,10 @@
+function addEmotion(player: player, emotionCode: string):
+  # Берём всю самую нужную информацию по этой эмоции
+  set {_emotion::code} to {_emotionCode}
+
+  # Добавляем эту эмоцию в список эмоций игрока
+  if {emotions::%{_player}%::list::*} doesn't contain {_emotion::code}:
+    add {_emotion::code} to {emotions::%{_player}%::list::*}
+
+  # Убираем флажок про то, что эта эмоция удаленна
+  set {emotions::%{_player}%::%{_code}%::deleted} to false

@@ -1,0 +1,91 @@
+function getAllEmotions() :: string:
+  return "fatigue;1"
+
+
+    # # Проверяем данные с всех воркеров и изменяем эмоцию
+    # # игрока
+    # if {_timer::check} <= 0:
+    #   delete {_emotions::*}
+    #   delete {_fatigue::proceed}
+    #   delete {_sprints}
+    #   set {_timer::check} to 1
+
+    #   # broadcast "[emotions] &aRe-creating current emotion"
+    #   set {_fatigue} to {workers::%{_player}%::emotions::fatigue::percent}
+    #   set {_sprints} to {workers::%{_player}%::emotions::fatigue::runningSprints}
+
+    #   # Проверяем какая эмоция превозмогает
+    #   if {_fatigue} >= 5:
+    #     set {_fatigue::proceed} to true
+    #   if {_sprints} >= 3:
+    #     set {_fatigue::proceed} to true
+
+    #   if {_fatigue::proceed} is true:
+    #     add "fatigue" to {_emotions::*}
+
+    #     if {workers::%{_player}%::emotions::oldList::*} doesn't contain "fatigue":
+    #       add "fatigue" to {workers::%{_player}%::emotions::oldList::*}
+
+    #     if {_sprints} > 2:
+    #       set {_fatigue::tier} to 2
+    #     else:
+    #       set {_fatigue::tier} to 1
+
+    # # Усталость:
+    # # + Нельзя прыгать
+    # # + Медленная скорость хотьбы
+    # # + Отдышка (медленее берутся предметы из руки)
+    # if {_emotions::*} contains "fatigue":
+    #   if {player::%{_player}%::forbidJumping} is not set:
+    #     set {player::%{_player}%::forbidJumping} to true
+
+    #   if {_fatigue::tier} is 1:
+    #     if {_player} doesn't have slowness:
+    #       apply potion of slowness of tier 2 without any particles to {_player} for 1 day
+    #   else:
+    #     if {_player} doesn't have slowness:
+    #       apply potion of slowness of tier 4 without any particles to {_player} for 1 day
+
+    # else:
+    #   # Убираем эффекты от эмоций
+    #   # + Усталость
+    #   if {_player} have slowness:
+    #     remove slowness from {_player}
+
+    # # Выбираем лидирующую эмоцию...
+    # loop {_emotions::*}:
+    #   if loop-value contains "fatigue":
+    #     set {_emotions::leader} to "fatigue"
+
+    # loop {workers::%{_player}%::emotions::oldList::*}:
+    #   set {_id} to loop-value
+
+    #   if {_emotions::*} doesn't contain {_id}:
+    #     if {workers::%{_player}%::emotions::oldList::%{_id}%::time} is not set:
+    #       set {workers::%{_player}%::emotions::oldList::%{_id}%::time} to now
+        
+    #     else:
+    #       if difference between now and {workers::%{_player}%::emotions::oldList::%{_id}%::time} > 1 minute:
+    #         remove {_id} from {workers::%{_player}%::emotions::oldList::*}
+    #         delete {workers::%{_player}%::emotions::oldList::%{_id}%::time}
+
+    # if {_emotions::*} doesn't contain {_emotions::leader}:
+    #   delete {_emotions::leader}
+
+    # set {_size} to size of {workers::%{_player}%::emotions::oldList::*}
+    # # Синхронизация...
+    # if {_emotions::leader} is not set:
+    #   delete {workers::%{_player}%::emotions::leader}
+    # else:
+    #   set {workers::%{_player}%::emotions::leader} to {_emotions::leader}
+
+    # delete {_finalEmotions::*}
+    # set {_finalEmotions::*} to {_emotions::*}
+    # loop {workers::%{_player}%::emotions::oldList::*}:
+    #   if {_finalEmotions::*} doesn't contain loop-value:
+    #     add loop-value to {_finalEmotions::*}
+
+    # if size of {_finalEmotions::*} <= 0:
+    #   delete {workers::%{_player}%::emotions::list::*}
+    # else: 
+    #   set {workers::%{_player}%::emotions::list::*} to {_finalEmotions::*}

@@ -13,6 +13,8 @@ function loadPlayerInventory(player: player):
 
     add 1 to {_slot}
 
+  startEmotionsWorker({_player})
+
   # Загружаем все предметы игрока
   set {_slot} to 0
   loop 9 times:
@@ -25,6 +27,157 @@ function loadPlayerInventory(player: player):
   # 
   # Загружаем OOC предметы
 
-  # Статические
+  # Помощь
+  set {_help} to player head named "&9★ &fПомощь"
+  set slot 17 of {_player} to {_help}
+
+  # Главное меню
+  set {_menu} to player head named "&9★ &fГлавное меню"
+  set slot 16 of {_player} to {_menu}
 
   # Динамические
+  # Запускаем воркер
+  if {workers::%{_player}%::inventory} is set:
+    set {workers::%{_player}%::inventory} to "stop"
+    wait 2 seconds
+
+  delete {workers::%{_player}%::inventory}
+  delete {workers::%{_player}%::inventory::*}
+
+  set {_waiting} to true
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::inventory} to "stop"
+    
+    if {workers::%{_player}%::inventory} is not set:
+      set {workers::%{_player}%::inventory} to true
+    else:
+      set {_action} to {workers::%{_player}%::inventory}
+
+      if {_action} is "stop":
+        stop
+
+    if {_check::timer} is set:
+      reduce {_check::timer} by 0.05
+
+      if {_check::timer} <= 0:
+        delete {_check::timer}
+    else:
+      set {_check::timer} to 2
+      delete {_name}
+      delete {_leader}
+      delete {_emotions}
+      delete {_emotions::*}
+
+      # Просто меняем предмет, отвечающий за текущую эмоцию
+      # в инвентаре игрока
+      set {_leader} to getPlayerEmotion({_player})
+      set {_emotions} to getAllPlayerEmotions({_player})
+      set {_emotions::*} to {_emotions} split at ","
+
+      # Leader
+      evaluate:
+        set {_item} to EM_%{_leader}%GetItem({_player})
+        set {_name} to EM_%{_leader}%GetName({_player})
+
+      if {_item} is not set:
+        set {_item} to player head named "&9★ &fНеизвестная эмоция" with lore "", "&f &fДа-да, это ошибка. Напишите админам. %{_leader}%"
+      else:
+        # Добавляем названия других эмоций
+        # loop {_emotions::*}:
+        #   if loop-value isn't {_leader}:
+        #     add loop-value to {_finalEmotions::*}
+
+        # if size of {_finalEmotions::*} > 0:
+        #   loop {_finalEmotions::*}:
+        #     set {_code} to loop-value
+        #     delete {_icon}
+
+        #     evaluate:
+        #       set {_icon} to EM_%{_code}%GetItem({_player})
+
+        #     if {_icon} is set:
+        #       set {_name} to {_icon}'s name
+
+        #     add "- %{_name}%" to {_item}'s lore
+
+
+      if {_name::old} isn't {_name}:
+        set {_name::old} to {_name}
+
+        # Показываем игроку новую эмоцию
+        notifyEmotion({_player}, {_name})
+
+      set slot 9 of {_player} to {_item}
+
+    wait 1 tick
+
+function notifyEmotion(player: player, emotion: string):
+  # TODO
+  send action bar with text "%{_emotion}%" to {_player}
+
+# Функция, которая будет сохранять инвентарь игрока
+function savePlayerInventory(player: player):
+  set {_slot} to 0
+  loop 9 times:
+    set {_item} to slot {_slot} of {_player}'s inventory
+    set {_uuid} to {_player}'s uuid
+    set {data::%{_uuid}%::item::%{_slot}%} to {_item}
+
+    add 1 to {_slot}
+
+function checkInventoryForBarriers(player: player):
+  set {_slot} to 0
+
+  loop 9 times:
+    set {_item} to slot {_slot} of {_player}'s inventory
+    if {_item} is barrier:
+      set slot {_slot} of {_player}'s inventory to air
+
+    add 1 to {_slot}
+
+# Ивенты
+on inventory click:
+  if event-item is barrier:
+    cancel event
+
+    checkInventoryForBarriers(player)
+  else:
+    if name of event-item contains "★":
+      cancel event
+
+      checkInventoryForBarriers(player)
+
+
+on inventory move:
+  if event-item is barrier:
+    cancel event
+
+    checkInventoryForBarriers(player)
+  else:
+    if name of event-item contains "★":
+      cancel event
+
+      checkInventoryForBarriers(player)
+
+on drop:
+  if event-item is barrier:
+    cancel event
+
+    checkInventoryForBarriers(player)
+  else:
+    if name of event-item contains "★":
+      cancel event
+
+      checkInventoryForBarriers(player)
+
+on pickup:
+  if event-item is barrier:
+    cancel event
+
+    checkInventoryForBarriers(player)
+  else:
+    if name of event-item contains "★":
+      cancel event
+
+      checkInventoryForBarriers(player)

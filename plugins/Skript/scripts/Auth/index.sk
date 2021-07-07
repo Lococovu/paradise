@@ -436,3 +436,10 @@ function AuthorizationDone(player: player):
 
   # Просто телепортируем игрока на квартирку
   PlayerEntry({_player}, false)
+
+on quit:
+  if {authorized::%player%} is true:
+    savePlayerInventory(player)
+
+  save yaml "player-%player's uuid%"
+  unload yaml "player-%player's uuid%"

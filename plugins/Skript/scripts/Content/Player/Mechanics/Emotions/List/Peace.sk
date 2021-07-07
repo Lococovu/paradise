@@ -1,0 +1,8 @@
+function EM_peaceGetItem(player: player) :: item:
+  set {_name} to EM_peaceGetName({_player})
+  set {_item} to player head named "%{_name}%" with lore "", "&f &f"
+
+  return {_item}
+
+function EM_peaceGetName(player: player) :: string:
+  return "&9★ &fСпокойствие"

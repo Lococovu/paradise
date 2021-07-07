@@ -142,14 +142,3 @@ command test:
 
     # Выдаём рюкзак
     add {_backpack} to player's inventory
-
-on quit:
-  set {_slot} to 0
-  loop 9 times:
-    set {_item} to slot {_slot} of player's inventory
-    set {data::%player's uuid%::item::%{_slot}%} to {_item}
-
-    add 1 to {_slot}
-
-  save yaml "player-%player's uuid%"
-  unload yaml "player-%player's uuid%"

@@ -11,7 +11,6 @@ function startRelationshipWorker(player: player):
   delete {workers::%{_player}%::relationship}
 
   # Запускаем сам воркер
-  broadcast "START REL WORKER"
   set {_working} to true
   while {_working} is true:
     if {_player} is offline:
@@ -25,8 +24,6 @@ function startRelationshipWorker(player: player):
 
       # Действие: остановка воркера
       if {_action} is "stop":
-        broadcast "STOP REL WORKER"
-
         if size of {workers::%{_player}%::relationship::holograms::*} > 0:
           loop {workers::%{_player}%::relationship::holograms::*}:
             delete hologram loop-value
@@ -215,7 +212,3 @@ on offhand switch:
         set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to false
       else:
         set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to true
-
-command testRel:
-  trigger:
-    startRelationshipWorker(player)

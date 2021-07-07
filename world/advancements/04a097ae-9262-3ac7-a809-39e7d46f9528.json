@@ -1,229 +1,277 @@
 {
   "minecraft:recipes/decorations/gray_banner": {
     "criteria": {
-      "has_gray_wool": "2021-06-27 21:54:28 +0300"
+      "has_gray_wool": "2021-06-27 18:54:28 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/oak_fence_gate": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/polished_granite_slab": {
+    "criteria": {
+      "has_polished_granite": "2021-07-01 14:54:59 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/spruce_sign": {
     "criteria": {
-      "has_spruce_planks": "2021-06-29 13:53:35 +0300"
+      "has_spruce_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/spruce_fence": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/dark_prismarine_stairs": {
+    "criteria": {
+      "has_dark_prismarine": "2021-07-01 09:47:23 +0000"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/spruce_slab": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/oak_button": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/polished_granite_slab_from_polished_granite_stonecutting": {
+    "criteria": {
+      "has_polished_granite": "2021-07-01 14:54:59 +0000"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/brick_stairs": {
     "criteria": {
-      "has_brick_block": "2021-06-25 10:09:12 +0300"
+      "has_brick_block": "2021-06-25 07:09:12 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/yellow_carpet": {
     "criteria": {
-      "has_yellow_wool": "2021-06-27 21:54:24 +0300"
+      "has_yellow_wool": "2021-06-27 18:54:24 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/spruce_door": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/brick_slab": {
     "criteria": {
-      "has_brick_block": "2021-06-25 10:09:12 +0300"
+      "has_brick_block": "2021-06-25 07:09:12 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/yellow_banner": {
     "criteria": {
-      "has_yellow_wool": "2021-06-27 21:54:24 +0300"
+      "has_yellow_wool": "2021-06-27 18:54:24 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/dark_prismarine_slab_from_dark_prismarine_stonecutting": {
+    "criteria": {
+      "has_dark_prismarine": "2021-07-01 09:47:23 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/polished_granite_stairs_from_polished_granite_stonecutting": {
+    "criteria": {
+      "has_polished_granite": "2021-07-01 14:54:59 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/gray_carpet": {
     "criteria": {
-      "has_gray_wool": "2021-06-27 21:54:28 +0300"
+      "has_gray_wool": "2021-06-27 18:54:28 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/spruce_fence_gate": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/spruce_stairs": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/red_banner": {
     "criteria": {
-      "has_red_wool": "2021-06-29 19:05:05 +0300"
+      "has_red_wool": "2021-06-29 16:05:05 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/oak_pressure_plate": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/dark_prismarine_slab": {
+    "criteria": {
+      "has_dark_prismarine": "2021-07-01 09:47:23 +0000"
     },
     "done": true
   },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
-      "minecraft:plains": "2021-06-21 21:32:13 +0300"
+      "minecraft:plains": "2021-06-21 18:32:13 +0000"
     },
     "done": false
   },
   "minecraft:recipes/decorations/gray_bed": {
     "criteria": {
-      "has_gray_wool": "2021-06-27 21:54:28 +0300"
+      "has_gray_wool": "2021-06-27 18:54:28 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/spruce_trapdoor": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/crafting_table": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/misc/book": {
     "criteria": {
-      "has_paper": "2021-06-29 14:01:44 +0300"
+      "has_paper": "2021-06-29 11:01:44 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/polished_granite_stairs": {
+    "criteria": {
+      "has_polished_granite": "2021-07-01 14:54:59 +0000"
     },
     "done": true
   },
   "minecraft:husbandry/root": {
     "criteria": {
-      "consumed_item": "2021-06-27 21:56:11 +0300"
+      "consumed_item": "2021-06-27 18:56:11 +0000"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/dark_prismarine_stairs_from_dark_prismarine_stonecutting": {
+    "criteria": {
+      "has_dark_prismarine": "2021-07-01 09:47:23 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/chest": {
     "criteria": {
-      "has_lots_of_items": "2021-06-29 13:28:27 +0300"
+      "has_lots_of_items": "2021-06-29 10:28:27 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/cartography_table": {
     "criteria": {
-      "has_paper": "2021-06-29 14:01:44 +0300"
+      "has_paper": "2021-06-29 11:01:44 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/painting": {
     "criteria": {
-      "has_wool": "2021-06-27 21:54:24 +0300"
+      "has_wool": "2021-06-27 18:54:24 +0000"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/oak_stairs": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/yellow_bed": {
     "criteria": {
-      "has_yellow_wool": "2021-06-27 21:54:24 +0300"
+      "has_yellow_wool": "2021-06-27 18:54:24 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/spruce_button": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/barrel": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/red_carpet": {
     "criteria": {
-      "has_red_wool": "2021-06-29 19:05:05 +0300"
+      "has_red_wool": "2021-06-29 16:05:05 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/red_bed": {
     "criteria": {
-      "has_red_wool": "2021-06-29 19:05:05 +0300"
+      "has_red_wool": "2021-06-29 16:05:05 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/oak_fence": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/oak_door": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/spruce_pressure_plate": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/misc/stick": {
     "criteria": {
-      "has_planks": "2021-06-29 13:53:35 +0300"
+      "has_planks": "2021-06-29 10:53:35 +0000"
     },
     "done": true
   },
   "minecraft:recipes/decorations/oak_sign": {
     "criteria": {
-      "has_oak_planks": "2021-06-29 13:56:46 +0300"
+      "has_oak_planks": "2021-06-29 10:56:46 +0000"
     },
     "done": true
   },
   "minecraft:recipes/redstone/oak_trapdoor": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/oak_slab": {
     "criteria": {
-      "has_planks": "2021-06-29 13:56:46 +0300"
+      "has_planks": "2021-06-29 10:56:46 +0000"
     },
     "done": true
   },

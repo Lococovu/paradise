@@ -1,0 +1,9 @@
+authorization:
+    discordId: 488749815895818241
+
+character:
+    main:
+        name: Иван Античенко
+        age: 23
+        gender: Мужской
+        skin: KingofDiamond

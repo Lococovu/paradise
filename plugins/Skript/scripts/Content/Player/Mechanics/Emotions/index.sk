@@ -1,0 +1,44 @@
+function startEmotionsWorker(player: player):
+  if {workers::%{_player}%::emotions} is set:
+    set {workers::%{_player}%::emotions} to "stop"
+    wait 2 seconds
+
+  delete {workers::%{_player}%::emotions}
+  delete {workers::%{_player}%::emotions::*}
+
+  delete {workers::%{_player}%::emotions::oldList::*}
+
+  set {_waiting} to true
+  set {_timer::check} to 2
+
+  # Запускаем различные небольшие воркеры
+  # по эмоциям
+  EM_FatigueWorker({_player})
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::emotions} to "stop"
+
+    if {workers::%{_player}%::emotions} is not set:
+      set {workers::%{_player}%::emotions} to true
+    else:
+      set {_action} to {workers::%{_player}%::emotions}
+      
+      if {_action} is "stop":
+        broadcast "[emotions] Stopped global emotions worker"
+        stop
+
+    # Вызываем функцию, которая проверит статус
+    # эмоций
+    checkEmotions({_player})
+
+    # Создаём предмет в зависимости
+    # от текущих эмоций игрока.
+
+    # Сохраняем этот предмет в базу данных
+
+    wait 1 second
+
+on quit:
+  delete {emotions::%player%::*}
+  reset player's walking speed

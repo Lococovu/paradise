@@ -1,0 +1,212 @@
+function EM_FatigueWorker(player: player):
+  set {_waiting} to true
+
+  set {_sprints} to 0
+
+  while {_waiting} is true:
+    if {workers::%{_player}%::emotions} is set:
+      set {_action} to {workers::%{_player}%::emotions}
+
+      if {_action} is "stop":
+        stop
+
+    # Добавляем процент усталости
+    # + За бег
+    if {workers::%{_player}%::states::isRunning} is true:
+      if {workers::%{_player}%::states::isJumping} is true:
+        if {_running} > 0.5:
+          if {_fatigue} < 5:
+            add 2.5 to {_fatigue}
+
+      if {_running} >= 1:
+        add 0.05 to {_fatigue}
+      else:
+        add 0.1 to {_running}
+    else:
+      if {_running} is set:
+        if {_running} > 0:
+          remove 0.05 from {_running}
+        else:
+          delete {_running}
+
+          if {_sprints} >= 2:
+            set {_timer::sprints} to {_fatigue} * 2
+          else:
+            if {_sprints} + 1 is 2:
+              send action bar with text "Мне стоит остановится и передохнуть, пока не поздно..." to {_player}
+
+            set {_timer::sprints} to {_fatigue}
+
+          remove slowness from {_player}
+          add 1 to {_sprints}
+
+    if {_fatigue} > 15:
+      set {_fatigue} to 15
+
+    # Синхронизация
+    if {emotions::%{_player}%::fatigue::percent} is not {_fatigue}:
+      set {emotions::%{_player}%::fatigue::percent} to {_fatigue}
+
+    if {emotions::%{_player}%::fatigue::sprints} is not {_sprints}:
+      set {emotions::%{_player}%::fatigue::sprints} to {_sprints}
+
+    # Уменьшаем процент усталости (со временем)
+    if {_running} is not set:
+      if {_fatigue} > 0:
+        if {_sprints} > 0:
+          if {_sprints} < 3:
+            remove 0.05 from {_fatigue}
+        else:
+          remove 0.05 from {_fatigue}
+        
+      if {_timer::sprints} >= 0:
+        remove 0.05 from {_timer::sprints}
+        
+        {_sprints} > 0
+        if {_timer::sprints} <= 0:
+          remove 1 from {_sprints}
+
+          if {_sprints} > 1:
+            set {_fatigue} to 10
+
+          if {_sprints} > 0:
+            if {_fatigue} < 4:
+              set {_timer::sprints} to 4
+            else:
+              set {_timer::sprints} to {_fatigue}
+
+    wait 1 tick
+
+# Функция, которая проверит - нужно ли
+# вызывать функцию EM_FatigueEffects на игрока 
+function EM_fatigueCheck(player: player):
+  set {_fatigue} to {emotions::%{_player}%::fatigue::percent}
+  set {_sprints} to {emotions::%{_player}%::fatigue::sprints}
+
+  if {_fatigue} >= 4:
+    EM_FatigueEffects({_player})
+
+# Функция, которая будет возвращать предмет в зависимости
+# от текущей настройки эмоции
+function EM_fatigueGetItem(player: player) :: item:
+  set {_name} to EM_fatigueGetName({_player})
+  set {_sprints} to {emotions::%{_player}%::fatigue::sprints}
+
+  if {_sprints} >= 3:
+    set {_item} to player head named "%{_name}%" with lore "", "&f &fВы чувствуете изнеможение из-за невероятных нагрузок", "&f &fна организм. Это, с одной стороны, тренирует вашу выносливость,", "&f &fно вот с другой стороны длительные нагрузки - плохо.", ""
+  else:
+    set {_item} to player head named "%{_name}%" with lore "", "&f &fВаш организм устал от наложеных на него нагрузок.", "&f &fРекомендуется совсем немного передохнуть, перед тем", "&f &fкак ваш организм принудительно не заставит вас передохнуть.", ""
+
+  return {_item}
+
+function EM_fatigueGetName(player: player) :: string:
+  set {_sprints} to {emotions::%{_player}%::fatigue::sprints}
+  if {_sprints} >= 3:
+    set {_name} to "&c★ &fСильная Временная Усталость"
+  else:
+    set {_name} to "&e★ &fСлабая Усталость"
+
+  return {_name}
+
+# Функция, которая будет давать игроку определённые эффекты
+# по этой эмоции.
+function EM_FatigueEffects(player: player):
+  # Проверяем работоспособность воркера
+  if {workers::%{_player}%::emotions::fatigue::effecting} is set:
+    set {workers::%{_player}%::emotions::fatigue::effects::lastChecked} to now
+    stop
+
+  if {emotions::%{_player}%::fatigue::effecting} is set:
+    delete {emotions::%{_player}%::fatigue::effecting}
+    stop
+
+  if {emotions::%{_player}%::fatigue::active} is true:
+    delete {emotions::%{_player}%::fatigue::active}
+    stop
+
+  # Удаляем все ненужные переменные
+  delete {workers::%{_player}%::emotions::fatigue::effects}
+  delete {workers::%{_player}%::emotions::fatigue::effects::*}
+
+  # Метим эту эмоцию как активную
+  set {emotions::%{_player}%::fatigue::active} to true
+
+  # Запускаем воркер
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {_action} to "stop"
+
+    # Проверяем целостность переменных
+    if {emotions::%{_player}%::fatigue::active} is not true:
+      set {emotions::%{_player}%::fatigue::active} to true
+
+    # Действие: Остановка воркера
+    if {_action} is "stop":
+      broadcast "STOP EFFECTINGS"
+
+      remove slowness from {_player}
+      reset {_player}'s walking speed
+      
+      delete {workers::%{_player}%::emotions::fatigue::effects}
+      delete {workers::%{_player}%::emotions::fatigue::effects::*}
+
+      delete {emotions::%{_player}%::fatigue::effecting}
+
+      stop
+
+    # Проверяем когда последний раз была произведенна проверка
+    set {_lastChecked} to {workers::%{_player}%::emotions::fatigue::effects::lastChecked}
+    if {_lastChecked} is not set:
+      set {_lastChecked} to true
+      set {workers::%{_player}%::emotions::fatigue::effects::lastChecked} to now
+    
+    set {_difference} to difference between {_lastChecked} and now
+
+    if {_difference} >= 2 seconds:
+      # Меняем статус
+      if {_status} isn't "active":
+        set {_status} to "active"
+    else:
+      if {_status} isn't "effecting":
+        set {_status} to "effecting"
+
+    if {_status} is "effecting":
+      if {emotions::%{_player}%::fatigue::effecting} is not true:
+        set {emotions::%{_player}%::fatigue::effecting} to true
+
+      set {_sprints} to {emotions::%{_player}%::fatigue::sprints}
+
+      if {_sprints} >= 3:
+        if {_heavyFatigue} isn't true:
+          set {_heavyFatigue} to true
+
+        if {_player} doesn't have nausea:
+          apply potion of nausea of tier 1 without any particles to {_player} for 30 seconds
+
+        # Накидываем эффекты на игрока
+        if {_player} doesn't have slowness:
+          apply potion of slowness of tier 4 without any particles to {_player} for 2 seconds
+      else:
+        # Накидываем эффекты на игрока
+        if {_player} doesn't have slowness:
+          apply potion of slowness of tier 2 without any particles to {_player} for 2 seconds
+    else:
+      if {emotions::%{_player}%::fatigue::effecting} is true:
+        set {emotions::%{_player}%::fatigue::effecting} to false
+
+      if {_heavyFatigue} is true:
+        if {_player}'s walking speed isn't 0.1:
+          set {_player}'s walking speed to 0.1
+
+        if {emotions::%{_player}%::fatigue::sprints} isn't 3:
+          set {emotions::%{_player}%::fatigue::sprints} to 3
+
+        if {_difference} >= 30 seconds:
+          set {_action} to "stop"
+      else:
+        if {_difference} >= 15 seconds:
+          set {_action} to "stop"
+
+    wait 1 tick

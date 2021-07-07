@@ -107,7 +107,7 @@ verbosity: normal
 # Only use debug if you're programming an add-on for Skript, but even then you might usually not need it.
 
 
-plugin priority: high
+plugin priority: highest
 # Allowed values: lowest, low, normal, high, highest
 # Change this if you encounter problems with other plugins, e.g.:
 # - cancelled events: The event is cancelled by another plugin, but Skript handles the event nonetheless => increase priority
@@ -141,19 +141,19 @@ case sensitive: false
 # This e.g. applies to the effect 'replace' and the conditions 'contains' and 'is/is not'.
 # Variable names are case-insensitive irrespective of this setting.
 
-disable variable conflict warnings: false
+disable variable conflict warnings: true
 # Disables warnings of potential variable name conflicts if set to true.
 # I recommend to not touch this option, but if you do so you should at least set it back to false
 # whenever you create new scripts with new variables.
 
-disable variable will not be saved warnings: false
+disable variable will not be saved warnings: true
 # Disables the "... i.e contents cannot be saved ..." warning when reloading and something in your scripts sets a variable(non local) to a value that is not serializable.
 # By Mirre.
 
-disable variable missing and/or warnings: false
+disable variable missing and/or warnings: true
 # Disables the "List is missing 'and' or 'or', defaulting to 'and'" warning when reloading your script.
 
-disable starting a variable's name with an expression warnings: false
+disable starting a variable's name with an expression warnings: true
 # Disables the "Starting a variable's name with an expression is discouraged..." warnings
 
 soft api exceptions: false
@@ -162,12 +162,12 @@ soft api exceptions: false
 # However, if Skript or addons of it are not working correctly, this might help.
 # You may also get told to enable this by Skript or addon developers - then do so.
 
-enable timings: false
+enable timings: true
 # When enabled, triggers in scripts will be present in timings reports.
 # Note that this requires Paper (https://paper.readthedocs.io/en/paper-1.11/) to work; on Bukkit/Spigot this option has no effect.
 # When false, timings are not enabled for scripts even if you're running Paper.
 
-parse links in chat messages: disabled
+parse links in chat messages: lenient
 # Controls how Skript will try to parse links in chat messages.
 # If 'disabled' or 'false', no links will be automatically parsed.
 # When 'strict', everything starting with http(s):// will be parsed as link.
@@ -263,12 +263,12 @@ databases:
 	SQLite example:
 		# An SQLite database example.
 		
-		type: disabled# change to line below to enable this database
+		type: enabled# change to line below to enable this database
 		# type: SQLite
 		
 		pattern: db_.*# this pattern will save all variables that start with 'db_' in this SQLite database.
 		
-		file: ./plugins/Skript/variables.db
+		file: ./datastore/variables.db
 		# SQLite databases must end in '.db'
 		#table: variables21
 		# Usually not required, if omitted defaults to variables21 (see above for more details)

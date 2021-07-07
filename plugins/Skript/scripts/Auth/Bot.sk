@@ -89,7 +89,7 @@ on button click:
     
     # Удаляем сообщение
     set {_userId} to {data::discord::authorization::%{_code}%::discordId}
-    delete discord entity {data::discord::authorization::%{_code}%::message}
+    set {data::discord::authorization::%{_code}%::messageDeleted} to true
 
     set {_user} to user with id "%{_userId}%"
 
@@ -126,9 +126,23 @@ function sendAuthorizationRequest(player: player, code: string):
 
   # Отправляем
   send last embed to user {_user} and store it in {_message}
-  set {data::discord::authorization::%{_code}%::message} to {_message}
+  set {data::discord::authorization::%{_code}%::messageDeleted} to false
 
   add row {_row} to message {_message}
+
+  set {_time} to 120
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {data::discord::authorization::%{_code}%::messageDeleted} is not false:
+      delete discord entity {_message}
+      stop
+
+    remove 0.05 from {_time}
+    if {_time} <= 0:
+      delete discord entity {_message}
+      stop
+    wait 1 tick
 
 on unload:
   delete {data::discord::*}

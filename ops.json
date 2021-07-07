@@ -18,6 +18,12 @@
     "bypassesPlayerLimit": false
   },
   {
+    "uuid": "ef62341d-f8b7-3e01-a034-5a958da89f2d",
+    "name": "KingofDiamond",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
     "uuid": "e931056b-e6c0-3563-bd1c-4947995c9852",
     "name": "Bestus",
     "level": 4,
@@ -26,6 +32,12 @@
   {
     "uuid": "ed7692b0-1c65-3d75-b703-ae314bee4b74",
     "name": "FoxInDirt",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "64c7cef4-8072-397d-ad33-c7e6358a5c8e",
+    "name": "Za1ri",
     "level": 4,
     "bypassesPlayerLimit": false
   },

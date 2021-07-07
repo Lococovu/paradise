@@ -3,6 +3,9 @@
 # в его дефолтную квартирку.
 # 
 function TeleportToDefaultFlat(player: player):
+  # Выключаем некоторые воркеры
+  set {workers::%{_player}%::relationship} to "stop"
+
   # Сначала давайте спрячем всех игроков от этого
   # игрока
   hide all players from {_player}
@@ -104,7 +107,9 @@ function TeleportToDefaultFlat(player: player):
         # Прячем боссбары
         skellett hide bossbar {_notification}
 
-        if {temp::%{_player}%::currentSessionId} isn't {temp::%{_player}%::currentSessionId}:
+        if {temp::%{_player}%::sawTime} isn't true:
+          set {temp::%{_player}%::sawTime} to true
+
           # Давайте отобразим небольшую анимацию времени
           set {authorized::%{_player}%} to false
           set {_location} to getLocation("-3942, 12, -2764", "world")
@@ -184,6 +189,9 @@ function TeleportToDefaultFlat(player: player):
         set {_notification::stage} to 1
 
     wait 1 tick
+
+on quit:
+  delete {temp::%player%::sawTime}
 
 on place:
   if {defaultRoom::%player%} is true:

@@ -1,0 +1,26 @@
+on join:
+  isJumpingWorker(player)
+
+function isJumpingWorker(player: player):
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      stop
+
+    # Проверяем
+    set {_difference} to difference between {workers::%{_player}%::states::isJumping::lastJump} and now
+    if {_difference} <= 2.5 second:
+      set {workers::%{_player}%::states::isJumping} to true
+    else:
+      set {workers::%{_player}%::states::isJumping} to false
+
+    wait 1 second
+
+on jump:
+  set {workers::%player%::states::isJumping::lastJump} to now
+
+  if {player::%player%::forbidJumping} is true:
+    if {workers::%player%::states::isJumping} is true:
+      cancel event
+      delete {player::%player%::forbidJumping}

@@ -1,0 +1,51 @@
+function getPlayerEmotion(player: player) :: string:
+  # Выбираем самую лидирующую эмоцию игрока
+  set {_emotions} to getAllEmotions()
+  set {_emotions::*} to {_emotions} split at ","
+
+  loop {_emotions::*}:
+    set {_temp::*} to loop-value split at ";"
+
+    set {_code} to {_temp::1}
+    set {_level} to {_temp::2}
+
+    if {_level} is not set:
+      set {_level} to 0
+
+    # TODO
+    # Выбираем только те эмоции, которые работают в данный момент
+    if {emotions::%{_player}%::%{_code}%::active} is true:
+      if {_leader} is not set:
+        set {_leader} to {_code}
+
+      else:
+        if {_leader::level} is not set:
+          set {_leader::level} to 0
+
+        # Выбираем более лидирующую эмоцию
+        if {_level} > {_leader::level}:
+          set {_leader} to {_code}
+          set {_leader::level} to {_level}
+
+  if {_leader} is not set:
+    set {_leader} to "peace"
+
+  # Возвращаем
+  return {_leader}
+
+function getAllPlayerEmotions(player: player) :: string:
+  set {_emotions} to getAllEmotions()
+  set {_emotions::*} to {_emotions} split at ","
+
+  loop {_emotions::*}:
+    set {_temp::*} to loop-value split at ";"
+
+    set {_code} to {_temp::1}
+
+    if {emotions::%{_player}%::%{_code}%::active} is true:
+      if {_return} is not set:
+        set {_return} to {_code}
+      else:
+        set {_return} to "%{_return}%,%{_code}%"
+
+  return {_return}

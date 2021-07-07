@@ -7,3 +7,4 @@ function playerWorkers(player: player):
   # Запускаем сам ViewWorker
   wait 5 seconds
   StartViewWorker({_player})
+  startRelationshipWorker({_player})
