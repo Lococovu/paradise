@@ -7,3 +7,5 @@ character:
         age: 23
         gender: Мужской
         skin: KingofDiamond
+        statistics:
+            hunger: 0.5

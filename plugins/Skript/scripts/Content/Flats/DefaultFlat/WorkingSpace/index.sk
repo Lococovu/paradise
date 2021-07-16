@@ -8,16 +8,16 @@ function openWorkingSpace(player: player):
 
   format gui slot 12,13,14, 21,22,23, 30,31,32, 39,40,41 of {_player} with {_empty}
 
-  # Склад
-  set {_storage} to player head named "&8▣ &fСклад" with lore "", "&f &fСклад сделан специально для того, что бы", "&f &fвы хранили тут свои самые важные предметы", "&f &fи никогда не беспокоились о их сохранности.", "", "&f &fСклад - это место где вы можете хранить самые", "&f &fважные для вас предметы. Они никуда не денутся", "&f &fи никуда не пропадут", "", "&e▢ &fНажмите, что бы открыть"
-  add "{SkullOwner:{Id:""694510a5-e102-4c01-a407-c4fe5e42c92b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2Y5NDE4NDFjOTYyZjM2ODliOGJmNjhiM2E4M2Q2NGY3MGU4NTI0ODk0MWJiZTAyOTNjNGI0NjRhZjc5OSJ9fX0=""}]}}}" to item-nbt of {_storage}
+  # # Склад
+  # set {_storage} to player head named "&8▣ &fСклад" with lore "", "&f &fСклад сделан специально для того, что бы", "&f &fвы хранили тут свои самые важные предметы", "&f &fи никогда не беспокоились о их сохранности.", "", "&f &fСклад - это место где вы можете хранить самые", "&f &fважные для вас предметы. Они никуда не денутся", "&f &fи никуда не пропадут", "", "&e▢ &fНажмите, что бы открыть"
+  # add "{SkullOwner:{Id:""694510a5-e102-4c01-a407-c4fe5e42c92b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2Y5NDE4NDFjOTYyZjM2ODliOGJmNjhiM2E4M2Q2NGY3MGU4NTI0ODk0MWJiZTAyOTNjNGI0NjRhZjc5OSJ9fX0=""}]}}}" to item-nbt of {_storage}
 
-  format gui slot 12 of {_player} with {_storage} to run:
-    openStorage({_player})
+  # format gui slot 12 of {_player} with {_storage} to run:
+  #   openStorage({_player})
 
   # Редактор предметов
-  set {_editor} to player head named "&e✎ &fРедактор предметов" with lore "", "&f &fМы поощряем качественный РП-процесс. Именно", "&f &fпоэтому любой игрок нашего проекта может", "&f &fвоспользоваться Редактором Предметов - редактором, в", "&f &fкотором вы сможете максимально просто и", "&f &fбыстро создавать свои кастомные предметы,", "&f &fкоторые потом сможете использовать во", "&f &fвремя отыгровки.", "", "&e▢ &fНажмите, что бы открыть"
+  set {_editor} to player head named "&e✎ &fРедактор предметов" with lore "", "&f &fМы поощряем качественный РП-процесс. Именно", "&f &fпоэтому любой игрок нашего проекта может", "&f &fвоспользоваться Редактором Предметов - редактором, в", "&f &fкотором вы сможете максимально просто и", "&f &fбыстро создавать свои кастомные предметы,", "&f &fкоторые потом сможете использовать во", "&f &fвремя отыгровки.", "", "&e▹ &fНажмите, что бы открыть"
   add "{SkullOwner:{Id:""fe358563-d1df-40f4-9bbf-e7e3c4a6ac22"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiYTcyNzdmYzg5NWJmM2I2NzM2OTQxNTk4NjRiODMzNTFhNGQxNDcxN2U0NzZlYmRhMWMzYmYzOGZjZjM3In19fQ==""}]}}}" to item-nbt of {_editor}
 
-  format gui slot 13 of {_player} with {_editor} to run:
+  format gui slot 12 of {_player} with {_editor} to run:
     openRItemsList({_player})

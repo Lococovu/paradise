@@ -1,0 +1,39 @@
+places:
+- nrp_shop_01
+- job_center
+
+place:
+  nrp_shop_01:
+    title: "&fПродуктовый Магазин &7(Улица Пушкина)"
+    description:
+    - " &fРешили приготовить что-то поесть,"
+    - " &fа ингридиентов под руками нет? Ну так"
+    - " &fтогда быстро шуруйте сюда и покупайте"
+    - " &fвсё, что вам нужно для приготовления"
+    - " &fвашего будущего шедевра!"
+    - ""
+    - "&e▤ &fТут можно:"
+    - "&7- &fКупить продукты для готовки"
+    - "&7- &fКупить готовые полу-фабрикаты"
+    - "&7- &fРядом находится &7Терминал"
+    nbt: '{SkullOwner:{Id:"d670ce97-4782-41ef-9f5a-6e65c021fa74",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ1NzNkNjU0NmJhNzFlZmYzYjY3ZTUxMTZiMGQ3NWUyOWFkZjY3MTM1ZTk1MzM4ZGNhODNlZWMyODhmMjcifX19"}]}}}'
+    location: "517.3, 52, 664.5"
+    holo_location: "528, 52, 665"
+
+  job_center:
+    title: "&fЦентр Занятости &7(Улица Ленина)"
+    description:
+    - " &fВам нужно подыскать какую-либо работёнку"
+    - " &fдля заработка денег? Приходите в Центр Занятости"
+    - " &fгорода Лоунайт и мигом же ищите себе"
+    - " &fновую и высокооплачиваемую работу!"
+    - ""
+    - "&e▤ &fТут можно:"
+    - "&7- &fНайти &7временную &fподработку"
+    - "&7- &fНайти &7постоянную &fработу"
+    - "&7- &fУволиться с работы/подработки"
+    - "&7- &fПолучить зарплату"
+    - "&7- &fРядом находится &7Терминал"
+    nbt: '{SkullOwner:{Id:"80a61cf7-f0a3-4eee-a797-aa658e197017",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE1NWQyMWM3NzNjNzY1MmJlOTg0YmQ3NTNkZDhiM2QyMjVkOWE5NTBkMWQyM2ViZjBmYzVjOWVkYzM4NDBjYiJ9fX0="}]}}}'
+    location: "517.3, 52, 640.5"
+    holo_location: "528, 52, 640"

@@ -6,3 +6,5 @@ character:
         name: Mo Nke
         gender: Женский
         skin: сука
+        statistics:
+            hunger: -177.5

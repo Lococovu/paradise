@@ -1,5 +1,6 @@
 function loadItems():
-  load all yaml from directory "/plugins/Items"
+  load all yaml from directory "/plugins/Items/"
+
   loop all of the currently loaded yaml files:
     set {_file} to loop-value-1
     set {_nodes::*} to all yaml nodes of {_file}
@@ -44,6 +45,9 @@ function loadItemNode(node: string, file: string):
   set {_action::type} to yaml value "%{_node}%.action.type" from {_file}
   set {_action::function} to yaml value "%{_node}%.action.function" from {_file}
 
+  # @variables
+  set {_action::variables::*} to yaml list "%{_node}%.action.variables" from {_file}
+
   {_action::type} is not set:
     set {_action::type} to "click"
   {_action::function} is not set:
@@ -51,13 +55,12 @@ function loadItemNode(node: string, file: string):
 
   {_id}, {_item::id} and {_item::title} is set:
     # Подготавливаем сам предмет
-    set {_item} to {_item::id} parsed as item
+    evaluate:
+      set {_item} to %{_item::id}% named "%{_item::title}%" with lore coloured "&0i/%{_id}%", "", {_item::description::*}
+
     if {_item} is not set:
       set {_item} to grass
     
-    # set {_item}'s name to {_item::title}
-    # set {_item}'s lore to "&0i/%{_item::id}%", "", {_item::description::*}
-
     # Специальное: nbt
     if {_item::nbt} is set:
       add {_item::nbt} to item-nbt of {_item}
@@ -67,6 +70,16 @@ function loadItemNode(node: string, file: string):
     set {data::items::%{_id}%::item} to {_item}
     set {data::items::%{_id}%::action::type} to {_action::type}
     set {data::items::%{_id}%::action::function} to {_action::function}
+
+    # Переменные
+    loop {_action::variables::*}:
+      set {_temp::*} to loop-value split at "="
+
+      set {_name} to {_temp::1}
+      set {_value} to {_temp::2}
+
+      set {data::items::%{_id}%::variable::%{_name}%} to {_value}
+      add {_name} to {data::items::%{_id}%::variables::*}
 
     broadcast "[%{_id}%] Загружен предмет (ITEM ID: %{_item::id}%, TITLE: %{_item::title}%, ACTION TYPE: %{_action::type}%, ACTION FUNCTION: %{_action::function}%)"
 
@@ -108,8 +121,9 @@ on place:
 on click:
   set {_item} to player's held item
   set {_lore::*} to lore of {_item}
-  if line 1 of {_item}'s lore contains "i/":
-    set {_line} to {_lore::1}
+
+  if first element of {_lore::*} contains "i/":
+    set {_line} to first element of {_lore::*}
     set {_temp::*} to {_line} split at "/"
     set {_id} to {_temp::2}
 
@@ -120,11 +134,13 @@ on click:
       set {_functionId} to "%player%-%random integer between 000 and 999%"
 
       # Настраиваем переменные
-      set {function::%{_functionId}%::variables::player} to player
+      set {function::%{_functionId}%::variable::player} to player
+      add "player" to {function::%{_functionId}%::variables::*}
       # set {function::%{_functionId}%::variables::location} to
 
       # Сохраняем данные
       set {function::%{_functionId}%} to {data::items::%{_id}%::action::function}
+      set {function::%{_functionId}%::itemId} to {_id}
 
       # Запускаем функцию
       evaluateFunction({_functionId})

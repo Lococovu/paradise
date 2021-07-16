@@ -1,0 +1,101 @@
+function giveShoppingBag(player: player, items: string):
+  set {_items::*} to {_items} split at ","
+
+  # Подготавливаем предметы
+  loop {_items::*}:
+    delete {_id}
+    delete {_item}
+
+    set {_temp::*} to loop-value split at "="
+    set {_id} to {_temp::1}
+
+    set {_item} to getItem("%{_id}%")
+    
+    {_item} is set
+    add {_item} to {_items::final::*}
+
+  # Создаём сам пакет
+  set {_shoppingbag::random::1} to random integer between 0000 and 9999
+  set {_shoppingbag::random::2} to random integer between 0000 and 9999
+  
+  set {_shoppingbag} to player head named "&e▤ &fМагазиный Пакет" with lore "&0%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%", "", "", "&e▢ &fНажмите, что бы открыть"
+  add "{SkullOwner:{Id:""d670ce97-4782-41ef-9f5a-6e65c021fa74"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ1NzNkNjU0NmJhNzFlZmYzYjY3ZTUxMTZiMGQ3NWUyOWFkZjY3MTM1ZTk1MzM4ZGNhODNlZWMyODhmMjcifX19""}]}}}" to item-nbt of {_shoppingbag}
+
+  set {_id} to "%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%"
+  loop {_items::final::*}:
+    add loop-value to {data::shoppingbag::%{_id}%::inventory::*}
+
+  # Отдаём игроку
+  if {_player}'s inventory have space for 1 stone:
+    add {_shoppingbag} to {_player}'s inventory
+
+  close {_player}'s inventory
+
+function openShoppingBag(player: player, id: string):
+  # Теперь давайте откроем менюшку
+  open virtual chest inventory with size 6 named "&8&lПакет" to {_player}
+
+  # И заполним её контентом,
+  # который уже сохранён в кошельке
+  set {_slot} to 0
+  set {_inventory::*} to {data::shoppingbag::%{_id}%::inventory::*}
+
+  loop {_inventory::*}:
+    set {_item} to loop-value
+    set {_item::visual} to {_item}
+    set {_checkItem} to player head named "%random integer between 00000 and 9999%"
+    
+    if {_player}'s inventory doesn't have space for {_checkItem}:
+      add "", "Нельзя взять" to {_item::visual}'s lore
+    else:
+      add "", "Можно взять" to {_item::visual}'s lore
+
+    format gui slot {_slot} of {_player} with {_item} to run:
+      if {_player}'s inventory has space for {_checkItem}:
+        remove {_item} from {data::shoppingbag::%{_id}%::inventory::*}
+      
+        add {_item} to {_player}'s inventory
+        
+        if size of {data::shoppingbag::%{_id}%::inventory::*} is 0:
+          close {_player}'s inventory
+          
+          loop all items in {_player}'s inventory:
+            set {_lore::*} to loop-item's lore
+
+            if {_lore::1} contains "%{_id}%":
+              remove loop-item from {_player}'s inventory
+        else:
+          wait 1 tick
+          openShoppingBag({_player}, {_id})
+
+    add 1 to {_slot}
+
+  # Так же давайте добавим один дополнительный предмет,
+  # # который немного опишет суть кошелька
+  # set {_help} to player head named "&eⓘ &fПомощь" with lore "", "&f &fВ рюкзаке вы можете хранить абсолютно всё, что вам", "&f &fтолько захочется. Только будьте максимально осторожны", "&f &fи бдительны - ваш рюкзак могут ограбить или же украсть!", "", "&f &fВы можете носить только один рюкзак в инвентаре,", "&f &fплюс рюкзак отображается на вашей спине."
+  # add "{SkullOwner:{Id:""32f9f141-4960-4b2c-b09b-3d963db58a3f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=""}]}}}" to item-nbt of {_help}
+
+  # format gui slot 17 of player with {_help}
+
+# 
+# Прислушиваемся к евенту нажатия кнопки
+# 
+on right click:
+  if name of player's held item contains "Пакет":
+    # Теперь давайте попытаемся взять ид кошелька
+    set {_lore::*} to lore of player's held item
+    set {_id} to uncolored {_lore::1}
+
+    openShoppingBag(player, "%{_id}%")
+
+on inventory move:
+  if name of player's current inventory contains "Пакет":
+    cancel event
+    
+on inventory click:
+  if name of player's current inventory contains "Пакет":
+    cancel event
+
+on right click:
+  if name of player's held item contains "Пакет":
+    cancel event

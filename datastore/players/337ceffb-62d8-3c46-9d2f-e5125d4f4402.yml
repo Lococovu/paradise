@@ -1,0 +1,12 @@
+relationship:
+    main:
+        04a097ae-9262-3ac7-a809-39e7d46f9528-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender
+
+character:
+    main:
+        name: Чарльз Двенгитон

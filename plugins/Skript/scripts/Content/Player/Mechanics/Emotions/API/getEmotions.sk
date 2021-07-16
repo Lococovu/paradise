@@ -1,5 +1,8 @@
 function getAllEmotions() :: string:
-  return "fatigue;1"
+  # - Временная Усталость
+  # -- Голод
+  
+  return "fatigue;2,hunger;1"
 
 
     # # Проверяем данные с всех воркеров и изменяем эмоцию

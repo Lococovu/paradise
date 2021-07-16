@@ -1,0 +1,4 @@
+on block place:
+  cancel event
+
+  if name of player's held item contains "Верстак" or "Печка"

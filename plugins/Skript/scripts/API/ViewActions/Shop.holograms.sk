@@ -11,17 +11,18 @@ function SP_Holo_ShopStandCreate(player: player, location: location):
   # об данной голограмме
   set {_location::block} to {_location}
   set {_shopId} to {block::%{_location::block}%::shopId}
+  set {_standId} to {block::%{_location::block}%::standId}
 
-  set {_shop::location} to {block::%{_location::block}%::location}
-  set {_description::*} to {shop::%{_shopId}%::%{_shop::location}%::description::*}
+  set {_description::*} to {shop::%{_shopId}%::%{_standId}%::description::*}
 
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
   set {_lines::*} to "", "", coloured {_description::*}, "&e▷ &fПКМ"
   
   set {_hologram::location} to {_location}
-  set {_hologram::location}'s y coordinate to 69
+  set {_hologram::location}'s y coordinate to 54.1
 
+  # distance between {_player} and {_hologram::location} < 2
   create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
 
   make hologram {_hologram} invisible by default
@@ -37,20 +38,10 @@ function SP_Holo_ShopStandCreate(player: player, location: location):
       delete hologram {_hologram}
       stop
 
-    if {temp::%{_player}%::blockTerminalViewAction} > 0:
-      reduce {temp::%{_player}%::blockTerminalViewAction} by 0.05
-      hide hologram {_hologram} from {_player}
-    else:
-      delete {temp::%{_player}%::blockTerminalViewAction}
-      if {_player} can not see hologram {_hologram}:
-        reveal hologram {_hologram} to {_player}
-
     # Проверяем состояние текущего блока
-    if {workers::%{_player}%::viewWorker::currentBlock} isn't {_location}:
-      delete {hologram::%{_player}%::%{_location}%}
+    if distance between {_player} and {_hologram} >= 3.5:
       delete hologram {_hologram}
-      stop
-  
+
     if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
       set {hologram::%{_player}%::%{_location}%} to {_hologram}
 
@@ -61,9 +52,10 @@ function SP_Holo_ShopStandClick(player: player):
     set {_location::block} to location of block at loop-value
     set {_shopId} to {block::%{_location::block}%::shopId}
 
-    set {_shop::location} to {block::%{_location::block}%::location}
+    set {_standId} to {block::%{_location::block}%::standId}
 
-    if {_shopId} is set:
+    {_shopId} is set
+    {_standId} is set:
       exit 1 loop
 
-  broadcast "SHOPID: %{_shopId}% || Location: %{_shop::location}% 2"
+  openShopStandMenu({_player}, {_shopId}, {_standId})

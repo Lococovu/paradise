@@ -1,0 +1,36 @@
+command player:
+  trigger:
+    open virtual chest inventory with size 5 named "&8Я" to player
+
+    # Пустые кнопки
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+    set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+    format gui slot {_slots::*} of player with {_empty}
+
+    # Сводка по эмоциям
+    set {_emotion} to getPlayerEmotion(player)
+    evaluate:
+      set {_item} to EM_%{_emotion}%GetItem(player)
+
+    set {_nbt} to {_item}'s item-nbt
+    set {_emotions} to player head named "&9 &fСамочуствие персонажа"
+    add "%{_nbt}%" to item-nbt of {_emotions}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_emotions} to run:
+      execute player command "/emotions"
+
+    # Знакомые
+    set {_relationships} to player head named "&9 &fЗнакомства"
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+    
+    format gui slot {_slot} of player with {_relationships} to run:
+      execute player command "/relationships"
+
+    # Текущая работа
+

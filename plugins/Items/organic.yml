@@ -1,0 +1,89 @@
+# type: 'item'
+# item: 'player head'
+# visual:
+#   title: '&fХлеб Обычный'
+#   description:
+#   - '&f &fСамый обычный хлеб'
+#   - '&f &fСъедобные'
+#   nbt: '{SkullOwner:{Id:"",Properties:{textures:[{Value:""}]}}}'
+# action:
+#   type: 'click'
+#   function: 'AC_FeedAction'
+#   variables:
+#   - "foodCount=4"
+
+# cucumber:
+#   type: 'item'
+#   item: 'player head'
+#   visual:
+#     title: '&e◇ &fОгурцы &7(4 шт.)'
+#     description:
+#     - '&f &fСамый обычный хлеб'
+#     - '&f &fСъедобные'
+#     nbt: '{SkullOwner:{Id:"",Properties:{textures:[{Value:""}]}}}'
+#   action:
+#     type: 'click'
+#     function: 'AC_FeedAction'
+#     variables:
+#     - "foodCount=0"
+
+tomato:
+  type: 'item'
+  item: 'player head'
+  visual:
+    title: '&e◇ &fТомат'
+    description:
+    - '&f &fСамый обычный хлеб'
+    - '&f &fСъедобные'
+    nbt: '{SkullOwner:{Id:"7ca237b4-35cb-4d8e-b255-0b0ae28864bf",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFiNjJmYTAzNjRiZmQ0M2VkZTcwZjI3NzNiN2U4NGVjMmMxMmI5ZTc4NjVhODcxN2FjNzQ4OWU1ZjcxNTI5ZiJ9fX0="}]}}}'
+  action:
+    type: 'click'
+    function: 'AC_FeedAction'
+    variables:
+    - "foodCount=0"
+
+pepper:
+  type: 'item'
+  item: 'player head'
+  visual:
+    title: '&e◇ &fПерец Сладкий'
+    description:
+    - '&f &fСамый обычный хлеб'
+    - '&f &fСъедобные'
+    nbt: '{SkullOwner:{Id:"1776d1dd-2abe-4630-bc6a-6a135a6bf1dd",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWEzYWJkMzNkMWUyMzNmMzViNTAzYmZlM2Y2YjQwOGI5YTE4YWJiM2UyNjUwYmJhYTZjYTM4ZjQ5YjdhZDIyMSJ9fX0="}]}}}'
+  action:
+    type: 'click'
+    function: 'AC_FeedAction'
+    variables:
+    - "foodCount=0"
+
+onion:
+  type: 'item'
+  item: 'player head'
+  visual:
+    title: '&e◇ &fЛук'
+    description:
+    - '&f &fСамый обычный хлеб'
+    - '&f &fСъедобные'
+    nbt: '{SkullOwner:{Id:"5b689770-4b73-47ad-9822-c5e7e9260c18",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE4NzZmZjcxZjdmOTE0MTI3MWRiMTY0MmI1M2U3MDU1NjIyZDVkMTNiMjYzOGFmZmU1MGRiZjExODA5YmJmZSJ9fX0="}]}}}'
+  action:
+    type: 'click'
+    function: 'AC_FeedAction'
+    variables:
+    - "foodCount=0"
+
+
+apple:
+  type: 'item'
+  item: 'player head'
+  visual:
+    title: '&e◇ &fЯблоко'
+    description:
+    - '&f &fСамый обычный хлеб'
+    - '&f &fСъедобные'
+    nbt: '{SkullOwner:{Id:"c56e9862-a27f-4a16-9c61-6592ad6642ae",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NTRlYjdiNGNjMWQ0ZDUyMGMwYzU2YmU5NjlmNDhhNTdmMTRkMzNhMGIyZjZhODg5NmZkZmMwYTgzYTIxIn19fQ=="}]}}}'
+  action:
+    type: 'click'
+    function: 'AC_FeedAction'
+    variables:
+    - "foodCount=0"

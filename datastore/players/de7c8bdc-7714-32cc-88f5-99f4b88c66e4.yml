@@ -7,3 +7,5 @@ character:
         age: 21
         gender: Мужской
         skin: BagelBen
+        statistics:
+            hunger: -4

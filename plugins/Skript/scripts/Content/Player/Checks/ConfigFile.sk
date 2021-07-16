@@ -1,0 +1,26 @@
+function startConfigFileChecker(player: player):
+  if {workers::%{_player}%::ConfigFileChecker} is set:
+    set {workers::%{_player}%::ConfigFileChecker} to "stop"
+    wait 1 second
+
+  delete {workers::%{_player}%::ConfigFileChecker}
+
+  set {_waiting} to true
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::ConfigFileChecker} to "stop"
+
+    # Действие
+    if {workers::%{_player}%::ConfigFileChecker} is not set:
+      set {workers::%{_player}%::ConfigFileChecker} to true
+    else:
+      set {_action} to {workers::%{_player}%::ConfigFileChecker}
+      
+      if {_action} is "stop":
+        stop
+
+    # Проверяем
+    if yaml "player-%{_player}'s uuid%" is not loaded:
+      load yaml "datastore/players/%{_player}'s uuid%.yml" as "player-%{_player}'s uuid%"
+
+    wait 1 tick

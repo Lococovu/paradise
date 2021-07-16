@@ -55,9 +55,7 @@ function loadShopPoints():
       set {_location::block} to location of block at {_location}
 
       set {block::%{_location::block}%::shopId} to {_shopId}
-      set {block::%{_location::block}%::location} to {_location}
-
-      broadcast "%{block::%{_location::block}%::location}%"
+      set {block::%{_location::block}%::standId} to {_id}
 
       # Подгружаем описание и название для голограммы
       # из файлов
@@ -65,8 +63,9 @@ function loadShopPoints():
       set {_title} to yaml value "shop.%{_shopId}%.stand.%{_id}%.title" from "shops"
       set {_description::*} to yaml list "shop.%{_shopId}%.stand.%{_id}%.description" from "shops"
 
-      set {shop::%{_shopId}%::%{_location}%::title} to {_title}
-      set {shop::%{_shopId}%::%{_location}%::description::*} to {_description::*}
+      set {shop::%{_shopId}%::%{_id}%::title} to {_title}
+      set {shop::%{_shopId}%::%{_id}%::description::*} to {_description::*}
+      set {shop::%{_shopId}%::%{_id}%::location} to {_location}
 
       # Подгружаем товары этой стойки из конфигов
       # TODO
@@ -78,23 +77,24 @@ function loadShopPoints():
 
         set {_item} to yaml value "shop.%{_shopId}%.stand.%{_id}%.item.%loop-value-3%.id" from "shops"
         set {_price} to yaml value "shop.%{_shopId}%.stand.%{_id}%.item.%loop-value-3%.price" from "shops"
+        set {_amount} to yaml value "shop.%{_shopId}%.stand.%{_id}%.item.%loop-value-3%.amount" from "shops"
+
+        if {_amount} is not set:
+          set {_amount} to 20
+        if {_amount} < 0:
+          set {_amount} to 20
+
+        set {shop::%{_shopId}%::%{_id}%::%{_item}%::amount} to {_amount}
 
         if {_item} and {_price} is set:
-          broadcast "ADD ITEM || %{_item}% || %{_price}%"
-          add "%{_item}%=%{_price}%" to {shop::%{_shopId}%::%{_location}%::items::*}
+          add "%{_item}%=%{_price}%" to {shop::%{_shopId}%::%{_id}%::items::*}
 
-          broadcast "&c%{shop::%{_shopId}%::%{_location}%::items::*}%"
-
-      add {_location} to {shop::%{_shopId}%::stands::*}
+      add {_id} to {shop::%{_shopId}%::stands::*}
 
       wait 1 tick
 
 on load:
   loadShopPoints()
-
-command tests:
-  trigger:
-    startShopWorker(player)
 
 function loadShopStandsHolograms(player: player, shopId: string):
   # Проверим кое-что
@@ -102,21 +102,24 @@ function loadShopStandsHolograms(player: player, shopId: string):
     stop
 
   # Ну а теперь давайте загрузим все голограммы
-  set {_locations::*} to {shop::%{_shopId}%::stands::*}
+  set {_stands::*} to {shop::%{_shopId}%::stands::*}
 
   # И так же давайте добавим ViewWorker'ы для этих голограмм
   # (если их нет)
-  loop {_locations::*}:
-    set {_location} to location of block at loop-value
+  loop {_stands::*}:
+    set {_id} to loop-value
+    set {_location} to {shop::%{_shopId}%::%{_id}%::location}
+    set {_location} to location of block at {_location}
 
     if {workers::%{_player}%::viewWorker::block::%{_location}%::type} is not set:
       set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
       set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "SP_Holo_ShopStandCreate"
       set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "SP_Holo_ShopStandClick"
 
-  loop {_locations::*}:
+  loop {_stands::*}:
     delete {_create}
-    set {_location} to loop-value
+    set {_id} to loop-value
+    set {_location} to {shop::%{_shopId}%::%{_id}%::location}
 
     # Проверяем, есть ли у нас уже эта голограмма или нет
     if {holograms::%{_player}%::%{_location}%} is not set:
@@ -127,7 +130,7 @@ function loadShopStandsHolograms(player: player, shopId: string):
     
     if {_create} is true:
       # Создаём голограммы
-      set {_title} to {shop::%{_shopId}%::%{_location}%::title}
+      set {_title} to {shop::%{_shopId}%::%{_id}%::title}
       if {_title} is not set:
         set {_title} to "&cНеизвестно"
 
@@ -168,6 +171,13 @@ function loadShopStandsHolograms(player: player, shopId: string):
       loop {_holograms::*}:
         delete hologram loop-value
 
+      loop {_stands::*}:
+        set {_id} to loop-value
+        set {_location} to {shop::%{_shopId}%::%{_id}%::location}
+        set {_location} to location of block at {_location}
+
+        delete {workers::%{_player}%::viewWorker::block::%{_location}%::*}
+
       delete {workers::shopWorker::%{_player}%::terminalWorker}
       stop
 
@@ -178,7 +188,7 @@ function loadShopTerminalsHolograms(player: player, shopId: string):
   # Сначала давайте проверим другие воркеры
   if {workers::shopWorker::%{_player}%::currentShopId} isn't {_shopId}:
     stop
-
+  
   # Ну а теперь давайте возьмём все позиции терминалов и создадим для них голограммы
   # которые удалим если ID магазина измениться.
   set {_terminals::*} to {shop::%{_shopId}%::terminals::*}
@@ -199,6 +209,9 @@ function loadShopTerminalsHolograms(player: player, shopId: string):
       set {_lines::*} to "", "", "&7&lКасса", "&fВыбирайте товары в магазине", "&fи потом оплачивайте их на &7Кассе", "&e▷ &fПКМ"
       set {_hologram::location} to {_location}
       add 2 to y coordinate of {_hologram::location}
+
+      set {_block::location} to location of block at {_location}
+      set {block::%{_block::location}%::type} to "terminal"
 
       create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
 
@@ -238,6 +251,333 @@ function loadShopTerminalsHolograms(player: player, shopId: string):
       stop
 
     wait 1 tick
+
+function openShopStandMenu(player: player, shopId: string, standId: string):
+  if {workers::shopWorker::%{_player}%::inShop} is set:
+    # Сначала берём список всех предметов
+    # в этой стойке
+    set {_items::*} to {shop::%{_shopId}%::%{_standId}%::items::*}
+
+    if size of {_items::*} > 0:
+      # Берём ещё данные
+      set {_title} to {shop::%{_shopId}%::%{_standId}%::title}
+
+      open virtual chest inventory with size 4 named "&8%{_title}%" to {_player}
+      
+      # Загружаем предметы
+      set {_slots::*} to 11,12,13,14,15, 20,21,22,23,24
+      # Пустые слоты
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+      format gui slot {_slots::*} of {_player} with {_empty}
+      
+      set {_cart::*} to {workers::shopWorker::%{_player}%::cart::*}
+
+      loop {_items::*}:
+        delete {_item}
+        delete {_price}
+        delete {_amount}
+
+        set {_temp::*} to loop-value split at "="
+        set {_id} to {_temp::1}
+        set {_price} to {_temp::2}
+
+        # Берём данные о предмете
+        set {_item} to {data::items::%{_id}%::item}
+        set {_amount} to {shop::%{_shopId}%::%{_standId}%::%{_id}%::amount}
+        
+        {_item} is set
+        if {_amount} is not set:
+          set {_amount} to 20
+        if {_amount} < 0:
+          set {_amount} to 20
+
+        set {_slot} to first element of {_slots::*}
+        remove {_slot} from {_slots::*}
+
+        # Проверяем, есть ли этот предмет у игрока
+        # в корзине
+        loop {_cart::*}:
+          loop-value-2 contains {_id}
+          set {_temp::*} to loop-value-2 split at "="
+
+          set {_cartId} to {_temp::1}
+          {_cartId} is {_id}:
+            add 1 to {_playerAmount}
+
+        # Добавляем описание
+        add "", "&e$ &fСтоимость: &e%{_price}%$ &7(1 шт.)", "", "&a▹ &fНажмите, что бы добавить в корзину" to {_item}'s lore
+
+        format gui slot {_slot} of {_player} with {_item} to run:
+          if size of {_cart::*} <= 25:
+            add "%{_id}%=%{_price}%" to {workers::shopWorker::%{_player}%::cart::*}
+
+function openTerminalMenu(player: player):
+  if {workers::shopWorker::%{_player}%::inShop} is set:
+    open virtual chest inventory with size 6 named "&8Касса" to {_player}
+
+    set {_slot} to 9
+    set {_cart::*} to {workers::shopWorker::%{_player}%::cart::*}
+
+    loop {_cart::*}:
+      # Берём данные про предмет
+      set {_temp::*} to loop-value split at "="
+
+      set {_id} to {_temp::1}
+      set {_amount} to 1
+      set {_price} to {_temp::2} parsed as number
+
+      add {_price} to {_overallPrice}
+
+      set {_item} to {data::items::%{_id}%::item}
+
+      {_item} is set
+      format gui slot {_slot} of {_player} with {_item}
+      
+      add 1 to {_slot}
+
+    # Купить все товары
+    set {_buy} to player head named "&e▤ &fКупить всё" with lore "", "&f &fУже решились с тем, что хотите это всё купить?", "&f &fНу тогда просто нажмите на эту кнопку и выберите удобный", "&f &fспособ оплаты!", ""
+    if size of {_cart::*} > 0:
+      add "&e## &fОбщая стоимость покупки:", "&e%{_overallPrice}%&f$", "", "&e▹ &fПерейти к оплате" to {_buy}'s lore
+    else:
+      add "&c✕ &fКорзина пуста!", "&7Побегайте по магазину, понабирайте каких-либо", "&7товаров и потом возвращайтесь сюда!" to {_buy}'s lore
+    add "{SkullOwner:{Id:""e08b808f-5a19-4ddf-9f66-3b9b149161cf"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ1NzNkNjU0NmJhNzFlZmYzYjY3ZTUxMTZiMGQ3NWUyOWFkZjY3MTM1ZTk1MzM4ZGNhODNlZWMyODhmMjcifX19""}]}}}" to item-nbt of {_buy}
+
+    format gui slot 4 of {_player} with {_buy} to run:
+      if size of {_cart::*} > 0:
+        openBuyPrompt({_player})
+
+function ifCanBuyUsingCash(player: player, overallPrice: number) :: boolean:
+  loop all items in {_player}'s inventory:
+    if name of loop-item contains "$":
+      set {_quantity} to item amount of loop-item
+      add "%{_quantity}%-%uncolored name of loop-item%" to {_bills::*}
+
+  # Считаем...
+  loop {_bills::*}:
+    delete {_amount}
+    set {_temp::*} to loop-value split at "-"
+
+    set {_bill} to {_temp::2}
+    replace all "$" in {_bill} with ""
+
+    set {_bill} to "%{_bill}%" parsed as number
+
+    set {_amount} to "%{_temp::1}%" parsed as number
+    if {_amount} is not set:
+      set {_amount} to 1
+
+    if {_bill} is 1:
+      add {_amount} * 1 to {_moneyAmount}
+    else if {_bill} is 5:
+      add {_amount} * 5 to {_moneyAmount}
+    else if {_bill} is 10:
+      add {_amount} * 10 to {_moneyAmount}
+    else if {_bill} is 20:
+      add {_amount} * 20 to {_moneyAmount}
+    else if {_bill} is 50:
+      add {_amount} * 50 to {_moneyAmount}
+    else if {_bill} is 100:
+      add {_amount} * 100 to {_moneyAmount}
+  
+  if {_moneyAmount} >= {_overallPrice}:
+    return true
+  else:
+    return false
+# 
+function openBuyPrompt(player: player):
+  open virtual chest inventory with size 3 named "&8Оплата" to {_player}
+
+  # Переменные
+  set {_items::*} to {workers::shopWorker::%{_player}%::cart::*}
+  loop {_items::*}:
+    delete {_id}
+    delete {_price}
+
+    set {_temp::*} to loop-value split at "="
+
+    set {_id} to {_temp::1}
+    set {_price} to "%{_temp::2}%" parsed as number
+
+    add {_price} to {_overallPrice}
+
+  # {SkullOwner:{Id:"""",Properties:{textures:[{Value:""""}]}}}
+  # Вернуться
+  set {_back} to player head named "&e◁ &fВернуться назад" with lore "", "&f &fКнопка, которая просто вернёт вас к списку всех", "&f &fтоваров, которые вы собираетесь купить.", "", "&e▹ &fНажмите, что бы перейти"
+  add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
+
+  format gui slot 11 of {_player} with {_back} to run:
+    openTerminalMenu({_player})
+
+  # Наличкой
+  set {_cash::eligible} to ifCanBuyUsingCash({_player}, {_overallPrice})
+
+  set {_cash} to player head named "&e$ &fРасплатиться наличными" with lore "", "&f &fСамая обычная расплата наличными деньгами. Главное", "&f &fчто бы вам хватило денег в вашем инвентаре!", "", "&e## &fОбщая стоимость покупки:", "&e%{_overallPrice}%&f$", ""
+
+  if {_cash::eligible} is true:
+    add "{SkullOwner:{Id:""7a0345b9-b55f-462c-8fb5-0690193ec00d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA0NzE5YjNiOTdkMTk1YTIwNTcxOGI2ZWUyMWY1Yzk1Y2FmYTE2N2U3YWJjYTg4YTIxMDNkNTJiMzdkNzIyIn19fQ==""}]}}}" to item-nbt of {_cash}  
+    add "&e▢ &fНажмите, что бы расплатиться" to {_cash}'s lore
+  else:
+    add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_cash}
+    add "&c✕ &fНедостаточно средсвт", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_cash}'s lore
+
+  format gui slot 13 of {_player} with {_cash} to run:
+    if {_cash::eligible} is true:
+      # Покупаем предметы
+      loop all items in {_player}'s inventory:
+        if name of loop-item contains "$":
+          set {_quantity} to item amount of loop-item
+          add "%{_quantity}%-%uncoloured name of loop-item%" to {_bills::*}
+
+      # Визуал
+      open virtual chest inventory with size 3 named "&8Расплачиваемся..." to {_player}
+
+      set {_wait} to player head named "&fПодождите, пожалуйста..."
+      add "{SkullOwner:{Id:""33d78c7c-79e5-458e-bd14-214bf8e7d2d3"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_wait}
+
+      format gui slot 13 of {_player} with {_wait}
+
+      # Считаем...
+      set {_price} to {_overallPrice}
+      set {_moneyTaken} to 0
+
+      while {_moneyTaken} < {_price}:
+        delete {_smallestBill}
+        
+        # Выбираем самую маленькую купюру
+        loop {_bills::*}:
+          set {_temp::*} to loop-value split at "-"
+
+          set {_bill} to {_temp::2}
+          replace all "$" in {_bill} with ""
+
+          set {_bill} to "%{_bill}%" parsed as number
+
+          set {_amount} to {_temp::1} parsed as number
+          {_amount} is not set:
+            set {_amount} to 1
+
+          if {_bill} is 1:
+            if {_smallestBill} isn't 1:
+              set {_smallestBill} to 1
+          else if {_bill} is 5:
+            if {_smallestBill} isn't 5:
+              set {_smallestBill} to 5
+          else if {_bill} is 10:
+            if {_smallestBill} isn't 10:
+              set {_smallestBill} to 10
+          else if {_bill} is 20:
+            if {_smallestBill} isn't 20:
+              set {_smallestBill} to 20
+          else if {_bill} is 50:
+            if {_smallestBill} isn't 50:
+              set {_smallestBill} to 50
+          else if {_bill} is 100:
+            if {_smallestBill} isn't 100:
+              set {_smallestBill} to 100
+
+          set {_loop} to loop-value
+
+        add {_amount} * {_smallestBill} to {_moneyTaken}
+        remove {_loop} from {_bills::*}
+        
+        loop {_amount} times:
+          add {_smallestBill} to {_taken::*}
+
+        wait 1 tick
+
+      # Берём самую маленькую купюру из инвентаря игрока
+      loop {_taken::*}:
+        set {_item} to GetMoneyBillItem(loop-value)
+
+        remove 1 of {_item} from {_player}'s inventory
+      
+      if {_moneyTaken} is not set:
+        {_cash::lowest} is set
+        add {_cash::lowest} to {_moneyTaken}
+        set {_cash::lowest} to GetMoneyBillItem({_cash::lowest})
+
+        remove {_cash::lowest} from {_player}'s inventory
+
+      # Возвращаем деньги, которые спиздили у игрока
+      if {_moneyTaken} > {_price}:
+        set {_output} to {_moneyTaken} - {_price}
+        set {_time} to 6
+
+        while {_output} > 0:
+          if {_output} >= 100:
+            set {_output} to {_output} - 100
+            set {_item} to GetMoneyBillItem(100)
+            add {_item} to {_items::*}
+          else if {_output} >= 50:
+            set {_output} to {_output} - 50
+            set {_item} to GetMoneyBillItem(50)
+            add {_item} to {_items::*}
+          else if {_output} >= 20:
+            set {_output} to {_output} - 20
+            set {_item} to GetMoneyBillItem(20)
+            add {_item} to {_items::*}
+          else if {_output} >= 10:
+            set {_output} to {_output} - 10
+            set {_item} to GetMoneyBillItem(10)
+            add {_item} to {_items::*}
+          else if {_output} >= 5:
+            set {_output} to {_output} - 5
+            set {_item} to GetMoneyBillItem(5)
+            add {_item} to {_items::*}
+          else:
+            set {_output} to {_output} - 1
+            set {_item} to GetMoneyBillItem(1)
+            add {_item} to {_items::*}
+
+          reduce {_time} by 0.05
+          if {_time} <= 0:
+            stop
+          wait 1 tick
+
+        loop {_items::*}:
+          add loop-value to {_player}'s inventory
+
+      # Отдаём игроку пакет с предметами
+      loop {_items::*}:
+        set {_temp::*} to loop-value split at "="
+        
+        set {_id} to {_temp::1}
+        
+        if {_itemsString} is not set:
+          set {_itemsString} to {_id}
+        else:
+          set {_itemsString} to "%{_itemsString}%,%{_id}%"
+
+      delete {workers::shopWorker::%{_player}%::cart::*}
+      giveShoppingBag({_player}, "%{_itemsString}%")
+
+  # Картой
+  set {_card} to player head named "&c▢ &fРасплатиться карточкой" with lore "", "&f &fЕсть деньги на карточке? Ну так тогда", "&f &fиспользуйте именно её для оплаты этого товара!", "&f &fВсё максимально протсо и максимально быстро", "", "&7В разработке"
+  add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_card}
+  # add "{SkullOwner:{Id:""2552d160-1ddc-4bc3-b08b-996d8ce92505"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI5Zjc2ZGE1OTMwNTM1YWNhNjA3MzVhYjZmYjhmYTlhMmQ0ZDlhZDk1MTg5MTJkMTEyZDc4NWMyOTk0Zjg3MCJ9fX0=""}]}}}" to item-nbt of {_card}
+
+  format gui slot 14 of {_player} with {_card}
+
+  # Пустой слот
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  format gui slot 15 of {_player} with {_empty}
+
+on hologram click:
+  if {workers::shopWorker::%event-player%::inShop} is set:
+    set {_player} to event-player
+    set {_location} to location of event-hologram
+
+    loop all blocks in radius 2.5 around {_location}:
+      set {_loc} to location of loop-block
+      
+      if {block::%{_loc}%::type} is "terminal":
+        openTerminalMenu({_player})
+        stop
 
 function startShopWorker(player: player):
   # Сначала выключим прошлый воркер
@@ -300,16 +640,19 @@ function startShopWorker(player: player):
         set {workers::shopWorker::%{_player}%::currentShopId} to {_shopId}
 
       # Давайте включим голограммы для этого магазина
-      loadShopTerminalsHolograms({_player}, {_shopId})
-      loadShopStandsHolograms({_player}, {_shopId})
+      if {workers::shopWorker::%{_player}%::loadedHolograms} isn't true:
+        set {workers::shopWorker::%{_player}%::loadedHolograms} to true
+
+        loadShopTerminalsHolograms({_player}, {_shopId})
+        loadShopStandsHolograms({_player}, {_shopId})
 
       if distance between {_shopBlock} and {_location} > 4:
         # Игрок вышел из магазина - удалим боссбар, голограмму
         # и подобные визуальные предметы
-        delete {workers::shopWorker::%{_player}%::cart::*}
         delete {workers::shopWorker::%{_player}%::inShop}
         delete {workers::shopWorker::%{_player}%::currentShopBlock}
         delete {workers::shopWorker::%{_player}%::currentShopId}
+        set {workers::shopWorker::%{_player}%::loadedHolograms} to false
 
         if {_bossbar} is set:
           hide bossbar {_bossbar}
@@ -317,6 +660,9 @@ function startShopWorker(player: player):
       else:
         # Проверяем состояние боссбара, количество предметов
         # в корзине и подобные визуальные данные
+        delete {_size}
+        delete {_cart::*}
+
         set {_cart::*} to {workers::shopWorker::%{_player}%::cart::*}
         set {_size} to size of {_cart::*}
 

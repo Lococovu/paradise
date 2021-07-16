@@ -139,21 +139,57 @@ function createRelationshipHologram(player: player, target: player):
     set {_name} to getCharacterName({_target}, getCurrentCharacter({_target}))
     set {_splittedName::*} to {_name} split at " "
 
-    set {_gender} to getCharacterGender({_target}, getCurrentCharacter({_target}))
+    set {_target::gender} to getCharacterGender({_target}, getCurrentCharacter({_target}))
+    set {_target::age} to getCharacterAge({_target}, getCurrentCharacter({_target}))
 
     # Проверяем имя
     if doTargetKnownToPlayer({_target}, {_player}, "firstName") is true:
       set {_firstName} to "&f%{_splittedName::1}%"
-    
+    else:
+      delete {_firstName}
+
     if {_firstName} is not set:
       set {_firstName} to "&7??????"
 
     # Проверям фамилию
     if doTargetKnownToPlayer({_target}, {_player}, "lastName") is true:
-      set {_lastName} to "&f%{_splittedName::2}%"
+      set {_lastName} to "&7%{_splittedName::2}%"
+    else:
+      delete {_lastName}
 
     if {_lastName} is not set:
       set {_lastName} to "&7??????"
+
+    # Возраст
+    if doTargetKnownToPlayer({_target}, {_player}, "age") is true:
+      set {_age} to "&f%{_target::age}% лет"
+    else:
+      delete {_age}
+
+    if {_age} is not set:
+      set {_age} to "&7?? лет"
+
+    # Пол
+    if doTargetKnownToPlayer({_target}, {_player}, "gender") is true:
+      if {_target::gender} contains "муж":
+        set {_gender} to "Мужчина"
+      else:
+        set {_gender} to "Женщина"
+    else:
+      delete {_gender}
+
+    if {_gender} is not set:
+      set {_gender} to "&7??????"
+
+    # Настроение
+    set {_emotion} to getPlayerEmotion({_target})
+
+    # Берём описание эмоции
+    evaluate:
+      set {_emotion::description} to EM_%{_emotion}%GetRandomDescription({_target})
+
+    if {_emotion::description} is not set:
+      set {_emotion::description} to "&7??????"
 
     if {_expandedMenu} is not true:
       set {_holoLines::*} to all lines of hologram {_hologram}
@@ -162,7 +198,7 @@ function createRelationshipHologram(player: player, target: player):
 
       # Меняем текст голограммы
       if {_firstName} is {_lastName}:
-        if {_gender} contains "муж":
+        if {_target::gender} contains "муж":
           set line 1 of {_hologram} to "&7Незнакомец &9[F]"
         else:
           set line 1 of {_hologram} to "&7Незнакомка &9[F]"
@@ -177,7 +213,7 @@ function createRelationshipHologram(player: player, target: player):
       delete {_update}
       delete {_holoLines::*}
 
-      set {_lines::*} to "%{_firstName}% %{_lastName}% &9[F]", "&7Мужчина, 30 лет;", "&7грустный и уставший;", "&7имеется жетон полиции.", "", "&e[ПКМ] &f- открыть меню"
+      set {_lines::*} to "%{_firstName}% %{_lastName}% &9[F]", "&7%{_gender}%, &7%{_age}%", "&7%{_emotion::description}%", "", "&e[ПКМ] &f- открыть меню"
 
       set {_holoLines::*} to content of all lines of hologram {_hologram}
 
@@ -194,7 +230,7 @@ function createRelationshipHologram(player: player, target: player):
 on right click:
   if targeted player is set:
     if {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} is true:
-      broadcast "OPEN MENU"
+      openInteractionMenu(player, targeted player)
 
 on offhand switch:
   # Проверяем...
@@ -212,3 +248,5 @@ on offhand switch:
         set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to false
       else:
         set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to true
+  else:
+    execute player command "/player"

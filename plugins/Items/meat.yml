@@ -1,0 +1,83 @@
+# type: 'item'
+# item: 'player head'
+# visual:
+#   title: '&fХлеб Обычный'
+#   description:
+#   - '&f &fСамый обычный хлеб'
+#   - '&f &fСъедобные'
+#   nbt: '{SkullOwner:{Id:"",Properties:{textures:[{Value:""}]}}}'
+# action:
+#   type: 'click'
+#   function: 'AC_FeedAction'
+#   variables:
+#   - "foodCount=4"
+
+sausage:
+  sausage_01:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◇ &fКолбаса'
+      description:
+      - '&f &fСамая обычная и самая дешёвая'
+      - '&f &fколбаса. Но зато это хоть что-то!'
+      - '&f &fПолу-фабрикат, но тем не менее -'
+      - '&f &fвесьма съедобный полу-фабрикат.'
+      - '&f &fТак же можно сделать бутрики.'
+      nbt: '{SkullOwner:{Id:"964e836f-f187-89c0-be47-2b9b6142bc0b",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ4YzQ1MmQ4ZjliYjlkYTM1ZmM3MWUwYWQ0NDFlMzdlOGFkMTg0YTJiZDc4NjZjMTYyZjdmMmUxYTQ2ZGZmIn19fQ=="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0.5"
+
+  sausage_02:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◇ &fСосиска'
+      description:
+      - '&f &fБолее премиальные и дорогие'
+      - '&f &fсоски. Они, как минимум, не такие'
+      - '&f &fуж и полу-фабрикаты!'
+      nbt: '{SkullOwner:{Id:"b98be932-c669-4982-ab98-20f1541e8156",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg3YWY0YWRhZGRlNjJiMzUyNDNlOGVlMWU3ODNlMjJlM2JlMDdlOTViMjc3NDhiMzZkYTBjMjhkYmFkOGExNyJ9fX0="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=1.5"
+
+# Фарш
+mince:
+  chicken_mince:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◇ &fКуриный Фарш &7(100 гр.)'
+      description:
+      - '&f &fСамый не дорогой и отнюдь'
+      - '&f &fи не самый противный фарш'
+      - '&f &fв этих краях.'
+      nbt: '{SkullOwner:{Id:"38720061-ff25-100e-a206-70b36bce6453",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2I4MTcyYzJkZmUzZjk0ZTkyZWVhZjcyZjc4ZmNmNjM0ZTk5NjY1N2ZmNzRkNzNkOTNlNTc4MTUyOGI0NTgzIn19fQ=="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0.5"
+
+  pork_mince:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◇ &fСвинной Фарш &7(100 гр.)'
+      description:
+      - '&f &fПривизён прямо из премиальной'
+      - '&f &fсвино-фабрики за Лоунайтом,'
+      - '&f &fневероятно вкусный и невероятно'
+      - '&f &fсочный фарш!'
+      nbt: '{SkullOwner:{Id:"98de61b5-7d4f-4d5d-bf1a-78cbb39e27c3",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI4Y2JjYzUwMGFjOTFlY2YwNjMyN2Q1NDFkZjhlNjcxODM1NjMyODc0NTg1ZjUzNTlmODAyMjk1ZDc5NDRhOCJ9fX0="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0.5"

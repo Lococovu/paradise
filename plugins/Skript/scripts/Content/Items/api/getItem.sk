@@ -1,0 +1,2 @@
+function getItem(id: string) :: item:
+  return {data::items::%{_id}%::item}

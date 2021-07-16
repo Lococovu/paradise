@@ -1,0 +1,46 @@
+command menu:
+  aliases: mm, mainmenu, main
+  trigger:
+    open virtual chest inventory with size 5 named "&8Главное меню" to player
+
+    # Пустые кнопки
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+    set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+    format gui slot {_slots::*} of player with {_empty}
+
+    # Меню игрока
+    set {_player} to player head named "&e☃ &fМеню персонажа" with lore "", "&f &fВ этом небольшом меню вы сможете найти абсолютно", "&f &fвсю информацию про вашего текущего персонажа. Вы так", "&f &fже сможете найти список всех доступных действий, дополнительных", "&f &fпредметов для рп-отыгровки и многое другое!", "", "&e▹ &fНажмите, что бы перейти"
+    
+    set {_gender} to getCharacterGender(player, getCurrentCharacter(player))
+    if {_gender} contains "муж":
+      add "{SkullOwner:{Id:""4ccbce04-950e-4c3f-a8ec-ba99d2d160dd"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTllMDhlN2I1Njk3ODFiNjkyMGMzYTA0N2RiM2E2OTYwNzFjMTQyNmUwMzM5NjRlYjU5ZDBhYTFkNGNjMWYwMiJ9fX0=""}]}}}" to item-nbt of {_player}
+    else:
+      add "{SkullOwner:{Id:""1a05c861-6111-4a6e-8d5d-05121a421868"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTViNTdkZWY5MTVhNTYwYWI0YWQ2NTllYTQxZTEzZmM4MTcyMWQzMGEwMTk1NWQ5NGM5Y2UxMzg3NjNhNjQifX19""}]}}}" to item-nbt of {_player}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_player} to run:
+      execute player command "/player"
+
+    # GPS
+    set {_gps} to player head named "&e➹ &fКарта Сервера &7(GPS)" with lore "", "&f &fНе знаете что где можно делать? Ну так тогда", "&f &fзаходите в это меню и ищите подходящее вам здание!", "&f &fТут есть &7Магазины &fдля покупки всего самого крутого,", "&f &7Центры Занятости &fдля поиска новой работы, просто &7Все Улицы &fгорода", "&f &fЛоунайт. Тут есть всё, о чём вы только мечтали!", "", "&e▹ &fНажмите, что бы перейти"
+    add "{SkullOwner:{Id:""b4ef1f29-1a8e-4f06-9e89-38196d1c82a3"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ==""}]}}}" to item-nbt of {_gps}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_gps} to run:
+      execute player command "/gps"
+
+    # Помощь
+    set {_help} to player head named "&ei &fПомощь" with lore "", "&f &fНе знаете что делать? Хотите получше познакомиться", "&f &fс сервером и всеми его возможностями? Ну тогда вам сюда!", "&f &fТут вы сможете найти полную документацию по каждой функции", "&f &fсервера. Так же вы сможете получить ответы на самые", "&f &fчастые вопросы!", "", "&e▹ &fНажмите, что бы перейти"
+    add "{SkullOwner:{Id:""a8806521-1911-4885-87ac-5a65755364e2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZWExZjUxZjI1M2ZmNTE0MmNhMTFhZTQ1MTkzYTRhZDhjM2FiNWU5YzZlZWM4YmE3YTRmY2I3YmFjNDAifX19""}]}}}" to item-nbt of {_help}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_help} to run:
+      execute player command "/help"

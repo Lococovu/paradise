@@ -7,6 +7,8 @@ character:
         age: 24
         gender: Мужской
         skin: Voyaje
+        statistics:
+            hunger: 2
 
 relationship:
     04a097ae-9262-3ac7-a809-39e7d46f9528:

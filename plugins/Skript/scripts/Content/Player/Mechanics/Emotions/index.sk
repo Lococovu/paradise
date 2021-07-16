@@ -1,4 +1,6 @@
 function startEmotionsWorker(player: player):
+  broadcast "START EMOTION WORKER"
+  
   if {workers::%{_player}%::emotions} is set:
     set {workers::%{_player}%::emotions} to "stop"
     wait 2 seconds
@@ -14,6 +16,7 @@ function startEmotionsWorker(player: player):
   # Запускаем различные небольшие воркеры
   # по эмоциям
   EM_FatigueWorker({_player})
+  EM_hungerWorker({_player})
 
   while {_waiting} is true:
     if {_player} is offline:
@@ -38,6 +41,21 @@ function startEmotionsWorker(player: player):
     # Сохраняем этот предмет в базу данных
 
     wait 1 second
+
+command stopem:
+  trigger:
+    loop all players:
+      reset loop-player's walking speed
+      remove nausea from loop-player
+      remove slowness from loop-player
+
+      delete {emotions::%loop-player%::*}
+
+      set {workers::%loop-player%::emotions} to "stop"
+
+command testem:
+  trigger:
+    startEmotionsWorker(player)
 
 on quit:
   delete {emotions::%player%::*}

@@ -1,8 +1,14 @@
 function EM_peaceGetItem(player: player) :: item:
   set {_name} to EM_peaceGetName({_player})
-  set {_item} to player head named "%{_name}%" with lore "", "&f &f"
+  set {_item} to player head named "%{_name}%" with lore "", "&f &fПолнейшее успокоение. Даб даб я"
+  add "{SkullOwner:{Id:""9b2448aa-b598-40af-904d-d277eb5a5ae5"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODExNWRjYzE3YjJlMTVjZDQxODMxODg1ZDdkYmI4ZmYyZTljYWM0ZmVjNzA4MDM1OGZlNTVmOTNlZWExOWIifX19""}]}}}" to item-nbt of {_item}
 
   return {_item}
+
+function EM_peaceGetRandomDescription(player: player) :: string:
+  set {_descriptions::*} to "полностью спокоен"
+
+  return random element of {_descriptions::*}
 
 function EM_peaceGetName(player: player) :: string:
   return "&9★ &fСпокойствие"

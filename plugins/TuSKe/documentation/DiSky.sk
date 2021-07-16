@@ -4,13 +4,13 @@ Events:
 		Patterns:
 			[on] discord command <([^\s]+)( .+)?$>
 		Event values:
-			event-message
-			event-member
-			event-user
-			event-object
-			event-discordcommand
 			event-guild
+			event-object
+			event-member
+			event-message
 			event-bot
+			event-discordcommand
+			event-user
 			event-channel
 			event-object
 		Cancellable: true

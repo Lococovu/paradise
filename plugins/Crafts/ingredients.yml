@@ -1,0 +1,22 @@
+ingredients:
+  # bread:
+  #   item: player head
+  #   name: ""
+
+  bread:
+    item: player head
+    name: "&e◇ &fХлеб Обычный"
+
+  sausage_01:
+    item: player head
+    name: "&e◇ &fКолбаса"
+  sausage_02:
+    item: player head
+    name: "&e◇ &fСосиски"
+
+  tomato:
+    item: player head
+    name: "&e◇ &fТомат"
+  pepper:
+    item: player head
+    name: "&e◇ &fПерец Сладкий"

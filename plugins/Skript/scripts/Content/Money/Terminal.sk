@@ -81,7 +81,7 @@ on inventory close:
           set {_money} to {_money} parsed as number
 
           if {_money} is set:
-            add {_money} to {_deposit::money}
+            add {_quantity} * {_money} to {_deposit::money}
           else:
             add loop-item to {_return::*}
         else:
@@ -231,7 +231,7 @@ on inventory click:
       wait 2 ticks
 
       set {_item} to slot 13 of player's current inventory
-      if name of {_item} contains "Карта":
+      if "%{_item}%" contains "Карта":
         # Берём ид карточки и открываем меню
         set {_lore::*} to {_item}'s lore
         set {_id} to uncolored {_lore::1} parsed as number

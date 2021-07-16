@@ -1,0 +1,22 @@
+command items:
+  trigger:
+    if player is op:
+      open virtual chest inventory with size 6 named "&8Предметы" to player
+
+      set {_items::*} to {data::items::list::*}
+
+      set {_slot} to 0
+      loop {_items::*}:
+
+        # Берём данные предметов
+        set {_id} to loop-value
+        set {_item::id} to {data::items::%{_id}%::id}
+        set {_item::item} to {data::items::%{_id}%::item}
+        set {_item::action} to {data::items::%{_id}%::action::type}
+        set {_item::function} to {data::items::%{_id}%::action::function}
+
+        {_item::id} and {_item::item} is set:
+          format gui slot {_slot} of player with {_item::item} to run:
+            add {_item::item} to player's inventory
+
+          add 1 to {_slot}

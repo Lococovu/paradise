@@ -1,0 +1,249 @@
+function startGPSWorker(player: player, place: string):
+  # Проверяем воркер
+  if {workers::%{_player}%::gpsWorker} is set:
+    set {workers::%{_player}%::gpsWorker} to "stop"
+    wait 2 ticks
+
+  # Берём данные этой локации
+  set {_place::title} to yaml value "place.%{_place}%.title" from "gps-places"
+  set {_place::location} to yaml value "place.%{_place}%.location" from "gps-places"
+  set {_place::location} to getLocation("%{_place::location}%", "world")
+
+  set {_place::holo} to yaml value "place.%{_place}%.holo_location" from "gps-places"
+  set {_place::holo} to getLocation("%{_place::holo}%", "world")
+
+  set {_stage} to "findBlock"
+
+  # Запускаем сам воркер
+  set {_working} to true
+  delete {workers::%{_player}%::gpsWorker}
+  delete {workers::%{_player}%::gpsWorker::*}
+
+  while {_working} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::gpsWorker} to "stop"
+
+    # Проверяем переменные
+    if {workers::%{_player}%::gpsWorker} is not set:
+      set {workers::%{_player}%::gpsWorker} to true
+    else:
+    # Действие: Остановка воркера
+      set {_action} to {workers::%{_player}%::gpsWorker}
+
+      if {_action} is "stop":
+        if {_bossbar} is set:
+          hide bossbar {_bossbar}
+
+        delete hologram {_endHologram}
+
+        delete {workers::%{_player}%::gpsWorker}
+        delete {workers::%{_player}%::gpsWorker::*}
+
+        stop
+
+    # Нулевая стадия: поиск GPS-блока
+    if {_stage} is "findBlock":
+      if {_check::timer} is not set:
+        set {_check::timer} to 2
+        
+        loop all blocks in radius 8 around {_player}:
+          loop-block is gold block
+          y coordinate of loop-block's location is 50.5:
+            set {_startingPoint} to loop-block's location
+            exit 1 loop
+
+        if {_startingPoint} is set:
+          set {_stage} to "findWay"
+
+      # Обновляем боссбар
+      if {_bossbar::timer} is not set:
+        set {_bossbar::timer} to 4
+        {_title} is not set:
+          set {_title} to 1
+
+        if {_title} is 1:
+          set {_title} to 2
+          set {_bossbar::title} to "&c△ &fПлохая GPS-связь. Пожалуйста, выйдите на оживлённую улицу."
+        else:
+          set {_title} to 1
+          set {_bossbar::title} to "&ei &fПопробуйте встать возле городской дороги."
+
+      # Таймеры
+      set {_bossbar::progress} to (1/4) * {_bossbar::timer}
+
+      reduce {_bossbar::timer} by 0.05
+      if {_bossbar::timer} <= 0:
+        delete {_bossbar::timer}
+
+      reduce {_check::timer} by 0.05
+      if {_check::timer} <= 0:
+        delete {_check::timer}
+
+    # Первая стадия: находим маршрут
+    else if {_stage} is "findWay":
+      # Проверяем местоположение игрока (ищем
+      # GPS-блок)
+      if {_startingPoint} is not set:
+        set {_stage} to "findBlock"
+      else:
+        # Запускаем воркер, который найдёт путь
+        if {_code} is not set:
+          set {_code} to random integer between 0000 and 9999
+          GPS_GlobalWorker("%{_code}%", {_player}, {_startingPoint}, {_place::location})
+
+        if {gps::%{_code}%::builtWay} is set:
+          # Сохраняем путь
+          set {_path::*} to {gps::%{_code}%::path::*}
+          set {_path::lines::*} to {gps::%{_code}%::lines::*}
+
+          # Отчищаем
+          delete {gps::%{_code}%::*}
+
+          # Обновляем статус
+          delete {_bossbar::timer}
+          delete {_title}
+
+          set {_stage} to "showWay"
+        else:
+          # Обновляем боссбар
+          set {_bossbar::title} to "&e… &fСтроим маршрут..."
+
+    # Вторая стадия: показываем путь
+    else if {_stage} is "showWay":
+      if {_builtLines} is not set:
+        set {_builtLines} to true
+        set {_built::end} to last element of {_path::lines::*}
+
+        # Строим маршрут из линий
+        while size of {_path::lines::*} > 0:
+          # Первая точка
+          set {_firstPoint} to first element of {_path::lines::*}
+          remove {_firstPoint} from {_path::lines::*}
+
+          # Вторая точка
+          set {_secondPoint} to first element of {_path::lines::*}
+          remove {_secondPoint} from {_path::lines::*}
+
+          # Строим саму линию
+          set {_distance} to distance between {_firstPoint} and {_secondPoint}
+          set {_line::*} to line({_firstPoint}, {_secondPoint}, 10)
+
+          # Добавляем...
+          add {_line::*} to {_lines::*}
+
+        delete {_line::*}
+
+        # Строим конец маршрута
+        # Линия до точки конца
+        set {_loc::end} to {_place::location}
+        set {_loc::end}'s y coordinate to 52.5
+        set {_built::end}'s y coordinate to 52.5
+
+        set {_line::*} to line({_loc::end}, {_built::end}, 10)
+        add {_line::*} to {_lines::*}
+
+        delete {_line::*}
+
+        # Линия до голограммы
+        set {_loc::holo} to {_place::holo}
+        
+        set {_line::*} to line({_loc::end}, {_place::holo}, 10)
+        add {_line::*} to {_lines::*}
+
+        # Спавним голограмму конца маршрута
+        set {_holo::lines::*} to "&e/\", "&e/  \", "&e/ /\ \", "&e/ ____ \", "&e/_/    \_\", "", "%{_place::title}%"
+
+        set {_location} to {_place::holo}
+        set {_location}'s y coordinate to 54
+
+        create new hologram with clickable lines {_holo::lines::*} at {_location} and store it in variable {_endHologram}
+
+        make hologram {_endHologram} invisible by default
+        reveal hologram {_endHologram} to {_player}
+
+      # Отображаем
+      loop {_lines::*}:
+        set {_location} to loop-value
+        set {_location}'s y coordinate to 52.5
+
+        play spell at {_location} to {_player}
+
+      # Обновляем боссбар
+      if {_bossbar::timer} is not set:
+        set {_bossbar::timer} to 5
+        {_title} is not set:
+          set {_title} to 1
+
+        if {_title} is 1:
+          set {_title} to 2
+          set {_bossbar::title} to "&e◇ &fМаршрут до %{_place::title}%"
+        else:
+          set {_title} to 1
+          set {_bossbar::title} to "&ei &fИдите за указателями, поставленными на автомобильной дороге."
+
+      set {_distance} to distance between {_player} and {_place::holo}
+      if {_distance::starting} is not set:
+        set {_distance::starting} to {_distance}
+
+      set {_bossbar::progress} to (1/{_distance::starting}) * {_distance}
+
+      # Проверяем расстояние
+      if {_distance} <= 10:
+        set {_stage} to "end"
+
+      # Таймеры
+      reduce {_bossbar::timer} by 0.05
+      if {_bossbar::timer} <= 0:
+        delete {_bossbar::timer}
+
+    else:
+      if {_timer} is not set:
+        set {_timer} to 6
+
+        sendNotification({_player}, "&a✓ &fВы прибыли на место назначения", 6)
+
+      set {_bossbar::hide} to true
+
+      reduce {_timer} by 0.05
+      if {_timer} <= 0:
+        set {workers::%{_player}%::gpsWorker} to "stop"
+
+    # Проверяем боссбар
+    if {_bossbar} is not set:
+      set {_bossbar} to skellett new bossbar
+      set skellett colour of bossbar {_bossbar} to WHITE
+      skellett add {_player} to bossbar {_bossbar}
+
+      set skellett title of bossbar {_bossbar} to "&f..."
+
+      skellett show bossbar {_bossbar}
+    else:
+      if {_bossbar::hide} is true:
+        hide bossbar {_bossbar}
+
+      # Обновляем тайтл боссбара
+      if skellett title of bossbar {_bossbar} isn't {_bossbar::title}:
+        set skellett title of bossbar {_bossbar} to {_bossbar::title}
+
+      # Обновляем прогресс боссбара
+      if skellett progress of bossbar {_bossbar} isn't {_bossbar::progress}:
+        if {_bossbar::progress} > 1:
+          set {_bossbar::progress} to 1
+
+        if {_bossbar::progress} < 0:
+          set {_bossbar::progress} to 0
+
+        set skellett progress of bossbar {_bossbar} to {_bossbar::progress}
+    
+    wait 1 tick
+
+function line(from: location, to: location, density: number) :: locations:
+  set {_x::*} to x-loc of {_to} and x-loc of {_from}
+  set {_y::*} to y-loc of {_to} and y-loc of {_from}
+  set {_z::*} to z-loc of {_to} and z-loc of {_from}
+  loop {_density} times:
+    add ({_x::1} - {_x::2}) / {_density} to x-loc of {_from}
+    add ({_y::1} - {_y::2}) / {_density} to y-loc of {_from}
+    add ({_z::1} - {_z::2}) / {_density} to z-loc of {_from}
+    add {_from} to {_l::*}
+  return {_l::*}

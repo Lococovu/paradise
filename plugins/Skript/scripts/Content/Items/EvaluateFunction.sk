@@ -1,9 +1,29 @@
 function evaluateFunction(functionId: string):
   # Берём данные этой функции...
+  set {_item} to {function::%{_functionId}%::itemId}
   set {_function} to {function::%{_functionId}%}
 
   # Берём переменные этой функции...
   set {_variables::*} to {function::%{_functionId}%::variables::*}
 
+  # Берём переменные предмета
+  set {_item::variables::*} to {data::items::%{_item}%::variables::*}
+  add {_item::variables::*} to {_variables::*}
+
   {_function} is set
   # Обрабатываем сами переменные
+  loop {_variables::*}:
+    set {_name} to loop-value
+
+    evaluate:
+      set {_%{_name}%} to {function::%{_functionId}%::variable::%{_name}%}
+      if {_%{_name}%} is not set:
+        set {_%{_name}%} to {data::items::%{_item}%::variable::%{_name}%}
+
+    if {_variablesString} is not set:
+      set {_variablesString} to "{_%{_name}%}"
+    else:
+      set {_variablesString} to "%{_variablesString}%, {_%{_name}%}"
+
+  evaluate:
+    %{_function}%(%{_variablesString}%)

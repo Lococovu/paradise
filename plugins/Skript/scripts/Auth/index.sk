@@ -21,6 +21,7 @@ on quit:
 # 
 on join:
   load yaml "datastore/players/%player's uuid%.yml" as "player-%player's uuid%"
+  startConfigFileChecker(player)
 
   set join message to ""
 

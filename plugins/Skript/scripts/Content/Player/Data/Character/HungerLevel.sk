@@ -1,0 +1,14 @@
+function getCharacterHungerLevel(player: player, character: string) :: number:
+  set {_value} to yaml value "character.%{_character}%.statistics.hunger" from "player-%{_player}'s uuid%"
+  set {_number} to "%{_value}%" parsed as number
+
+  {_number} is not set:
+    set {_number} to 10
+  {_number} > 10:
+    set {_number} to 10
+
+  return {_number}
+
+function setCharacterHungerLevel(player: player, character: string, hunger: number):
+  set yaml value "character.%{_character}%.statistics.hunger" from "player-%{_player}'s uuid%" to {_hunger}
+  save yaml "player-%{_player}'s uuid%"

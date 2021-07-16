@@ -1,0 +1,201 @@
+function EM_hungerWorker(player: player):
+  set {_code} to "hunger"
+
+  # Грузим голод
+  set {_hunger} to getCharacterHungerLevel({_player}, getCurrentCharacter({_player}))
+  set {emotions::%{_player}%::hunger::percent} to {_hunger}
+
+  set {_waiting} to true
+  while {_waiting} is true:
+    if {workers::%{_player}%::emotions} is set:
+      set {_action} to {workers::%{_player}%::emotions}
+
+      if {_action} is "stop":
+        # Сохраняем инфу о голоде персонажа в
+        # базу данных
+        setCharacterHungerLevel({_player}, getCurrentCharacter({_player}), {_hunger})
+
+        stop
+
+    # Проверяем статус игрока
+    # + Усталость
+    if {emotions::%{_player}%::fatigue::active} is true:
+      if {_reduceTimer} > 10:
+        set {_reduceTimer} to 10
+
+    # Голодание
+    if {_hunger} <= 0:
+      if {emotions::%{_player}%::hunger::hungerSince} is not set:
+        set {emotions::%{_player}%::hunger::hungerSince} to now
+
+      # Проверка времени голодания
+      set {_difference} to difference between {emotions::%{_player}%::hunger::hungerSince} and now
+
+      # Потерял сознания (если больше 1 часа голодает)
+      if {_difference} >= 1 hour:       
+
+    else:
+      if {emotions::%{_player}%::hunger::hungerSince} is set:
+        delete {emotions::%{_player}%::hunger::hungerSince}
+
+    # Медленно убираем кол-во еды у игрока
+    if {_reduceTimer} is not set:
+      set {_reduceTimer} to 60
+      reduce {_hunger} by 0.5
+
+    # Таймер
+    if {_reduceTimer} is set:
+      remove 0.05 from {_reduceTimer}
+      if {_reduceTimer} <= 0:
+        delete {_reduceTimer}
+
+    # Синхронизируем с игровым голодом
+    if {_player}'s hunger isn't {_hunger}:
+      set {_player}'s hunger to {_hunger}
+
+    # Синхронизация
+    {_hunger} isn't {emotions::%{_player}%::hunger::percent}:
+      set {_hunger} to {emotions::%{_player}%::hunger::percent}
+
+    wait 1 tick
+
+on damage:
+  victim is player
+  if "%damage cause%" is "starvation":
+    cancel event
+
+# Функция, которая проверит - нужно ли
+# вызывать функцию EM_hungerEffects на игрока 
+function EM_hungerCheck(player: player):
+  # Проверяем кол-во голода игрока
+  set {_hunger} to {_player}'s hunger
+  
+  if {_hunger} <= 4:
+    EM_hungerEffects({_player})
+
+# Функция, которая будет возвращать предмет в зависимости
+# от текущей настройки эмоции
+function EM_hungerGetItem(player: player) :: item:
+  set {_name} to EM_hungerGetName({_player})
+
+  set {_hunger} to {_player}'s hunger
+  set {_hungerSince} to {emotions::%{_player}%::hunger::hungerSince}
+
+  # Голодание
+  if {_hunger} <= 0:
+    set {_lore::*} to ""
+    set {_nbt} to "{SkullOwner:{Id:""4559114c-9b51-45aa-8e95-9c4f80aa61d2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjM3MWU0ZTFjZjZhMWEzNmZkYWUyNzEzN2ZkOWI4NzQ4ZTYxNjkyOTk5MjVmOWFmMmJlMzAxZTU0Mjk4YzczIn19fQ==""}]}}}"
+  # Голод
+  else:
+    set {_lore::*} to ""
+    set {_nbt} to "{SkullOwner:{Id:""7a8e4887-ee97-40e8-8f5c-da95a16e5a4f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWMyNjcyYWFhZTU4ZjNkMTg1MmQxOWI4NDIyY2FmNzBiMzI1ODJmOGRlM2ZjYjVjN2MyNGRhY2I3ZWJjMyJ9fX0=""}]}}}"
+
+  set {_item} to player head named "%{_name}%" with lore {_lore::*}
+  add "%{_nbt}%" to item-nbt of {_item}
+
+  return {_item}
+
+function EM_hungerGetName(player: player) :: string:
+  set {_hunger} to {_player}'s hunger
+  set {_name} to "&e &fГолод"
+
+  return {_name}
+
+# Функция, которая будет давать игроку определённые эффекты
+# по этой эмоции.
+function EM_hungerEffects(player: player):
+  set {_code} to "hunger"
+
+  # Проверяем работоспособность воркера
+  if {emotions::%{_player}%::%{_code}%::effecting} is set:
+    set {workers::%{_player}%::emotions::%{_code}%::effects::lastChecked} to now
+    stop
+
+  if {emotions::%{_player}%::%{_code}%::active} is true:
+    delete {emotions::%{_player}%::%{_code}%::active}
+    stop
+
+  # Удаляем все ненужные переменные
+  delete {workers::%{_player}%::emotions::%{_code}%::effects}
+  delete {workers::%{_player}%::emotions::%{_code}%::effects::*}
+
+  # Метим эту эмоцию как активную
+  set {emotions::%{_player}%::%{_code}%::active} to true
+
+  # Запускаем воркер
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {_action} to "stop"
+
+    # Проверяем целостность переменных
+    if {emotions::%{_player}%::%{_code}%::active} is not true:
+      set {emotions::%{_player}%::%{_code}%::active} to true
+
+    # Действие: Остановка воркера
+    if {_action} is "stop":
+      reset {_player}'s walking speed
+      
+      delete {workers::%{_player}%::emotions::%{_code}%::effects}
+      delete {workers::%{_player}%::emotions::%{_code}%::effects::*}
+
+      delete {emotions::%{_player}%::%{_code}%::effecting}
+
+      stop
+
+    # Проверяем когда последний раз была произведенна проверка
+    set {_lastChecked} to {workers::%{_player}%::emotions::%{_code}%::effects::lastChecked}
+    if {_lastChecked} is not set:
+      set {_lastChecked} to now
+      set {workers::%{_player}%::emotions::%{_code}%::effects::lastChecked} to now
+    
+    set {_difference} to difference between {_lastChecked} and now
+    # broadcast "%{_difference}%"
+
+    if {_difference} >= 2 seconds:
+      # Меняем статус
+      if {_status} isn't "active":
+        set {_status} to "active"
+    else:
+      if {_status} isn't "effecting":
+        set {_status} to "effecting"
+
+    # Вторая проверка
+    if {_hunger} > 4:
+      {_status} is "effecting"
+      set {_status} to "active"
+
+    if {_status} is "effecting":
+      if {emotions::%{_player}%::%{_code}%::effecting} is not true:
+        set {emotions::%{_player}%::%{_code}%::effecting} to true
+
+      # Скорость передвижения
+      {_player}'s walking speed isn't 0.15:
+        set {_player}'s walking speed to 0.15
+
+      # Голодание (тошнота)
+      set {_hungerSince} to {emotions::%{_player}%::hunger::hungerSince}
+      set {_difference} to difference between {_hungerSince} and now
+
+      # Изменить время (если больше 10 минут)
+      if {_difference} >= 10 minutes:
+        if {_player} doesn't have nausea:
+          chance of 3%:
+            apply potion of nausea of tier 1 without any particles to {_player} for 6 seconds
+      
+      # Начинается голодание (игрок медленно слепнет)
+      else if {_difference} >= 5 seconds:
+        if {_player} doesn't have blindness:
+          chance of 1%:
+            apply potion of blindness of tier 1 without any particles to {_player} for 2 seconds
+            apply potion of nausea of tier 1 without any particles to {_player} for 6 seconds
+
+    else:
+      if {emotions::%{_player}%::%{_code}%::effecting} is true:
+        set {emotions::%{_player}%::%{_code}%::effecting} to false
+
+      if {_difference} >= 35 seconds:
+        set {_action} to "stop"
+
+    wait 1 tick

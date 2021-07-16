@@ -1,0 +1,3 @@
+command emotions:
+  trigger:
+    open virtual chest inventory with size 6 named "&8Мои эмоции" to player

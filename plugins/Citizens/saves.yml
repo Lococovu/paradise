@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 1
+last-created-npc-id: 2
 npc:
   '0':
     metadata:
@@ -58,7 +58,51 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: location,scoreboardtrait,owner,equipment,mounttrait,spawned,skintrait,type,inventory
+    traitnames: spawned,location,skintrait,equipment,type,inventory,owner,scoreboardtrait,mounttrait
+    navigator:
+      speedmodifier: '1.0'
+      avoidwater: false
+      usedefaultstuckaction: true
+  '2':
+    metadata:
+      cached-skin-uuid-name: ithasnoeyes
+      cached-skin-uuid: e6d9fea1-204c-43af-b31c-dfeedf794177
+      nameplate-visible: 'false'
+    name: job
+    uuid: 7dbbbf33-c74f-4f15-a42f-4a7611a92a5d
+    traits:
+      location:
+        bodyYaw: 81.927216
+        world: world
+        x: '543.3'
+        y: '52.0'
+        z: '641.0362'
+        yaw: '96.8853'
+        pitch: '0.0'
+      spawned: true
+      lookclose:
+        range: '5.0'
+        enabled: true
+        enableRandomLook: false
+        randomLookDelay: 60
+        realisticlooking: false
+        randomPitchRange:
+          '0': -10.0
+          '1': 0.0
+        randomYawRange:
+          '0': 0.0
+          '1': 360.0
+      skintrait:
+        fetchDefaultSkin: true
+        signature: SlQssdV40/8X9j817m4AJzoidRb9RStu61lzFoN087uZMoJ1tsPYv9nIm+lYq727qx1Mdx4K8BJ5C6/bYziiu2RYYZXifYAexM4PpCZqgPXZXkVtEzOfF7vKO6i0ozE5AP3HQbabIpVrztJcFBevbX96jQEJ9m19QjmJh8WUWshUjFSwnhgGlSyck0W64iCBSllul0Rml5nbMmwXmhdhQnRblOeTJJyrfolSJhk2iZKeQUFaru1SHrhBMkGcL2Jr6hrihWGTTnGp6/U2PXmIzIkkjssqqd63zgtmokCF88SbZQB8U7rbZ4hpcR01CDmaSahoQ92BNjzYO5Z7w5FF6Ju78eWv7x2ZEl51APk5VyqrWypFfSSlf2IA7gq3QGL45q5I9ZhvhzrCfPisW8Y53vq9HoVMjSBrHUspeZQU7lKoJBO2NV+QhgJZKZ63DiPYtLtQ9ZbRj9zbAKmeILxTedBFQHIzlP6BVHeOEeoJkkcOJFQHe22Ycf7bYWKjyqk13/6ht0APOFhQWVvRI8KrsNBIdA10LtY1Bjrm+XxWaMwkS/6uORcoLhTERoRZHyjP/6gwtCZdGuutIBgA5EO9COE2zRUq9JrUNKnJ1mUtjQxWXQ0dN+DzsIL6D3rqBp4bN95nCdI8pyBmkjz/BIqJDoFUMJTrecuJ24c+YfLOmgI=
+        skinName: ithasnoeyes
+        textureRaw: ewogICJ0aW1lc3RhbXAiIDogMTYyNTc2ODQxODUyNiwKICAicHJvZmlsZUlkIiA6ICJlNmQ5ZmVhMTIwNGM0M2FmYjMxY2RmZWVkZjc5NDE3NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJJdEhhc05vRXllcyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS83OTQ5MmFjOWNlYzY2ZGZmMDdkYTZlZTUxNTdjZWVjYWVjMjllNWQ5ZTZkY2M2YzczNjBjZWMxOTk5ZjI4MTI5IiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=
+        updateSkins: false
+      type: PLAYER
+      owner:
+        owner: Voyaje
+        uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+    traitnames: spawned,location,lookclose,skintrait,equipment,type,scoreboardtrait,owner,inventory,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

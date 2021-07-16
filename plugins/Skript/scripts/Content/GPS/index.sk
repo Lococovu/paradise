@@ -1,0 +1,137 @@
+function GPS_GlobalWorker(code: string, player: player, startingPoint: location, destination: location):
+  if {_startingPoint} is set:
+    # Сохраняем информацию про запрос
+    delete {gps::%{_code}%::*}
+
+    set {gps::%{_code}%::startingPoint} to {_startingPoint}
+    set {gps::%{_code}%::destination} to {_destination}
+    set {gps::%{_code}%::player} to {_player}
+    set {gps::%{_code}%::working} to true
+
+    GPS_SmallWorker("%{_code}%", {_startingPoint}, "%{_code}%")
+
+    # Запускаем сам воркер
+    set {_time} to 12
+    set {_waiting} to true
+
+    while {_waiting} is true:
+      if {_player} is offline:
+        set {_action} to "stop"
+
+      # Действие: Остановка воркера
+      if {_action} is "stop":
+        delete {gps::%{_code}%::*}
+        stop
+
+      # Действие: путь найден
+      if {gps::%{_code}%::foundWay} is set:
+        # Строим сам путь
+        delete {_path::*}
+        set {_worker::code} to {gps::%{_code}%::foundWay}
+        set {_worker::parentCode} to {gps::%{_code}%::%{_worker::code}%::parentWorker}
+
+        # Добавляем все блоки из текущего воркера в путь
+        loop {gps::%{_code}%::%{_worker::code}%::path::*}:
+          {_path::*} doesn't contain loop-value:
+          add loop-value to {_path::*}
+
+        set {_overtime} to 6
+        set {_building} to true
+        while {_building} is true:
+          # Строим сам маршрут...
+          set {_worker::code} to {_worker::parentCode}
+
+          loop {gps::%{_code}%::%{_worker::code}%::path::*}:
+            {_path::*} doesn't contain loop-value:
+            add loop-value to {_path::*}
+          
+          # Добавляем первую и последнюю точки с специальный массив
+          set {_firstPoint} to first element of {gps::%{_code}%::%{_worker::code}%::path::*}
+          set {_lastPoint} to last element of {gps::%{_code}%::%{_worker::code}%::path::*}
+
+          add {_firstPoint} and {_lastPoint} to {gps::%{_code}%::lines::*}
+
+          delete {_worker::parentCode}
+          set {_worker::parentCode} to {gps::%{_code}%::%{_worker::code}%::parentWorker}
+          if {_worker::parentCode} is {_code}:
+            set {_building} to false
+
+          if {_worker::parentCode} is not set:
+            set {_building} to false
+
+          reduce {_overtime} by 0.05
+          if {_overtime} <= 0:
+            stop
+          wait 1 tick
+
+        # Путь построен
+        set {_size} to size of {_path::*}
+
+        set {gps::%{_code}%::builtWay} to true
+
+        set {gps::%{_code}%::path::*} to {_path::*}
+        stop
+
+      # Проверка переменных
+      if {gps::%{_code}%::working} is not set:
+        set {gps::%{_code}%::working} to true
+
+      reduce {_time} by 0.05
+      if {_time} <= 0:
+        set {_action} to "stop"
+
+      wait 1 tick
+
+function GPS_SmallWorker(code: string, location: location, parentWorker: string):
+  # Берём важную! информацию
+  set {_destination} to {gps::%{_code}%::destination}
+  set {_worker::code} to "%random integer between 0000 and 9999%%random integer between 0000 and 9999%"
+
+  # Сохраняем некоторые данные
+  set {gps::%{_code}%::%{_worker::code}%::parentWorker} to {_parentWorker}
+
+  add {_location} to {gps::%{_code}%::passed::*}
+  add {_location} to {gps::%{_code}%::%{_worker::code}%::path::*}
+
+  set {_waiting} to true
+  set {_location::current} to {_location}
+
+  while {_waiting} is true:
+    if {gps::%{_code}%::working} is not true:
+      delete {gps::%{_code}%::%{_worker::code}%::*}
+      stop
+
+    if {gps::%{_code}%::foundWay} is set:
+      stop
+
+    # TODO:
+    # optimise
+    delete {_variants::*}
+    loop all blocks in radius 2 around {_location::current}:
+      if loop-block is gold block:
+        if {gps::%{_code}%::passed::*} doesn't contain location of loop-block:
+          add location of loop-block to {_variants::*}
+    
+          if distance between location of loop-block and {_destination} <= 3:
+            # Путь найден
+            set {gps::%{_code}%::foundWay} to {_worker::code}
+            stop
+
+    if size of {_variants::*} <= 0:
+      stop
+    else:
+      # Проверяем - есть ли у нас только один путь ну или же множество путей
+      if size of {_variants::*} > 1:
+        loop {_variants::*}:
+          GPS_SmallWorker("%{_code}%", loop-value, "%{_worker::code}%")
+
+        # Останавливаем воркер
+        stop
+      else:
+        add {_block} to {gps::%{_code}%::passed::*}
+        set {_block} to first element of {_variants::*}
+
+        add {_block} to {gps::%{_code}%::%{_worker::code}%::path::*}
+        set {_location::current} to {_block}
+
+    wait 1 tick

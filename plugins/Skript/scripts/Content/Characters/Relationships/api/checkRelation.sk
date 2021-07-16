@@ -1,9 +1,12 @@
 # Функция, которая проверит - знает ли игрок про то или иное
 # свойство другого игрока (player -> target)
 function doTargetKnownToPlayer(target: player, player: player, property: string) :: boolean:
-  if yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%" is set:
+  set {_character} to getCurrentCharacter({_player})
+  set {_character::target} to getCurrentCharacter({_target})
+
+  if yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" is set:
     # Проверяем.
-    set {_knows::*} to yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%"
+    set {_knows::*} to yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%"
 
     return true if {_knows::*} contains {_property} else false
   else:
@@ -11,32 +14,58 @@ function doTargetKnownToPlayer(target: player, player: player, property: string)
 
 # Функция, которая изменит эту хуету
 function addRelationshipKnownProperty(target: player, player: player, property: string):
-  if yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%" is set:
-    set {_knows::*} to yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%"
+  set {_character} to getCurrentCharacter({_player})
+  set {_character::target} to getCurrentCharacter({_target})
+
+  if yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" is set:
+    set {_knows::*} to yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%"
     add {_property} to {_knows::*}
   else:
     add {_property} to {_knows::*}
 
-  set yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%" to {_knows::*}
+  set yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" to {_knows::*}
   save yaml "player-%{_player}'s uuid%"
+
+function getRelationshipKnowsList(target: player, player: player) :: strings:
+  set {_character} to getCurrentCharacter({_player})
+  set {_character::target} to getCurrentCharacter({_target})
+
+  if yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" is set:
+    # Проверяем.
+    set {_knows::*} to yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%"
+
+    return {_knows::*}
+  else:
+    return ""
 
 # Функция, которая уберёт что-то из списка знакомого
 function removeRelationshipKnownProperty(target: player, player: player, property: string):
-  if yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%" is set:
-    set {_knows::*} to yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%"
+  set {_character} to getCurrentCharacter({_player})
+  set {_character::target} to getCurrentCharacter({_target})
+
+  if yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" is set:
+    set {_knows::*} to yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%"
     if {_knows::*} contains {_property}:
       remove {_property} from {_knows::*}
     
     if size of {_knows::*} <= 0:
-      delete yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%"
+      delete yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%"
     else:
-      set yaml list "relationship.%{_target}'s uuid%.knows" from "player-%{_player}'s uuid%" to {_knows::*}
+      set yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" to {_knows::*}
+    
     save yaml "player-%{_player}'s uuid%"
 
-command addrel [<player>] [<string>]:
+command testrel [<player>]:
   trigger:
-    addRelationshipKnownProperty(arg-1, player, arg-2)
+    addRelationshipKnownProperty(arg 1, player, "firstName")
 
-command removeRel [<player>] [<string>]:
+command delrel [<player>]:
   trigger:
-    removeRelationshipKnownProperty(player, arg-1, arg-2)
+    set {_list::*} to "firstName", "lastName", "age", "gender"
+
+    loop {_list::*}:
+      removeRelationshipKnownProperty(arg 1, player, loop-value)
+
+command check [<player>]:
+  trigger:
+    set {_check} to doTargetKnownToPlayer(arg 1, player, "firstName")

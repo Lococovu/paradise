@@ -1,0 +1,19 @@
+food:
+  easy:
+    # type: "furnace"
+    type: "workbench"
+    sysId: sandwich_craft_01
+    craft: "id/bread=1+id/sausage_01"
+    result:
+      time: 15
+      item: sandwich_01
+
+alchemy:
+  # ✔
+  bottle:
+    type: "workbench"
+    sysId: bottle
+    craft: "id/glass=3"
+    result:
+      time: 15
+      item: bread

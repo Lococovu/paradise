@@ -1,0 +1,126 @@
+# type: 'item'
+# item: 'player head'
+# visual:
+#   title: '&fХлеб Обычный'
+#   description:
+#   - '&f &fСамый обычный хлеб'
+#   - '&f &fСъедобные'
+#   nbt: '{SkullOwner:{Id:"",Properties:{textures:[{Value:""}]}}}'
+# action:
+#   type: 'click'
+#   function: 'AC_FeedAction'
+#   variables:
+#   - "foodCount=4"
+
+# Chips
+chips:
+  sugar_chips:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◆ &fСладкие Палочки'
+      description:
+      - '&f &fНевероятно сладкие и вкусные палочки,'
+      - '&f &fкоторые преукрасят любую вечеринку!'
+      - '&f &fМожно даже использовать в качестве'
+      - '&f &fзакуски к кинофильму.'
+      nbt: '{SkullOwner:{Id:"98377d2e-e07f-4e4e-bb3b-c0f766dea35b",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWViZjRiZDhkMjE2OWYxMDI3MzhiZmUyYmY3Y2ZlZDY5NTc3YjdjZjY3MjFhZmI3YTYyNGE4NTcwM2JiZDRiIn19fQ=="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0.5"
+
+  natural_chips:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◆ &fНатуральные Чипсы'
+      description:
+      - '&f &fНатуральные и невероятно дорогие -'
+      - '&f &fно достаточно полезные - чипсы.'
+      - '&f &fПриготовленны профессиональными'
+      - '&f &fповарами из самых лучших ингридиентов!'
+      nbt: '{SkullOwner:{Id:"45ca8ab0-22a7-4afa-8770-e30b54dbdce3",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRhNzkxZTU1YjE1MDk5ZDE4M2IxOTU2MWY5NWM5Y2FlNGQyNjQ0NDgyODIxODhmMTE0YjYxZDRkM2RmMyJ9fX0="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=1"
+
+# Drinks
+drinks:
+  water:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◇ &fНегазированная Вода &7(0.5 л)'
+      description:
+      - '&f &fСамая обычная вода, которую'
+      - '&f &fи выпить можно, и использовать где-либо!'
+      - '&f &fБудь то какой-то рецепт борща,'
+      - '&f &fто ли полив цветов - вода везде'
+      - '&f &fпригодится.'
+      nbt: '{SkullOwner:{Id:"52bedbc1-f414-4e95-8015-eff7ecaa9296",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWNlNDI4M2E4N2Q0NzIzYjYyOWUxMjA3ZDBjZWE4MGQ0NjE4YWFlZGQ1ZWEzNGI0MTI5YTkwN2JiMTA1ODY4ZiJ9fX0="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_DrinkAction'
+      variables:
+      - "drinkCount=1"
+
+  soda:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◆ &fСладкая Сода &7(0.5 л)'
+      description:
+      - '&f &fНе такая уж и полезная - но'
+      - '&f &fневероятно вкусная сода!'
+      nbt: '{SkullOwner:{Id:"1b77fcfa-f092-481c-8455-618862011416",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTIzYTliN2RlYTg3OTMyMWJkOTk4MjIwOWFkNDlmNmU5ZWNjMThlYThmZDJkYTk4MDFkNDg1ODJkOWQyMjIxMiJ9fX0="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=1.5"
+
+# FastFood
+fastfood:
+  freezed_burger:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◆ &fЗамороженный Бургер'
+      description:
+      - '&f &fБургер - это самое главное блюдо'
+      - '&f &fлюбого фаст-фуда! Но теперь и вы'
+      - '&f &fможете его попробывать, не ходя в'
+      - '&f &fвсякие там фаст-фуды.'
+      - ''
+      - '&f &7Только вот разогреть бы его'
+      - '&f &7где-то...'
+      nbt: '{SkullOwner:{Id:"9f80c0fa-e411-4d78-ba84-efbf6739c6e4",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I4OWQyNmJjODIwYTdiZjBiM2Q1MWMyYWZmNzNjNWMzZDljYjg0Nzk0MGYwNjVhMzMxMGFiZmE3MmQwMTk4ZCJ9fX0="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=1"
+
+  freezed_fries:
+    type: 'item'
+    item: 'player head'
+    visual:
+      title: '&e◆ &fЗамороженная Картошка Фри'
+      description:
+      - '&f &fКартошка Фри - это второе главное'
+      - '&f &fюдо любого уважабщего себя фаст-фуда.'
+      - '&f &fВкусненькая, немного солёненькая -'
+      - '&f &fпальчики оближешь!'
+      - ''
+      - '&f &7Но тёплая она вообще самая лучшая!'
+      - '&f &7Надо бы найти где её разогреть...'
+      nbt: '{SkullOwner:{Id:"1bb831a6-0ab6-45e3-9c43-869d65cab43c",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTA1ODI2YjM3YTdmN2IyM2MzYWM5ZGRhOTdmNDc0NGQxMjAzNDBkNmZhNDRmOTM3ZTJiNzlmOGQzOTVmIn19fQ=="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0.5"

@@ -1,0 +1,47 @@
+command gps:
+  trigger:
+    open virtual chest inventory with size 5 named "&8GPS" to player
+
+    # Пустые слота
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+    set {_slots::*} to 3,4,5
+    format gui slot {_slots::*} of player with {_empty}
+
+    # Заполняем места
+    set {_slot} to 9
+    set {_places::*} to yaml list "places" from "gps-places"
+    loop {_places::*}:
+      delete {_item}
+      delete {_place}
+      delete {_place::*}
+
+      set {_place} to loop-value
+
+      # Берём данные этого места
+      set {_place::title} to yaml value "place.%{_place}%.title" from "gps-places"
+      set {_place::nbt} to yaml value "place.%{_place}%.nbt" from "gps-places"
+      set {_place::description::*} to yaml list "place.%{_place}%.description" from "gps-places"
+
+      set {_place::location} to yaml value "place.%{_place}%.location" from "gps-places"
+      set {_place::location} to getLocation({_place::location}, "world")
+
+      {_place::location} is set
+      set {_item} to player head named coloured {_place::title} with lore coloured {_place::description::*}
+      add "%{_place::nbt}%" to item-nbt of {_item}
+
+      add "", "&e➹ &fНажмите, что бы проложить маршрут", "&7Вам нужно находится на улице. Точки маршурта", "&7прокладываются по автомобильным дорогам." to {_item}'s lore
+
+      format gui slot {_slot} of player with {_item} to run:
+        close player's inventory
+        startGPSWorker(player, "%{_place}%")
+
+      add 1 to {_slot}
+
+on load:
+  set {_file} to "/plugins/GPS/places.yml"
+  load yaml {_file} as "gps-places"
+
+on unload:
+  unload yaml "gps-places"

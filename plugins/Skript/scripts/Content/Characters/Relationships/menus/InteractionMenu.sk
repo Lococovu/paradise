@@ -1,1 +1,249 @@
-function openINe
+function openInteractionMenu(player: player, target: player):
+  open virtual chest inventory with size 5 named "&8Человек" to {_player}
+
+  # Пустые слоты
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+  format gui slot 4, {_slots::*} of {_player} with {_empty}
+
+  # Информация
+  set {_name} to getCharacterName({_target}, getCurrentCharacter({_target}))
+  set {_splittedName::*} to {_name} split at " "
+
+  set {_gender} to getCharacterGender({_target}, getCurrentCharacter({_target}))
+
+  if doTargetKnownToPlayer({_target}, {_player}, "firstName") is true:
+    set {_firstName} to "&f%{_splittedName::1}%"
+  
+  if {_firstName} is not set:
+    set {_firstName} to "&7??????"
+
+  # Проверям фамилию
+  if doTargetKnownToPlayer({_target}, {_player}, "lastName") is true:
+    set {_lastName} to "&f%{_splittedName::2}%"
+
+  if {_lastName} is not set:
+    set {_lastName} to "&7??????"
+
+  set {_information} to player head named "%{_firstName}% %{_lastName}%"
+  add "{SkullOwner:{Id:""da4d885d-2505-4f25-bfee-a0de07950191"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDAxYWZlOTczYzU0ODJmZGM3MWU2YWExMDY5ODgzM2M3OWM0MzdmMjEzMDhlYTlhMWEwOTU3NDZlYzI3NGEwZiJ9fX0=""}]}}}" to {_information}
+
+  format gui slot 4 of {_player} with {_information}
+
+  # Действия
+
+  # Рассказать про себя
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+
+  set {_knows::*} to getRelationshipKnowsList({_player}, {_target})
+  set {_list::*} to "firstName=Ваше имя", "lastName=Вашу фамилия", "age=Ваш возраст", "gender=Ваш пол"
+
+  set {_tell} to player head named "&e☁ &fРассказать про себя" with lore "", "&f &fХотите, что бы этот человек знал как, например, вас зовут?", "&f &fНу тогда зайдите в этом меню и нажмите на соответствующую кнопку!", "", "&f &fТолько, пожалуйста, отграйте ситуацию знакомства с этим", "&f &fигроком. Не тыкайте сюда просто так - следуйте логичным", "&f &fправилам РП.", "", "&e▤ &fЭтот человек знает:"
+  add "{SkullOwner:{Id:""956f278e-0077-4776-82e4-c8c806e584c6"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwMDA3MzExZjY1ODk0NTg2Nzg4NDk0NTcyMmE0MzBjNTI3ZjMyMjNiOTA5NjEyZTQ1ZDAzMjA4OTZlYWU5YSJ9fX0=""}]}}}" to item-nbt of {_tell}
+
+  loop {_list::*}:
+    set {_temp::*} to loop-value split at "="
+
+    if {_knows::*} contains {_temp::1}:
+      add "&7- &f%{_temp::2}%" to {_tell}'s lore
+
+  add "", "&e▹ &fНажмите, что бы открыть" to {_tell}'s lore
+
+  format gui slot {_slot} of {_player} with {_tell} to run:
+    if distance between {_player} and {_target} <= 6:
+      openInteractionInformationMenu({_player}, {_target})
+    else:
+      close {_player}'s inventory
+      sendNotification({_player}, "&c⚠ &fЦель слишком далеко", 3)
+
+function openInteractionInformationMenu(player: player, target: player):
+  # Меню
+  open virtual chest inventory with size 5 named "&8Рассказать про себя" to {_player}
+
+  # Берём всё то, что игрок знает про цель
+  set {_knows::*} to getRelationshipKnowsList({_player}, {_target})
+
+  # Пустые слоты
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  set {_slots::*} to 20,21,22,23,24, 29,30,31,32,33
+  format gui slot 3,4,5, {_slots::*} of {_player} with {_empty}
+
+  # Вернуться назад
+  set {_back} to player head named "&e &fВернуться назад" with lore "", "&f &fСамая обычная кнопка, которая просто возвращает", "&f &fвас в предыдущее меню.", "", "&e &fНажмите, что бы перейти"
+  add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
+  
+  # {SkullOwner:{Id:"""",Properties:{textures:[{Value:""""}]}}}
+
+  format gui slot 3 of {_player} with {_back} to run:
+    if distance between {_player} and {_target} <= 6:
+      openInteractionMenu({_player}, {_target})
+    else:
+      close {_player}'s inventory
+      sendNotification({_player}, "&c⚠ &fЦель слишком далеко", 3)
+
+  # Информация про персонажа
+  set {_character::name} to getCharacterName({_player}, getCurrentCharacter({_player}))
+  set {_temp::*} to {_character::name} split at " "
+
+  if size of {_temp::*} > 1:
+    set {_character::firstName} to {_temp::1}
+    set {_character::lastName} to {_temp::2}
+  else:
+    set {_character::firstName} to "*%{_player}%"
+    set {_character::lastName} to "*%{_player}%"
+
+  set {_character::age} to getCharacterAge({_player}, getCurrentCharacter({_player}))
+  set {_character::gender} to getCharacterGender({_player}, getCurrentCharacter({_player}))
+
+  # Имя
+
+  if {_knows::*} contains "firstName":
+    set {_symbol} to "&a✓"
+    set {_description::*} to "&7Этот человек уже знает ваше имя"
+
+    set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
+  else:
+    set {_symbol} to "&c✕"
+    set {_description::*} to "&e▹ &fНажмите, что бы рассказать ваше имя", "&fэтому человеку.", "&7Этот человек ещё не знает вашего имени"
+  
+    set {_nbt} to "{SkullOwner:{Id:""50817ea4-f13d-47e5-ba1d-055df073bedc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI4ZDk4Y2U0N2ZiNzdmOGI2MDRhNzY2ZGRkMjU0OTIzMjU2NGY5NTYyMjVjNTlmM2UzYjdiODczYTU4YzQifX19""}]}}}"
+
+  set {_firstName} to player head named "%{_symbol}% &fМоё Имя &7(%{_character::firstName}%)" with lore "", "&f &fКрутое описание", "", {_description::*}
+  add "%{_nbt}%" to item-nbt of {_firstName}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  
+  format gui slot {_slot} of {_player} with {_firstName} to run:
+    if {_knows::*} doesn't contain "firstName":
+      tellTargetAboutPlayer({_player}, {_target}, "firstName")
+
+  # Фамилия
+  if {_knows::*} contains "lastName":
+    set {_symbol} to "&a✓"
+    set {_description::*} to "&7Этот человек уже знает вашу фамилию"
+
+    set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
+  else:
+    set {_symbol} to "&c✕"
+    set {_description::*} to "&e▹ &fНажмите, что бы рассказать вашу фамилию", "&fэтому человеку.", "&7Этот человек ещё не знает вашу фамилию"
+  
+    set {_nbt} to "{SkullOwner:{Id:""538a7620-6569-4421-8675-7261b22a7617"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=""}]}}}"
+
+  set {_lastName} to player head named "%{_symbol}% &fМоя Фамилия &7(%{_character::lastName}%)" with lore "", "&f &fКрутое описание", "", {_description::*}
+  add "%{_nbt}%" to item-nbt of {_lastName}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  
+  format gui slot {_slot} of {_player} with {_lastName} to run:
+    if {_knows::*} doesn't contain "lastName":
+      tellTargetAboutPlayer({_player}, {_target}, "lastName")
+
+
+  # Возраст
+  if {_knows::*} contains "age":
+    set {_symbol} to "&a✓"
+    set {_description::*} to "&7Этот человек уже знает ваш возраст"
+
+    set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
+  else:
+    set {_symbol} to "&c✕"
+    set {_description::*} to "&e▹ &fНажмите, что бы рассказать ваш возраст", "&fэтому человеку.", "&7Этот человек ещё не знает ваш возраст"
+  
+    set {_nbt} to "{SkullOwner:{Id:""ba0e7621-d257-4ff6-82a0-655d55bacf37"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2YwOTAxOGY0NmYzNDllNTUzNDQ2OTQ2YTM4NjQ5ZmNmY2Y5ZmRmZDYyOTE2YWVjMzNlYmNhOTZiYjIxYjUifX19""}]}}}"
+
+  set {_age} to player head named "%{_symbol}% &fМой Возраст &7(%{_character::age}% лет)" with lore "", "&f &fКрутое описание", "", {_description::*}
+  add "%{_nbt}%" to item-nbt of {_age}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  
+  format gui slot {_slot} of {_player} with {_age} to run:
+    if {_knows::*} doesn't contain "age":
+      tellTargetAboutPlayer({_player}, {_target}, "age")
+
+  # Пол
+  if {_knows::*} contains "gender":
+    set {_symbol} to "&a✓"
+    set {_description::*} to "&7Этот человек уже знает ваш пол"
+
+    set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
+  else:
+    set {_symbol} to "&c✕"
+    set {_description::*} to "&e▹ &fНажмите, что бы рассказать ваш пол", "&fэтому человеку.", "&7Этот человек ещё не знает ваш пол"
+  
+    if {_character::gender} contains "муж":
+      set {_nbt} to "{SkullOwner:{Id:""1f1b44f6-2e08-4b78-a9a9-3c07a84e9929"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM5ZDlmZDU3ODM0OGIzYWQwMWE3NzgxZTA5MjA4NTZiOGUzNjFlNDU2MTdjZTM4YWYwNDgxMTUxM2Y2ODE5NyJ9fX0=""}]}}}"
+    else:
+      set {_nbt} to "{SkullOwner:{Id:""c4c4c21c-a887-4728-8148-462147c6b52b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmZkYTU5NmRjYzgxNzk4YmYwZjJmZTgxY2U4M2Y2MmM5MmI5Y2I2MGI0ZjYxZDRjZDZiYjMzNTliZjNlOWE3ZiJ9fX0=""}]}}}"
+
+  if {_character::gender} contains "муж":
+    set {_gender::name} to "Мужской"
+    set {_gender::icon} to "♂"
+  else:
+    set {_gender::name} to "Женский"
+    set {_gender::icon} to "♀"
+
+  set {_gender} to player head named "%{_symbol}% &fМой Пол &7(&7%{_gender::icon}% &7%{_gender::name}%)" with lore "", "&f &fКрутое описание", "", {_description::*}
+  add "%{_nbt}%" to item-nbt of {_gender}
+
+  set {_slot} to first element of {_slots::*}
+  remove {_slot} from {_slots::*}
+  
+  format gui slot {_slot} of {_player} with {_gender} to run:
+    if {_knows::*} doesn't contain "gender":
+      tellTargetAboutPlayer({_player}, {_target}, "gender")
+
+function tellTargetAboutPlayer(player: player, target: player, property: string):
+  if distance between {_player} and {_target} <= 6:
+    # Рассказываем
+    addRelationshipKnownProperty({_player}, {_target}, {_property})
+
+    # Визуал
+    toldTargetAboutPlayerVisual({_target}, {_player}, {_property})
+
+    # Обновляем меню
+    openInteractionInformationMenu({_player}, {_target})
+  else:
+    sendNotification({_player}, "&c⚠ &fЦель слишком далеко", 3)
+
+function toldTargetAboutPlayerVisual(player: player, target: player, property: string):
+  # Создаём голограмму
+  if {_property} is "firstName":
+    set {_title} to "Имя"
+  else if {_property} is "lastName":
+    set {_title} to "Фамилию"
+  else if {_property} is "age":
+    set {_title} to "Возраст"
+  else if {_property} is "gender":
+    set {_title} to "Пол"
+
+  # Create holo
+  create new hologram with clickable lines "&e△ &fТеперь вы знаете", "&7%{_title}% &fэтого человека" that follows {_target} offset by direction 3 meters above and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal {_hologram} to {_player}
+  reveal {_hologram} to {_target}
+
+  set {_time} to 6
+
+  set {_waiting} to true
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {_action} to "stop"
+
+    # Действие
+    if {_action} is "stop":
+      delete hologram {_hologram}
+      stop
+
+    reduce {_time} by 0.05
+    if {_time} <= 0:
+      set {_action} to "stop"
+    wait 1 tick
