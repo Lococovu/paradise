@@ -1,0 +1,2 @@
+function sendMail(player: player, mailCreate: string):
+  # Берём информацию

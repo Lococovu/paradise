@@ -1,0 +1,26 @@
+function createDocument(createId: string) :: string:
+  # Берём информацию о документе
+  set {_type} to {documents::create::%{_createId}%::type}
+
+  if {_type} is "passport":
+    set {_uuid} to {documents::create::%{_createId}%::uuid}
+    set {_character} to {documents::create::%{_createId}%::character}
+
+    {_uuid} or {_character} is not set:
+      stop
+    else:
+      # Создаём документ...
+      set {_documentId} to "%random integer between 0000 and 9999%-%random integer between 0000 and 9999%-%random integer between 0000 and 9999%-%random integer between 0000 and 9999%"
+
+      set {_file} to "document-%{_documentId}%"
+
+      load yaml "/plugins/Documents/data/%{_documentId}%.yml" as {_file}
+
+      set yaml value "type" from {_file} to "passport"
+      set yaml value "passport.uuid" from {_file} to {_uuid}
+      set yaml value "passport.character" from {_file} to {_character}
+
+      save yaml {_file}
+      unload yaml {_file}
+
+      return {_documentId}

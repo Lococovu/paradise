@@ -25,6 +25,22 @@ on join:
 
   set join message to ""
 
+  # TODO
+  # Создаём паспорт для игрока
+  if yaml value "temp.createdPassport" from "player-%player's uuid%" is not set:
+    set {_createId} to random integer between 000 and 999
+
+    set {documents::create::%{_createId}%::type} to "passport"
+    set {documents::create::%{_createId}%::uuid} to player's uuid
+    set {documents::create::%{_createId}%::character} to "main"
+    set {_documentId} to createDocument("%{_createId}%")
+
+    addDocumentToPlayer(player, "%{_documentId}%")
+
+    set yaml value "temp.createdPassport" from "player-%player's uuid%" to "да"
+    save yaml "player-%player%"
+
+
   delete {authorized::%player%}
   delete {temp::%player%::*}
 
@@ -424,8 +440,10 @@ function StartAuthorization(player: player):
 # Авторизация выполенна успешно
 # 
 function AuthorizationDone(player: player):
+  loop all players:
+    send action bar "&e▷ &fИгрок %{_player}% присоединился" to loop-player
+  
   reveal {_player}
-
   remove night vision from {_player}
 
   set {authorized::%{_player}%} to true

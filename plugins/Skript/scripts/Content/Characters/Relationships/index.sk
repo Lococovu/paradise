@@ -135,6 +135,10 @@ function createRelationshipHologram(player: player, target: player):
     if {_expandedMenu} isn't {workers::%{_player}%::relationship::holograms::%{_target}%::expandedMenu}:
       set {_expandedMenu} to {workers::%{_player}%::relationship::holograms::%{_target}%::expandedMenu}
 
+    if {_expandedMenu} is false:
+      {workers::%{_player}%::relationship::holograms::%{_target}%::expandedMenu} is set
+      delete {workers::%{_player}%::relationship::holograms::%{_target}%::expandedMenu}
+
     # Проверяем статус отношений между игроками
     set {_name} to getCharacterName({_target}, getCurrentCharacter({_target}))
     set {_splittedName::*} to {_name} split at " "
@@ -153,7 +157,7 @@ function createRelationshipHologram(player: player, target: player):
 
     # Проверям фамилию
     if doTargetKnownToPlayer({_target}, {_player}, "lastName") is true:
-      set {_lastName} to "&7%{_splittedName::2}%"
+      set {_lastName} to "&f%{_splittedName::2}%"
     else:
       delete {_lastName}
 
@@ -162,7 +166,7 @@ function createRelationshipHologram(player: player, target: player):
 
     # Возраст
     if doTargetKnownToPlayer({_target}, {_player}, "age") is true:
-      set {_age} to "&f%{_target::age}% лет"
+      set {_age} to "&7%{_target::age}% лет"
     else:
       delete {_age}
 
@@ -170,16 +174,10 @@ function createRelationshipHologram(player: player, target: player):
       set {_age} to "&7?? лет"
 
     # Пол
-    if doTargetKnownToPlayer({_target}, {_player}, "gender") is true:
-      if {_target::gender} contains "муж":
-        set {_gender} to "Мужчина"
-      else:
-        set {_gender} to "Женщина"
+    if {_target::gender} contains "муж":
+      set {_gender} to "Мужчина"
     else:
-      delete {_gender}
-
-    if {_gender} is not set:
-      set {_gender} to "&7??????"
+      set {_gender} to "Женщина"
 
     # Настроение
     set {_emotion} to getPlayerEmotion({_target})
@@ -249,4 +247,18 @@ on offhand switch:
       else:
         set {workers::%player%::relationship::holograms::%targeted player%::expandedMenu} to true
   else:
-    execute player command "/player"
+    loop all blocks in radius 2 around player:
+      if {block::%location of loop-block%::room} is set:
+        set {_roomId} to {block::%location of loop-block%::room}
+
+        if {data::rooms::%{_roomId}%::occupant::uuid} and {data::rooms::%{_roomId}%::occupant::character} is set:
+          if {data::rooms::%{_roomId}%::occupant::uuid} is player's uuid:
+            set {_isInRoom} to true
+            exit 1 loop
+        else:
+          set {_isInRoom} to true
+
+    if {_isInRoom} is true:
+      openRoomMenu(player, {_roomId})
+    else:
+      execute player command "/player"

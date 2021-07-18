@@ -4,6 +4,25 @@ function playerWorkers(player: player):
   loadTerminalViewWorkers({_player})
   startShopWorker({_player})
 
+  # Другие воркеры
+
+  # Receptionist
+  set {_location} to getLocation("532.5, 53, 591", "world")
+  set {_location} to location of block at {_location}
+
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_DefaultHotelReceptionistCreate"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_DefaultHotelReceptionistClick"
+
+  # Центр Занятости
+  set {_location} to getLocation("541, 53, 641", "world")
+  set {_location} to location of block at {_location}
+
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_JobCenterCreate"
+  set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_JobCenterClick"
+
+
   # Запускаем сам ViewWorker
   wait 5 seconds
   StartViewWorker({_player})

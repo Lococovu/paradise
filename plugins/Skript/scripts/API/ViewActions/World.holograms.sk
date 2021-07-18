@@ -79,3 +79,50 @@ function WR_Holo_DefaultHotelReceptionistClick(player: player):
   # add "{SkullOwner:{Id:""af78fbcb-985a-4511-a13b-7ae2718d15ef"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODJiMjJiZGFlNzk5MDgzYWQ4N2Q5ZDI1MWRlYzhiZDVkNTc0NGZiZTNiOGE1YmE0MDkxYmE1NTk3NGI4NWIifX19""}]}}}" to item-nbt of {_rooms::list}
 
   # format gui slot 13 of {_player} with {_rooms::list}
+
+
+
+# 
+function WR_Holo_JobCenterCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", "&7&lЦентр Занятости", "&fНайдите самую подходящую", "&fвам работу без проблем!", "&e▷ &fПКМ"
+  set {_hologram::location} to getLocation("541, 54, 641", "world")
+
+  if distance between {_player} and {_hologram::location} >= 3.5:
+    stop
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    # Проверяем состояние текущего блока
+    if distance between {_player} and {_hologram::location} >= 3.5:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+  
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+function WR_Holo_JobCenterClick(player: player):

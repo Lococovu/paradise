@@ -8,6 +8,9 @@ character:
         age: 19
         statistics:
             hunger: 9.5
+        documents:
+        - 9540-8287-7426-4842
+        - 1335-1897-7919-8162
 
 relationship:
     main:
@@ -20,4 +23,12 @@ relationship:
         d5c22930-ff45-34b4-8c2d-08a1afd136cc-main:
             knows:
             - firstName
+            - lastName
+            - age
+            - gender
         337ceffb-62d8-3c46-9d2f-e5125d4f4402-main: {}
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

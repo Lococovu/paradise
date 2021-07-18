@@ -1,0 +1,43 @@
+command documents:
+  trigger:
+    # Открываем меню
+    open virtual chest inventory with size 5 named "&8Документы" to player
+
+    # Пустые слоты
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+    set {_slots::*} to 20,21,22,23,24, 29,30,31,32,33
+    format gui slot 3,4,5, {_slots::*} of player with {_empty}
+
+    # Показываем весь список документов игрока
+    set {_character} to getCurrentCharacter(player)
+    set {_documents::*} to yaml list "character.%{_character}%.documents" from "player-%player's uuid%"
+
+    loop {_documents::*}:
+      delete {_file}
+
+      set {_value} to loop-value
+      checkIfDocumentIsLoaded({_value})
+
+      set {_file} to "document-%{_value}%"
+
+      # Берём тип документа
+      set {_type} to yaml value "type" from {_file}
+
+      {_type} is set
+      set {_player} to player
+      # Берём иконку
+      evaluate:
+        set {_icon} to DN_%{_type}%GetIcon({_player}, {_value})
+
+      {_icon} is set
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_icon} to run:
+        execute player command "/document %{_value}%"
+
+function checkIfDocumentIsLoaded(documentId: string):
+  if yaml "document-%{_documentId}%" isn't loaded:
+    load yaml "/plugins/Documents/data/%{_documentId}%.yml" as "document-%{_documentId}%"

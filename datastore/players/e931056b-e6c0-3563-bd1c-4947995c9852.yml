@@ -1,0 +1,12 @@
+character:
+    main:
+        documents:
+        - 3542-6420-815-4371
+
+temp:
+    createdPassport: да
+
+authorization:
+    discordId: 582278506541613059
+
+receivedDefaultItems: true

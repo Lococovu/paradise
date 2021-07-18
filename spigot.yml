@@ -93,7 +93,7 @@ world-settings:
     nerf-spawner-mobs: false
     mob-spawn-range: 8
     end-portal-sound-radius: 0
-    max-entity-collisions: 8
+    max-entity-collisions: 0
     merge-radius:
       exp: 3.0
       item: 2.5

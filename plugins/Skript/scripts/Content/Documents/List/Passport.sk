@@ -1,0 +1,23 @@
+function DN_passportGetIcon(player: player, documentId: string) :: item:
+  # Берём данные игрока
+  set {_file} to "player-%{_player}'s uuid%"
+  checkIfDocumentIsLoaded({_documentId})
+
+  set {_character} to yaml value "passport.character" from "document-%{_documentId}%"
+  if {_character} is not set:
+    stop
+
+  set {_character::name} to getCharacterName({_player}, {_character})
+  set {_character::age} to getCharacterAge({_player}, {_character})
+  set {_character::gender} to getCharacterGender({_player}, {_character})
+
+  if {_character::gender} contains "муж":
+    set {_gender::name} to "Мужской"
+    set {_gender::icon} to "&9♂"
+  else:
+    set {_gender::name} to "Женский"
+    set {_gender::icon} to "&d♀"
+
+  set {_item} to player head named "&e▤ &fПасспорт" with lore "&7##%{_documentId}%", "", "&e◇ &fИмя/Фамилия", "&7%{_character::name}%", "", "%{_gender::icon}% &fПол", "&7%{_gender::name}%", "", "&e¹⁸ &fВозраст", "&7%{_character::age}% лет.", "", "&f &fЭтот документ является", "&f &fОффициальным Документом", "&f &fАдминистративного Отделения", "&f &fгорода Лоунайт.", "", "&e✎ &fПодпись мэра               &ehrn"
+
+  return {_item}

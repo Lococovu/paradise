@@ -1,0 +1,274 @@
+function startRoomEditor(player: player, roomId: string):
+  # Берём информацию о комнате
+  set {_node} to {data::rooms::%{_roomId}%::configNode}
+  set {_file} to {data::rooms::%{_roomId}%::configFile}
+
+  set {_room::center} to {data::rooms::%{_roomId}%::center}
+
+  {_file} and {_node} and {_room::center} is set:
+  # Проверяем, не находится ли игрок в редакторе
+  if {workers::%{_player}%::roomEditor} is set:
+    delete {workers::%{_player}%::roomEditor}
+    wait 2 ticks
+    if {workers::%{_player}%::roomEditor} is set:
+      sendNotification({_player}, "&c⚠ &fВыйдите из текущего редактора комнаты, что бы зайти в новый", 3)
+      stop
+
+  delete {workers::%{_player}%::roomEditor}
+  delete {workers::%{_player}%::roomEditor::*}
+
+  # Настраиваем локации
+  set {_regions::*} to {data::rooms::%{_roomId}%::regions::*}
+
+  loop {_regions::*}:
+    delete {_temp::*}
+
+    set {_temp::*} to loop-value split at "/"
+
+    set {_location::1} to getLocation("%{_temp::1}%", "world")
+    set {_location::2} to getLocation("%{_temp::2}%", "world")
+
+    set {workers::%{_player}%::roomEditor::region::%loop-index%::1} to {_location::1}
+    set {workers::%{_player}%::roomEditor::region::%loop-index%::2} to {_location::2}
+
+    add loop-index to {workers::%{_player}%::roomEditor::regions::*}
+
+  # Выключаем воркер инвентаря
+  set {workers::%{_player}%::inventory} to "stop"
+
+  # Выключаем воркер эмоций
+  set {workers::%{_player}%::emotions} to "stop"
+
+  # Сохраняем инвентарь
+  savePlayerInventory({_player})
+
+  clear {_player}'s inventory
+  set {workers::%{_player}%::roomEditor::startLocation} to {_player}'s location
+
+  set {_editorMenu} to player head named "&e▤ &fМеню Редактирования" with lore "", "&f &fВ этом меню вы сможете Выйти из режима редактирования,", "&f &fначать процесс перестройки вашей квартиры, использовать", "&f &fинтерактивную мебель и многое-многое другое!", "", "&e▹ &fНажмите, что бы открыть"
+  add "{SkullOwner:{Id:""53bc99c1-6922-e3f0-c9ec-1f18e3df3d6c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQzZDI1MGUyNWJiY2EzYTYyYmU1YjNlZjAyY2ZjYWI2ZGNkYzQyNDg4NGM5YTdkNWNjOTVjOWQwIn19fQ==""}]}}}" to item-nbt of {_editorMenu}
+  
+  set slot 8 of {_player} to {_editorMenu}
+
+  # Телепортируем игрока
+  teleport {_player} to {_room::center}
+  set {_player}'s gamemode to creative
+
+  hide {_player}
+  set {_bossbar::stage} to 0
+
+  # Запускаем воркер
+  set {_waiting} to true
+  while {_waiting} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::roomEditor} to "stop"
+
+    # Синхронизация переменных
+    if {data::rooms::%{_roomId}%::editing} is not true:
+      set {data::rooms::%{_roomId}%::editing} to true
+
+    # Действия
+    if {workers::%{_player}%::roomEditor} is not set:
+      set {workers::%{_player}%::roomEditor} to true
+    else:
+      set {_action} to {workers::%{_player}%::roomEditor}
+
+      if {_action} is "stop":
+        if {_player} is online:
+          # Телепортируем игрока в его квартиру
+          set {_player}'s gamemode to survival
+
+          teleport {_player} to {workers::%{_player}%::roomEditor::startLocation}
+          reveal {_player}
+
+          # Отдаём все предметы
+          loadPlayerInventory({_player})
+        
+        delete {data::rooms::%{_roomId}%::editing}
+        delete {temp::%{_player}%::heads::*}
+
+        hide bossbar {_bossbar}
+        stop
+
+    if {_bossbar::titleTimer} is not set:
+      set {_bossbar::titleTimer} to 6
+      
+      add 1 to {_bossbar::stage}
+      if {_bossbar::stage} > 3:
+        set {_bossbar::stage} to 1
+
+    if {_bossbar::stage} is 1:
+      set {_bossbar::title} to "&e &fВы находитесь в редакторе комнаты"
+    else if {_bossbar::stage} is 2:
+      set {_bossbar::title} to "&e &fПропишите &e/&feditor что бы открыть меню редактора"
+    else if {_bossbar::stage} is 3:
+      set {_bossbar::title} to "&e &fПропишите &e/&fhelp для получения помощи"
+
+    # Боссбар
+    if {_bossbar} is not set:
+      set {_bossbar} to skellett new bossbar
+      set skellett colour of bossbar {_bossbar} to WHITE
+      skellett add {_player} to bossbar {_bossbar}
+
+      set skellett title of bossbar {_bossbar} to "&f..."
+
+      skellett show bossbar {_bossbar}
+    else:
+      if {_bossbar::hide} is true:
+        hide bossbar {_bossbar}
+
+      # Обновляем тайтл боссбара
+      if skellett title of bossbar {_bossbar} isn't {_bossbar::title}:
+        set skellett title of bossbar {_bossbar} to {_bossbar::title}
+
+      # Обновляем прогресс боссбара
+      if skellett progress of bossbar {_bossbar} isn't {_bossbar::progress}:
+        if {_bossbar::progress} > 1:
+          set {_bossbar::progress} to 1
+
+        if {_bossbar::progress} < 0:
+          set {_bossbar::progress} to 0
+
+        set skellett progress of bossbar {_bossbar} to {_bossbar::progress}
+    
+    # Проверяем локацию игрока
+
+    # Прогресс боссбара
+    if {_bossbar::titleTimer} is set:
+      reduce {_bossbar::titleTimer} by 0.05
+
+      set {_bossbar::progress} to (1/6) * {_bossbar::titleTimer}
+
+      if {_bossbar::titleTimer} < 0:
+        delete {_bossbar::titleTimer}
+
+    wait 1 tick
+
+command editor:
+  trigger:
+    delete {workers::%player%::roomEditor}
+    wait 1 tick
+
+    if {workers::%player%::roomEditor} is set:
+      open virtual chest inventory with size 5 named "&8Редактор комнаты" to player
+
+      # Пустые слоты
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+      set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+      format gui slot {_slots::*} of player with {_empty}
+
+      # Информация о квартире
+      set {_information} to getRoomInformationItem("%{_roomId}%")
+      format gui slot 4 of player with {_information}
+
+      # Перестроить
+
+      # Отменить изменения
+      # set {_exit} to player head named "&c &fОтменить изменения" with lore "", "&f &fХотите закончить редактирование? Ну тогда нажимайте", "&f &fна эту кнопку! Но! Когда вы на неё нажмёте, все ваши", "&f &fизменения будут утерянны и удаленны, и состояние комнаты", "&f &fвернётся в прошлое состояние."
+
+      # Каталог Мебели
+      set {_furniture} to player head named "&e▤ &fКаталог мебели" with lore "", "&f &fНа данный момент в данной категории находится", "&f &fтолько два интерактивных предмета: &eГардеробная&f и", "&f &eРабочий Стол&f, которые стояли в начальной квартире. И да -", "&f &fвы можете поставить их в своей квартире!", "", "&f &fРазработчику надоело это всё разрабатывать, поэтому вместо", "&f &fкрасивой мебели вы просто будете ставить точку, в которой", "&f &fбудет создаваться либо гардеробная либо рабочий стол. Тоесть", "&f &fпока что вам самим нужно будет сделать эту мебель.", "", "&e▹ &fНажмите, что бы перейти"
+      add "{SkullOwner:{Id:""7eff1016-ea9b-45db-b8c1-8ce8862472fd"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJiODRlMzQ4YWI1OGJlMDQzNWY2MWUwMjdmYTZkZmU1NTdiZWU4ODkzZjFjMTBjM2MyYmViZDIwMjVkYSJ9fX0=""}]}}}" to item-nbt of {_furniture}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_furniture} to run:
+        execute player command "/furniture"
+
+      # Кастомные головы
+      set {_categories::*} to getAllHeadsCategories()
+      set {_category} to random element of {_categories::*}
+
+      set {_head} to random element of {heads_category::%{_category}%::list::*}
+      set {_heads} to getHeadItem("%{_head}%")
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      loop {_categories::*}:
+        add size of {heads_category::%{_category}%::list::*} to {_size}
+
+      format gui slot {_slot} of player with {_heads} named "&e▤ &fБиблиотека голов" with lore "", "&f &fНевероятно огромная библиотека полностью бесплатных", "&f &fи кастомных голов! На данный момент в библиотеки находится", "&f &fприблезительно &e%{_size}%&f разнообразных голов! Преукрасьте", "&f &fваше помещение с этими невероятно крутыми головами!", "", "&e▹ &fНажмите, что бы перейти" to run:
+        execute player command "/heads"
+
+      # Редактор армор-стендов
+      set {_armorstands} to player head named "&c✕ &fРедактор армор-стендов" with lore "", "&f &fРасставляйте и редактируйте армор-стенды с шиком", "&f &fи простотой! Двигайте каждую отдельную руку, ногу, голову", "&f &fиспользуя невероятно простой и интуитивный интерфейс!", "", "&7В разработке"
+      add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_armorstands}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_armorstands}
+
+      # Закончить редактирование
+      set {_exit} to player head named "&c✕ &fЗакончить редактирование" with lore "", "&f &fОтредактировали комнату так, как вам нравится? Ну", "&f &fтогда пора закончить процесс редактирования и начать", "&f &fрп-процесс!", "", "&e▹ &fНажмите, что бы закончить"
+      add "{SkullOwner:{Id:""9505db0d-f6bc-49c6-a22d-82c4fc9875fb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk4NDg1Y2QzZTM3NzU0MDUyNGY0NDQ5YWQxZDU5ZmZiOGZiM2Y4OTM1NTc3NGIwMmFiMGU5ZDI4YmU5MmRmMyJ9fX0=""}]}}}" to item-nbt of {_exit}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_exit} to run:
+        close player's inventory
+
+        set {workers::%player%::roomEditor} to "stop"
+
+on block break:
+  if {workers::%player%::roomEditor} is set:
+    delete {workers::%player%::roomEditor}
+    set {_regions::*} to {workers::%player%::roomEditor::regions::*}
+
+    loop {_regions::*}:
+      set {_location::1} to {workers::%player%::roomEditor::region::%loop-value%::1}
+      set {_location::2} to {workers::%player%::roomEditor::region::%loop-value%::2}
+
+      if location of event-block is within {_location::1} and {_location::2}:
+        set {_passed} to true
+
+    if {_passed} isn't true:
+      cancel event
+
+on right click:
+  if {workers::%player%::roomEditor} is set:
+    delete {workers::%player%::roomEditor}
+    if name of player's held item contains "Меню":
+      cancel event
+      
+      execute player command "/editor"
+      stop
+    
+    # set {_regions::*} to {workers::%player%::roomEditor::regions::*}
+
+    # loop {_regions::*}:
+    #   set {_location::1} to {workers::%player%::roomEditor::region::%loop-value%::1}
+    #   set {_location::2} to {workers::%player%::roomEditor::region::%loop-value%::2}
+
+    #   if location of event-block is within {_location::1} and {_location::2}:
+    #     set {_passed} to true
+
+    # if {_passed} isn't true:
+    #   cancel event
+
+on drop:
+  if {workers::%player%::roomEditor} is set:
+    cancel event
+
+on pickup:
+  if {workers::%player%::roomEditor} is set:
+    cancel event
+
+on block place:
+  if {workers::%player%::roomEditor} is set:
+    set {_regions::*} to {workers::%player%::roomEditor::regions::*}
+
+    loop {_regions::*}:
+      set {_location::1} to {workers::%player%::roomEditor::region::%loop-value%::1}
+      set {_location::2} to {workers::%player%::roomEditor::region::%loop-value%::2}
+
+      if location of event-block is within {_location::1} and {_location::2}:
+        set {_passed} to true
+
+    if {_passed} isn't true:
+      cancel event

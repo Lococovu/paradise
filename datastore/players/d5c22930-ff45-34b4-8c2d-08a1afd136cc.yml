@@ -4,13 +4,31 @@ authorization:
 character:
     main:
         name: Шелби Портер
-        age: 24
+        age: 28
         gender: Мужской
         skin: Voyaje
         statistics:
-            hunger: 2
+            hunger: 10
+        documents:
+        - 3072-4377-4601-8556
 
 relationship:
     04a097ae-9262-3ac7-a809-39e7d46f9528:
         knows:
         - firstName
+    main:
+        04a097ae-9262-3ac7-a809-39e7d46f9528-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender
+        de7c8bdc-7714-32cc-88f5-99f4b88c66e4-main:
+            knows:
+            - firstName
+            - lastName
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

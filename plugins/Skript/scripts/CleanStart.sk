@@ -1,0 +1,16 @@
+on skript stop:
+  clearDatabase()
+
+function clearDatabase():
+  delete {shop::*}
+  delete {workers::*}
+  delete {ip::*}
+  delete {chat::*}
+  delete {temp::*}
+  delete {function::*}
+  delete {emotions::*}
+  delete {documents::*}
+  delete {data::items::*}
+  delete {data::rooms::*}
+  delete {block::*}
+  delete {heads_category::*}

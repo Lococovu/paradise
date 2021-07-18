@@ -1,7 +1,3 @@
-command test5:
-  trigger:
-    sendNotification(player, "&c⚠ &fВаша база в опасности. &7~ Идите её защищать!", 6)
-
 function sendNotification(player: player, text: string, time: number):
   set {_random} to random integer between 000 and 999
   

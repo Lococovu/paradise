@@ -1,0 +1,2 @@
+on load:
+  set {_file} to "/plugins/Mail/config.yml"

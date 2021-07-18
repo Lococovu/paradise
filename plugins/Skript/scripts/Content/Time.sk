@@ -9,6 +9,7 @@ on weather change:
 
 command startAgain [<number>]:
   trigger:
+    player is op
     # Месяца
     set {server::time} to "23:55"
 

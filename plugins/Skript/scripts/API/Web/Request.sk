@@ -1,6 +1,6 @@
 effect send [get] [web] request to %string% and return as %string%:
   trigger:
-    send a request to "%expression-1%"
+    send a "get" request to "%expression-1%"
     set {_response} to last http response's body
 
     set {responses::%expression-2%::body} to {_response}

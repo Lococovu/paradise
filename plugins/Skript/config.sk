@@ -167,7 +167,7 @@ enable timings: true
 # Note that this requires Paper (https://paper.readthedocs.io/en/paper-1.11/) to work; on Bukkit/Spigot this option has no effect.
 # When false, timings are not enabled for scripts even if you're running Paper.
 
-parse links in chat messages: lenient
+parse links in chat messages: strict
 # Controls how Skript will try to parse links in chat messages.
 # If 'disabled' or 'false', no links will be automatically parsed.
 # When 'strict', everything starting with http(s):// will be parsed as link.
@@ -260,13 +260,13 @@ databases:
 		monitor changes: true
 		monitor interval: 20 seconds
 		
-	SQLite example:
+	sqlite:
 		# An SQLite database example.
 		
-		type: enabled# change to line below to enable this database
-		# type: SQLite
+		# type: enabled# change to line below to enable this database
+		type: SQLite
 		
-		pattern: db_.*# this pattern will save all variables that start with 'db_' in this SQLite database.
+		pattern: heads_.*# this pattern will save all variables that start with 'db_' in this SQLite database.
 		
 		file: ./datastore/variables.db
 		# SQLite databases must end in '.db'
@@ -277,6 +277,14 @@ databases:
 		monitor changes: false
 		monitor interval: 20 seconds
 		
+	heads:
+		type: CSV
+
+		pattern: heads_.*
+		file: ./temporary/heads.csv
+
+		backup interval: 0
+
 	default:
 		# The default "database" is a simple text file, with each variable on a separate line and the variable's name, type, and value separated by commas.
 		# This is the last database in this list to catch all variables that have not been saved anywhere else.

@@ -7,8 +7,6 @@ function getCardBalance(card: number) :: number:
   if {_balance} is not set:
     set {_balance} to 100
 
-  broadcast "GET BALANCE %{_balance}%"
-
   return {_balance}
 
 # 
@@ -29,8 +27,3 @@ function getCardPincode(card: number) :: string:
 # 
 function setCardPincode(card: number, pincode: string):
   set {data::card::%{_card}%::pincode} to {_pincode}
-
-command testc:
-  trigger:
-    set {_random} to random integer between 10000 and 99999
-    add paper named "Карта" with lore "&0%{_random}%" to player's inventory

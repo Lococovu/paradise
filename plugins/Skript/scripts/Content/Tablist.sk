@@ -5,7 +5,7 @@ every 1 tick:
 
     # Обновляем таблист
     # Хеадер
-    set loop-player's tablist header to "йоу йоу йоу"
+    set loop-player's tablist header to "&e&lʟᴀᴡɴɪɢʜᴛ%newline%%newline%&fМесто для рп-творчества%newline%"
 
     # Футер
-    set loop-player's tablist footer to "йоу йоу йоу"
+    set loop-player's tablist footer to "%newline%Заходите к нам в дискорд!%newline%&ediscord&f.lococovu.me"

@@ -2,3 +2,17 @@ character:
     main:
         statistics:
             hunger: 8.5
+        documents:
+        - 8956-3483-4821-3212
+        name: Олег Добровольский
+        age: 25
+        gender: Мужской
+        skin: 123
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true
+
+authorization:
+    discordId: 582278506541613059

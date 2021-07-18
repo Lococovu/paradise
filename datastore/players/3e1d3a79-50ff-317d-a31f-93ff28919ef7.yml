@@ -8,3 +8,19 @@ character:
         skin: сука
         statistics:
             hunger: -177.5
+        documents:
+        - 9109-319-2390-9060
+
+relationship:
+    main:
+        d5c22930-ff45-34b4-8c2d-08a1afd136cc-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

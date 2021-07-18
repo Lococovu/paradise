@@ -1,0 +1,12 @@
+function getHeadItem(item: string) :: item:
+  set {_temp::*} to {_item} split at "/"
+
+  set {_uuid} to {_temp::1}
+  set {_value} to {_temp::2}
+  set {_name} to {_temp::3}
+
+  {_uuid} and {_value} is set
+  set {_item} to player head named colored "&f%{_name}%"
+  add "{SkullOwner:{Id:""%{_uuid}%"",Properties:{textures:[{Value:""%{_value}%""}]}}}" to item-nbt of {_item}
+
+  return {_item}

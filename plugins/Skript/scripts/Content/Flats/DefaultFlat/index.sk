@@ -80,12 +80,10 @@ function TeleportToDefaultFlat(player: player):
 
     # Строка уведомлений
     if {_notification::stage} is 1:
-      set {_title} to "&e➁ &fТекущий уровень: &f2 Уровень"
-    else if {_notification::stage} is 2:
       set {_title} to "&e♡ &fДискорд-канал: &9discord&f.lococovu.me"
+    else if {_notification::stage} is 2:
+      set {_title} to "&e✌ &fБольше про сервер: &9discord&f.lococovu.me"
     else if {_notification::stage} is 3:
-      set {_title} to "&e✌ &fБольше про сервер: &flococovu.me/&9prds"
-    else if {_notification::stage} is 4:
       set {_title} to "&eⓘ &fПомощь: &9/&fhelp"
     
     if skellett title of bossbar {_notification} isn't {_title}:
@@ -151,13 +149,6 @@ function TeleportToDefaultFlat(player: player):
 
         playerWorkers({_player})
 
-        set {_location} to getLocation("532.5, 53, 591", "world")
-        set {_location} to location of block at {_location}
-
-        set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
-        set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_DefaultHotelReceptionistCreate"
-        set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_DefaultHotelReceptionistClick"
-
         # Телепортируем игрока туда, куда нужно
         set {_location} to getLocation("528.5, 52, 588.5", "world")
         set {_location}'s yaw to -70
@@ -185,7 +176,7 @@ function TeleportToDefaultFlat(player: player):
       set {_notification::time} to 6
       add 1 to {_notification::stage}
 
-      if {_notification::stage} > 4:
+      if {_notification::stage} > 3:
         set {_notification::stage} to 1
 
     wait 1 tick

@@ -1,0 +1,14 @@
+function addDocumentToPlayer(player: player, documentId: string):
+  checkIfDocumentIsLoaded({_documentId})
+  set {_character} to getCurrentCharacter({_player})
+
+  # Проверяем существование документа
+  if yaml value "type" from "document-%{_documentId}%" exists:
+    # Добавляем документ игроку
+    set {_list::*} to yaml list "character.%{_character}%.documents" from "player-%{_player}'s uuid%"
+
+    if {_list::*} doesn't contain {_documentId}:
+      add {_documentId} to {_list::*}
+    set yaml list "character.%{_character}%.documents" from "player-%{_player}'s uuid%" to {_list::*}
+
+    save yaml "player-%{_player}'s uuid%"

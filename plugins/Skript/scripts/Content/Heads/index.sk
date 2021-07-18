@@ -1,0 +1,81 @@
+on load:
+  wait 10 seconds
+  loadHeadsArchive()
+
+function loadHeadsArchive():
+  # 
+  broadcast "[heads] Loading Heads archive into system memory"
+
+  delete {heads::*}
+  set {_categories::*} to getAllHeadsCategories()
+
+  # Загружаем каждую категорию
+  loop {_categories::*}:
+    loadHeadsCategory("%loop-value%")
+
+# Alphabet
+function loadHeadsCategory(category: string):
+  broadcast "[heads] Loading heads in category: %{_category}%"
+
+  # Выполняем запрос на сервер
+  set {_code} to "heads-%{_category}%"
+
+  set {_url} to "https://minecraft-heads.com/scripts/api.php?cat=%{_category}%"
+  send web request to "%{_url}%" and return as "%{_code}%"
+  
+  set {_waiting} to true
+  while {_waiting} is true:
+    if {responses::%{_code}%::body} is set:
+      set {_body} to {responses::%{_code}%::body}
+      set {_waiting} to false
+
+      delete {responses::%{_code}%::*}
+      delete {responses::%{_code}%::body}
+    
+    wait 1 tick
+
+  # Превращаем в массив
+  copy json {_body} to {_list::*}
+
+  # Сохраняем в временную базу данных
+  set {_index} to 1
+  set {_size} to size of {_list::*}
+
+  broadcast "[heads] Parsing heads in category %{_category}% with url %{_url}% and size %{_size}%"
+
+  while {_index} <= {_size}:
+    set {_uuid} to {_list::%{_index}%::uuid}
+    set {_value} to {_list::%{_index}%::value}
+
+    set {_name} to {_list::%{_index}%::name}
+    set {_string} to "%{_uuid}%/%{_value}%/%{_name}%"
+
+    set {heads_category::%{_category}%::list::%{_index}%} to {_string}
+
+    add 1 to {_index}
+    wait 1 tick
+
+function getAllHeadsCategories() :: strings:
+  return "alphabet", "animals", "blocks", "decoration", "food-drinks", "humans", "humanoid", "miscellaneous", "monsters", "plants"
+
+function getHeadsCategoryTitle(cat: string) :: string:
+  if {_cat} is "alphabet":
+    return "Алфавит"
+  else if {_cat} is "animals":
+    return "Животные"
+  else if {_cat} is "blocks":
+    return "Блоки"
+  else if {_cat} is "decoration":
+    return "Декорации"
+  else if {_cat} is "food-drinks":
+    return "Еда/Напитки"
+  else if {_cat} is "humans":
+    return "Люди"
+  else if {_cat} is "humanoid":
+    return "Гуманоиды"
+  else if {_cat} is "miscellaneous":
+    return "Другое"
+  else if {_cat} is "monsters":
+    return "Монстры"
+  else if {_cat} is "plants":
+    return "Растения"

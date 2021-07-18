@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 2
+last-created-npc-id: 3
 npc:
   '0':
     metadata:
@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: spawned,location,skintrait,equipment,type,inventory,owner,scoreboardtrait,mounttrait
+    traitnames: type,scoreboardtrait,skintrait,mounttrait,owner,equipment,spawned,inventory,location
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -77,7 +77,7 @@ npc:
         x: '543.3'
         y: '52.0'
         z: '641.0362'
-        yaw: '96.8853'
+        yaw: '74.319'
         pitch: '0.0'
       spawned: true
       lookclose:
@@ -102,7 +102,38 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: spawned,location,lookclose,skintrait,equipment,type,scoreboardtrait,owner,inventory,mounttrait
+    traitnames: type,scoreboardtrait,skintrait,mounttrait,lookclose,owner,equipment,spawned,inventory,location
+    navigator:
+      speedmodifier: '1.0'
+      avoidwater: false
+      usedefaultstuckaction: true
+  '3':
+    metadata:
+      cached-skin-uuid-name: brrr_ighttt
+      cached-skin-uuid: ee3fb8b8-938f-4159-8588-8ae7e5c483af
+    name: cardmake
+    uuid: db538173-5d81-4a92-871e-7e0a3584edfd
+    traits:
+      skintrait:
+        fetchDefaultSkin: true
+        signature: xvRD3fVVe/hUERDCA3meCNBGZXVsLHQfqYBdeLhvnS0ItgabxKShIJw0O5TY44dv9gWW2q0sM0RaB4R5tayKh2Twkg3GxpIy0LyR6HCha6PHUDuVSAS/7bUoOwrT+u0Nx8dgAHlhnHOG6maeaGBsNhY9aDWvxrwK8cXA7AHEsPa7PNCHVPEe+OET0Yel9s+sIat2I/Oh88XeV/cVZL9mX+BJUT6MSSaT6fKpWUNrzQcHuGkkN6D7RNHE9NIkoG7yXNzHUfPokzD75HnA0kbhdlWQnDojzKYsy7O+ErsLIpzb+SGUgHheFXZjcR10032wvLQZptSA+pVDKE1XS5DREH8hFgioJQ1mRF2RjOO8qj73hsNyrWi9o+qqGQC+f8y/fbRpkjhZir8o4JzedBGkHbakHOZH+Ho2+ngoibQ7tEryd88L7ZEZkVyJjmPicr3geSBlvyyUJW3lCtLvkjAolZQy9vthiH2VMC07U5flr01wRJbAJG5lUtlsQWx6O96BJKul/0M4roOcDteXwe+MphL2NnBBffD9MKNRdwGzBW8SNtKFcBpxE5jU50GrMMEeOHVcsZ3+ZlqLBgo4ZNzkYh+DAmXLtztqGl2wNQNx2DYr2hM8jAVzzDr5d4VqlFRuj7CVsIHf3uLSDAFiPmtz9HKSttQIGm9Qk4fxJFSxCLs=
+        skinName: brrr_ighttt
+        textureRaw: ewogICJ0aW1lc3RhbXAiIDogMTYyNjUxMTI0NDQ4NiwKICAicHJvZmlsZUlkIiA6ICJlZTNmYjhiODkzOGY0MTU5ODU4ODhhZTdlNWM0ODNhZiIsCiAgInByb2ZpbGVOYW1lIiA6ICJicnJyX2lnaHR0dCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS81ZGE2NTYxNzY3NGM3YTQ4MWMwZjA4ZWQ4NTg0MTkwYzkyYjQ5ZDQwZjNjMjEzMzI1NGE1OWI0YzEyYWNjOWVmIgogICAgfQogIH0KfQ==
+        updateSkins: false
+      type: PLAYER
+      spawned: true
+      location:
+        bodyYaw: 90.66492
+        world: world
+        x: '366.3003'
+        y: '52.0'
+        z: '667.5015'
+        yaw: '90.6649'
+        pitch: '1.3503'
+      owner:
+        owner: Voyaje
+        uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+    traitnames: type,scoreboardtrait,skintrait,mounttrait,owner,equipment,spawned,inventory,location
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

@@ -2,3 +2,17 @@ character:
     main:
         statistics:
             hunger: 8.5
+        documents:
+        - 1749-7761-3106-7211
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true
+
+relationship:
+    main:
+        de7c8bdc-7714-32cc-88f5-99f4b88c66e4-main:
+            knows:
+            - lastName
+            - firstName

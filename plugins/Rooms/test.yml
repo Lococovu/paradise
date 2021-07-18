@@ -1,15 +1,73 @@
-rooms:
-  test:
-    type: 'room'
-
-    roomType: '2'
-    address: ''
-
-    price: 30000
-    modifiers:
-    - 'buyable'
-
-    hologramLocation: ''
-
-    regions:
-    - '0;0;0/1;1;1'
+rouswud:
+    rouswud_4_room1:
+        type: room
+        roomType: '1'
+        address: Ул. Роузвуд, 4, Кв. №1
+        price: 10000
+        modifiers:
+        - buyable
+        hologramLocation: 376.5, 53, 645.5
+        regions:
+        - 379, 57, 647.5/374, 53, 660
+        center: 376.5, 54.4, 654
+        occupant:
+            uuid: 04a097ae-9262-3ac7-a809-39e7d46f9528
+            character: main
+    rouswud_4_room4:
+        type: room
+        roomType: '1'
+        address: Ул. Роузвуд, 4, Кв. №4
+        price: 10000
+        modifiers:
+        - buyable
+        hologramLocation: 376.5, 58, 645.5
+        regions:
+        - 379, 62, 647.5/374, 58, 660
+        center: 376.5, 59.4, 654
+    rouswud_4_room6:
+        type: room
+        roomType: '1'
+        address: Ул. Роузвуд, 4, Кв. №6
+        price: 10000
+        modifiers:
+        - buyable
+        hologramLocation: 376.5, 63, 645.5
+        regions:
+        - 379, 66, 647.5/374, 63, 660
+        center: 376.5, 64.4, 654
+    rouswud_4_room2:
+        type: room
+        roomType: '1'
+        address: Ул. Роузвуд, 4, Кв. №2
+        price: 10000
+        modifiers:
+        - buyable
+        hologramLocation: 376.5, 53, 640
+        regions:
+        - 379, 57, 626.5/374, 53, 639
+        center: 376.5, 54.4, 633.5
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    rouswud_4_room3:
+        type: room
+        roomType: '1'
+        address: Ул. Роузвуд, 4, Кв. №3
+        price: 10000
+        modifiers:
+        - buyable
+        hologramLocation: 376.5, 58, 640
+        regions:
+        - 379, 62, 626.5/374, 58, 639
+        center: 376.5, 59.4, 633.5
+    rouswud_4_room5:
+        type: room
+        roomType: '1'
+        address: Ул. Роузвуд, 4, Кв. №5
+        price: 10000
+        modifiers:
+        - buyable
+        hologramLocation: 376.5, 63, 640
+        regions:
+        - 379, 66, 626.5/374, 63, 639
+        center: 376.5, 64.4, 633.5

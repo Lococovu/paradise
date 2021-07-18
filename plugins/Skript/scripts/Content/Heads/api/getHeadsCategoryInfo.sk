@@ -1,0 +1,3 @@
+function getHeadsCategoryDescription(category: string) :: strings:
+  if {_category} is "alphabet":
+    return "&f &fТут вы сможете найти тонны всеразличных", "&f &fбукв, значков, стрелок и даже математических знаков!"

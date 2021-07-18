@@ -14,6 +14,10 @@ World_DefaultHotel_Receptionist:
   location: world, 532.5, 53.800, 591
   lines:
   - '&eⓘ'
+World_JobCenter_Person:
+  location: world, 541, 53.800, 641
+  lines:
+  - '&eⓘ'
 terminal-01:
   location: world, 530.5, 53.800, 649.5
   lines:
@@ -30,3 +34,7 @@ terminal-04:
   location: world, -3863.5, 68.800, -2878.5
   lines:
   - '&e█'
+rouswud_4:
+  location: world, 380.792, 53.200, 644.514
+  lines:
+  - Роузвуд 4

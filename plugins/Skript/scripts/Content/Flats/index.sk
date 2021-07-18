@@ -31,6 +31,7 @@ function loadRoomNode(node: string, file: string):
 
   set {_holoLocation} to yaml value "%{_node}%.hologramLocation" from {_file}
   set {_holoLocation} to getLocation({_holoLocation}, "world")
+  set {_holoLocation} to location of block at {_holoLocation}
 
   size of {_regions::*} >= 1
   {_holoLocation} is set:
@@ -53,6 +54,12 @@ function loadRoomNode(node: string, file: string):
 
     # Ну а теперь сохраняем все данные про эту квартиру
 
+    # loop {_regions::*}:
+    #   set {_temp::*} to loop-value split at "/"
+
+    #   set {_location::1} to getLocation("%{_temp::1}%", "world")
+    #   set {_location::2} to getLocation("%{_temp::2}%", "world")
+
     set {data::rooms::%{_id}%::regions::*} to {_regions::*}
     set {data::rooms::%{_id}%::hologramLocation} to {_holoLocation}
 
@@ -62,8 +69,47 @@ function loadRoomNode(node: string, file: string):
     set {data::rooms::%{_id}%::address} to {_address}
     set {data::rooms::%{_id}%::price} to {_price}
     
+    set {data::rooms::%{_id}%::configFile} to {_file}
+    set {data::rooms::%{_id}%::configNode} to {_node}
+
+    set {_center} to yaml value "%{_node}%.center" from {_file}
+    set {data::rooms::%{_id}%::center} to getLocation("%{_center}%", "world")
+
     set {data::rooms::%{_id}%::isRentable} to true if rooms_isRentable({_modifiers::*}) is true else false
     set {data::rooms::%{_id}%::isBuyable} to true if rooms_isBuyable({_modifiers::*}) is true else false
+
+    loadOccupationData("%{_id}%", "%{_node}%", "%{_file}%")
+
+    # Грузим регионы
+    loop {_regions::*}:
+      set {_temp::*} to loop-value split at "/"
+
+      set {_location::1} to getLocation("%{_temp::1}%", "world")
+      set {_location::2} to getLocation("%{_temp::2}%", "world")
+
+      loop all blocks within {_location::1} and {_location::2}:
+        set {block::%location of loop-block%::room} to {_id}
+
+    add {_id} to {data::rooms::list::*}
+
+function loadOccupationData(id: string, node: string, file: string):
+  reload yaml {_file}
+
+  set {_uuid} to yaml value "%{_node}%.occupant.uuid" from {_file}
+  set {_character} to yaml value "%{_node}%.occupant.character" from {_file}
+
+  set {data::rooms::%{_id}%::occupant::uuid} to {_uuid}
+  set {data::rooms::%{_id}%::occupant::character} to {_character}
+
+  # Доп. данные, если игрок арендовал квартиру
+  if rooms_isRentable({_modifiers::*}):
+    set {data::rooms::%{_id}%::occupant::rentTime} to yaml value "%{_node}%.occupant.rentTime" from {_file}
+    if {data::rooms::%{_id}%::occupant::rentTime} is not set:
+      delete {data::rooms::%{_id}%::occupant::*}
+
+  {_uuid} and {_character} is set
+  {data::rooms::%{_uuid}%::%{_character}%::rooms::*} doesn't contain {_id}:
+    add {_id} to {data::rooms::%{_uuid}%::%{_character}%::rooms::*}
 
 # Функция, которая займётся загрузкой голограмм для
 # каждого игрока
@@ -76,8 +122,12 @@ function loadRoomsHolograms(player: player):
     
     {_location} is set:
       set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
-      set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "SP_Holo_ShopStandCreate"
-      set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "SP_Holo_ShopStandClick"
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "RM_Holo_RoomEntranceCreate"
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "RM_Holo_RoomEntranceClick"
+
+command testr:
+  trigger:
+    loadRoomsHolograms(player)
 
 on load:
   delete {data::rooms::*}

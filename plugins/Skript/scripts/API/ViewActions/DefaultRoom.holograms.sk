@@ -17,12 +17,8 @@ function DR_Holo_CharactersCreate(player: player, location: location):
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
   set {_auth::type} to getIpAuthType({_player})
+  set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&e▷ &fПКМ"
 
-  if {_auth::type} isn't "guest":
-    set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&e▷ &fПКМ"
-  else:
-    set {_lines::*} to "", "", "&c&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&c✕ &fРазблокируется", "&fпосле Авторизации"
-  
   set {_hologram::location} to getLocation("530, 65, 588.5", "world")
 
   if distance between {_player} and {_hologram::location} >= 3.5:
@@ -170,4 +166,6 @@ function DR_Holo_CharactersClick(player: player):
   OpenCharacterEditorMenu({_player})
 
 function DR_Holo_StorageClick(player: player):
-  openWorkingSpace({_player})
+  set {_auth::type} to getIpAuthType({_player})
+  if {_auth::type} isn't "guest":
+    openWorkingSpace({_player})

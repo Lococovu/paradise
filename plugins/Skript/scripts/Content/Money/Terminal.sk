@@ -214,7 +214,6 @@ function loadTerminalViewWorkers(player: player):
   set {_locations::*} to yaml list "points" from "terminals-config"
 
   loop {_locations::*}:
-    broadcast "%loop-value%"
     set {_location} to getLocation("%loop-value%", "world")
     set {_location} to location of block at {_location}
 

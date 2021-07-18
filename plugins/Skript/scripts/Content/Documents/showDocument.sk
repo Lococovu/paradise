@@ -1,0 +1,10 @@
+function showDocument(documentId: string, target: player):
+  checkIfDocumentIsLoaded({_documentId})
+  set {_file} to "document-%{_documentId}%"
+
+  # Берём информацию о данном документе
+  set {_type} to yaml value "type" from {_file}
+  {_type} is not set:
+    stop
+  else:
+    # Берём данные в зависимости от 

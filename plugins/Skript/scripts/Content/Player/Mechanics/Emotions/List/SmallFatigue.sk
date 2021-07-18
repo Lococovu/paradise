@@ -184,22 +184,22 @@ function EM_FatigueEffects(player: player):
           set {_heavyFatigue} to true
 
         if {_player} doesn't have nausea:
-          apply potion of nausea of tier 1 without any particles to {_player} for 30 seconds
+          # apply potion of nausea of tier 1 without any particles to {_player} for 30 seconds
 
         # Накидываем эффекты на игрока
         if {_player} doesn't have slowness:
-          apply potion of slowness of tier 4 without any particles to {_player} for 2 seconds
+          # apply potion of slowness of tier 4 without any particles to {_player} for 2 seconds
       else:
         # Накидываем эффекты на игрока
         if {_player} doesn't have slowness:
-          apply potion of slowness of tier 2 without any particles to {_player} for 2 seconds
+          # apply potion of slowness of tier 2 without any particles to {_player} for 2 seconds
     else:
       if {emotions::%{_player}%::fatigue::effecting} is true:
         set {emotions::%{_player}%::fatigue::effecting} to false
 
       if {_heavyFatigue} is true:
         if {_player}'s walking speed isn't 0.1:
-          set {_player}'s walking speed to 0.1
+          # set {_player}'s walking speed to 0.1
 
         if {emotions::%{_player}%::fatigue::sprints} isn't 3:
           set {emotions::%{_player}%::fatigue::sprints} to 3

@@ -54,18 +54,3 @@ function removeRelationshipKnownProperty(target: player, player: player, propert
       set yaml list "relationship.%{_character}%.%{_target}'s uuid%-%{_character::target}%.knows" from "player-%{_player}'s uuid%" to {_knows::*}
     
     save yaml "player-%{_player}'s uuid%"
-
-command testrel [<player>]:
-  trigger:
-    addRelationshipKnownProperty(arg 1, player, "firstName")
-
-command delrel [<player>]:
-  trigger:
-    set {_list::*} to "firstName", "lastName", "age", "gender"
-
-    loop {_list::*}:
-      removeRelationshipKnownProperty(arg 1, player, loop-value)
-
-command check [<player>]:
-  trigger:
-    set {_check} to doTargetKnownToPlayer(arg 1, player, "firstName")

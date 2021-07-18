@@ -5,13 +5,13 @@ Events:
 			[on] discord command <([^\s]+)( .+)?$>
 		Event values:
 			event-guild
-			event-object
 			event-member
 			event-message
-			event-bot
-			event-discordcommand
-			event-user
+			event-object
 			event-channel
+			event-discordcommand
+			event-bot
+			event-user
 			event-object
 		Cancellable: true
 Conditions:

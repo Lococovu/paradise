@@ -17,4 +17,4 @@ command relationships:
       set {_temp::*} to {_node} split at "."
       first element of {_temp::*} is "relationship"
       size of {_temp::*} is 3:
-        broadcast "REL NODE: %{_node}%"
+        
