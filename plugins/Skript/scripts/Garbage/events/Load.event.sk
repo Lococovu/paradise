@@ -1,0 +1,20 @@
+on load:
+  set {_locations::*} to GarbageModule_GetGarbageLocations()
+
+  broadcast "&9[garbage] &fKill garbage"
+
+  loop {_locations::*}:
+    set {_location} to location of block at loop-value
+
+    loop {data::garbage::%{_location}%::items::*}:
+      remove loop-value-2 from {data::garbage::%{_location}%::items::*}
+      kill loop-value-2
+
+  set {_list::*} to {data::garbage::list::*}
+  delete {data::garbage::*}
+
+  set {data::garbage::list::*} to {_list::*}
+
+  # Спавним мусор по городу
+  wait 2 seconds
+  GarbageModule_Populate()

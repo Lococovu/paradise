@@ -1,0 +1,201 @@
+function TutorialsModule_CollectorTutorial(player: player):
+  # Проверяем, может ли игрок начать туториал
+  TutorialsModule_CanPlayTutorial({_player}) is true
+
+  #
+  set {_stage} to 0
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      stop
+
+    hide {_player}
+    hide all players from {_player}
+
+    hide {_player} from {_player}
+
+    # Стадия: 0
+    if {_stage} is 0:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+
+        # Слепота
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("421, 64, 681", "world")
+
+        # 2
+        set {_location::2} to getLocation("443, 64, 681", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to -90
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fМусорщик - это человек из городской", "&fслужбы, который собирает и скупает", "&fвесь мусор по городу." to {_texts::1::*}
+        add "&fОбычно он находится в небольшом сквере", "&fпрямо в центре города, иногда может", "&fбыть не на своём рабочем месте" to {_texts::2::*}
+        add "&fНо что именно ему можно здавать?", "&fДавайте же разберёмся!" to {_texts::3::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          set {_stage} to 1
+        
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    # Стадия: 1
+    else if {_stage} is 1:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+
+        delete {_texts::*}
+        delete {_points::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location} to getLocation("465.5, 56, 653.5", "world")
+        set {_location}'s yaw to 150
+        set {_location}'s pitch to 25
+        add {_location} to {_points::*}
+
+        # 2
+        set {_location} to getLocation("463.5, 54.5, 649.5", "world")
+        set {_location}'s yaw to 150
+        set {_location}'s pitch to 25
+        add {_location} to {_points::*}
+
+        # 3
+        set {_location} to getLocation("461.5, 54, 647.5", "world")
+        set {_location}'s yaw to 150
+        set {_location}'s pitch to 30
+        add {_location} to {_points::*}
+
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.01)
+
+        # Готовим текст
+        add "&fПо всему городу", "&fраскиданно невероятное количество мусора" to {_texts::1::*}
+        add "&fЗачастую он находится", "&fрядом с мусорными баками либо в подворотнях" to {_texts::2::*}
+        add "&fИ именно этот", "&fмусор вам нужно собирать и продавать мусорщику" to {_texts::3::*}
+
+        set {_text::time} to 4
+        set {_text::timer} to 0
+        set {_text::current} to 0
+        set {_texts::size} to size of {_texts::*}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Отправляем текст
+        set {_title} to {_texts::%{_text::current}%::1}
+        set {_subtitle} to {_texts::%{_text::current}%::2}
+
+        set {_time} to "%{_text::time}% seconds" parsed as timespan
+        send title {_title} with subtitle {_subtitle} to {_player} for {_time} with fade in 0 ticks and fade out 2 ticks
+
+        if {_text::current} > {_texts::size}:
+          set {_stage} to 2
+        
+        set {_text::timer} to {_text::time}
+      else:
+        reduce {_text::timer} by 0.05
+
+    else if {_stage} is 2:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+
+        delete {_texts::*}
+        delete {_points::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location} to getLocation("457.5, 57, 676.5", "world")
+        set {_location}'s yaw to 5
+        set {_location}'s pitch to 15
+        add {_location} to {_points::*}
+
+        # 2
+        set {_location} to getLocation("459, 60, 686", "world")
+        set {_location}'s yaw to 30
+        set {_location}'s pitch to 25
+        add {_location} to {_points::*}
+
+        # 3
+        set {_location} to getLocation("456.5, 56, 686", "world")
+        set {_location}'s yaw to 30
+        set {_location}'s pitch to 26
+        add {_location} to {_points::*}
+
+        # 4
+        set {_location} to getLocation("454.5, 54.5, 690.5", "world")
+        set {_location}'s yaw to 30
+        set {_location}'s pitch to 24
+        add {_location} to {_points::*}
+
+        # 5
+        set {_location} to getLocation("453.5, 54, 692.2", "world")
+        set {_location}'s yaw to 30
+        set {_location}'s pitch to 20
+        add {_location} to {_points::*}
+
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.01)
+
+        # Готовим текст
+        add "&fВ рабочее время", "&fмусорщик иногда может стоять в сквере" to {_texts::1::*}
+        add "&fВам нужно подойти", "&fи продать у него весь мусор, который насобирали" to {_texts::2::*}
+        add "&fНо поспешите!", "&fМусорщик собирается только определённое кол-во предметов" to {_texts::3::*}
+        add "&fИ чем больше", "&fлюдей будут продавать мусор, тем меньше шансов у вас заработать!" to {_texts::4::*}
+
+        set {_text::time} to 4
+        set {_text::timer} to 0
+        set {_text::current} to 0
+        set {_texts::size} to size of {_texts::*}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Отправляем текст
+        set {_title} to {_texts::%{_text::current}%::1}
+        set {_subtitle} to {_texts::%{_text::current}%::2}
+
+        set {_time} to "%{_text::time}% seconds" parsed as timespan
+        send title {_title} with subtitle {_subtitle} to {_player} for {_time} with fade in 0 ticks and fade out 2 ticks
+
+        if {_text::current} >= {_texts::size}:
+          set {_stage} to 3
+        
+        set {_text::timer} to {_text::time}
+      else:
+        reduce {_text::timer} by 0.05
+
+    else if {_stage} is 3:
+      TutorialsModule_ReturnPlayer({_player})
+      stop
+
+    wait 1 tick

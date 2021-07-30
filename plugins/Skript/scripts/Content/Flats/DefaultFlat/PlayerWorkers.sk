@@ -3,6 +3,10 @@ function playerWorkers(player: player):
   loadRoomsHolograms({_player})
   loadTerminalViewWorkers({_player})
   startShopWorker({_player})
+  
+  MailModule_LoadHolograms({_player})
+  GarbageModule_LoadCollectorHolograms({_player})
+  WorkModule_LoadHolograms({_player})
 
   # Другие воркеры
 
@@ -21,7 +25,6 @@ function playerWorkers(player: player):
   set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
   set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_JobCenterCreate"
   set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_JobCenterClick"
-
 
   # Запускаем сам ViewWorker
   wait 5 seconds

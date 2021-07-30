@@ -1,0 +1,4 @@
+function GarbageModule_InitializeItem(itemId: string):
+  if {data::garbage::list::*} doesn't contain {_itemId}:
+    broadcast "&9[garbage] &fAdded %{_itemId}% into garbage list"
+    add {_itemId} to {data::garbage::list::*}

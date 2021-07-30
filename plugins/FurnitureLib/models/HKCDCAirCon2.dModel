@@ -5,7 +5,7 @@
 # ------------------------------------  #
 
 HKCDCAirCon2:
-  displayName: '&f[&c&lH&6&lK&e&lC&a&lD&b&lC&f]&dAirCon2 分體冷氣/冷暖空調2'
+  displayName: '&f[&c&lH&6&lK&9&lC&a&lD&b&lC&f]&dAirCon2 分體冷氣/冷暖空調2'
   system-ID: HKCDCAirCon2
   spawnMaterial: PIG_SPAWN_EGG
   itemGlowEffect: false

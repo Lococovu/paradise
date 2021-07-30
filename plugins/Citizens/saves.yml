@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 3
+last-created-npc-id: 4
 npc:
   '0':
     metadata:
@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: type,scoreboardtrait,skintrait,mounttrait,owner,equipment,spawned,inventory,location
+    traitnames: location,owner,scoreboardtrait,type,skintrait,mounttrait,inventory,spawned,equipment
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -72,12 +72,12 @@ npc:
     uuid: 7dbbbf33-c74f-4f15-a42f-4a7611a92a5d
     traits:
       location:
-        bodyYaw: 81.927216
+        bodyYaw: 95.01665
         world: world
         x: '543.3'
         y: '52.0'
         z: '641.0362'
-        yaw: '74.319'
+        yaw: '56.7952'
         pitch: '0.0'
       spawned: true
       lookclose:
@@ -102,7 +102,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: type,scoreboardtrait,skintrait,mounttrait,lookclose,owner,equipment,spawned,inventory,location
+    traitnames: location,lookclose,scoreboardtrait,owner,type,skintrait,mounttrait,spawned,inventory,equipment
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -133,7 +133,50 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: type,scoreboardtrait,skintrait,mounttrait,owner,equipment,spawned,inventory,location
+    traitnames: location,scoreboardtrait,owner,type,skintrait,mounttrait,inventory,spawned,equipment
+    navigator:
+      speedmodifier: '1.0'
+      avoidwater: false
+      usedefaultstuckaction: true
+  '4':
+    metadata:
+      cached-skin-uuid-name: blockane
+      cached-skin-uuid: 95b051b0-5f16-4b77-8c8e-b02f3f1e6158
+    name: collector
+    uuid: d8cad3c4-e269-42df-8635-27d1b32946b6
+    traits:
+      spawned: true
+      skintrait:
+        fetchDefaultSkin: true
+        signature: IlTHT9q13ZB7GO+lOyvuUizBqEgeRgKYFX3lusi+jFcmfp1MGjkq+oMYxjw+5o4kvTOvNvzgBhk3msCzWW5G2dyvoziY7HY6bJEaUwc4F6zOWTxwb7XMMcY/CCqBSxwLtCDqRzThutFWtuhbGAhXnuG1bNaCEVOcMcPNkSTfGV8OddY5OV23dXmU40ZnGvP/EyJuUM8r62M3et+6bBzJbdxtVJv799uui1tHtCQxwnkTHOCUwsS2Q3737GrWRKYq51YSfyk5Bl1m3A+6l50evTW6bMl4wcf37JeDnP0TNvxzsQPqk1/XuJGeyKoLnAnOl6JETFCKwTGG5YO59nlXehiXnpKtmH85LNqObg5sBjudziWguzZ55UVKhBygujREyFkJbsOaRZOUyvNA7DGrqGurPNwBY2Lu2pUDNiGiz0byHOdKHeTfvr0xjjIvJkzEMAKByNa7P8ampCDuSIP3eSZ13YTsicLGSdIZbWSu6cue8ETSiqZN6oO0QFgVtYpvMITGS+NgcPD3wiAXWaCYrCeRJMtkGOhM9lzYa0/8jO6PJI0639sZYp7TwCAty+xH1d7Jiltn0XnMKDRHtTj69xPBfBcOIuazQTJpodu3MkniM27n7j+aocAfnOBNykiai5nS8hETmKyPnYNf0IuideGOjIWjsUxoTnA2bCJrJAE=
+        skinName: blockane
+        textureRaw: ewogICJ0aW1lc3RhbXAiIDogMTYyNzU2MTk2MTk0OSwKICAicHJvZmlsZUlkIiA6ICI5NWIwNTFiMDVmMTY0Yjc3OGM4ZWIwMmYzZjFlNjE1OCIsCiAgInByb2ZpbGVOYW1lIiA6ICJCbG9ja2FuZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zNGRmZGY3MzA4NTUyOGJmODhmYzcxODY4NjFjMzQzNjA3YjFiNWI2NWU2M2U1ZjljN2M1ZWU3MDE4MmE4NjMzIgogICAgfQogIH0KfQ==
+        updateSkins: false
+      lookclose:
+        range: '5.0'
+        enabled: true
+        enableRandomLook: false
+        randomLookDelay: 60
+        realisticlooking: false
+        randomPitchRange:
+          '0': -10.0
+          '1': 0.0
+        randomYawRange:
+          '0': 0.0
+          '1': 360.0
+      type: PLAYER
+      location:
+        bodyYaw: 143.29265
+        world: world
+        x: '451.3'
+        y: '52.0'
+        z: '695.5275'
+        yaw: '-176.7074'
+        pitch: '-73.7241'
+      owner:
+        owner: Voyaje
+        uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+    traitnames: location,lookclose,scoreboardtrait,owner,type,skintrait,mounttrait,spawned,inventory,equipment
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

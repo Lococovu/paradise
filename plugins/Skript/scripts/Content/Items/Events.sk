@@ -41,9 +41,21 @@ function loadItemNode(node: string, file: string):
 
   set {_item::nbt} to yaml value "%{_node}%.visual.nbt" from {_file}
 
+  # @usedIn
+  yaml list "%{_node}%.usedIn" from {_file} is set:
+    set {_item::usedIn::*} to yaml list "%{_node}%.usedIn" from {_file}
+
+    loop {_item::usedIn::*}:
+      set {_moduleName} to loop-value
+      evaluate:
+        %{_moduleName}%_InitializeItem({_id})
+
   # @action
   set {_action::type} to yaml value "%{_node}%.action.type" from {_file}
   set {_action::function} to yaml value "%{_node}%.action.function" from {_file}
+
+  # @createFunction
+  set {_item::createFunction} to yaml value "%{_node}%.createFunction" from {_file}
 
   # @variables
   set {_action::variables::*} to yaml list "%{_node}%.action.variables" from {_file}
@@ -68,6 +80,7 @@ function loadItemNode(node: string, file: string):
     # Загружаем сам предмет в базу данных
     set {data::items::%{_id}%::id} to {_id}
     set {data::items::%{_id}%::item} to {_item}
+    set {data::items::%{_id}%::createFunction} to {_item::createFunction}
     set {data::items::%{_id}%::action::type} to {_action::type}
     set {data::items::%{_id}%::action::function} to {_action::function}
 

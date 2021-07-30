@@ -4,6 +4,8 @@ character:
             hunger: 8.5
         documents:
         - 1749-7761-3106-7211
+        name: Наташа Сыроедова
+        skin: Za1ri
 
 temp:
     createdPassport: да
@@ -16,3 +18,9 @@ relationship:
             knows:
             - lastName
             - firstName
+        d5c22930-ff45-34b4-8c2d-08a1afd136cc-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender

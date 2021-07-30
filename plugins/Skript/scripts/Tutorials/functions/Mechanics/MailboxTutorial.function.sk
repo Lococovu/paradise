@@ -1,0 +1,58 @@
+function TutorialsModule_StartMailboxTutorial(player: player):
+  # Проверяем, может ли игрок начать туториал
+  # TutorialsModule_CanPlayTutorial({_player}) is true
+
+  # Слепота
+
+  # Крутимся вокруг почтового ящика
+  # и пишем текст
+
+  # Подготаливаем точки маршрута
+
+  # Конец туториала
+
+  # Подготавливаем точки маршрута
+  # 1
+  set {_location} to getLocation("347.5, 55, 700", "world")
+  set {_location}'s yaw to -160
+  set {_location}'s pitch to 10
+  add {_location} to {_locations::*}
+
+  # 2
+  set {_location} to getLocation("348.5, 54.5, 695", "world")
+  set {_location}'s yaw to -150
+  set {_location}'s pitch to 14
+  add {_location} to {_locations::*}
+
+  # 3
+  set {_location} to getLocation("349.5, 54, 690", "world")
+  set {_location}'s yaw to -110
+  set {_location}'s pitch to 18
+  add {_location} to {_locations::*}
+
+  # 4
+  set {_location} to getLocation("351, 53.5, 687.5", "world")
+  set {_location}'s yaw to -90
+  set {_location}'s pitch to 18.5
+  add {_location} to {_locations::*}
+
+  # 5
+  set {_location} to getLocation("352, 53.5, 687.5", "world")
+  set {_location}'s yaw to -90
+  set {_location}'s pitch to 19
+  add {_location} to {_locations::*}
+
+  # 6
+  set {_location} to getLocation("354,5. 53.5, 687.7", "world")
+  set {_location}'s yaw to -85
+  set {_location}'s pitch to 20
+  add {_location} to {_locations::*}
+
+  # Играем сцену
+  AnimationsModule_PlayScene({_player}, {_locations::*}, 0.035)
+
+  # Ждём конца
+
+command tt1:
+  trigger:
+    TutorialsModule_StartMailboxTutorial(player)

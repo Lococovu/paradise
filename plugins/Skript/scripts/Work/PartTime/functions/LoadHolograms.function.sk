@@ -1,0 +1,5 @@
+function WorkModule_LoadHolograms(player: player):
+  # Строитель
+
+  # Грузчик
+  WorkModule_LoadHeaverHolograms({_player})

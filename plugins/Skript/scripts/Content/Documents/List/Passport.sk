@@ -18,6 +18,6 @@ function DN_passportGetIcon(player: player, documentId: string) :: item:
     set {_gender::name} to "Женский"
     set {_gender::icon} to "&d♀"
 
-  set {_item} to player head named "&e▤ &fПасспорт" with lore "&7##%{_documentId}%", "", "&e◇ &fИмя/Фамилия", "&7%{_character::name}%", "", "%{_gender::icon}% &fПол", "&7%{_gender::name}%", "", "&e¹⁸ &fВозраст", "&7%{_character::age}% лет.", "", "&f &fЭтот документ является", "&f &fОффициальным Документом", "&f &fАдминистративного Отделения", "&f &fгорода Лоунайт.", "", "&e✎ &fПодпись мэра               &ehrn"
+  set {_item} to player head named "&9▤ &fПасспорт" with lore "&7##%{_documentId}%", "", "&9◇ &fИмя/Фамилия", "&7%{_character::name}%", "", "%{_gender::icon}% &fПол", "&7%{_gender::name}%", "", "&9¹⁸ &fВозраст", "&7%{_character::age}% лет.", "", "&f &fЭтот документ является", "&f &fОффициальным Документом", "&f &fАдминистративного Отделения", "&f &fгорода Лоунайт.", "", "&9✎ &fПодпись мэра               &9hrn"
 
   return {_item}

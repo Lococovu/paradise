@@ -5,18 +5,18 @@ ingredients:
 
   bread:
     item: player head
-    name: "&e◇ &fХлеб Обычный"
+    name: "&9◇ &fХлеб Обычный"
 
   sausage_01:
     item: player head
-    name: "&e◇ &fКолбаса"
+    name: "&9◇ &fКолбаса"
   sausage_02:
     item: player head
-    name: "&e◇ &fСосиски"
+    name: "&9◇ &fСосиски"
 
   tomato:
     item: player head
-    name: "&e◇ &fТомат"
+    name: "&9◇ &fТомат"
   pepper:
     item: player head
-    name: "&e◇ &fПерец Сладкий"
+    name: "&9◇ &fПерец Сладкий"

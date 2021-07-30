@@ -1,0 +1,20 @@
+on right click:
+  loop all entities in radius 2.5 around targeted block:
+    set {_entity} to loop-entity
+    
+    if {entity::%{_entity}%::type} is "garbage":
+      set {_item} to {entity::%{_entity}%::garbageItem}
+      set {_place} to {entity::%{_entity}%::garbagePlace}
+
+      if player's inventory has space for 1 of {_item}:
+        add {_item} to player's inventory
+      else:
+        drop {_item} at {_entity}
+
+      remove {_entity} from {data::garbage::%{_place}%::items::*}
+      kill {_entity}
+
+      stop
+
+on right click on armor stand:
+  cancel event

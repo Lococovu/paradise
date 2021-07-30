@@ -1,0 +1,48 @@
+function WR_Holo_CollectorCreate(player: player, location: location):
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  # Давайте же сразу создадим эту голограмму и
+  # отдадим информацию о текущей голограмме обратно.
+  set {_lines::*} to "", "", "&7&lМусорщик", "&fПродавайте мусор у меня..."
+
+  set {_hologram::location} to {_location}
+  add 1.5 to y coordinate of {_hologram::location}
+
+  if distance between {_player} and {_hologram::location} >= 3.5:
+    stop
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    # Проверяем состояние текущего блока
+    if distance between {_player} and {_hologram::location} >= 3.5:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+function WR_Holo_CollectorClick(player: player):
+  # TODO:
+  # Проверяем статус коллектора
+  GarbageModule_OpenCollectorMenu({_player})

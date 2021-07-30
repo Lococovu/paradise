@@ -1,6 +1,3 @@
-authorization:
-    discordId: 488749815895818241
-
 character:
     main:
         name: Иван Античенко
@@ -8,4 +5,26 @@ character:
         gender: Мужской
         skin: KingofDiamond
         statistics:
-            hunger: 0.5
+            hunger: 10
+        documents:
+        - 2215-7683-8071-7258
+
+temp:
+    createdPassport: да
+
+authorization:
+    discordId: 488749815895818241
+
+receivedDefaultItems: true
+
+relationship:
+    main:
+        ed7692b0-1c65-3d75-b703-ae314bee4b74-main:
+            knows:
+            - firstName
+        fed07d54-c249-3d40-a918-13c69c8a1d94-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender

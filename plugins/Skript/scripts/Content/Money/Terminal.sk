@@ -13,12 +13,12 @@ function openTerminal(player: player, card: number):
     set {_arrow::title} to "&fВставьте кредитную карточку"
     set {_arrow::description::*} to "", "&f &fДля того, что бы использовать терминал, вам", "&f &fнадо вставить в него вашу кредитную карточку.", "&f &fпросто положите вашу карточку сюда."
 
-    set {_arrow::right} to player head named "&e %{_arrow::title}%"
+    set {_arrow::right} to player head named "&9 %{_arrow::title}%"
     add "{SkullOwner:{Id:""e2944f18-e8a0-4ef0-823d-1a37b818bd92"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU2YTM2MTg0NTllNDNiMjg3YjIyYjdlMjM1ZWM2OTk1OTQ1NDZjNmZjZDZkYzg0YmZjYTRjZjMwYWI5MzExIn19fQ==""}]}}}" to item-nbt of {_arrow::right}
 
     format gui slot 12 of {_player} with {_arrow::right} with lore {_arrow::description::*}
 
-    set {_arrow::left} to player head named "&e %{_arrow::title}%"
+    set {_arrow::left} to player head named "&9 %{_arrow::title}%"
     add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_arrow::left}
 
     format gui slot 14 of {_player} with {_arrow::left} with lore {_arrow::description::*}
@@ -40,21 +40,21 @@ function openTerminal(player: player, card: number):
     # Сама карта
 
     # Вывести деньги
-    set {_withdraw} to player head named "&e△ &fВывести деньги" with lore "", "&f &fВыведите деньги из вашего банковского счета", "&f &fв два клика! Получите настоящие бумажные", "&f &fденьги чуть ли не моментально!", "", "&e▷ &fНажмите, то бы перейти"
+    set {_withdraw} to player head named "&9△ &fВывести деньги" with lore "", "&f &fВыведите деньги из вашего банковского счета", "&f &fв два клика! Получите настоящие бумажные", "&f &fденьги чуть ли не моментально!", "", "&9▷ &fНажмите, то бы перейти"
     add "{SkullOwner:{Id:""8f54d1c4-c599-4c54-8993-2cb371649c33"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgyZmFmOWE1ODRjNGQ2NzZkNzMwYjIzZjg5NDJiYjk5N2ZhM2RhZDQ2ZDRmNjVlMjg4YzM5ZWI0NzFjZTcifX19""}]}}}" to item-nbt of {_withdraw}
 
     format gui slot 21 of {_player} with {_withdraw} to run:
       openWithdrawMenu({_player}, {_card})
 
     # Внести деньги
-    set {_deposit} to player head named "&e▽ &fВнести деньги" with lore "", "&f &fВносите деньги в ваш банковый", "&f &fаккаунт на хранение. Потом вы сможете вывести", "&f &fих в любом банкомате ну или же использовать", "&f &fкарту в магазине с безконтактной оплатой.", "", "&e▷ &fНажмите, что бы перейти"
+    set {_deposit} to player head named "&9▽ &fВнести деньги" with lore "", "&f &fВносите деньги в ваш банковый", "&f &fаккаунт на хранение. Потом вы сможете вывести", "&f &fих в любом банкомате ну или же использовать", "&f &fкарту в магазине с безконтактной оплатой.", "", "&9▷ &fНажмите, что бы перейти"
     add "{SkullOwner:{Id:""3554e03b-982d-44f1-8be4-71785ba822f8"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFkNmM4MWY4OTlhNzg1ZWNmMjZiZTFkYzQ4ZWFlMmJjZmU3NzdhODYyMzkwZjU3ODVlOTViZDgzYmQxNGQifX19""}]}}}" to item-nbt of {_deposit}
 
     format gui slot 22 of {_player} with {_deposit} to run:
       openDepositMenu({_player}, {_card})
 
     # Настройки карты
-    set {_settings} to player head named "&7┅ &fНастройки карты" with lore "&7В разработке", "&f &fНастраивайте вашу карту так, как вам удобно.", "&f &fПоставить специальный пинкод, настроить Код Доступа", "&f &fдля интернет оплаты и настроить имя карты можно", "&f &fименно тут!", "", "&e▷ &fНажмите, что бы перейти"
+    set {_settings} to player head named "&7┅ &fНастройки карты" with lore "&7В разработке", "&f &fНастраивайте вашу карту так, как вам удобно.", "&f &fПоставить специальный пинкод, настроить Код Доступа", "&f &fдля интернет оплаты и настроить имя карты можно", "&f &fименно тут!", "", "&9▷ &fНажмите, что бы перейти"
     add "{SkullOwner:{Id:""fe358563-d1df-40f4-9bbf-e7e3c4a6ac22"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiYTcyNzdmYzg5NWJmM2I2NzM2OTQxNTk4NjRiODMzNTFhNGQxNDcxN2U0NzZlYmRhMWMzYmYzOGZjZjM3In19fQ==""}]}}}" to item-nbt of {_settings}
 
     format gui slot 23 of {_player} with {_settings}
@@ -98,7 +98,7 @@ on inventory close:
 
       if {temp::%{_player}%::blockTerminalViewAction} is set:
         delete {temp::%{_player}%::blockTerminalViewAction}
-      send title "&e△ &fДеньги внесены" with subtitle "&7Вы внесли %{_deposit::money}%$ на баланс карточки." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
+      send title "&9△ &fДеньги внесены" with subtitle "&7Вы внесли %{_deposit::money}%$ на баланс карточки." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
       stop
 
     else:
@@ -110,12 +110,12 @@ on inventory close:
 function openWithdrawMenu(player: player, card: number):
   close {_player}'s inventory
 
-  set {_title} to "&e▽ &fВпишите в чат"
+  set {_title} to "&9▽ &fВпишите в чат"
 
   set {_waiting} to true
   set {_balance} to getCardBalance({_card})
   if {_balance} is not set:
-    set {_balance} to 100
+    stop
 
   while {_waiting} is true:
     if {_player} is offline:
@@ -182,7 +182,7 @@ function openWithdrawMenu(player: player, card: number):
               add loop-value to {_player}'s inventory
 
             # Визуал
-            send title "&e$ &fДеньги получены" with subtitle "&7Вы успешно вывели %{_money}%$" to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
+            send title "&9$ &fДеньги получены" with subtitle "&7Вы успешно вывели %{_money}%$" to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
             
             if {temp::%{_player}%::blockTerminalViewAction} is set:
               set {temp::%{_player}%::blockTerminalViewAction} to 2
@@ -204,7 +204,7 @@ function openWithdrawMenu(player: player, card: number):
 
     # Визуал
     send title "%{_title}%" with subtitle "&7Кол-во денег для вывода (Доступно: %{_balance}%$)" to {_player} for 2 seconds with 0 ticks fade in and 0 ticks fade out
-    send action bar "&eⓘ &fНапишите &70 &fчто бы отменить транзакцию" to {_player}
+    send action bar "&9ⓘ &fНапишите &70 &fчто бы отменить транзакцию" to {_player}
 
     wait 1 tick
 

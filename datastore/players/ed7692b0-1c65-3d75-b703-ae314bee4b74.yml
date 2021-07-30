@@ -1,2 +1,25 @@
-authorization:
-    discordId: 401373430060023810
+character:
+    main:
+        documents:
+        - 9939-9244-8711-4509
+        gender: Мужской
+        age: 19
+        skin: блять!
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true
+
+relationship:
+    main:
+        fed07d54-c249-3d40-a918-13c69c8a1d94-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender
+        ef62341d-f8b7-3e01-a034-5a958da89f2d-main:
+            knows:
+            - firstName
+            - gender

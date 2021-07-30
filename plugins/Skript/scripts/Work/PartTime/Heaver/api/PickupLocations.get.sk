@@ -1,0 +1,4 @@
+function WorkModule_GetHeaverPickupLocations() :: locations:
+  add getLocation("373.5, 53, 748.5", "world") to {_locations::*}
+
+  return {_locations::*}

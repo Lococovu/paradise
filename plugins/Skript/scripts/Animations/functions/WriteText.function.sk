@@ -1,0 +1,92 @@
+function AnimationsModule_WriteText(player: player, location: location, text: string, wait: timespan = 5 seconds, direction: string = "x"):
+  # Подготавливаем буквы
+  set {_word::l} to player head with nbt "{SkullOwner:{Id:""e23fdeb8-791b-4a51-9f93-68280470adc3"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRhZmZhNDU1YjdmNTgyMTdkZThhY2JiZDkyMDFjOWVhODdjMTM0YWEzNTYyNTQ5NGY1ZDNmNjVjZTk0NiJ9fX0=""}]}}}"
+  set {_word::o} to player head with nbt "{SkullOwner:{Id:""9299a92b-b0e4-4386-9dce-0566c74a3ebf"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2JiMWQxN2NlYmM1ZjBlY2M5ODdiODBlZmMwM2UzMmVjYjFjYjQwZGJjNWJjZTJmYWYzZTYwNTQyYTQwIn19fQ==""}]}}}"
+  set {_word::c} to player head with nbt "{SkullOwner:{Id:""73ca3c0b-ef4c-4b03-9e77-4db5a27824ef"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjJhNTg3NjExMzMyMmYzOWFhMmJiZWY0YmQ2Yjc5ZWM2YjUyYTk3YmI2ZmFiNjc0YmRkYmQ3YjZlYWIzYmEifX19""}]}}}"
+  set {_word::v} to player head with nbt "{SkullOwner:{Id:""d431bcd6-7bdf-4c5a-b929-ed5da081babf"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThkNjgwMTg5OTRmMmYyZjU5ZDllNWYyZTNiYTNkNDZkOGIwYjllYTBlNjg0YmZiYjhlY2M3Yjg2ZWI5MjRjIn19fQ==""}]}}}"
+  set {_word::u} to player head with nbt "{SkullOwner:{Id:""08345212-4e65-43c7-8a74-393381f6eb88"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDY5OTFkY2JhMjVlYWUyNDNlYjVjZWI4MzI1ZjRhYjc4ZjlmMTQxMjdjMzgyZjZjZDQyYzRjNzgwNDJkNGI1In19fQ==""}]}}}"
+
+  set {_word::b} to player head with nbt "{SkullOwner:{Id:""6659159e-57b8-4177-b2f5-9268b9add0e3"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDJiOWUxNmUyNjIwNmE3MDliZjA3YzI0OTNjYTRjNWQyNGY1Njc1NjU0ZmMxMzBkMWQ1ZWM1ZThjNWJlNSJ9fX0=""}]}}}"
+  set {_word::a} to player head with nbt "{SkullOwner:{Id:""5a48a074-296f-42c0-b6f2-02de0a5828e2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGU0MTc0ODEyMTYyNmYyMmFlMTZhNGM2NjRjNzMwMWE5ZjhlYTU5MWJmNGQyOTg4ODk1NzY4MmE5ZmRhZiJ9fX0=""}]}}}"
+  set {_word::t} to player head with nbt "{SkullOwner:{Id:""4a8ae907-f4fe-41b1-8562-10ef8cd57636"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNmYjUwZmU3NTU5YmM5OWYxM2M0NzM1NmNjZTk3ZmRhM2FhOTIzNTU3ZmI1YmZiMTdjODI1YWJmNGIxZDE5In19fQ==""}]}}}"
+  set {_word::e} to player head with nbt "{SkullOwner:{Id:""40777fac-0c0e-44e5-85e9-5cad15e0bfff"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlZWY4OGUyYzkyOGI0NjZjNmVkNWRlYWE0ZTE5NzVhOTQzNmMyYjFiNDk4ZjlmN2NiZjkyYTliNTk5YTYifX19""}]}}}"
+  set {_word::x} to player head with nbt "{SkullOwner:{Id:""0ba39a4c-083f-4943-a9e3-4dcd5f6f7bf3"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWQxYTNjOTY1NjIzNDg1MjdkNTc5OGYyOTE2MDkyODFmNzJlMTZkNjExZjFhNzZjMGZhN2FiZTA0MzY2NSJ9fX0=""}]}}}"
+
+  set {_word::r} to player head with nbt "{SkullOwner:{Id:""29d15adf-36c8-4b19-89a6-1aeff5e8331a"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzhhODFlZmRhZTQ3YmNiNDgwYTI1ZWQ5MWZmNmRlOTc3MmIwN2FlODdjM2M0ZTI3NzcwNWFiYmJkMzQxOSJ9fX0=""}]}}}"
+  set {_word::w} to player head with nbt "{SkullOwner:{Id:""f7dcead1-c5bd-458f-8d1a-5b9c291fa500"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBjOTQ4M2Y1MWQxMjY3NDMyZTBmMmYzYmFhOGNkOTNlNjViNWVhYzc0ODJiMjdkYmNjZWJhZmI3MjE3NDhiIn19fQ==""}]}}}"
+  set {_word::n} to player head with nbt "{SkullOwner:{Id:""acf1430e-5b8f-4468-96f4-69d3591eb59b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGEyMjFlNGY5NmJlZTYyNjE3NTIzOTZhMzI2NWZmYTRkZWRmOGZmNDgzOWFiZDE0ZjQ5ZWRlZTFlNTMwOTIifX19""}]}}}"
+
+  set {_word::i} to player head with nbt "{SkullOwner:{Id:""05f5c4c3-7a37-4893-bad5-9318991a1cb0"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWM5OWRmYjI3MDRlMWJkNmU3ZmFjZmI0M2IzZTZmYmFiYWYxNmViYzdlMWZhYjA3NDE3YTZjNDY0ZTFkIn19fQ==""}]}}}"
+  set {_word::g} to player head with nbt "{SkullOwner:{Id:""d34a2268-53e2-45f5-90c9-899a7ada1109"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjIwYzNiMmJiZmExZWQzYWM4YzM1YjNkZDM4MjQ3NDU2NTYzYzkyYWNlZmQ1OTI2YjEyNWNjYzY3ZDdkNWZkIn19fQ==""}]}}}"
+  set {_word::h} to player head with nbt "{SkullOwner:{Id:""3539c341-0f8e-4108-8cfa-08b0197a0af6"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2JhOWMzM2E5NWZhMWU1MTlmODVhNDFjYTU2Nzk5Mzg0ZGI0MWZlN2UxZDdhNzkxNzUxZWNlOWJiYWU1ZDI3ZiJ9fX0=""}]}}}"
+
+  # Подготавливаем локацию
+  set {_location::start} to {_location}
+
+  if {_direction} is "x":
+    remove (length of {_text}/3) from x coordinate of {_location::start}
+  else if {_direction} is "z":
+    remove (length of {_text}/3) from z coordinate of {_location::start}
+
+  set {_location::current} to {_location::start}
+
+  set {_location::current}'s yaw to 90
+  set {_location::current}'s pitch to 0
+
+  # Спавним сами буквы и анимируем их
+  set {_words::*} to {_text} split at ""
+  loop {_words::*}:
+    # Отчистка ненужных переменных
+    delete {_word::icon}
+
+    # Подбираем иконку под букву
+    set {_word::icon} to {_word::%loop-value%}
+
+    # Спавним армор стенд (если иконка есть)
+    {_word::icon} is set
+    spawn armor stand at {_location::current} with nbt "{Invisible:1}"
+
+    set {_entity} to last spawned armor stand 
+    # Надеваем голову на ентити
+    make {_entity} wear {_word::icon}
+
+    loop all players:
+      if loop-value-2 isn't {_player}:
+        packetDestroyEntity(loop-value-2, {_entity})
+
+    # Анимируем...
+    set {_coordinate} to {_location}'s y coordinate
+    WriteText_pushWordUp({_entity}, {_coordinate})
+
+    if {_direction} is "x":
+      add 1 to x coordinate of {_location::current}
+    else if {_direction} is "z":
+      add 1 to z coordinate of {_location::current}
+    add {_entity} to {_entities::*}
+
+    wait 5 ticks
+
+  wait {_wait}
+  loop {_entities::*}:
+    WriteText_KillWord(loop-value, {_player})
+
+    wait 2 ticks
+
+function WriteText_KillWord(entity: entity, player: player):
+  {_entity}.setGravity(true)
+
+  while block below {_entity} is air:
+    wait 1 tick
+
+  set {_location} to {_entity}'s location
+  add 1.5 to {_location}'s y coordinate
+  play explosion with offset of 0, 0, 0 on {_location} to {_player}
+  kill {_entity}
+
+# word-related
+function WriteText_pushWordUp(entity: entity, yCoordinate: number):
+  push {_entity} upwards at speed 0.5
+
+  while {_entity}'s y coordinate > {_yCoordinate} - 0.5:
+    wait 1 tick
+  {_entity}.setGravity(false)

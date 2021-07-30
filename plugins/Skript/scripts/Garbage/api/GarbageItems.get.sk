@@ -1,0 +1,2 @@
+function GarbageModule_GetGarbageItems() :: strings:
+  return {data::garbage::list::*}

@@ -5,7 +5,7 @@
 # ------------------------------------  #
 
 torsofaa:
-  displayName: '&e[토른리넨]&5소파A'
+  displayName: '&9[토른리넨]&5소파A'
   system-ID: TorSofaA
   spawnMaterial: PIG_SPAWN_EGG
   itemGlowEffect: false

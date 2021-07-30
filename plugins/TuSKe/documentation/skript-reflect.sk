@@ -283,6 +283,18 @@ Expressions:
 			none
 		Patterns:
 			...%object%
+	ImportHandler:
+		ID: ImportHandler
+		Return type: javatype
+		Changers:
+			none
+		Patterns:
+			PacketPlayOutEntityDestroy
+			Bukkit
+			PacketPlayOutAnimation
+			EntityType
+			BukkitLocation
+			PlayerStopSpectatingEntityEvent
 	LitNullObject:
 		ID: LitNullObject
 		Return type: null

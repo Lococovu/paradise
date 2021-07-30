@@ -4,8 +4,8 @@ character:
             hunger: 8.5
         documents:
         - 8956-3483-4821-3212
-        name: Олег Добровольский
-        age: 25
+        name: Фура Еблан
+        age: 100
         gender: Мужской
         skin: 123
 
@@ -13,6 +13,29 @@ temp:
     createdPassport: да
 
 receivedDefaultItems: true
+
+relationship:
+    main:
+        de7c8bdc-7714-32cc-88f5-99f4b88c66e4-main:
+            knows:
+            - firstName
+            - lastName
+        f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender
+        fed07d54-c249-3d40-a918-13c69c8a1d94-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+        c5a409b0-4673-35d2-8022-32ebfc373121-main:
+            knows:
+            - firstName
+            - lastName
+            - age
 
 authorization:
     discordId: 582278506541613059

@@ -80,11 +80,11 @@ function TeleportToDefaultFlat(player: player):
 
     # Строка уведомлений
     if {_notification::stage} is 1:
-      set {_title} to "&e♡ &fДискорд-канал: &9discord&f.lococovu.me"
+      set {_title} to "&9♡ &fДискорд-канал: &9discord&f.lococovu.me"
     else if {_notification::stage} is 2:
-      set {_title} to "&e✌ &fБольше про сервер: &9discord&f.lococovu.me"
+      set {_title} to "&9✌ &fБольше про сервер: &9discord&f.lococovu.me"
     else if {_notification::stage} is 3:
-      set {_title} to "&eⓘ &fПомощь: &9/&fhelp"
+      set {_title} to "&9ⓘ &fПомощь: &9/&fhelp"
     
     if skellett title of bossbar {_notification} isn't {_title}:
       set skellett title of bossbar {_notification} to {_title}
@@ -110,12 +110,12 @@ function TeleportToDefaultFlat(player: player):
 
           # Давайте отобразим небольшую анимацию времени
           set {authorized::%{_player}%} to false
-          set {_location} to getLocation("-3942, 12, -2764", "world")
+          set {_location} to getLocation("-15, 4, -195.5", "lobby")
 
           teleport {_player} to {_location}
           set {_player}'s gamemode to spectator
 
-          send title "&e☀ &fг. Лоунайт, %{server::time::year}% год" with subtitle "" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
+          send title "&9☀ &fг. Лоунайт, %{server::time::year}% год" with subtitle "" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
           wait 4.5 seconds
 
           loop 4 times:

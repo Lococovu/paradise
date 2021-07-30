@@ -206,7 +206,7 @@ function loadShopTerminalsHolograms(player: player, shopId: string):
 
     if {_create} is true:
       # Создаём голограммы
-      set {_lines::*} to "", "", "&7&lКасса", "&fВыбирайте товары в магазине", "&fи потом оплачивайте их на &7Кассе", "&e▷ &fПКМ"
+      set {_lines::*} to "", "", "&7&lКасса", "&fВыбирайте товары в магазине", "&fи потом оплачивайте их на &7Кассе", "&9▷ &fПКМ"
       set {_hologram::location} to {_location}
       add 2 to y coordinate of {_hologram::location}
 
@@ -307,11 +307,44 @@ function openShopStandMenu(player: player, shopId: string, standId: string):
             add 1 to {_playerAmount}
 
         # Добавляем описание
-        add "", "&e$ &fСтоимость: &e%{_price}%$ &7(1 шт.)", "", "&a▹ &fНажмите, что бы добавить в корзину" to {_item}'s lore
+        add "", "&9$ &fСтоимость: &9%{_price}%$ &7(1 шт.)", "", "&a▷ &fНажмите, что бы добавить в корзину" to {_item}'s lore
 
         format gui slot {_slot} of {_player} with {_item} to run:
           if size of {_cart::*} <= 25:
             add "%{_id}%=%{_price}%" to {workers::shopWorker::%{_player}%::cart::*}
+
+            itemCooldown({_player}, "%{_slot}%" parsed as number, "%{_shopId}%", "%{_standId}%")
+
+function itemCooldown(player: player, slot: number, shopId: string, standId: string):
+  set {_time} to 2
+  set {_working} to true
+
+  set {_title} to {shop::%{_shopId}%::%{_standId}%::title}
+
+  while {_working} is true:
+    if {_player} is offline:
+      stop
+
+    # Обновляем
+    if {_time} is 2:
+      set {_icon::nbt} to "{SkullOwner:{Id:""76e59870-f172-4a44-80b5-96f67058ce9e"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDY5OGFkZDM5Y2Y5ZTRlYTkyZDQyZmFkZWZkZWMzYmU4YTdkYWZhMTFmYjM1OWRlNzUyZTlmNTRhZWNlZGM5YSJ9fX0=""}]}}}"
+    else:
+      set {_icon::nbt} to "{SkullOwner:{Id:""cc580a79-3444-4a8a-a236-ffb3a4e584fc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2E1MTZmYmFlMTYwNThmMjUxYWVmOWE2OGQzMDc4NTQ5ZjQ4ZjZkNWI2ODNmMTljZjVhMTc0NTIxN2Q3MmNjIn19fQ==""}]}}}"
+
+    set {_item} to player head named "&fДобавляем..."
+    add "%{_icon::nbt}%" to item-nbt of {_item}
+
+    format gui slot {_slot} of {_player} with {_item}
+
+    if "%name of {_player}'s current inventory%" doesn't contain {_title}:
+      stop
+
+    reduce {_time} by 1
+    if {_time} < 0:
+      openShopStandMenu({_player}, {_shopId}, {_standId})
+      stop
+
+    wait 1 second
 
 function openTerminalMenu(player: player):
   if {workers::shopWorker::%{_player}%::inShop} is set:
@@ -323,6 +356,7 @@ function openTerminalMenu(player: player):
     loop {_cart::*}:
       # Берём данные про предмет
       set {_temp::*} to loop-value split at "="
+      set {_id::init} to loop-value
 
       set {_id} to {_temp::1}
       set {_amount} to 1
@@ -331,16 +365,20 @@ function openTerminalMenu(player: player):
       add {_price} to {_overallPrice}
 
       set {_item} to {data::items::%{_id}%::item}
+      set {_item}'s lore to {_item}'s lore, "", "&7▽ &fНажмите, что бы убрать с корзины"
 
       {_item} is set
-      format gui slot {_slot} of {_player} with {_item}
+      format gui slot {_slot} of {_player} with {_item} to run:
+        remove {_id::init} from {workers::shopWorker::%{_player}%::cart::*}
+        
+        openTerminalMenu({_player})
       
       add 1 to {_slot}
 
     # Купить все товары
-    set {_buy} to player head named "&e▤ &fКупить всё" with lore "", "&f &fУже решились с тем, что хотите это всё купить?", "&f &fНу тогда просто нажмите на эту кнопку и выберите удобный", "&f &fспособ оплаты!", ""
+    set {_buy} to player head named "&9▤ &fКупить всё" with lore "", "&f &fУже решились с тем, что хотите это всё купить?", "&f &fНу тогда просто нажмите на эту кнопку и выберите удобный", "&f &fспособ оплаты!", ""
     if size of {_cart::*} > 0:
-      add "&e## &fОбщая стоимость покупки:", "&e%{_overallPrice}%&f$", "", "&e▹ &fПерейти к оплате" to {_buy}'s lore
+      add "&9## &fОбщая стоимость покупки:", "&9%{_overallPrice}%&f$", "", "&9▷ &fПерейти к оплате" to {_buy}'s lore
     else:
       add "&c✕ &fКорзина пуста!", "&7Побегайте по магазину, понабирайте каких-либо", "&7товаров и потом возвращайтесь сюда!" to {_buy}'s lore
     add "{SkullOwner:{Id:""e08b808f-5a19-4ddf-9f66-3b9b149161cf"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ1NzNkNjU0NmJhNzFlZmYzYjY3ZTUxMTZiMGQ3NWUyOWFkZjY3MTM1ZTk1MzM4ZGNhODNlZWMyODhmMjcifX19""}]}}}" to item-nbt of {_buy}
@@ -391,8 +429,8 @@ function openBuyPrompt(player: player):
   open virtual chest inventory with size 3 named "&8Оплата" to {_player}
 
   # Переменные
-  set {_items::*} to {workers::shopWorker::%{_player}%::cart::*}
-  loop {_items::*}:
+  set {_cart::items::*} to {workers::shopWorker::%{_player}%::cart::*}
+  loop {_cart::items::*}:
     delete {_id}
     delete {_price}
 
@@ -405,7 +443,7 @@ function openBuyPrompt(player: player):
 
   # {SkullOwner:{Id:"""",Properties:{textures:[{Value:""""}]}}}
   # Вернуться
-  set {_back} to player head named "&e◁ &fВернуться назад" with lore "", "&f &fКнопка, которая просто вернёт вас к списку всех", "&f &fтоваров, которые вы собираетесь купить.", "", "&e▹ &fНажмите, что бы перейти"
+  set {_back} to player head named "&9◁ &fВернуться назад" with lore "", "&f &fКнопка, которая просто вернёт вас к списку всех", "&f &fтоваров, которые вы собираетесь купить.", "", "&9▷ &fНажмите, что бы перейти"
   add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
 
   format gui slot 11 of {_player} with {_back} to run:
@@ -414,11 +452,11 @@ function openBuyPrompt(player: player):
   # Наличкой
   set {_cash::eligible} to ifCanBuyUsingCash({_player}, {_overallPrice})
 
-  set {_cash} to player head named "&e$ &fРасплатиться наличными" with lore "", "&f &fСамая обычная расплата наличными деньгами. Главное", "&f &fчто бы вам хватило денег в вашем инвентаре!", "", "&e## &fОбщая стоимость покупки:", "&e%{_overallPrice}%&f$", ""
+  set {_cash} to player head named "&9$ &fРасплатиться наличными" with lore "", "&f &fСамая обычная расплата наличными деньгами. Главное", "&f &fчто бы вам хватило денег в вашем инвентаре!", "", "&9## &fОбщая стоимость покупки:", "&9%{_overallPrice}%&f$", ""
 
   if {_cash::eligible} is true:
     add "{SkullOwner:{Id:""7a0345b9-b55f-462c-8fb5-0690193ec00d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA0NzE5YjNiOTdkMTk1YTIwNTcxOGI2ZWUyMWY1Yzk1Y2FmYTE2N2U3YWJjYTg4YTIxMDNkNTJiMzdkNzIyIn19fQ==""}]}}}" to item-nbt of {_cash}  
-    add "&e▢ &fНажмите, что бы расплатиться" to {_cash}'s lore
+    add "&9▢ &fНажмите, что бы расплатиться" to {_cash}'s lore
   else:
     add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_cash}
     add "&c✕ &fНедостаточно средсвт", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_cash}'s lore
@@ -541,11 +579,14 @@ function openBuyPrompt(player: player):
           add loop-value to {_player}'s inventory
 
       # Отдаём игроку пакет с предметами
-      loop {_items::*}:
+      loop {_cart::items::*}:
+        delete {_id}
+        delete {_temp::*}
         set {_temp::*} to loop-value split at "="
         
         set {_id} to {_temp::1}
-        
+
+        {_id} is set
         if {_itemsString} is not set:
           set {_itemsString} to {_id}
         else:
@@ -675,11 +716,11 @@ function startShopWorker(player: player):
 
           set skellett colour of bossbar {_bossbar} to WHITE
 
-          set skellett title of bossbar {_bossbar} to "&e▤ &fКорзина: &7%{_size}% шт."
+          set skellett title of bossbar {_bossbar} to "&9▤ &fКорзина: &7%{_size}% шт."
 
         else:
           # Визуализируем боссбар
-          set {_title} to "&e▤ &fКорзина: &7%{_size}% шт."
+          set {_title} to "&9▤ &fКорзина: &7%{_size}% шт."
 
           if skellett title of bossbar {_bossbar} isn't {_title}:
             set skellett title of bossbar {_bossbar} to {_title}

@@ -106,7 +106,7 @@ function EM_fatigueGetName(player: player) :: string:
   if {_sprints} >= 3:
     set {_name} to "&c★ &fСильная Временная Усталость"
   else:
-    set {_name} to "&e★ &fСлабая Усталость"
+    set {_name} to "&9★ &fСлабая Усталость"
 
   return {_name}
 

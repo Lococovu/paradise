@@ -1,7 +1,7 @@
 on load:
   wipe server crafting recipes
 
-  # set {_wand::1} to wooden axe named "&e⚒ &fТопорик" with lore "&7~ Очень хилый и слабый топорик, который", "&7сломается спустя пару использований, но", "&7это лучше, чем ничего"
+  # set {_wand::1} to wooden axe named "&9⚒ &fТопорик" with lore "&7~ Очень хилый и слабый топорик, который", "&7сломается спустя пару использований, но", "&7это лучше, чем ничего"
   # add "{HideFlags:2,AttributeModifiers:[{UUIDMost:-8708550169091747916L,UUIDLeast:-7530656638635326392L,Amount:0.8d,AttributeName:""generic.attackDamage"",Operation:0,Name:""generic.attackDamage""}]}" to item-nbt of {_wand::1}
 
   # set {_rand} to random integer between 1 and 5
@@ -140,7 +140,7 @@ function openWorkbench(player: player, location: location, type: string):
     #   set {_skill} to getSkillTree({_player})
 
     #   set {_name} to getSkillTreeName({_skill})
-    #   set {_skills} to player head named "&e☕ &fДерево умений &7(%{_name}%)" with lore "&7~ Тут вы можете посмотреть всё, что вам будет доступно", "&7в будующем. А так же вы сможете посмотреть всё, что уже знаете", "&7и уже можете делать!" 
+    #   set {_skills} to player head named "&9☕ &fДерево умений &7(%{_name}%)" with lore "&7~ Тут вы можете посмотреть всё, что вам будет доступно", "&7в будующем. А так же вы сможете посмотреть всё, что уже знаете", "&7и уже можете делать!" 
     #   # Разные головы под разные ветки умений
     #   if {_skill} is "sewing":
     #     set {_head} to "{SkullOwner:{Id:""372c81ef-d33f-334a-802f-83f38bd473c0"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDYzYTRlOTg4MmYxODkyMzNmOWJmMTEyMWI5NmI3OTliYjNmZDM3NzA1NGYzOWRkMTlhNWQ4M2JlMDFmZjYifX19""}]}}}"
@@ -172,12 +172,12 @@ function openWorkbench(player: player, location: location, type: string):
     #     # -----------------------
     #     # Открываем Дерево Умений
     # Текущий крафт
-    set {_craft} to player head named "&e... &fОжидание крафтов.."
+    set {_craft} to player head named "&9... &fОжидание крафтов.."
     add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_craft}
 
     format gui slot 19 of {_player} with {_craft}
     # Помощь
-    set {_help} to player head named "&eℹ &fПомощь"
+    set {_help} to player head named "&9ℹ &fПомощь"
     add "{SkullOwner:{Id:""a0dd7021-f24c-4e1c-b355-807eec970396"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2Y2YmY5NThhYmQ3ODI5NWVlZDZmZmMyOTNiMWFhNTk1MjZlODBmNTQ5NzY4MjllYTA2ODMzN2MyZjVlOCJ9fX0=""}]}}}" to item-nbt of {_help}
 
     format gui slot 28 of {_player} with {_help}
@@ -233,7 +233,7 @@ function openWorkbench(player: player, location: location, type: string):
   
           # Показываем крафт в лоре...
           add "" to {_result::lore::*}
-          add "&e⚏ &fДля создания вам нужно:" to {_result::lore::*}
+          add "&9⚏ &fДля создания вам нужно:" to {_result::lore::*}
           loop {_ingredients::visual::*}:
             set {_temp::*} to loop-value-2 split at "="
 
@@ -270,7 +270,7 @@ function openWorkbench(player: player, location: location, type: string):
               set {_loop} to {_temp::1}
               set {_number} to {_temp::2}
 
-              replace all "&e" and "&e" in {_loop} with "&c"
+              replace all "&9" and "&9" in {_loop} with "&c"
               add "%{_loop}% %{_number}% шт." to {_result::lore::*}
           else:
             add "" to {_result::lore::*}
@@ -310,7 +310,7 @@ function craftWindow(player: player, path: string, num: number, location: locati
 
     # Смотрим сколько времени будет крафтиться этот предмет...
     add "" to {_result::lore::*}
-    add "&e⚃ &fКол-во: &e%{_data::number}%" to {_result::lore::*}
+    add "&9⚃ &fКол-во: &9%{_data::number}%" to {_result::lore::*}
     add "" to {_result::lore::*}
 
     set {_time::visual} to "%{_data::number} * {_result::time}% seconds" parsed as timespan
@@ -324,7 +324,7 @@ function craftWindow(player: player, path: string, num: number, location: locati
 
     replace all " and " in {_time::visual} with " "
 
-    add "&e☕ &fВремя на создание: &e%{_time::visual}%" to {_result::lore::*}
+    add "&9☕ &fВремя на создание: &9%{_time::visual}%" to {_result::lore::*}
 
     # Проверяем инвентарь игрока...
     loop {_craft::*}:
@@ -356,14 +356,14 @@ function craftWindow(player: player, path: string, num: number, location: locati
         set {_loop} to {_temp::1}
         set {_number} to {_temp::2}
 
-        replace all "&e" and "&e" in {_loop} with "&c"
+        replace all "&9" and "&9" in {_loop} with "&c"
         add "%{_loop}% %{_number}% шт." to {_result::lore::*}
     else:
       add "" to {_result::lore::*}
       add "&a✔ &fВы можете сделать этот предмет" to {_result::lore::*}
 
     # Увеличить...
-    set {_increase} to player head named "&e⬆ &fУвеличить кол-во на 1"
+    set {_increase} to player head named "&9⬆ &fУвеличить кол-во на 1"
     add "{SkullOwner:{Id:""3554e03b-982d-44f1-8be4-71785ba822f8"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFkNmM4MWY4OTlhNzg1ZWNmMjZiZTFkYzQ4ZWFlMmJjZmU3NzdhODYyMzkwZjU3ODVlOTViZDgzYmQxNGQifX19""}]}}}" to item-nbt of {_increase}
 
     format gui slot 11 of {_player} with {_increase} to run:
@@ -399,7 +399,7 @@ function craftWindow(player: player, path: string, num: number, location: locati
         craft({_path},{_data::number},{_location})
 
     # Уменьшить...
-    set {_decrease} to player head named "&e⬇ &fУменьшить кол-во на 1"
+    set {_decrease} to player head named "&9⬇ &fУменьшить кол-во на 1"
     add "{SkullOwner:{Id:""8f54d1c4-c599-4c54-8993-2cb371649c33"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgyZmFmOWE1ODRjNGQ2NzZkNzMwYjIzZjg5NDJiYjk5N2ZhM2RhZDQ2ZDRmNjVlMjg4YzM5ZWI0NzFjZTcifX19""}]}}}" to item-nbt of {_decrease}
 
     format gui slot 15 of {_player} with {_decrease} to run:
@@ -488,7 +488,7 @@ function craft(path: string, number: number, location: location):
   set {_location::holo} to {_location}
   add 2.5 to y coordinate of {_location::holo}
 
-  create a new hologram with line {_result::item}, "&e⚒ &fСоздание предмета:", "%{_result::name}% %{_number}% шт.", "&7Загрузка" at {_location::holo} and store it in the variable {_hologram}
+  create a new hologram with line {_result::item}, "&9⚒ &fСоздание предмета:", "%{_result::name}% %{_number}% шт.", "&7Загрузка" at {_location::holo} and store it in the variable {_hologram}
   make hologram {_hologram} invisible by default
 
   set {_waiting} to true
@@ -500,7 +500,7 @@ function craft(path: string, number: number, location: location):
     if {_time} <= 0:
       # Меняем голограмму...
       set {crafts::%{_location}%::hologram} to {_hologram}
-      set all lines of hologram {_hologram} to {_result::item}, "&e⚒ &fСоздание предмета:", "%{_result::name}% %{_number}% шт.", "&a✔ &fПредмет создан"
+      set all lines of hologram {_hologram} to {_result::item}, "&9⚒ &fСоздание предмета:", "%{_result::name}% %{_number}% шт.", "&a✔ &fПредмет создан"
       
       set {crafts::%{_location}%::number} to {_data::number}
       set {crafts::%{_location}%::done} to true

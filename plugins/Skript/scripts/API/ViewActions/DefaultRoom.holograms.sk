@@ -17,7 +17,7 @@ function DR_Holo_CharactersCreate(player: player, location: location):
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
   set {_auth::type} to getIpAuthType({_player})
-  set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&e▷ &fПКМ"
+  set {_lines::*} to "", "", "&7&lГардеробная", "&fСоздайте своего крутого", "&fперсонажа именно тут!", "&9▷ &fПКМ"
 
   set {_hologram::location} to getLocation("530, 65, 588.5", "world")
 
@@ -65,7 +65,7 @@ function DR_Holo_StorageCreate(player: player, location: location):
   set {_auth::type} to getIpAuthType({_player})
 
   if {_auth::type} isn't "guest":
-    set {_lines::*} to "", "", "&7&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&e▷ &fПКМ"
+    set {_lines::*} to "", "", "&7&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&9▷ &fПКМ"
   else:
     set {_lines::*} to "", "", "&c&lРабочий стол", "&fТут вы сможете найти всё то,", "&fчто вы можете делать!", "&c✕ &fРазблокируется", "&fпосле Авторизации"
 

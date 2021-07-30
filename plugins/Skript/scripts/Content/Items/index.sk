@@ -17,6 +17,6 @@ command items:
 
         {_item::id} and {_item::item} is set:
           format gui slot {_slot} of player with {_item::item} to run:
-            add {_item::item} to player's inventory
+            add getItem({_item::id}) to player's inventory
 
           add 1 to {_slot}

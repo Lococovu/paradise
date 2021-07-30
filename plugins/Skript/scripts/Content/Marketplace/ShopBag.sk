@@ -18,7 +18,7 @@ function giveShoppingBag(player: player, items: string):
   set {_shoppingbag::random::1} to random integer between 0000 and 9999
   set {_shoppingbag::random::2} to random integer between 0000 and 9999
   
-  set {_shoppingbag} to player head named "&e▤ &fМагазиный Пакет" with lore "&0%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%", "", "", "&e▢ &fНажмите, что бы открыть"
+  set {_shoppingbag} to player head named "&9▤ &fМагазиный Пакет" with lore "&0%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%", "", "", "&9▢ &fНажмите, что бы открыть"
   add "{SkullOwner:{Id:""d670ce97-4782-41ef-9f5a-6e65c021fa74"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ1NzNkNjU0NmJhNzFlZmYzYjY3ZTUxMTZiMGQ3NWUyOWFkZjY3MTM1ZTk1MzM4ZGNhODNlZWMyODhmMjcifX19""}]}}}" to item-nbt of {_shoppingbag}
 
   set {_id} to "%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%"
@@ -72,7 +72,7 @@ function openShoppingBag(player: player, id: string):
 
   # Так же давайте добавим один дополнительный предмет,
   # # который немного опишет суть кошелька
-  # set {_help} to player head named "&eⓘ &fПомощь" with lore "", "&f &fВ рюкзаке вы можете хранить абсолютно всё, что вам", "&f &fтолько захочется. Только будьте максимально осторожны", "&f &fи бдительны - ваш рюкзак могут ограбить или же украсть!", "", "&f &fВы можете носить только один рюкзак в инвентаре,", "&f &fплюс рюкзак отображается на вашей спине."
+  # set {_help} to player head named "&9ⓘ &fПомощь" with lore "", "&f &fВ рюкзаке вы можете хранить абсолютно всё, что вам", "&f &fтолько захочется. Только будьте максимально осторожны", "&f &fи бдительны - ваш рюкзак могут ограбить или же украсть!", "", "&f &fВы можете носить только один рюкзак в инвентаре,", "&f &fплюс рюкзак отображается на вашей спине."
   # add "{SkullOwner:{Id:""32f9f141-4960-4b2c-b09b-3d963db58a3f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJlYzlhOGE5MGQ5MGM3ODY1MWFmMmY5NjIwMTUxMTFmY2JmMTFhYzg3MzhmNTJiOGUyNGRhODYyYTM4NzFiYSJ9fX0=""}]}}}" to item-nbt of {_help}
 
   # format gui slot 17 of player with {_help}

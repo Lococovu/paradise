@@ -17,7 +17,7 @@ sausage:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◇ &fКолбаса'
+      title: '&9◇ &fКолбаса'
       description:
       - '&f &fСамая обычная и самая дешёвая'
       - '&f &fколбаса. Но зато это хоть что-то!'
@@ -35,7 +35,7 @@ sausage:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◇ &fСосиска'
+      title: '&9◇ &fСосиска'
       description:
       - '&f &fБолее премиальные и дорогие'
       - '&f &fсоски. Они, как минимум, не такие'
@@ -53,7 +53,7 @@ mince:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◇ &fКуриный Фарш &7(100 гр.)'
+      title: '&9◇ &fКуриный Фарш &7(100 гр.)'
       description:
       - '&f &fСамый не дорогой и отнюдь'
       - '&f &fи не самый противный фарш'
@@ -69,7 +69,7 @@ mince:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◇ &fСвинной Фарш &7(100 гр.)'
+      title: '&9◇ &fСвинной Фарш &7(100 гр.)'
       description:
       - '&f &fПривизён прямо из премиальной'
       - '&f &fсвино-фабрики за Лоунайтом,'

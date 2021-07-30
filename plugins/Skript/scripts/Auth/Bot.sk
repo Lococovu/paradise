@@ -1,7 +1,7 @@
 on load:
   wait 10 seconds
   # Авторизовываемся
-  login to "ODU3ODc1ODMxMjQ5NDM2Njky.YNV9IA.k96H3lc3NVBbABmWRaqANE-B5DU" with name "AuthBot"
+  login to "ODU3ODc1ODMxMjQ5NDM2Njky.YNV9IA.m9U9LwU5Ans2DDDGXLNrCU0TaRQ" with name "AuthBot"
 
   # Изменяем статус
   set online status of bot "AuthBot" to online

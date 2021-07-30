@@ -6,7 +6,4 @@ character:
 temp:
     createdPassport: да
 
-authorization:
-    discordId: 582278506541613059
-
 receivedDefaultItems: true

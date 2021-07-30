@@ -42,12 +42,6 @@
     "bypassesPlayerLimit": false
   },
   {
-    "uuid": "38246440-25d7-3715-9885-6c65d69e4c45",
-    "name": "PlayFarca",
-    "level": 4,
-    "bypassesPlayerLimit": false
-  },
-  {
     "uuid": "a38e5dc6-d751-33aa-9424-fd6cccfd1a0b",
     "name": "mrctena",
     "level": 4,
@@ -74,6 +68,12 @@
   {
     "uuid": "65c42bcc-04c1-3f6e-ad37-67ee39d36457",
     "name": "juiipup",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  },
+  {
+    "uuid": "f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f",
+    "name": "Dogleash",
     "level": 4,
     "bypassesPlayerLimit": false
   }

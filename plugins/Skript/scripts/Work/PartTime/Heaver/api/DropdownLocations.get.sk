@@ -1,0 +1,4 @@
+function WorkModule_GetHeaverDropdownLocations() :: locations:
+  add getLocation("369.5, 52, 734", "world") to {_locations::*}
+
+  return {_locations::*}

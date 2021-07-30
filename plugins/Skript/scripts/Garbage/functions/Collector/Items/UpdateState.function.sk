@@ -1,0 +1,41 @@
+function GarbageModule_UpdateCollectorItemState(id: string):
+  set {_item::limit} to {data::collector::%{_id}%::limit}
+
+  if {_item::limit} is not set:
+    set {_item::limit} to random integer between 10 and 20
+  else:
+    {_item::limit} <= 0:
+      set {_item::timeout} to {data::collector::%{_id}%::timeout}
+
+      {_item::timeout} is not set:
+        set {_item::timeout} to now
+        add 10 minutes to {_item::timeout}  
+      else:
+        {_item::timeout} <= now:
+          delete {data::collector::%{_id}%::limit}
+          delete {data::collector::%{_id}%::timeout}
+
+          GarbageModule_UpdateCollectorItemState("%{_id}%")
+          stop
+    else:
+      delete {_item::timeout}
+
+  set {_item::price} to {data::collector::%{_id}%::price}
+  if {_item::price} is not set:
+    set {_bills::*} to 1 and 5
+
+    chance of 75%:
+      set {_item::price} to random element of {_bills::*}
+
+  # Обновляем данные
+  set {data::collector::%{_id}%::limit} to {_item::limit}
+  
+  if {_item::price} is not set:
+    delete {data::collector::%{_id}%::price}
+  else:
+    set {data::collector::%{_id}%::price} to {_item::price}
+  if {_item::timeout} is not set:
+    delete {data::collector::%{_id}%::timeout}
+  else:
+    set {data::collector::%{_id}%::timeout} to {_item::timeout}
+  

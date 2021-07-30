@@ -70,6 +70,8 @@ on hologram click:
         
       evaluate:
         %{_function::click}%({_player})
+      
+      stop
 
 # command test:
 #   trigger:

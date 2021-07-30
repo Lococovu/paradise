@@ -9,7 +9,47 @@ function WR_Holo_MailboxCreate(player: player, location: location):
 
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
-  set {_lines::*} to "", "", "&7&lПочтовый ящик", "&9▷ &fПКМ"
+  delete {_items::*}
+
+  set {_mailboxId} to {block::%{_location}%::mailboxId}
+
+  set {_uuid} to "%{_player}'s uuid%-%getCurrentCharacter({_player})%"
+  set {_items::*} to {data::mail::%{_mailboxId}%::%{_uuid}%::items::*}
+
+  loop {_items::*}:
+    delete {_arriveAfter}
+
+    if {data::mail::item::%loop-value%::arrived} is not true:
+      set {_arriveAfter} to {data::mail::item::%loop-value%::arriveAfter}
+      
+      {_arriveAfter} is set:
+        {_arriveAfter} >= now:
+          remove loop-value from {_items::*}
+      else:
+        remove loop-value from {_items::*}
+    else:
+      {data::mail::item::%loop-value%::picked} is true
+      remove loop-value from {_items::*}
+
+  if size of {_items::*} > 0:
+    set {_size} to size of {_items::*}
+    if {_size} is 1:
+      set {_word} to "посылка"
+    else:
+      if {_size} > 4:
+        set {_word} to "посылок"
+      else:
+        set {_word} to "посылки"
+
+    set {_lines::items::*} to "&fВ почтовом ящике есть", "&9%size of {_items::*}% &f%{_word}% для вас", "&9▷ &fПКМ"
+  else:
+    set {_lines::items::*} to "&fПочтовый ящик пустой"
+
+  set {_size::initial} to size of {_items::*}
+  set {_lines::*} to "", "", "&7&lПочтовый ящик", {_lines::items::*}
+
+  set {_hologram::location} to {_location}
+  add 1.5 to y coordinate of {_hologram::location}
 
   if distance between {_player} and {_hologram::location} >= 3.5:
     stop
@@ -28,6 +68,14 @@ function WR_Holo_MailboxCreate(player: player, location: location):
       delete hologram {_hologram}
       stop
 
+    if {_action} is "update":
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+
+      WR_Holo_MailboxCreate({_player}, {_location})
+
+      stop
+    
     # Проверяем состояние текущего блока
     if distance between {_player} and {_hologram::location} >= 3.5:
       delete {hologram::%{_player}%::%{_location}%}
@@ -37,24 +85,40 @@ function WR_Holo_MailboxCreate(player: player, location: location):
     if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
       set {hologram::%{_player}%::%{_location}%} to {_hologram}
 
+    if {_update::timer} <= 0:
+      set {_update::timer} to 1
+      set {_items::*} to {data::mail::%{_mailboxId}%::%{_uuid}%::items::*}
+
+      loop {_items::*}:
+        delete {_arriveAfter}
+        
+        if {data::mail::item::%loop-value%::arrived} is not true:
+          set {_arriveAfter} to {data::mail::item::%loop-value%::arriveAfter}
+          
+          {_arriveAfter} is set:
+            {_arriveAfter} >= now:
+              remove loop-value from {_items::*}
+          else:
+            remove loop-value from {_items::*}
+        else:
+          {data::mail::item::%loop-value%::picked} is true
+          remove loop-value from {_items::*}
+
+      if size of {_items::*} is not {_size::initial}:
+        set {_action} to "update"
+
+    reduce {_update::timer} by 0.05
     wait 1 tick
 
 function WR_Holo_MailboxClick(player: player):
-  # Открываем небольшую менюшку, в которой пользователь
-  # должен будет подтвердить то, что он хочет выйти
-  open virtual chest inventory with size 3 named "&8&lПодтверждение" to {_player}
+  # Берём ид почтовой коробки
+  loop all blocks in radius 3 around {_player}:
+    set {_location::block} to location of block at loop-value
+    set {_mailboxId} to {block::%{_location::block}%::mailboxId}
 
-  # Пустые слота
-  set {_empty} to player head named "&f"
-  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+    {_mailboxId} is set:
+      exit 1 loop
 
-  format gui slot 12,14 of {_player} with {_empty}
-
-  # Выйти
-  set {_exit} to player head named "&9▯ &fВыйти из комнаты" with lore "", "&f &fВыходя из комнаты вы попадает в мир Парадайса.", "&f &fТут можно делать всё, что захочешь - главное что бы", "&f &fэто было в рамках законов правительства. Выходите", "&f &fиз своей комнатушки и исследуйте этот мир!", "", "&9▷ &fНажмите, что бы выйти"
-  add "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}" to item-nbt of {_exit}
-
-  format gui slot 12 of {_player} with {_exit} to run:
-    close {_player}'s inventory
-
-    set {defaultRoom::%{_player}%::action} to "exit"
+  # Открываем меню
+  {_mailboxId} is set
+  MailModule_OpenMailboxMenu({_player}, {_mailboxId})

@@ -1,0 +1,76 @@
+function GarbageModule_OpenCollectorMenu(player: player):
+  # Открываем меню
+  open virtual chest inventory with size 6 named "&8Коллектор" to {_player}
+
+  # Пустые слоты
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  set {_slots::*} to 20,21,22,23,24, 29,30,31,32,33
+  format gui slot {_slots::*} of {_player} with {_empty}
+
+
+  # Предметы
+  set {_items::*} to GarbageModule_GetGarbageItems()
+  remove "garbage_money_01" from {_items::*}
+
+  loop {_items::*}:
+    # Удаляем ненужное
+    delete {_id}
+    delete {_item}
+    delete {_item::*}
+
+    # Берём данные предмета
+    set {_id} to loop-value
+    set {_item} to getItem("%{_id}%")
+    set {_item::visual} to {_item}
+
+    GarbageModule_UpdateCollectorItemState("%{_id}%")
+
+    set {_item::limit} to {data::collector::%{_id}%::limit}
+    set {_item::timeout} to {data::collector::%{_id}%::timeout}
+    set {_item::price} to {data::collector::%{_id}%::price}
+
+    {_item} is set
+    {_item::limit} or {_item::timeout} is set
+
+    # Подготавливаем лор предмета и сам предмет
+    if {_item::timeout} is set:
+      add "", "&c✕ &fЛимит исчерпан", "&7Подождите немного времени (до 10 минут)", "&7и потом приходите ещё раз!" to {_item::visual}'s lore
+    else:
+      add "", "&9▤ &fЛимит: &9%{_item::limit}% &fшт.", "&7Когда лимит исчерпается, никто больше", "&7не сможет продать этот мусор у Коллектора.", "&7Лимит со временем восстанавливается." to {_item::visual}'s lore
+
+      if {_item::price} is set:
+        add "", "&9$ &fЦена продажи: &f%{_item::price}%&9$" to {_item::visual}'s lore
+        
+        loop all items in {_player}'s inventory:
+          if loop-item's display name is {_item}'s display name:
+            add "", "&a▷ &fНажмите, что бы продать" to {_item::visual}'s lore
+            exit 1 loop
+      else:
+        add "", "&9$ &fЦена продажи: &f0&9$" to {_item::visual}'s lore
+
+    # Форматим менюшку
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of {_player} with {_item::visual} to run:
+      if {_item::timeout} is not set:
+        delete {_passed}
+        loop all items in {_player}'s inventory:
+          if loop-item's display name is {_item}'s display name:
+            set {_passed} to true
+
+        {_passed} is true
+        set {_bill} to GetMoneyBillItem({_item::price})
+        if {_player}'s inventory has space for 1 of {_bill}:
+          add {_bill} to {_player}'s inventory
+
+          loop all items in {_player}'s inventory:
+            if loop-item's display name is {_item}'s display name:
+              remove 1 of loop-item from {_player}'s inventory
+              exit 1 loop
+
+          remove 1 from {data::collector::%{_id}%::limit}
+
+        GarbageModule_OpenCollectorMenu({_player})

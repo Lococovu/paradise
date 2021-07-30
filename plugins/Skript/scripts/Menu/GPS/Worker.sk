@@ -66,7 +66,7 @@ function startGPSWorker(player: player, place: string):
           set {_bossbar::title} to "&c△ &fПлохая GPS-связь. Пожалуйста, выйдите на оживлённую улицу."
         else:
           set {_title} to 1
-          set {_bossbar::title} to "&ei &fПопробуйте встать возле городской дороги."
+          set {_bossbar::title} to "&9i &fПопробуйте встать возле городской дороги."
 
       # Таймеры
       set {_bossbar::progress} to (1/4) * {_bossbar::timer}
@@ -106,7 +106,7 @@ function startGPSWorker(player: player, place: string):
           set {_stage} to "showWay"
         else:
           # Обновляем боссбар
-          set {_bossbar::title} to "&e… &fСтроим маршрут..."
+          set {_bossbar::title} to "&9… &fСтроим маршрут..."
 
     # Вторая стадия: показываем путь
     else if {_stage} is "showWay":
@@ -151,7 +151,7 @@ function startGPSWorker(player: player, place: string):
         add {_line::*} to {_lines::*}
 
         # Спавним голограмму конца маршрута
-        set {_holo::lines::*} to "&e/\", "&e/  \", "&e/ /\ \", "&e/ ____ \", "&e/_/    \_\", "", "%{_place::title}%"
+        set {_holo::lines::*} to "&9/\", "&9/  \", "&9/ /\ \", "&9/ ____ \", "&9/_/    \_\", "", "%{_place::title}%"
 
         set {_location} to {_place::holo}
         set {_location}'s y coordinate to 54
@@ -176,10 +176,10 @@ function startGPSWorker(player: player, place: string):
 
         if {_title} is 1:
           set {_title} to 2
-          set {_bossbar::title} to "&e◇ &fМаршрут до %{_place::title}%"
+          set {_bossbar::title} to "&9◇ &fМаршрут до %{_place::title}%"
         else:
           set {_title} to 1
-          set {_bossbar::title} to "&ei &fИдите за указателями, поставленными на автомобильной дороге."
+          set {_bossbar::title} to "&9i &fИдите за указателями, поставленными на автомобильной дороге."
 
       set {_distance} to distance between {_player} and {_place::holo}
       if {_distance::starting} is not set:

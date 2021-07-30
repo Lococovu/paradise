@@ -1,2 +1,40 @@
-function sendMail(player: player, mailCreate: string):
+function sendMail(player: player, mailCreate: string, arriveTime: timespan = 5 seconds) :: string:
   # Берём информацию
+  set {_id} to {data::mail::%{_mailCreate}%::id}
+  
+  set {_item::itemId} to {data::mail::%{_mailCreate}%::itemId}
+  set {_item::arriveAfter} to {data::mail::%{_mailCreate}%::arriveAfter}
+  {_item::itemId} is not set:
+    set {_item::itemStack} to {data::mail::%{_mailCreate}%::itemStack}
+    set {_item} to {_item::itemStack}
+  else:
+    set {_item} to getItem({_item::itemId})
+
+  {_item} and {_id} is set
+  # Выбираем рандомную почтовую коробку
+  set {_mailboxId} to random element of {data::mailbox::list::*}
+  set {_uuid} to "%{_player}'s uuid%-%getCurrentCharacter({_player})%"
+
+  # Сохраняем данные предмета
+  set {data::mail::item::%{_id}%::itemId} to {_item::itemId}
+  set {data::mail::item::%{_id}%::itemStack} to {_item::itemStack}
+  set {data::mail::item::%{_id}%::arriveAfter} to {_item::arriveAfter}
+
+  add {_id} to {data::mail::%{_mailboxId}%::%{_uuid}%::items::*}
+
+  return {_mailboxId}
+
+# command testms:
+#   trigger:
+#     set {_mailCreate} to "test-mail"
+
+#     set {data::mail::%{_mailCreate}%::id} to random integer between 0000 and 9999
+#     # set {data::mail::%{_mailCreate}%::itemId} to "bread"
+#     set {data::mail::%{_mailCreate}%::itemStack} to stone
+
+#     set {_time} to now
+#     add 2 seconds to {_time}
+#     set {data::mail::%{_mailCreate}%::arriveAfter} to {_time}
+
+#     set {_mailbox} to sendMail(player, {_mailCreate})
+#     broadcast "Sent to: %{_mailbox}%"

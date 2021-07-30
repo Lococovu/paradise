@@ -108,11 +108,12 @@ every 10 seconds:
   set {server::time::visual} to "%{_hours}%:%{_minutes}%"
   loop all worlds:
     set {_world} to loop-value-1
-    evaluate logging in {_errors::*}:
-      set "%{_world}%"'s time to %{_hours}%:%{_minutes}%
-    if {_errors::*} is set:
-      loop {_errors::*}:
-        broadcast "&cerror in time (World: %loop-value-1%) &f%loop-value-2%"
+    if "%{_world}%" isn't "tutorials":
+      evaluate logging in {_errors::*}:
+        set "%{_world}%"'s time to %{_hours}%:%{_minutes}%
+      if {_errors::*} is set:
+        loop {_errors::*}:
+          broadcast "&cerror in time (World: %loop-value-1%) &f%loop-value-2%"
 
   if {_minutes::rollback} is set:
     set {_minutes} to {_minutes::rollback}

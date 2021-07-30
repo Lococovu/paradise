@@ -1,0 +1,19 @@
+function GarbageModule_GetGarbageLocations() :: locations:
+  add getLocation("460, 52, 644", "world") to {_locations::*}
+  add getLocation("431, 52, 727", "world") to {_locations::*}
+  add getLocation("375, 52, 667", "world") to {_locations::*}
+  add getLocation("406, 52, 621", "world") to {_locations::*}
+  add getLocation("370, 52, 622", "world") to {_locations::*}
+  add getLocation("358, 52, 605", "world") to {_locations::*}
+  add getLocation("358, 52, 659", "world") to {_locations::*}
+  add getLocation("363, 52, 681", "world") to {_locations::*}
+  add getLocation("375, 52, 720", "world") to {_locations::*}
+  add getLocation("415, 52, 662", "world") to {_locations::*}
+  add getLocation("441, 52, 581", "world") to {_locations::*}
+  add getLocation("475, 52, 581", "world") to {_locations::*}
+  add getLocation("541, 52, 675", "world") to {_locations::*}
+  add getLocation("546, 52, 595", "world") to {_locations::*}
+  add getLocation("538, 52, 630", "world") to {_locations::*}
+  add getLocation("598, 52, 616", "world") to {_locations::*}
+
+  return {_locations::*}

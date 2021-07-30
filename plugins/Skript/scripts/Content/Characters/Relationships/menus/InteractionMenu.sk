@@ -39,9 +39,9 @@ function openInteractionMenu(player: player, target: player):
   remove {_slot} from {_slots::*}
 
   set {_knows::*} to getRelationshipKnowsList({_player}, {_target})
-  set {_list::*} to "firstName=Ваше имя", "lastName=Вашу фамилия", "age=Ваш возраст", "gender=Ваш пол"
+  set {_list::*} to "firstName=Ваше имя", "lastName=Вашу фамилия", "age=Ваш возраст"
 
-  set {_tell} to player head named "&e☁ &fРассказать про себя" with lore "", "&f &fХотите, что бы этот человек знал как, например, вас зовут?", "&f &fНу тогда зайдите в этом меню и нажмите на соответствующую кнопку!", "", "&f &fТолько, пожалуйста, отграйте ситуацию знакомства с этим", "&f &fигроком. Не тыкайте сюда просто так - следуйте логичным", "&f &fправилам РП.", "", "&e▤ &fЭтот человек знает:"
+  set {_tell} to player head named "&9☁ &fРассказать про себя" with lore "", "&f &fХотите, что бы этот человек знал как, например, вас зовут?", "&f &fНу тогда зайдите в этом меню и нажмите на соответствующую кнопку!", "", "&f &fТолько, пожалуйста, отграйте ситуацию знакомства с этим", "&f &fигроком. Не тыкайте сюда просто так - следуйте логичным", "&f &fправилам РП.", "", "&9▤ &fЭтот человек знает:"
   add "{SkullOwner:{Id:""956f278e-0077-4776-82e4-c8c806e584c6"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwMDA3MzExZjY1ODk0NTg2Nzg4NDk0NTcyMmE0MzBjNTI3ZjMyMjNiOTA5NjEyZTQ1ZDAzMjA4OTZlYWU5YSJ9fX0=""}]}}}" to item-nbt of {_tell}
 
   loop {_list::*}:
@@ -50,7 +50,7 @@ function openInteractionMenu(player: player, target: player):
     if {_knows::*} contains {_temp::1}:
       add "&7- &f%{_temp::2}%" to {_tell}'s lore
 
-  add "", "&e▹ &fНажмите, что бы открыть" to {_tell}'s lore
+  add "", "&9▷ &fНажмите, что бы открыть" to {_tell}'s lore
 
   format gui slot {_slot} of {_player} with {_tell} to run:
     if distance between {_player} and {_target} <= 6:
@@ -74,7 +74,7 @@ function openInteractionInformationMenu(player: player, target: player):
   format gui slot 3,4,5, {_slots::*} of {_player} with {_empty}
 
   # Вернуться назад
-  set {_back} to player head named "&e &fВернуться назад" with lore "", "&f &fСамая обычная кнопка, которая просто возвращает", "&f &fвас в предыдущее меню.", "", "&e &fНажмите, что бы перейти"
+  set {_back} to player head named "&9 &fВернуться назад" with lore "", "&f &fСамая обычная кнопка, которая просто возвращает", "&f &fвас в предыдущее меню.", "", "&9 &fНажмите, что бы перейти"
   add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
   
   # {SkullOwner:{Id:"""",Properties:{textures:[{Value:""""}]}}}
@@ -109,7 +109,7 @@ function openInteractionInformationMenu(player: player, target: player):
     set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
   else:
     set {_symbol} to "&c✕"
-    set {_description::*} to "&e▹ &fНажмите, что бы рассказать ваше имя", "&fэтому человеку.", "&7Этот человек ещё не знает вашего имени"
+    set {_description::*} to "&9▷ &fНажмите, что бы рассказать ваше имя", "&fэтому человеку.", "&7Этот человек ещё не знает вашего имени"
   
     set {_nbt} to "{SkullOwner:{Id:""50817ea4-f13d-47e5-ba1d-055df073bedc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI4ZDk4Y2U0N2ZiNzdmOGI2MDRhNzY2ZGRkMjU0OTIzMjU2NGY5NTYyMjVjNTlmM2UzYjdiODczYTU4YzQifX19""}]}}}"
 
@@ -131,7 +131,7 @@ function openInteractionInformationMenu(player: player, target: player):
     set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
   else:
     set {_symbol} to "&c✕"
-    set {_description::*} to "&e▹ &fНажмите, что бы рассказать вашу фамилию", "&fэтому человеку.", "&7Этот человек ещё не знает вашу фамилию"
+    set {_description::*} to "&9▷ &fНажмите, что бы рассказать вашу фамилию", "&fэтому человеку.", "&7Этот человек ещё не знает вашу фамилию"
   
     set {_nbt} to "{SkullOwner:{Id:""538a7620-6569-4421-8675-7261b22a7617"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=""}]}}}"
 
@@ -154,7 +154,7 @@ function openInteractionInformationMenu(player: player, target: player):
     set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
   else:
     set {_symbol} to "&c✕"
-    set {_description::*} to "&e▹ &fНажмите, что бы рассказать ваш возраст", "&fэтому человеку.", "&7Этот человек ещё не знает ваш возраст"
+    set {_description::*} to "&9▷ &fНажмите, что бы рассказать ваш возраст", "&fэтому человеку.", "&7Этот человек ещё не знает ваш возраст"
   
     set {_nbt} to "{SkullOwner:{Id:""ba0e7621-d257-4ff6-82a0-655d55bacf37"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2YwOTAxOGY0NmYzNDllNTUzNDQ2OTQ2YTM4NjQ5ZmNmY2Y5ZmRmZDYyOTE2YWVjMzNlYmNhOTZiYjIxYjUifX19""}]}}}"
 
@@ -169,36 +169,36 @@ function openInteractionInformationMenu(player: player, target: player):
       tellTargetAboutPlayer({_player}, {_target}, "age")
 
   # Пол
-  if {_knows::*} contains "gender":
-    set {_symbol} to "&a✓"
-    set {_description::*} to "&7Этот человек уже знает ваш пол"
+  # if {_knows::*} contains "gender":
+  #   set {_symbol} to "&a✓"
+  #   set {_description::*} to "&7Этот человек уже знает ваш пол"
 
-    set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
-  else:
-    set {_symbol} to "&c✕"
-    set {_description::*} to "&e▹ &fНажмите, что бы рассказать ваш пол", "&fэтому человеку.", "&7Этот человек ещё не знает ваш пол"
+  #   set {_nbt} to "{SkullOwner:{Id:""3e33162a-538f-49c1-a269-394288716902"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=""}]}}}"
+  # else:
+  #   set {_symbol} to "&c✕"
+  #   set {_description::*} to "&9▷ &fНажмите, что бы рассказать ваш пол", "&fэтому человеку.", "&7Этот человек ещё не знает ваш пол"
   
-    if {_character::gender} contains "муж":
-      set {_nbt} to "{SkullOwner:{Id:""1f1b44f6-2e08-4b78-a9a9-3c07a84e9929"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM5ZDlmZDU3ODM0OGIzYWQwMWE3NzgxZTA5MjA4NTZiOGUzNjFlNDU2MTdjZTM4YWYwNDgxMTUxM2Y2ODE5NyJ9fX0=""}]}}}"
-    else:
-      set {_nbt} to "{SkullOwner:{Id:""c4c4c21c-a887-4728-8148-462147c6b52b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmZkYTU5NmRjYzgxNzk4YmYwZjJmZTgxY2U4M2Y2MmM5MmI5Y2I2MGI0ZjYxZDRjZDZiYjMzNTliZjNlOWE3ZiJ9fX0=""}]}}}"
+  #   if {_character::gender} contains "муж":
+  #     set {_nbt} to "{SkullOwner:{Id:""1f1b44f6-2e08-4b78-a9a9-3c07a84e9929"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM5ZDlmZDU3ODM0OGIzYWQwMWE3NzgxZTA5MjA4NTZiOGUzNjFlNDU2MTdjZTM4YWYwNDgxMTUxM2Y2ODE5NyJ9fX0=""}]}}}"
+  #   else:
+  #     set {_nbt} to "{SkullOwner:{Id:""c4c4c21c-a887-4728-8148-462147c6b52b"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmZkYTU5NmRjYzgxNzk4YmYwZjJmZTgxY2U4M2Y2MmM5MmI5Y2I2MGI0ZjYxZDRjZDZiYjMzNTliZjNlOWE3ZiJ9fX0=""}]}}}"
 
-  if {_character::gender} contains "муж":
-    set {_gender::name} to "Мужской"
-    set {_gender::icon} to "♂"
-  else:
-    set {_gender::name} to "Женский"
-    set {_gender::icon} to "♀"
+  # if {_character::gender} contains "муж":
+  #   set {_gender::name} to "Мужской"
+  #   set {_gender::icon} to "♂"
+  # else:
+  #   set {_gender::name} to "Женский"
+  #   set {_gender::icon} to "♀"
 
-  set {_gender} to player head named "%{_symbol}% &fМой Пол &7(&7%{_gender::icon}% &7%{_gender::name}%)" with lore "", "&f &fКрутое описание", "", {_description::*}
-  add "%{_nbt}%" to item-nbt of {_gender}
+  # set {_gender} to player head named "%{_symbol}% &fМой Пол &7(&7%{_gender::icon}% &7%{_gender::name}%)" with lore "", "&f &fКрутое описание", "", {_description::*}
+  # add "%{_nbt}%" to item-nbt of {_gender}
 
-  set {_slot} to first element of {_slots::*}
-  remove {_slot} from {_slots::*}
+  # set {_slot} to first element of {_slots::*}
+  # remove {_slot} from {_slots::*}
   
-  format gui slot {_slot} of {_player} with {_gender} to run:
-    if {_knows::*} doesn't contain "gender":
-      tellTargetAboutPlayer({_player}, {_target}, "gender")
+  # format gui slot {_slot} of {_player} with {_gender} to run:
+  #   if {_knows::*} doesn't contain "gender":
+  #     tellTargetAboutPlayer({_player}, {_target}, "gender")
 
 function tellTargetAboutPlayer(player: player, target: player, property: string):
   if distance between {_player} and {_target} <= 6:
@@ -225,7 +225,7 @@ function toldTargetAboutPlayerVisual(player: player, target: player, property: s
     set {_title} to "Пол"
 
   # Create holo
-  create new hologram with clickable lines "&e△ &fТеперь вы знаете", "&7%{_title}% &fэтого человека" that follows {_target} offset by direction 3 meters above and store it in variable {_hologram}
+  create new hologram with clickable lines "&9△ &fТеперь вы знаете", "&7%{_title}% &fэтого человека" that follows {_target} offset by direction 3 meters above and store it in variable {_hologram}
 
   make hologram {_hologram} invisible by default
   reveal {_hologram} to {_player}

@@ -4,7 +4,7 @@ bread:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fХлеб Обычный'
+    title: '&9◇ &fХлеб Обычный'
     description:
     - '&f &fНевероятно вкусный и сочный хлеб'
     - '&f &fпрямо с хлебопекарской фабрики за'

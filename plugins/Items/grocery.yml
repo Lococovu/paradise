@@ -18,7 +18,7 @@ chips:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◆ &fСладкие Палочки'
+      title: '&9◆ &fСладкие Палочки'
       description:
       - '&f &fНевероятно сладкие и вкусные палочки,'
       - '&f &fкоторые преукрасят любую вечеринку!'
@@ -35,7 +35,7 @@ chips:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◆ &fНатуральные Чипсы'
+      title: '&9◆ &fНатуральные Чипсы'
       description:
       - '&f &fНатуральные и невероятно дорогие -'
       - '&f &fно достаточно полезные - чипсы.'
@@ -54,7 +54,7 @@ drinks:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◇ &fНегазированная Вода &7(0.5 л)'
+      title: '&9◇ &fНегазированная Вода &7(0.5 л)'
       description:
       - '&f &fСамая обычная вода, которую'
       - '&f &fи выпить можно, и использовать где-либо!'
@@ -72,7 +72,7 @@ drinks:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◆ &fСладкая Сода &7(0.5 л)'
+      title: '&9◆ &fСладкая Сода &7(0.5 л)'
       description:
       - '&f &fНе такая уж и полезная - но'
       - '&f &fневероятно вкусная сода!'
@@ -89,7 +89,7 @@ fastfood:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◆ &fЗамороженный Бургер'
+      title: '&9◆ &fЗамороженный Бургер'
       description:
       - '&f &fБургер - это самое главное блюдо'
       - '&f &fлюбого фаст-фуда! Но теперь и вы'
@@ -109,7 +109,7 @@ fastfood:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◆ &fЗамороженная Картошка Фри'
+      title: '&9◆ &fЗамороженная Картошка Фри'
       description:
       - '&f &fКартошка Фри - это второе главное'
       - '&f &fюдо любого уважабщего себя фаст-фуда.'

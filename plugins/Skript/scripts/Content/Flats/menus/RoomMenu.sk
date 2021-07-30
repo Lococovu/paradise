@@ -40,7 +40,7 @@ function openRoomMenu(player: player, roomId: string):
 
       # {SkullOwner:{Id:"""",Properties:{textures:[{Value:""""}]}}}
       # Редактировать квартиру
-      set {_edit} to player head named "&e▤ &fРедактировать квартиру" with lore "", "&f &fДа-да, вы правильно всё услышали! Вы можете",  "&f &fредактировать комнату так, как вам вздумается. У вас", "&f &fесть полный набор всех блоков из майнкрафта для постройки", "&f &fвашей лучшей квартиры!", "", "&e▹ &fНажмите, что бы перейти в режим редактирования", "&7После перехода в этот режим вы будете считаться", "&7нон-рп игроком."
+      set {_edit} to player head named "&9▤ &fРедактировать квартиру" with lore "", "&f &fДа-да, вы правильно всё услышали! Вы можете",  "&f &fредактировать комнату так, как вам вздумается. У вас", "&f &fесть полный набор всех блоков из майнкрафта для постройки", "&f &fвашей лучшей квартиры!", "", "&9▷ &fНажмите, что бы перейти в режим редактирования", "&7После перехода в этот режим вы будете считаться", "&7нон-рп игроком."
       add "{SkullOwner:{Id:""fce8faf0-185b-458b-83fb-13fce393b813"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2NhZDgxN2ViMDllNTQ2M2Y2OTg3ZTVlNDljZDY2ZTk0NWM4YzQyODg5NjMwYjdhMjEzNzc4OTJkMmY5ZjUzMiJ9fX0=""}]}}}" to item-nbt of {_edit}
 
       set {_slot} to first element of {_slots::*}
@@ -50,7 +50,7 @@ function openRoomMenu(player: player, roomId: string):
         startRoomEditor({_player}, "%{_roomId}%")
       
       # Заказать ключ
-      set {_orderKey} to player head named "&e◇ &fЗаказать ключи от двери" with lore "", "&f &fВам же нужно как-то закрывать свою дверь, да?", "&f &fПриватность там, все дела... Ну так закажите ключ", "&f &fименно от этой двери, и он придёт на ближайший почтовый", "&f &fящик!", "", "&e▹ &fНажмите, что бы перейти", "&7Доставка ключа осуществляется с помощью", "&7почтовой компании."
+      set {_orderKey} to player head named "&9◇ &fЗаказать ключи от двери" with lore "", "&f &fВам же нужно как-то закрывать свою дверь, да?", "&f &fПриватность там, все дела... Ну так закажите ключ", "&f &fименно от этой двери, и он придёт на ближайший почтовый", "&f &fящик!", "", "&9▷ &fНажмите, что бы перейти", "&7Доставка ключа осуществляется с помощью", "&7почтовой компании."
       add "{SkullOwner:{Id:""18a9931f-8983-424a-85b8-26895d3d4a8d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2Q4NzZmODJkNTNjNmIxM2Q4OGViMjFiZTMyMTE5ZjFhYWI2MzFkZGY2ZjZhZTlkNmJjMzc0MmVkMWRlYSJ9fX0=""}]}}}" to item-nbt of {_orderKey}
 
       set {_slot} to first element of {_slots::*}
@@ -75,7 +75,7 @@ function openRoomMenu(player: player, roomId: string):
     # Информация для покупки
 
     # Информация о квартире
-    set {_information} to player head named "&e &fИнформация о квартире" with lore ""
+    set {_information} to player head named "&9 &fИнформация о квартире" with lore ""
     add "{SkullOwner:{Id:""08a21c84-663b-4638-a31e-2f0423a3853f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0=""}]}}}" to item-nbt of {_information}
 
     format gui slot 4 of {_player} with {_information}
@@ -90,11 +90,11 @@ function openRoomMenu(player: player, roomId: string):
     # Покупка наличными
     set {_cash::eligible} to ifCanBuyUsingCash({_player}, {_room::price})
 
-    set {_cash} to player head named "&e$ &fРасплатиться наличными" with lore "", "&f &fСамая обычная расплата наличными деньгами. Главное", "&f &fчто бы вам хватило денег в вашем инвентаре!", "", "&e## &fОбщая стоимость покупки:", "&e%{_room::price}%&f$", ""
+    set {_cash} to player head named "&9$ &fРасплатиться наличными" with lore "", "&f &fСамая обычная расплата наличными деньгами. Главное", "&f &fчто бы вам хватило денег в вашем инвентаре!", "", "&9## &fОбщая стоимость покупки:", "&9%{_room::price}%&f$", ""
 
     if {_cash::eligible} is true:
       add "{SkullOwner:{Id:""7a0345b9-b55f-462c-8fb5-0690193ec00d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA0NzE5YjNiOTdkMTk1YTIwNTcxOGI2ZWUyMWY1Yzk1Y2FmYTE2N2U3YWJjYTg4YTIxMDNkNTJiMzdkNzIyIn19fQ==""}]}}}" to item-nbt of {_cash}  
-      add "&e▢ &fНажмите, что бы расплатиться" to {_cash}'s lore
+      add "&9▢ &fНажмите, что бы расплатиться" to {_cash}'s lore
     else:
       add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_cash}
       add "&c✕ &fНедостаточно средств", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_cash}'s lore

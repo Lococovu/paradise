@@ -24,6 +24,9 @@ rouswud:
         regions:
         - 379, 62, 647.5/374, 58, 660
         center: 376.5, 59.4, 654
+        occupant:
+            uuid: ef62341d-f8b7-3e01-a034-5a958da89f2d
+            character: main
     rouswud_4_room6:
         type: room
         roomType: '1'
@@ -35,6 +38,9 @@ rouswud:
         regions:
         - 379, 66, 647.5/374, 63, 660
         center: 376.5, 64.4, 654
+        occupant:
+            uuid: ef62341d-f8b7-3e01-a034-5a958da89f2d
+            character: main
     rouswud_4_room2:
         type: room
         roomType: '1'
@@ -60,6 +66,9 @@ rouswud:
         regions:
         - 379, 62, 626.5/374, 58, 639
         center: 376.5, 59.4, 633.5
+        occupant:
+            uuid: f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f
+            character: main
     rouswud_4_room5:
         type: room
         roomType: '1'
@@ -71,3 +80,6 @@ rouswud:
         regions:
         - 379, 66, 626.5/374, 63, 639
         center: 376.5, 64.4, 633.5
+        occupant:
+            uuid: ef62341d-f8b7-3e01-a034-5a958da89f2d
+            character: main

@@ -1,0 +1,21 @@
+function GarbageModule_CreateShopBag(item: item) :: item:
+  # Шанс
+  chance of 25%:
+    # Рандомные предметы
+    set {_items::*} to "bread", "milk", "sugar_chips", "natural_chips", "freezed_burger", "water", "apple"
+
+    loop random integer between 1 and 2 times:
+      add getItem("%random element of {_items::*}%") to {_items::*}
+
+    # Создаём новый инстанс пакета
+    set {_shoppingbag::random::1} to random integer between 0000 and 9999
+    set {_shoppingbag::random::2} to random integer between 0000 and 9999
+    
+    set {_id} to "%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%"
+    loop {_items::*}:
+      add loop-value to {data::shoppingbag::%{_id}%::inventory::*}
+
+    # Обновляем лор предмета
+    set {_item}'s lore to "&0%{_shoppingbag::random::1}%-%{_shoppingbag::random::2}%", {_item}'s lore
+
+  return {_item}

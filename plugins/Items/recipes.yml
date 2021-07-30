@@ -18,7 +18,7 @@ easy:
     type: 'item'
     item: 'player head'
     visual:
-      title: '&e◆ &fБутерброд'
+      title: '&9◆ &fБутерброд'
       description:
       - '&f &fСамый обычный хлеб'
       - '&f &fСъедобные'

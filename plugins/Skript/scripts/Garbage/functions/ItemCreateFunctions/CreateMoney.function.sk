@@ -1,0 +1,9 @@
+function GarbageModule_CreateMoneyBill(item: item) :: item:
+  # Шанс
+  chance of 100%:
+    set {_bills::*} to 1,5,10,20
+
+    set {_random} to random element of {_bills::*}
+    set {_bill} to GetMoneyBillItem({_random})
+    
+    return {_bill}

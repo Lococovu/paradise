@@ -1,11 +1,11 @@
 DefaultRoom_Character:
   location: world, 530, 64.800, 588.5
   lines:
-  - '&eⓘ'
+  - '&9ⓘ'
 DefaultRoom_Storage:
   location: world, 526.5, 64.800, 588.5
   lines:
-  - '&eⓘ'
+  - '&9ⓘ'
 DefaultRoom_Exit:
   location: world, 530.5, 64.800, 585.5
   lines:
@@ -13,28 +13,128 @@ DefaultRoom_Exit:
 World_DefaultHotel_Receptionist:
   location: world, 532.5, 53.800, 591
   lines:
-  - '&eⓘ'
+  - '&9ⓘ'
 World_JobCenter_Person:
   location: world, 541, 53.800, 641
   lines:
-  - '&eⓘ'
+  - '&9ⓘ'
 terminal-01:
   location: world, 530.5, 53.800, 649.5
   lines:
-  - '&e█'
+  - '&9█'
 terminal-02:
   location: world, 530.5, 53.800, 655.5
   lines:
-  - '&e█'
+  - '&9█'
 terminal-03:
   location: world, -3854.5, 68.800, -2771.5
   lines:
-  - '&e█'
+  - '&9█'
 terminal-04:
   location: world, -3863.5, 68.800, -2878.5
   lines:
-  - '&e█'
+  - '&9█'
 rouswud_4:
   location: world, 380.792, 53.200, 644.514
   lines:
   - Роузвуд 4
+rouswud_2:
+  location: world, 380.300, 53.552, 611.589
+  lines:
+  - Роузвуд 2
+rouswud_1:
+  location: world, 400.695, 53.670, 610.664
+  lines:
+  - Роузвуд 1
+rouswud_3:
+  location: world, 397.700, 53.670, 627.397
+  lines:
+  - Роузвуд 3
+rouswud_5:
+  location: world, 398.700, 53.670, 641.462
+  lines:
+  - Роузвуд 5
+rouswud_6:
+  location: world, 380.300, 53.045, 675.409
+  lines:
+  - Роузвуд 6
+rouswud_7:
+  location: world, 399.700, 53.295, 655.451
+  lines:
+  - Роузвуд 7
+rouswud_8:
+  location: world, 380.300, 53.043, 687.570
+  lines:
+  - Роузвуд 8
+rouswud_9:
+  location: world, 355.697, 52.670, 694.470
+  lines:
+  - Роузвуд 9
+rouswud_10:
+  location: world, 355.700, 52.630, 674.591
+  lines:
+  - Роузвуд 10
+rouswud_11:
+  location: world, 355.684, 52.630, 640.961
+  lines:
+  - Роузвуд 11
+rouswud_12:
+  location: world, 355.700, 52.630, 618.486
+  lines:
+  - Роузвуд 12
+rouswud_13:
+  location: world, 402.581, 53.004, 587.300
+  lines:
+  - Роузвуд 13
+osvald_1:
+  location: world, 506.323, 54.200, 580.517
+  lines:
+  - Освальд 1
+osvald_2:
+  location: world, 524.700, 53.200, 590.574
+  lines:
+  - Освальд 2
+osvald_3:
+  location: world, 507.370, 54.200, 589.605
+  lines:
+  - Освальд 3
+osvald_4:
+  location: world, 526.700, 53.419, 607.444
+  lines:
+  - Освальд 4
+osvald_5:
+  location: world, 506.300, 54.200, 598.629
+  lines:
+  - Освальд 5
+osvald_6:
+  location: world, 507.301, 54.200, 607.462
+  lines:
+  - Освальд 6
+osvald_7:
+  location: world, 506.300, 54.200, 616.540
+  lines:
+  - Освальд 7
+osvald_8:
+  location: world, 507.302, 54.200, 625.708
+  lines:
+  - Освальд 8
+osvald_9:
+  location: world, 506.300, 54.200, 634.517
+  lines:
+  - Освальд 9
+osvald_10_1:
+  location: world, 531.700, 53.045, 642.767
+  lines:
+  - Освальд 10/1
+osvald_10_2:
+  location: world, 531.700, 53.045, 668.050
+  lines:
+  - Освальд 10/2
+osvald_11:
+  location: world, 550.200, 53.700, 618.300
+  lines:
+  - Освальд 11
+osvald_12:
+  location: world, 578.362, 53.418, 615.300
+  lines:
+  - Освальд 12

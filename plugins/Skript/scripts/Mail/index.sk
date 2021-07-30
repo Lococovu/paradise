@@ -1,2 +1,36 @@
-on load:
-  set {_file} to "/plugins/Mail/config.yml"
+function loadMailboxes():
+  load all yaml from directory "/plugins/Mail"
+  loop all of the currently loaded yaml files:
+    set {_file} to loop-value-1
+    set {_nodes::*} to all yaml nodes of {_file}
+
+    loop {_nodes::*}:
+      set {_node} to loop-value-2
+      set {_index} to loop-index parsed as number
+      set {_value} to yaml value loop-value-2 from {_file}
+      
+      # Проверяем...
+      set {_temp::*} to {_node} split at "."
+      set {_size} to size of {_temp::*}
+      {_temp::%{_size}%} is "type"
+      {_value} is "mailbox":
+        set {_node::previous} to {_index} - 1
+        loadMailboxNode({_nodes::%{_node::previous}%}, {_file})
+
+# Функция, которая займётся загрузкой квартир через базу
+# данных.
+function loadMailboxNode(node: string, file: string):
+  # Подготавливаем ИД предмета
+  set {_temp::*} to {_node} split at "."
+  set {_size} to size of {_temp::*}
+  set {_id} to {_temp::%{_size}%}
+
+  # Загружаем самые главные данные про квартиру
+  # (её регион)
+  set {_location} to yaml value "%{_node}%.location" from {_file}
+  set {_location} to location of block at getLocation("%{_location}%", "world")
+
+  broadcast "[mailbox] Loaded mailbox at %{_location}%"
+  set {block::%{_location}%::mailboxId} to {_id}
+  set {data::mailbox::%{_id}%::location} to {_location}
+  add {_id} to {data::mailbox::list::*}

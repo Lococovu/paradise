@@ -8,32 +8,32 @@ inv:
       String: '&cSet Furniture Owner'
       Material: DIAMOND
       Text:
-      - '&e&lOwner:&2&l #OWNER#'
+      - '&9&lOwner:&2&l #OWNER#'
   mode:
     Private:
       String: '&cPrivate'
       Material: BLACK_BANNER
       Text:
-      - '&e&lOnly &c&nyou &e&lhave access to'
-      - '&e&lthe furniture'
+      - '&9&lOnly &c&nyou &9&lhave access to'
+      - '&9&lthe furniture'
     Member:
       String: '&6Members'
       Material: ORANGE_BANNER
       Text:
-      - '&e&lOnly your &c&nfriends &e&lhave access to'
-      - '&e&lthe furniture'
+      - '&9&lOnly your &c&nfriends &9&lhave access to'
+      - '&9&lthe furniture'
     Public:
       String: '&aPublic'
       Material: GREEN_BANNER
       Text:
-      - '&e&lAll &c&nPlayers &e&lhave access to'
-      - '&e&lthe furniture'
+      - '&9&lAll &c&nPlayers &9&lhave access to'
+      - '&9&lthe furniture'
   event:
     Break:
       String: '&cBreak'
       Material: BLACK_BANNER
     Interact:
-      String: '&eInteract'
+      String: '&9Interact'
       Material: ORANGE_BANNER
     Break_interact:
       String: '&aBreak_interact'

@@ -1,12 +1,12 @@
 # command getUno:
 #   trigger:
-#     give player 1 paper named "&e⬛ &fИгра в Уно"
+#     give player 1 paper named "&9⬛ &fИгра в Уно"
 
 #     give player 6 paper named "&7⬜ &fКолода карт"
 
 # on right click:
 #   if name of player's held item contains "Колода карт":
-#     add "&e" to {_colors::*}
+#     add "&9" to {_colors::*}
 #     add "&a" to {_colors::*}
 #     add "&c" to {_colors::*}
 #     add "&b" to {_colors::*}
@@ -35,7 +35,7 @@
 #     loop 4 times:
 #       set {_random} to random element of {_random::*}
 
-#       send title "&e⚋ &fВы получили карту:" with subtitle "%{_random}%" to player
+#       send title "&9⚋ &fВы получили карту:" with subtitle "%{_random}%" to player
 
 #       add 1 paper named "%{_random}%" to player's inventory
 #       wait 1 seconds
@@ -43,7 +43,7 @@
 #     loop 2 times:
 #       set {_random} to random element of {_cards-nonColor::*}
 
-#       send title "&e⚋ &fВы получили карту:" with subtitle "%{_random}%" to player
+#       send title "&9⚋ &fВы получили карту:" with subtitle "%{_random}%" to player
 
 #       add 1 paper named "%{_random}%" to player's inventory
 #       wait 1 seconds
@@ -73,7 +73,7 @@
 #           set {_cooldown} to 2
 
 #           if {_random} is not {_random::old}:
-#             set all lines of hologram {games::uno::%{_location}%::holo} to "&a%{_random}% &fИгра в UNO", "&e⚋ &fКиньте карту, что бы начать"
+#             set all lines of hologram {games::uno::%{_location}%::holo} to "&a%{_random}% &fИгра в UNO", "&9⚋ &fКиньте карту, что бы начать"
 #           set {_random::old} to {_random}
 
 #       if {games::uno::%{_location}%} is not set:

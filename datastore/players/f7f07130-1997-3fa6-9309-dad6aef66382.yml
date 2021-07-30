@@ -1,0 +1,14 @@
+character:
+    main:
+        documents:
+        - 2367-9060-7260-242
+        statistics:
+            hunger: 10
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true
+
+authorization:
+    discordId: 582278506541613059

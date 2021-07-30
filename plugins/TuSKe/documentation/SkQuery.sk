@@ -32,12 +32,12 @@ Events:
 		Patterns:
 			[on] block land
 		Event values:
+			event-block
 			event-commandsender
 			event-location
-			event-itemstack
-			event-block
-			event-world
 			event-entity
+			event-itemstack
+			event-world
 		Cancellable: true
 	Subroutine:
 		ID: subroutine

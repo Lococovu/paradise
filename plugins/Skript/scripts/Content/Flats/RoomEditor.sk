@@ -1,3 +1,56 @@
+options:
+  blocked_blocks: end crystal or end portal frame or redstone block or daylight sensor or tripwire hook or redstone torch or minecart or spawn egg or comparator or sticky piston or notch apple or golden apple or observer or activator rail or detector rail
+
+on inventory open:
+  "%event-inventory%" contains "hopper" or "shulker"
+  cancel event
+
+# on item enchant:
+#   cancel event
+
+# on piston extending:
+#   cancel event
+
+on right click:
+  target block is pumpkin or crafting table or furnace or chest or trapped chest or ender chest or shulker or button or lever or dispenser or dropper or hopper or comparator or anvil or enchanting table or beacon or brewing stand or observer
+  {workers::%player%::roomEditor} is set:
+    cancel event
+
+on right click:
+  target entity is armor stand or item frame
+  {workers::%player%::roomEditor} is set:
+    cancel event
+
+on eating:
+  {workers::%player%::roomEditor} is set:
+    cancel event
+
+on drinking:
+  {workers::%player%::roomEditor} is set:
+    cancel event
+
+on right click:
+  player's held item is {@blocked_blocks}
+  if {workers::%player%::roomEditor} is set:
+    cancel event
+
+on right click:
+  if {workers::%player%::roomEditor} is set:
+    if "%player's held item%" contains "potion":
+      cancel event
+
+on pressure plate:
+  {workers::%player%::roomEditor} is set:
+    cancel event
+
+on stepping on a tripwire:
+  {workers::%player%::roomEditor} is set:
+    cancel event
+
+on explosion:
+  cancel event
+
+
 function startRoomEditor(player: player, roomId: string):
   # Берём информацию о комнате
   set {_node} to {data::rooms::%{_roomId}%::configNode}
@@ -45,7 +98,7 @@ function startRoomEditor(player: player, roomId: string):
   clear {_player}'s inventory
   set {workers::%{_player}%::roomEditor::startLocation} to {_player}'s location
 
-  set {_editorMenu} to player head named "&e▤ &fМеню Редактирования" with lore "", "&f &fВ этом меню вы сможете Выйти из режима редактирования,", "&f &fначать процесс перестройки вашей квартиры, использовать", "&f &fинтерактивную мебель и многое-многое другое!", "", "&e▹ &fНажмите, что бы открыть"
+  set {_editorMenu} to player head named "&9▤ &fМеню Редактирования" with lore "", "&f &fВ этом меню вы сможете Выйти из режима редактирования,", "&f &fначать процесс перестройки вашей квартиры, использовать", "&f &fинтерактивную мебель и многое-многое другое!", "", "&9▷ &fНажмите, что бы открыть"
   add "{SkullOwner:{Id:""53bc99c1-6922-e3f0-c9ec-1f18e3df3d6c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQzZDI1MGUyNWJiY2EzYTYyYmU1YjNlZjAyY2ZjYWI2ZGNkYzQyNDg4NGM5YTdkNWNjOTVjOWQwIn19fQ==""}]}}}" to item-nbt of {_editorMenu}
   
   set slot 8 of {_player} to {_editorMenu}
@@ -90,6 +143,9 @@ function startRoomEditor(player: player, roomId: string):
         hide bossbar {_bossbar}
         stop
 
+    if {_player}'s location isn't within {_location::1} and {_location::2}:
+      teleport {_player} to {_room::center}
+
     if {_bossbar::titleTimer} is not set:
       set {_bossbar::titleTimer} to 6
       
@@ -98,11 +154,11 @@ function startRoomEditor(player: player, roomId: string):
         set {_bossbar::stage} to 1
 
     if {_bossbar::stage} is 1:
-      set {_bossbar::title} to "&e &fВы находитесь в редакторе комнаты"
+      set {_bossbar::title} to "&9 &fВы находитесь в редакторе комнаты"
     else if {_bossbar::stage} is 2:
-      set {_bossbar::title} to "&e &fПропишите &e/&feditor что бы открыть меню редактора"
+      set {_bossbar::title} to "&9 &fПропишите &9/&feditor что бы открыть меню редактора"
     else if {_bossbar::stage} is 3:
-      set {_bossbar::title} to "&e &fПропишите &e/&fhelp для получения помощи"
+      set {_bossbar::title} to "&9 &fПропишите &9/&fhelp для получения помощи"
 
     # Боссбар
     if {_bossbar} is not set:
@@ -169,7 +225,7 @@ command editor:
       # set {_exit} to player head named "&c &fОтменить изменения" with lore "", "&f &fХотите закончить редактирование? Ну тогда нажимайте", "&f &fна эту кнопку! Но! Когда вы на неё нажмёте, все ваши", "&f &fизменения будут утерянны и удаленны, и состояние комнаты", "&f &fвернётся в прошлое состояние."
 
       # Каталог Мебели
-      set {_furniture} to player head named "&e▤ &fКаталог мебели" with lore "", "&f &fНа данный момент в данной категории находится", "&f &fтолько два интерактивных предмета: &eГардеробная&f и", "&f &eРабочий Стол&f, которые стояли в начальной квартире. И да -", "&f &fвы можете поставить их в своей квартире!", "", "&f &fРазработчику надоело это всё разрабатывать, поэтому вместо", "&f &fкрасивой мебели вы просто будете ставить точку, в которой", "&f &fбудет создаваться либо гардеробная либо рабочий стол. Тоесть", "&f &fпока что вам самим нужно будет сделать эту мебель.", "", "&e▹ &fНажмите, что бы перейти"
+      set {_furniture} to player head named "&9▤ &fКаталог мебели" with lore "", "&f &fНа данный момент в данной категории находится", "&f &fтолько два интерактивных предмета: &9Гардеробная&f и", "&f &9Рабочий Стол&f, которые стояли в начальной квартире. И да -", "&f &fвы можете поставить их в своей квартире!", "", "&f &fРазработчику надоело это всё разрабатывать, поэтому вместо", "&f &fкрасивой мебели вы просто будете ставить точку, в которой", "&f &fбудет создаваться либо гардеробная либо рабочий стол. Тоесть", "&f &fпока что вам самим нужно будет сделать эту мебель.", "", "&9▷ &fНажмите, что бы перейти"
       add "{SkullOwner:{Id:""7eff1016-ea9b-45db-b8c1-8ce8862472fd"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJiODRlMzQ4YWI1OGJlMDQzNWY2MWUwMjdmYTZkZmU1NTdiZWU4ODkzZjFjMTBjM2MyYmViZDIwMjVkYSJ9fX0=""}]}}}" to item-nbt of {_furniture}
 
       set {_slot} to first element of {_slots::*}
@@ -191,7 +247,7 @@ command editor:
       loop {_categories::*}:
         add size of {heads_category::%{_category}%::list::*} to {_size}
 
-      format gui slot {_slot} of player with {_heads} named "&e▤ &fБиблиотека голов" with lore "", "&f &fНевероятно огромная библиотека полностью бесплатных", "&f &fи кастомных голов! На данный момент в библиотеки находится", "&f &fприблезительно &e%{_size}%&f разнообразных голов! Преукрасьте", "&f &fваше помещение с этими невероятно крутыми головами!", "", "&e▹ &fНажмите, что бы перейти" to run:
+      format gui slot {_slot} of player with {_heads} named "&9▤ &fБиблиотека голов" with lore "", "&f &fНевероятно огромная библиотека полностью бесплатных", "&f &fи кастомных голов! На данный момент в библиотеки находится", "&f &fприблезительно &9%{_size}%&f разнообразных голов! Преукрасьте", "&f &fваше помещение с этими невероятно крутыми головами!", "", "&9▷ &fНажмите, что бы перейти" to run:
         execute player command "/heads"
 
       # Редактор армор-стендов
@@ -204,7 +260,7 @@ command editor:
       format gui slot {_slot} of player with {_armorstands}
 
       # Закончить редактирование
-      set {_exit} to player head named "&c✕ &fЗакончить редактирование" with lore "", "&f &fОтредактировали комнату так, как вам нравится? Ну", "&f &fтогда пора закончить процесс редактирования и начать", "&f &fрп-процесс!", "", "&e▹ &fНажмите, что бы закончить"
+      set {_exit} to player head named "&c✕ &fЗакончить редактирование" with lore "", "&f &fОтредактировали комнату так, как вам нравится? Ну", "&f &fтогда пора закончить процесс редактирования и начать", "&f &fрп-процесс!", "", "&9▷ &fНажмите, что бы закончить"
       add "{SkullOwner:{Id:""9505db0d-f6bc-49c6-a22d-82c4fc9875fb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk4NDg1Y2QzZTM3NzU0MDUyNGY0NDQ5YWQxZDU5ZmZiOGZiM2Y4OTM1NTc3NGIwMmFiMGU5ZDI4YmU5MmRmMyJ9fX0=""}]}}}" to item-nbt of {_exit}
 
       set {_slot} to first element of {_slots::*}
@@ -217,7 +273,6 @@ command editor:
 
 on block break:
   if {workers::%player%::roomEditor} is set:
-    delete {workers::%player%::roomEditor}
     set {_regions::*} to {workers::%player%::roomEditor::regions::*}
 
     loop {_regions::*}:
@@ -232,24 +287,11 @@ on block break:
 
 on right click:
   if {workers::%player%::roomEditor} is set:
-    delete {workers::%player%::roomEditor}
     if name of player's held item contains "Меню":
       cancel event
       
       execute player command "/editor"
       stop
-    
-    # set {_regions::*} to {workers::%player%::roomEditor::regions::*}
-
-    # loop {_regions::*}:
-    #   set {_location::1} to {workers::%player%::roomEditor::region::%loop-value%::1}
-    #   set {_location::2} to {workers::%player%::roomEditor::region::%loop-value%::2}
-
-    #   if location of event-block is within {_location::1} and {_location::2}:
-    #     set {_passed} to true
-
-    # if {_passed} isn't true:
-    #   cancel event
 
 on drop:
   if {workers::%player%::roomEditor} is set:

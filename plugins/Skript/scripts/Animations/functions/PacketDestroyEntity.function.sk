@@ -1,0 +1,14 @@
+import:
+	org.bukkit.Bukkit
+
+option nms:
+	get:
+		return Bukkit.getServer().getClass().getPackage().getName().split("\.")[3]
+
+import:
+	net.minecraft.server.{@nms}.PacketPlayOutEntityDestroy
+	net.minecraft.server.{@nms}.PacketPlayOutAnimation
+  
+function packetDestroyEntity(p: player, e: entity):
+	set {_packet} to new PacketPlayOutEntityDestroy({_e}.getEntityId())
+	{_p}.getHandle().playerConnection.sendPacket({_packet})

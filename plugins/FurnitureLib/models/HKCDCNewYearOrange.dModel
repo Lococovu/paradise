@@ -5,7 +5,7 @@
 # ------------------------------------  #
 
 HKCDCNewYearOrange:
-  displayName: '&f[&c&lH&6&lK&e&lC&a&lD&b&lC&f]&dNewYearOrange 新年金桔'
+  displayName: '&f[&c&lH&6&lK&9&lC&a&lD&b&lC&f]&dNewYearOrange 新年金桔'
   system-ID: HKCDCNewYearOrange
   spawnMaterial: PIG_SPAWN_EGG
   itemGlowEffect: false

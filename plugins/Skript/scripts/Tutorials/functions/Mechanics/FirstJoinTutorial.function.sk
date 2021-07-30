@@ -1,0 +1,139 @@
+function TutorialsModule_FirstJoinTutorial(player: player):
+  # Проверяем, может ли игрок начать туториал
+  # TutorialsModule_CanPlayTutorial({_player}) is true
+
+  #
+  set {_stage} to 0
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      stop
+
+    hide {_player}
+    hide all players from {_player}
+
+    hide {_player} from {_player}
+
+    # Стадия: 0
+    if {_stage} is 0:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+
+        # Слепота
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("206.5, 53.5, 707.5", "world")
+
+        # 2
+        set {_location::2} to getLocation("276.5, 53.5, 707.5", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to -90
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fЛоунайт - это сложный и большой", "&fпроект, который стремиться стать", "&fнормальным и серьезным рп-проектом", "&fв майнкрафте." to {_texts::1::*}
+        add "&fМы прислушиваемся к мнению игроков,", "&fпишем полностью кастомные плагины,", "&fкоторые и являются главным преимуществом", "&fвсего Лоунайта." to {_texts::2::*}
+        add "&fНа Лоунайте есть огромное количество", "&fинструментов для рп-творчества - это,", "&fнапример, &9Редактор предметов&f, &9Редактор", "&9помещений &fну и подобное." to {_texts::3::*}
+        add "&fТоесть да, вы можете создать абсолютно", "&fлюбой предмет - будь то какая-то", "&fчашка, будь то сумочка, маска", "&fлибо даже подставная взрывчатка." to {_texts::4::*}
+        add "&fНе знаете что делать либо как играть?", "&fТогда вам стоит посмотреть на &9Интерактивные", "&fтуториалы, которые доступны на странице", "&fПомощи &7(/help)" to {_texts::5::*}
+        add "&fТам вам кратко и ярко расскажут", "&fпро главные функции сервера, про то,", "&fгде заработать либо потратить деньги,", "&fи такое подобное." to {_texts::6::*}
+        add "&fНадеемся что вам понравится,", "&fи что вы поможете проекту своими идеями!", "&fИграйте, не нарушайте и создавайте", "&fсвой новый мир!" to {_texts::7::*}
+        add "&fКстати, пока вы ещё тут, хотим", "&fпосоветовать вам наш дискорд-сервер,", "&fв котором вы сможете пообщаться с игроками!", "&9discord&f.lococovu.me" to {_texts::8::*}
+        add "&fИ добро пожаловать на", "&9Лоунайт" to {_texts::9::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          set {_stage} to 1
+        
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    # Стадия: 1
+    else if {_stage} is 1:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+
+        delete {_points::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location} to getLocation("276.5, 53.5, 707.5", "world")
+        set {_location}'s yaw to -90
+        set {_location}'s pitch to 0
+        add {_location} to {_points::*}
+
+        # 2
+        set {_location} to getLocation("287.5, 57, 707.5", "world")
+        set {_location}'s yaw to -90
+        set {_location}'s pitch to 5
+        add {_location} to {_points::*}
+
+        # 3
+        set {_location} to getLocation("302.5, 64, 707.5", "world")
+        set {_location}'s yaw to -90
+        set {_location}'s pitch to 10
+        add {_location} to {_points::*}
+
+        # 4
+        set {_location} to getLocation("323.5, 74.5, 707.5", "world")
+        set {_location}'s yaw to -90
+        set {_location}'s pitch to 15
+        add {_location} to {_points::*}
+
+        # 5
+        set {_location} to getLocation("363.5, 88, 707.5", "world")
+        set {_location}'s yaw to -90
+        set {_location}'s pitch to 15
+        add {_location} to {_points::*}
+
+        # 6
+        set {_location} to getLocation("400, 96, 707.5", "world")
+        set {_location}'s yaw to -90
+        set {_location}'s pitch to 0
+        add {_location} to {_points::*}
+
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.01)
+
+        wait 23.5 seconds
+
+        # Название
+        set {_location} to getLocation("412.5, 96, 706.5", "world")
+
+        AnimationsModule_WriteText({_player}, {_location}, "lawnight", 10 seconds, "z")
+
+        reveal {_player}
+        reveal all players from {_player}
+
+        stop
+
+    wait 1 tick
+
+command ttf:
+  trigger:
+    TutorialsModule_FirstJoinTutorial(player)

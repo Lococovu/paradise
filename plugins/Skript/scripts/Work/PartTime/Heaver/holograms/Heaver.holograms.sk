@@ -1,0 +1,62 @@
+function WP_Holo_HeaverCreate(player: player, location: location):
+  set {_workId} to WorkModule_GetHeaverWorkId()
+
+  # Сначала проверяем не стоит ли тут уже какая-то голограмма
+  set {_hologram} to {hologram::%{_player}%::%{_location}%}
+
+  if {_hologram} is set:
+    if hologram {_hologram} is deleted:
+    else:
+      stop
+
+  delete {workers::%{_player}%::work::%{_workId}%}
+  wait 1 tick
+
+  # Берём информацию о работе
+  {workers::%{_player}%::work::%{_workId}%} is set:
+    set {_work::state} to {workers::%{_player}%::work::%{_workId}%::state}
+    
+    {_work::state} is "WORKING":
+      # Игрок уже устроился на эту работу - берём информацию об этом
+
+
+  {_lines::*} is not set:
+    set {_lines::*} to "&fСамая малооплачиваемая но", "&fлёгкая подработка.", "&9▷ &fПКМ"
+
+  set {_lines::*} to "", "", "&7&lГрузчик", {_lines::*}
+
+  set {_hologram::location} to {_location}
+  add 1.5 to y coordinate of {_hologram::location}
+
+  if distance between {_player} and {_hologram::location} > 3.5:
+    stop
+
+  create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in variable {_hologram}
+
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Ну а теперь давайте создадим небольшой воркер, который будет
+  # проверять релевантность этой голограммы.
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    # Проверяем состояние текущего блока
+    if distance between {_player} and {_hologram::location} >= 3.5:
+      delete {hologram::%{_player}%::%{_location}%}
+      delete hologram {_hologram}
+      stop
+
+    if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
+      set {hologram::%{_player}%::%{_location}%} to {_hologram}
+
+    wait 1 tick
+
+function WP_Holo_HeaverClick(player: player):
+  # Открываем рабочее меню
+  WorkModule_OpenHeaverMenu({_player})

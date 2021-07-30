@@ -1,0 +1,8 @@
+function GarbageModule_LoadCollectorHolograms(player: player):
+  # Берём данные
+  set {_location} to location of block at getLocation("452.5, 52, 694.5", "world")
+
+  {_location} is set:
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_CollectorCreate"
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_CollectorClick"

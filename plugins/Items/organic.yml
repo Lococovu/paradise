@@ -16,7 +16,7 @@
 #   type: 'item'
 #   item: 'player head'
 #   visual:
-#     title: '&e◇ &fОгурцы &7(4 шт.)'
+#     title: '&9◇ &fОгурцы &7(4 шт.)'
 #     description:
 #     - '&f &fСамый обычный хлеб'
 #     - '&f &fСъедобные'
@@ -31,7 +31,7 @@ tomato:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fТомат'
+    title: '&9◇ &fТомат'
     description:
     - '&f &fСамый обычный хлеб'
     - '&f &fСъедобные'
@@ -46,7 +46,7 @@ pepper:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fПерец Сладкий'
+    title: '&9◇ &fПерец Сладкий'
     description:
     - '&f &fСамый обычный хлеб'
     - '&f &fСъедобные'
@@ -61,7 +61,7 @@ onion:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fЛук'
+    title: '&9◇ &fЛук'
     description:
     - '&f &fСамый обычный хлеб'
     - '&f &fСъедобные'
@@ -77,7 +77,7 @@ apple:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fЯблоко'
+    title: '&9◇ &fЯблоко'
     description:
     - '&f &fСамый обычный хлеб'
     - '&f &fСъедобные'

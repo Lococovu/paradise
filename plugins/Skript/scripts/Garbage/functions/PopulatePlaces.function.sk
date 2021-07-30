@@ -1,0 +1,19 @@
+function GarbageModule_Populate():
+  # Выбираем рандомные локации с мусором (которые, например,
+  # ещё не были заполненны)
+  set {_locations::*} to GarbageModule_GetGarbageLocations()
+
+  loop {_locations::*}:
+    delete {_location}
+    delete {_location::*}
+    delete {_players::*}
+
+    # Берём данные и проверяем время последнего спавна
+    # мусора в данной локации
+    set {_location} to loop-value
+
+    loop all players in radius 20 around {_location}:
+      add loop-player to {_players::*}
+
+    size of {_players::*} <= 0:
+      GarbageModule_SpawnAtLocation({_location})

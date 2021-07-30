@@ -1,7 +1,7 @@
 function RM_Holo_RoomEntranceCreate(player: player, location: location):
   # Сначала проверяем не стоит ли тут уже какая-то голограмма
-  set {_hologram} to {hologram::%{_player}%::%{_location}%}
-
+  set {_hologram} to {hologram::%{_player}%::roomEntrance}
+  
   if {_hologram} is set:
     if hologram {_hologram} is deleted:
     else:
@@ -52,10 +52,10 @@ function RM_Holo_RoomEntranceCreate(player: player, location: location):
   # else:
   #   if {_occupant::uuid} or {_occupant::character} is not set:
   #     if {_room::isBuyable} is true:
-  #       add "&e△ &fМожно купить за", "&e%{_room::price}%$" to {_information::*}
+  #       add "&9△ &fМожно купить за", "&9%{_room::price}%$" to {_information::*}
 
   #     if {_room::isRentable} is true:
-  #       add "&e△ &fМожно арендовать за", "&e%{_room::price}%$&7/2 дня" to {_information::*}
+  #       add "&9△ &fМожно арендовать за", "&9%{_room::price}%$&7/2 дня" to {_information::*}
 
   #     if size of {_information::*} <= 0:
   #       set {_information::*} to "&c⚠ &fПомещение нельзя ни", "&fкупить ни арендовать."
@@ -65,7 +65,7 @@ function RM_Holo_RoomEntranceCreate(player: player, location: location):
   #       if {_room::isRentable} is true:
 
   #       else:
-  #         set {_information::*} to "&a✓ &fЭто ваше помещение.", "&fНажмите &eПКМ &fчто бы", "&fоткрыть меню."
+  #         set {_information::*} to "&a✓ &fЭто ваше помещение.", "&fНажмите &9ПКМ &fчто бы", "&fоткрыть меню."
   #     else:
   #       if {_room::isRentable} is true:
   #         set {_information::*} to "&c✕ &fЭто помещение уже арендовано"
@@ -93,6 +93,7 @@ function RM_Holo_RoomEntranceCreate(player: player, location: location):
   set {_hologram::location} to {_location}
 
   create new hologram with clickable lines "..." at {_hologram::location} and store it in variable {_hologram}
+  set {hologram::%{_player}%::roomEntrance} to {_hologram}
 
   set {_location::check} to {_hologram::location}
 
@@ -105,15 +106,17 @@ function RM_Holo_RoomEntranceCreate(player: player, location: location):
 
   while {_waiting} is true:
     if {_player} is offline:
-      delete {hologram::%{_player}%::%{_location}%}
+      delete {hologram::%{_player}%::roomEntrance}
       delete hologram {_hologram}
       stop
 
     # Проверяем состояние текущего блока
     if {workers::%{_player}%::roomEditor} is set:
-      delete {hologram::%{_player}%::%{_location}%}
+      delete {hologram::%{_player}%::roomEntrance}
       delete hologram {_hologram}
       stop
+
+    set {hologram::%{_player}%::roomEntrance} to {_hologram}
 
     # Проверяем, не находится ли игрок в квартире
     if {_checker} is set:
@@ -182,7 +185,7 @@ function RM_Holo_RoomEntranceCreate(player: player, location: location):
         if {_updated} is not set:
           set {_updated} to true
 
-          set {_lines::*} to "&7%{_room::address}%", "&e$ &fСтоимость: &e%{_room::price}%$", "&e[F]"
+          set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$", "&9[F]"
           set all lines of hologram {_hologram} to {_lines::*}
 
     if {hologram::%{_player}%::%{_location}%} isn't {_hologram}:
@@ -192,12 +195,12 @@ function RM_Holo_RoomEntranceCreate(player: player, location: location):
       delete {hologram::%{_player}%::%{_location}%}
       delete hologram {_hologram}
 
-      send action bar "&ei &fВы можете открыть меню квартиры, нажав &e[F] &fна клавиатуре." to {_player}
+      send action bar "&9i &fВы можете открыть меню квартиры, нажав &9[F] &fна клавиатуре." to {_player}
       stop
 
     if {_timer} is set:
       reduce {_timer} by 0.05
-      send action bar "&ei &fГолограмма скроется через &e%round({_timer})% &fс." to {_player}
+      send action bar "&9i &fГолограмма скроется через &9%round({_timer})% &fс." to {_player}
     wait 1 tick
 
 function RM_Holo_RoomEntranceClick(player: player):

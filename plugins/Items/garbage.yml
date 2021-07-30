@@ -1,0 +1,108 @@
+# type: 'item'
+# item: 'player head'
+# visual:
+#   title: '&fХлеб Обычный'
+#   description:
+#   - '&f &fСамый обычный хлеб'
+#   - '&f &fСъедобные'
+#   nbt: '{SkullOwner:{Id:"",Properties:{textures:[{Value:""}]}}}'
+# action:
+#   type: 'click'
+#   function: 'AC_FeedAction'
+#   variables:
+#   - "foodCount=4"
+
+eatable:
+
+props:
+  garbage_soda_01:
+    type: 'item'
+    usedIn:
+    - "GarbageModule"
+    item: 'player head'
+    visual:
+      title: '&7▽ &fБанка Соды'
+      description:
+      - '&f &fЖестяная банка соды, которую дай'
+      - '&f &fБог можно продать за какие-либо гроши.'
+      nbt: '{SkullOwner:{Id:"079c184c-3594-45a3-ba65-8e459d72c2a3",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzY5ZGRhODY3ZDhjMzJiMjVmZWI1ZGM2M2MyMjBkMGM1ZTk2YjJlMTJkZmFhMmZhY2YzNDI5MTY5Njk1M2Q1In19fQ=="}]}}}'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0"
+
+  garbage_soda_02:
+    type: 'item'
+    usedIn:
+    - "GarbageModule"
+    item: 'player head'
+    visual:
+      title: '&7▽ &fПустой пластиковый стаканчик'
+      description:
+      - '&f &fПолностью пустой и даже немного'
+      - '&f &fпокоцанный пластиковый стаканчик.'
+      nbt: '{SkullOwner:{Id:"fbb0fea3-661f-4f29-a002-7ede2b3c19d1",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzczODUzZDU0MWM5NzhlMzJlMWVhYzY2MTRkYTYzZjVmMGQ2MzM3NGRkMWYzNjZjNWQ3OTRmYWIyODk0NWQ3NSJ9fX0="}]}}}'
+    action:
+      type: 'click'
+
+  garbage_paper_01:
+    type: 'item'
+    usedIn:
+    - "GarbageModule"
+    item: 'player head'
+    visual:
+      title: '&7▽ &fИскомканная бумага'
+      description:
+      - '&f &fСамый обычный лист искомканной,'
+      - '&f &fполностью непригодной к использованию'
+      - '&f &fбумаги.'
+      nbt: '{SkullOwner:{Id:"89a946d0-a6f9-4e39-8fd3-b6ce99337bd5",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgwNjQ0MGY1NTg4NjQ5NDdkYzA5MzI2NTAwNmVhODBkNzE0NTI0NDQyYjhhMDA5MDZmMmZiMDc1MDc3Y2ViMyJ9fX0="}]}}}'
+    action:
+      type: 'click'
+
+  garbage_paper_02:
+    type: 'item'
+    usedIn:
+    - "GarbageModule"
+    item: 'player head'
+    createFunction: 'GarbageModule_CreateShopBag'
+    visual:
+      title: '&7▽ &fМагазиный пакет'
+      description:
+      - '&f &fВидимо какая-то свинья выбросила'
+      - '&f &fэтот пакет сюда, и теперь он засоряет'
+      - '&f &fулицы всего города.'
+      nbt: '{SkullOwner:{Id:"c1395b05-fb45-402d-b111-dcace00b9d47",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmI3ZGVmOWNlYjY1ZmQ1NTc4MjE2OWVhZjE1MzFiNmFjY2YzM2EwYmZhODAxMWU0NzRhOTNmM2FiMzQxYmMxYiJ9fX0="}]}}}'
+    action:
+      type: 'click'
+
+  garbage_pills_01:
+    type: 'item'
+    usedIn:
+    - "GarbageModule"
+    item: 'player head'
+    visual:
+      title: '&7◇ &fПустая ёмкость для таблеток'
+      description:
+      - '&f &fРаньше тут были таблетки, но сейчас,'
+      - '&f &fвидимо, это пустая ёмкость. Но для'
+      - '&f &fкое-чего она, всё-таки, может пригодиться,'
+      - '&f &fне так ли?'
+      nbt: '{SkullOwner:{Id:"cc4a3af9-16f5-4b75-af07-806dc339b6ed",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2U1ZWE1NjY4Yjc4ODA3MzY5NWI2N2RlMjlmMmNiOTE1ZjI2MDkzYmZmYWJhYWE1MGQyOTcyYWIyZTQifX19"}]}}}'
+    action:
+      type: 'click'
+
+  garbage_money_01:
+    type: 'item'
+    usedIn:
+    - "GarbageModule"
+    createFunction: "GarbageModule_CreateMoneyBill"
+    item: 'player head'
+    visual:
+      title: "&fДеньги короче"
+      description:
+      - "&fОни спавняться в мусоре. И там же"
+      - "&fони превращаются в нормальные деньги."
+    action:
+      type: 'click'

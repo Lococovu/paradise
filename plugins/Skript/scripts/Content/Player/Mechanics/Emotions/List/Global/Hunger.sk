@@ -97,7 +97,7 @@ function EM_hungerGetItem(player: player) :: item:
 
 function EM_hungerGetName(player: player) :: string:
   set {_hunger} to {_player}'s hunger
-  set {_name} to "&e &fГолод"
+  set {_name} to "&9 &fГолод"
 
   return {_name}
 

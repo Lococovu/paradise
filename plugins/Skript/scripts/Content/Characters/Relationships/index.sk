@@ -211,7 +211,7 @@ function createRelationshipHologram(player: player, target: player):
       delete {_update}
       delete {_holoLines::*}
 
-      set {_lines::*} to "%{_firstName}% %{_lastName}% &9[F]", "&7%{_gender}%, &7%{_age}%", "&7%{_emotion::description}%", "", "&e[ПКМ] &f- открыть меню"
+      set {_lines::*} to "%{_firstName}% %{_lastName}% &9[F]", "&7%{_gender}%, &7%{_age}%", "&7%{_emotion::description}%", "", "&9[ПКМ] &f- открыть меню"
 
       set {_holoLines::*} to content of all lines of hologram {_hologram}
 

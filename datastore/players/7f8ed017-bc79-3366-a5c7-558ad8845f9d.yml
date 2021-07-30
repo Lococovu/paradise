@@ -1,0 +1,29 @@
+character:
+    main:
+        documents:
+        - 3133-7012-5888-2620
+        name: Николай Рязанников
+        age: 27
+        gender: Мужской
+        skin: Endr1337
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true
+
+authorization:
+    discordId: 613321899098767370
+
+relationship:
+    main:
+        fed07d54-c249-3d40-a918-13c69c8a1d94-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+        f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f-main:
+            knows:
+            - firstName
+            - lastName
+            - age

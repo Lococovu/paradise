@@ -31,7 +31,7 @@ command gps:
       set {_item} to player head named coloured {_place::title} with lore coloured {_place::description::*}
       add "%{_place::nbt}%" to item-nbt of {_item}
 
-      add "", "&e➹ &fНажмите, что бы проложить маршрут", "&7Вам нужно находится на улице. Точки маршурта", "&7прокладываются по автомобильным дорогам." to {_item}'s lore
+      add "", "&9➹ &fНажмите, что бы проложить маршрут", "&7Вам нужно находится на улице. Точки маршурта", "&7прокладываются по автомобильным дорогам." to {_item}'s lore
 
       format gui slot {_slot} of player with {_item} to run:
         close player's inventory

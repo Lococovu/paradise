@@ -1,0 +1,220 @@
+function WorkModule_StartHeaverWorker(player: player):
+  set {_workId} to WorkModule_GetHeaverWorkId()
+
+  # Отчищаем предыдущий воркер
+  {workers::%{_player}%::work::%{_workId}%} is set:
+    set {workers::%{_player}%::work::%{_workId}%} to "stop"
+    wait 2 ticks
+
+  # Отчищаем данные
+  delete {workers::%{_player}%::work::%{_workId}%}
+  delete {workers::%{_player}%::work::%{_workId}%::*}
+
+  # Запускаем воркер
+
+  set {_work::state} to "WORKING"
+  set {_work::stage} to 2
+  set {_work::earned} to 0
+  set {_work::carried} to 0
+
+  set {_working} to true
+  while {_working} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::work::%{_workId}%} to "stop"
+
+    if {workers::%{_player}%::work::%{_workId}%} is not set:
+      set {workers::%{_player}%::work::%{_workId}%} to true
+
+    # Проверяем текущее действие
+    set {_action} to {workers::%{_player}%::work::%{_workId}%}
+
+    # Действие: остановка
+    if {_action} is "stop":
+      # Прячем боссбар
+      {_bossbar} is set:
+        hide bossbar {_bossbar}
+
+      # Удаляем голограммы
+      loop {_holograms::*}:
+        delete hologram loop-value
+
+      # Удаляем данные
+      delete {workers::%{_player}%::work::%{_workId}%}
+      delete {workers::%{_player}%::work::%{_workId}%::*}
+
+      # Стопаем
+      stop
+
+    # Первая стадия:
+    # - Взять товар
+    if {_work::stage} is 1:
+      # Начальная загрузка стадии
+      {_stages::%{_work::stage}%::initialized} is not true:
+        set {_stages::%{_work::stage}%::initialized} to true
+
+        # Обновляем боссбар
+        set {_bossbar::title} to "&91 &fЗаберите ящики из &9Точки A"
+
+        # Подготавливаем локации
+        set {_locations::*} to WorkModule_GetHeaverPickupLocations()
+
+        # Спавним голограмму с товаром
+        set {_location} to random element of {_locations::*}
+        
+        set {_location::hologram} to {_location}
+        add 2.2 to y coordinate of {_location::hologram}
+
+        set {_lines::*} to "&e/\", "&e/  \", "&e/ /\ \", "&e/ ____ \", "&e/_/    \_\", "&9i &fПодойдите сюда и зажмите", "&7SHIFT &fдля того, что бы забрать", "&fящик."
+
+        spawn new hologram with lines {_lines::*} at {_location::hologram} and store it in {_hologram}
+        add {_hologram} to {_holograms::*}
+
+        # make {_hologram} invisible by default
+        # reveal {_hologram} to {_player}
+
+      # Проверяем местоположение игрока
+      # (и его действия)
+      if distance between {_player} and {_location} <= 1.5:
+        send action bar "&9i &fЗажмите &7SHIFT &fчто бы забрать товар" to {_player}
+
+        if {_player} is sneaking:
+          add 0.05 to {_shifting}
+
+        {_shifting} is set:
+          # Визуал
+          set {_template::full} to "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛"
+          set {_template::empty} to "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜"
+
+          delete {_visual::full}
+          delete {_visual::empty}
+
+          set {_visual::full} to first round({_shifting}) characters of {_template::full}
+          {_visual::full} is not set:
+            set {_visual::full} to ""
+          set {_visual::empty} to first round(3 - {_shifting}) characters of {_template::full}
+          {_visual::empty} is not set:
+            set {_visual::empty} to ""
+
+          send title "" with subtitle "&8%{_visual::full}%&7%{_visual::empty}%" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
+
+          # Переход на вторую стадию
+          if {_shifting} >= 2:
+            delete {_stages::*}
+            delete {_shifting}
+            loop {_holograms::*}:
+              delete hologram loop-value
+              remove loop-value from {_holograms::*}
+
+            set {_work::stage} to 2
+      else:
+        delete {_shifting}
+
+    # Вторая стадия:
+    # - Отнести товар
+    else if {_work::stage} is 2:
+      # Начальная загрузка стадии
+      {_stages::%{_work::stage}%::initialized} is not true:
+        set {_stages::%{_work::stage}%::initialized} to true
+
+        # Обновляем боссбар
+        set {_bossbar::title} to "&92 &fОтнесите ящики в &9Точку В"
+
+        # Подготавливаем локации
+        set {_locations::*} to WorkModule_GetHeaverDropdownLocations()
+
+        # Пикаем рандомную локацию
+        set {_location} to random element of {_locations::*}
+
+        set {_location::hologram} to {_location}
+        add 2.2 to y coordinate of {_location::hologram}
+
+        # Спавним голограмму
+        set {_lines::*} to "&e.____", "&e|   _  \", "&e|  |_)  |", "&e|   _  <", "&e|  |_)  |", "&e|____/", "&9i &fПодойдите сюда и зажмите", "&7SHIFT &fчто бы поставить ящик", "&fна полку."
+
+        spawn new hologram with lines {_lines::*} at {_location::hologram} and store it in {_hologram}
+        add {_hologram} to {_holograms::*}
+        
+        # make {_hologram} invisible by default
+        # reveal {_hologram} to {_player}
+
+      # Проверяем местоположение игрока
+      # (и его действия)
+      if distance between {_player} and {_location} <= 1.5:
+        send action bar "&9i &fЗажмите &7SHIFT &fчто бы поставить товар на полку" to {_player}
+
+        if {_player} is sneaking:
+          add 0.05 to {_shifting}
+
+        {_shifting} is set:
+          # Визуал
+          set {_template::full} to "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛"
+          set {_template::empty} to "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜"
+
+          delete {_visual::full}
+          delete {_visual::empty}
+
+          set {_visual::full} to first round({_shifting}) characters of {_template::full}
+          {_visual::full} is not set:
+            set {_visual::full} to ""
+          set {_visual::empty} to first round(3 - {_shifting}) characters of {_template::full}
+          {_visual::empty} is not set:
+            set {_visual::empty} to ""
+
+          send title "" with subtitle "&8%{_visual::full}%&7%{_visual::empty}%" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
+
+          # Переход на вторую стадию
+          if {_shifting} >= 3:
+            # Добавляем выполненный заказ
+            set {_bills::*} to 1, 5 and 10
+
+            add random element of {_bills::*} to {_work::earned}
+            add 1 to {_work::carried}
+
+            # Переходим на первую стадию
+            delete {_stages::*}
+            delete {_shifting}
+            loop {_holograms::*}:
+              delete hologram loop-value
+              remove loop-value from {_holograms::*}
+
+            set {_work::stage} to 1
+
+    # Боссбар
+    if {_bossbar} is not set:
+      set {_bossbar} to skellett new bossbar
+      set skellett colour of bossbar {_bossbar} to WHITE
+
+      set skellett title of bossbar {_bossbar} to "&f..."
+      add {_player} to bossbar {_bossbar}
+
+      skellett show bossbar {_bossbar}
+    else:
+      if {_bossbar::hide} is true:
+        hide bossbar {_bossbar}
+
+      # Обновляем тайтл боссбара
+      if skellett title of bossbar {_bossbar} isn't {_bossbar::title}:
+        set skellett title of bossbar {_bossbar} to {_bossbar::title}
+
+      # Обновляем прогресс боссбара
+      if skellett progress of bossbar {_bossbar} isn't {_bossbar::progress}:
+        if {_bossbar::progress} > 0.95:
+          set {_bossbar::progress} to 1
+
+        if {_bossbar::progress} < 0:
+          set {_bossbar::progress} to 0
+
+        set skellett progress of bossbar {_bossbar} to {_bossbar::progress}
+
+    # Синхронизация данных
+    set {workers::%{_player}%::work::%{_workId}%::state} to {_work::state}
+    set {workers::%{_player}%::work::%{_workId}%::stage} to {_work::stage}
+    set {workers::%{_player}%::work::%{_workId}%::earned} to {_work::earned}
+    set {workers::%{_player}%::work::%{_workId}%::carried} to {_work::carried}
+
+    wait 1 tick
+
+command stopw:
+  trigger:
+    set {_workId} to WorkModule_GetHeaverWorkId()
+    set {workers::%player%::work::%{_workId}%} to "stop"

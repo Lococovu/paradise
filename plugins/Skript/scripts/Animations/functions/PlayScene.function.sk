@@ -1,0 +1,124 @@
+import:
+  org.bukkit.Location as BukkitLocation
+  org.bukkit.Bukkit
+  com.destroystokyo.paper.event.player.PlayerStopSpectatingEntityEvent
+  org.bukkit.entity.EntityType
+
+function AnimationsModule_PlayScene(p: player,points: locations,speed: number=0.05, gamemode: string = "spectator"):
+  set {_s} to size of {_points::*}
+  set {_ma} to 360*{_s}
+  
+  # copy sources and prepare for de-normalize
+  loop {_points::*}:
+    set {_points::%loop-index%} to loop-value
+    add {_ma} to yaw of {_points::%loop-index%}
+  
+  if {_gamemode} is "spectator":
+    set {_p}'s gamemode to spectator
+    
+    spawn a boat at {_points::1}
+    set {_a} to last spawned entity
+    loop all players in radius 130 around {_a}:
+      if loop-value is not {_p}:
+        packetDestroyEntity(loop-player, {_a})
+    {_a}.setGravity(false)
+
+    {_a}.setRotation({_points::1}.getYaw(),{_points::1}.getPitch())
+    if distance between {_p} and {_points::1} is less than 150:
+      {_p}.setSpectatorTarget({_a})
+    else:
+      {_p}.teleport({_points::1})
+      wait 4 ticks
+      {_p}.setSpectatorTarget({_a})
+
+    set gamemode of {_a} to spectator
+  else:
+    set {_p}'s gamemode to survival
+    {_p}.setGravity(false)
+
+    teleport {_p} to {_points::1}
+    set {_a} to {_p}
+  
+  # de-normalize yaws  
+  loop {_s}-1 times:
+    set {_i} to loop-value+1
+    if yaw of {_points::%loop-value%} is less than yaw of {_points::%{_i}%}: 
+      if ((360 - (yaw of {_points::%{_i}%}-{_ma})) + (yaw of {_points::%loop-value%}-{_ma})) is less than (yaw of {_points::%{_i}%}-yaw of {_points::%loop-value%}):
+        loop {_s}-loop-value times:
+          set {_j} to loop-value-1 + loop-value-2
+          remove 360 from yaw of {_points::%{_j}%}
+    else:
+      if ((360 - (yaw of {_points::%loop-value%}-{_ma})) + (yaw of {_points::%{_i}%}-{_ma})) is less than (yaw of {_points::%loop-value%}-yaw of {_points::%{_i}%}):
+        loop {_s}-loop-value times:
+          set {_j} to loop-value-1 + loop-value-2
+          add 360 to yaw of {_points::%{_j}%}
+
+  set {_ss} to {_s}+1
+  set {_points::0} to {_points::1}
+  set {_points::%{_ss}%} to {_points::%{_s}%}
+  set {_i} to 0
+  while {_i} is less than {_s}:
+
+    set {_p::1} to {_points::%{_i}%}
+    set {_ss} to {_i}+1
+    set {_p::2} to {_points::%{_ss}%}
+    add 1 to {_ss}
+    set {_p::3} to {_points::%{_ss}%} 
+    add 1 to {_ss}
+    set {_p::4} to {_points::%{_ss}%}  
+
+    set {_t} to 0
+    while {_t} is less than 1:
+      if {_p} is not online:
+        exit 2 loops
+      loop all players in radius 150 around {_a}:
+        if loop-value is not {_p}:
+          packetDestroyEntity(loop-player, {_a})  
+
+      set {_tt} to {_t}*{_t}
+      set {_ttt} to {_tt}*{_t}
+      set {_u} to 1 - {_t}
+      set {_uuu} to {_u}*{_u}*{_u}
+      set {_q3} to {_uuu}
+      set {_q2} to 3 * {_ttt} - 6 * {_tt} + 4
+      set {_q1} to -3*{_ttt} + 3 * {_tt} + 3 * {_t}+ 1
+
+      set {_x} to (({_p::1}.getX() * {_q3}) + ({_p::2}.getX() * {_q2}) + ({_p::3}.getX()*{_q1}) + ({_p::4}.getX()*{_ttt}))/6
+      set {_y} to (({_p::1}.getY() * {_q3}) + ({_p::2}.getY() * {_q2}) + ({_p::3}.getY()*{_q1}) + ({_p::4}.getY()*{_ttt}))/6
+      set {_z} to (({_p::1}.getZ() * {_q3}) + ({_p::2}.getZ() * {_q2}) + ({_p::3}.getZ()*{_q1}) + ({_p::4}.getZ()*{_ttt}))/6
+
+      set {_loc} to new BukkitLocation({_p}'s world, {_x},{_y},{_z})
+
+      set {_yaw} to ((({_p::1}.getYaw() * {_q3}) + ({_p::2}.getYaw() * {_q2}) + ({_p::3}.getYaw()*{_q1}) + ({_p::4}.getYaw()*{_ttt}))/6) 
+      set {_pitch} to (({_p::1}.getPitch() * {_q3}) + ({_p::2}.getPitch() * {_q2}) + ({_p::3}.getPitch()*{_q1}) + ({_p::4}.getPitch()*{_ttt}))/6
+
+      if {_gamemode} is "spectator":
+        {_a}.setRotation({_yaw}, {_pitch})
+      # else:
+      #   if {_yaw::previous} is not {_yaw}:
+      #     set {_yaw::previos} to {_yaw}
+
+      #     set {_loc::updateYaw} to {_loc}
+      #     set {_loc::updateYaw}'s yaw to {_yaw}
+      #     teleport {_a} to {_loc::updateYaw}
+
+      #   if {_pitch::previous} is not {_pitch}:
+      #     set {_pitch::previous} to {_pitch}
+
+      #     set {_loc::updatePitch} to {_loc}
+      #     set {_loc::updatePitch}'s pitch to {_pitch}
+      #     teleport {_a} to {_loc::updatePitch}
+
+      add {_speed} to {_t}
+      push {_a} (vector between {_a} and {_loc}) at speed sqrt(distance between {_a} and {_loc})/6.5
+
+      wait 1 tick
+      clear {_a}'s velocity
+
+    add 1 to {_i}
+    
+  {_gamemode} is "spectator":
+    {_a}.remove()
+
+  {_p}.setGravity(true)
+  reset {_p}'s velocity

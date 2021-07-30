@@ -12,6 +12,22 @@ on command:
   if {authorized::%player%} is not set:
     cancel event
 
+on place:
+  if {authorized::%player%} is not set:
+    cancel event
+
+on break:
+  if {authorized::%player%} is not set:
+    cancel event
+
+on pickup:
+  if {authorized::%player%} is not set:
+    cancel event
+
+on drop:
+  if {authorized::%player%} is not set:
+    cancel event
+
 on quit:
   set leave message to ""
 
@@ -39,7 +55,6 @@ on join:
 
     set yaml value "temp.createdPassport" from "player-%player's uuid%" to "да"
     save yaml "player-%player%"
-
 
   delete {authorized::%player%}
   delete {temp::%player%::*}
@@ -86,7 +101,7 @@ on right click:
 function StartAuthorization(player: player):
   delete {temp::%{_player}%::authClicked}
 
-  set {_empty} to player head named "&e"
+  set {_empty} to player head named "&9"
   add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
 
   loop 9 times:
@@ -100,18 +115,18 @@ function StartAuthorization(player: player):
 
   # Настраиваем голограммы
   set {_holo::web::lines::*} to "&9☁ &fАвторизация", "&fЯ хочу авторизоваться", "&fв свой аккаунт."
-  set {_holo::web::hover::*} to {_holo::web::lines::*}, "", "&e○ &fНажмите &eПКМ &fчто бы выбрать"
+  set {_holo::web::hover::*} to {_holo::web::lines::*}, "", "&9○ &fНажмите &9ПКМ &fчто бы выбрать"
 
   # Проверяем, подключен ли этот аккаунт к дискорду или нет
   set {_discordId} to getPlayerDiscordId({_player})
   if {_discordId} is set:
     set {_guestLogin::disabled} to true
     
-    set {_holo::guest::lines::*} to "&e⚔ &fИграть", "&fВам нужно пройти авторизацию", "&fперед тем, как играть."
-    set {_holo::guest::hover::*} to "&e⚔ &fИграть", "&fВам нужно пройти авторизацию", "&fперед тем, как играть.", "&0ПКМ"
+    set {_holo::guest::lines::*} to "&9⚔ &fИграть", "&fВам нужно пройти авторизацию", "&fперед тем, как играть."
+    set {_holo::guest::hover::*} to "&9⚔ &fИграть", "&fВам нужно пройти авторизацию", "&fперед тем, как играть.", "&0ПКМ"
   else:
-    set {_holo::guest::lines::*} to "&e⚔ &fИграть", "&fЯ уже хочу играть! Просто", "&fпустите меня на сервер!"
-    set {_holo::guest::hover::*} to {_holo::guest::lines::*}, "", "&e○ &fНажмите &eПКМ &fчто бы выбрать"
+    set {_holo::guest::lines::*} to "&9⚔ &fИграть", "&fЯ уже хочу играть! Просто", "&fпустите меня на сервер!"
+    set {_holo::guest::hover::*} to {_holo::guest::lines::*}, "", "&9○ &fНажмите &9ПКМ &fчто бы выбрать"
 
   set {_holo::guest::location} to getLocation("-18, 6, -191", "lobby")
   {_guestLogin::disabled} is not true:
@@ -172,7 +187,7 @@ function StartAuthorization(player: player):
     else:
       # Меняем статус боссбара
       if {_action} is 0:
-        set skellett title of bossbar {_bossbar} to "&e &fВремя на авторизацию &e%round({_time})% с."
+        set skellett title of bossbar {_bossbar} to "&9 &fВремя на авторизацию &9%round({_time})% с."
         set skellett progress of bossbar {_bossbar} to (1/60) * {_time}
 
     # Проверяем, не нажал ли игрок куда либо
@@ -276,6 +291,11 @@ function StartAuthorization(player: player):
           if pitch of {_player}'s location isn't pitch of {_location}:
             teleport {_player} to {_location}
 
+          if distance between {_player} and {_location} > 0:
+            teleport {_player} to {_location}
+
+          hide {_player}
+
           # Проверка действия
           if {temp::%{_player}%::authClicked} is set:
             delete {temp::%{_player}%::authClicked}
@@ -369,6 +389,11 @@ function StartAuthorization(player: player):
           if pitch of {_player}'s location isn't pitch of {_location}:
             teleport {_player} to {_location}
 
+          if distance between {_player} and {_location} > 0:
+            teleport {_player} to {_location}
+
+          hide {_player}
+
           # Боссбар
           if {_bossbar} is set:
             set skellett title of bossbar {_bossbar} to "&fПроверьте личные сообщения в Дискорде"
@@ -441,7 +466,7 @@ function StartAuthorization(player: player):
 # 
 function AuthorizationDone(player: player):
   loop all players:
-    send action bar "&e▷ &fИгрок %{_player}% присоединился" to loop-player
+    send action bar "&9▷ &fИгрок %{_player}% присоединился" to loop-player
   
   reveal {_player}
   remove night vision from {_player}
@@ -449,7 +474,7 @@ function AuthorizationDone(player: player):
   set {authorized::%{_player}%} to true
   # Берём информацию про аккаунт игрока.
   
-  send title "&e☀ &fДобро пожаловать!" with subtitle "&7Мы действительно рады вас видеть." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
+  send title "&9☀ &fДобро пожаловать!" with subtitle "&7Мы действительно рады вас видеть." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
 
   wait 2 seconds
 

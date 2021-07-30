@@ -1,0 +1,6 @@
+command settings [<text>]:
+  trigger:
+    if arg 1 is not set:
+      open virtual chest inventory with size 6 named "&8Настройки" to player
+
+      

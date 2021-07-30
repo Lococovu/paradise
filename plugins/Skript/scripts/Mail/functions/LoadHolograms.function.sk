@@ -1,0 +1,18 @@
+function MailModule_LoadHolograms(player: player):
+  set {_list::*} to {data::mailbox::list::*}
+
+  loop {_list::*}:
+    delete {_location}
+
+    # Берём данные
+    set {_id} to loop-value
+    set {_location} to location of block at {data::mailbox::%{_id}%::location}
+
+    {_location} is set:
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_MailboxCreate"
+      set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_MailboxClick"
+
+command testm:
+  trigger:
+    MailModule_LoadHolograms(player)

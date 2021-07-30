@@ -16,7 +16,7 @@ milk:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fМолоко &7(0.5 л)'
+    title: '&9◇ &fМолоко &7(0.5 л)'
     description:
     - '&f &fНевероятно вкусный и полезный для'
     - '&f &fорганизма продукт! Выготавливается'
@@ -33,7 +33,7 @@ yogurt_01:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◆ &fЙогурт &7(Ванильный)'
+    title: '&9◆ &fЙогурт &7(Ванильный)'
     description:
     - '&f &fДо невозможности вкусный молочный'
     - '&f &fпродукт! Берите с йогурт, ложку и'
@@ -50,7 +50,7 @@ yogurt_02:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◆ &fЙогурт &7(Клубничный)'
+    title: '&9◆ &fЙогурт &7(Клубничный)'
     description:
     - '&f &fДо невозможности вкусный молочный'
     - '&f &fпродукт! Берите с йогурт, ложку и'
@@ -67,7 +67,7 @@ cheese_01:
   type: 'item'
   item: 'player head'
   visual:
-    title: '&e◇ &fСыр'
+    title: '&9◇ &fСыр'
     description:
     - '&f &fСамый известный молочный продукт,'
     - '&f &fкоторый используется в невероятном'

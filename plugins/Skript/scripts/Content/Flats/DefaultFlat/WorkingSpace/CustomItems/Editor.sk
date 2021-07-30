@@ -33,7 +33,7 @@ function openRItemEditor(player: player, id: string):
   format gui slot 13 of {_player} with {_item}
 
   # ID предмета
-  set {_itemId} to player head named "&eᶦᵈ &fID Предмета" with lore "", "&f &fВы можете выбрать любой из доступных в", "&f &fмайне предметов! Ну, почти любой. У нас тут небольшой", "&f &fсписочек есть. Да, вы можете выбрать не все предметы", "&f &fиз майна. Но поверьте - библиотека доступных", "&f &fпредметов невероятно огромна и удобна для", "&f &fиспользования!", "", "&e▢ &fНажмите, бы открыть"
+  set {_itemId} to player head named "&9ᶦᵈ &fID Предмета" with lore "", "&f &fВы можете выбрать любой из доступных в", "&f &fмайне предметов! Ну, почти любой. У нас тут небольшой", "&f &fсписочек есть. Да, вы можете выбрать не все предметы", "&f &fиз майна. Но поверьте - библиотека доступных", "&f &fпредметов невероятно огромна и удобна для", "&f &fиспользования!", "", "&9▢ &fНажмите, бы открыть"
   add "{SkullOwner:{Id:""4e49245d-0ac2-4c6e-aff8-2894c8878eec"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ4MGMyNmY5MDRiNTdlNjMxZTM5ZWJjNDQ2ZWMxYWYyZGNlMzQzMmViODQzMWZiZDE5MDg3YWRiNGFiY2IifX19""}]}}}" to item-nbt of {_itemId}
 
   set {_slot} to first element of {_slots::*}
@@ -42,7 +42,7 @@ function openRItemEditor(player: player, id: string):
     openItemPicker({_player}, {_id}, 0)
   
   # Название предмета
-  set {_itemName} to player head named "&eⁿᵃᵐᵉ &fНазвание предмета" with lore "&7Текущее: %name of {_item}%", "&f &fПоменяйте название вашего предмета на то,", "&f &fкоторое вам больше всего нравится! Тут можно", "&f &fиспользовать цвета, символы ну и всё-всё что", "&f &fтолько можно!", "", "&e✎ &fНажмите, что бы изменить"
+  set {_itemName} to player head named "&9ⁿᵃᵐᵉ &fНазвание предмета" with lore "&7Текущее: %name of {_item}%", "&f &fПоменяйте название вашего предмета на то,", "&f &fкоторое вам больше всего нравится! Тут можно", "&f &fиспользовать цвета, символы ну и всё-всё что", "&f &fтолько можно!", "", "&9✎ &fНажмите, что бы изменить"
   add "{SkullOwner:{Id:""50817ea4-f13d-47e5-ba1d-055df073bedc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI4ZDk4Y2U0N2ZiNzdmOGI2MDRhNzY2ZGRkMjU0OTIzMjU2NGY5NTYyMjVjNTlmM2UzYjdiODczYTU4YzQifX19""}]}}}" to item-nbt of {_itemName}
 
   set {_slot} to first element of {_slots::*}
@@ -53,8 +53,8 @@ function openRItemEditor(player: player, id: string):
   # Описание предмета
   set {_lore::*} to {_item}'s lore
 
-  add "", "", "&e▮ &fНажмите &eЛКМ &fчто бы &eдобавить&f", "&f &fновую строку", "&e▯ &fНажмите &eПКМ &fчто бы &eудалить", "&f &f&fпоследнюю строку", "", "&7Находясь в режиме добавления новой строки,", "&7вы можете создавать сразу несколько строк.", "&7Просто разделите их этим знаком: \\" to {_lore::*}
-  set {_itemLore} to player head named "&e &fОписание предмета" with lore {_lore::*}
+  add "", "", "&9▮ &fНажмите &9ЛКМ &fчто бы &9добавить&f", "&f &fновую строку", "&9▯ &fНажмите &9ПКМ &fчто бы &9удалить", "&f &f&fпоследнюю строку", "", "&7Находясь в режиме добавления новой строки,", "&7вы можете создавать сразу несколько строк.", "&7Просто разделите их этим знаком: \\" to {_lore::*}
+  set {_itemLore} to player head named "&9 &fОписание предмета" with lore {_lore::*}
   add "{SkullOwner:{Id:""538a7620-6569-4421-8675-7261b22a7617"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=""}]}}}" to item-nbt of {_itemLore}
 
   set {_slot} to first element of {_slots::*}
@@ -81,13 +81,13 @@ function openRItemEditor(player: player, id: string):
       ChangeRItemSetting({_player}, "item.lore", {_id})
 
   # Head NBT
-  set {_head::nbt} to player head named "&e☆ &fКастомная текстура головы" with lore "&7Применяется только к голове", "&f &fДа-да, вы можете поставить абсолютно кастомную", "&f &fтекстуру для головы! Просто выберите голову игрока как", "&f &fID предмета и нажмите сюда!"
+  set {_head::nbt} to player head named "&9☆ &fКастомная текстура головы" with lore "&7Применяется только к голове", "&f &fДа-да, вы можете поставить абсолютно кастомную", "&f &fтекстуру для головы! Просто выберите голову игрока как", "&f &fID предмета и нажмите сюда!"
   add "{SkullOwner:{Id:""fe358563-d1df-40f4-9bbf-e7e3c4a6ac22"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiYTcyNzdmYzg5NWJmM2I2NzM2OTQxNTk4NjRiODMzNTFhNGQxNDcxN2U0NzZlYmRhMWMzYmYzOGZjZjM3In19fQ==""}]}}}" to item-nbt of {_head::nbt}
 
   if "%{_item}%" contains "player head":
-    add "", "&e✎ &fНажмите, что бы изменить" to {_head::nbt}'s lore
+    add "", "&9✎ &fНажмите, что бы изменить" to {_head::nbt}'s lore
   else:
-    add "", "&eⓘ &fПредмет должен быть головой" to {_head::nbt}'s lore
+    add "", "&9ⓘ &fПредмет должен быть головой" to {_head::nbt}'s lore
 
   set {_slot} to first element of {_slots::*}
   remove {_slot} from {_slots::*}
@@ -127,14 +127,14 @@ function openItemPicker(player: player, id: string, page: number):
   format gui slot 3,4,5, 48, 50 of {_player} with {_empty}
 
   # Назад
-  set {_back} to player head named "&e &fНазад" with lore "", "&f &fПросто возвращает вас назад. Ничего", "&f &fнеобычного", "", "&e▢ &fНажмите, что бы открыть"
+  set {_back} to player head named "&9 &fНазад" with lore "", "&f &fПросто возвращает вас назад. Ничего", "&f &fнеобычного", "", "&9▢ &fНажмите, что бы открыть"
   add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
 
   format gui slot 3 of {_player} with {_back} to run:
     close {_player}'s inventory
 
   # Кастом ID
-  set {_customId} to player head named "&e✎ &fВписать ID предмета" with lore "", "&f &fДа-да, вы можете выбрать абсолютно любой предмет", "&f &fиз майнкрафта! У нас есть специальный сайт, на котором", "&f &fвы сможете просмотреть весь список предметов и то,", "&f &fкак именно их надо вписывать.", "", "&e▷ &fНажмите, что бы выбрать"
+  set {_customId} to player head named "&9✎ &fВписать ID предмета" with lore "", "&f &fДа-да, вы можете выбрать абсолютно любой предмет", "&f &fиз майнкрафта! У нас есть специальный сайт, на котором", "&f &fвы сможете просмотреть весь список предметов и то,", "&f &fкак именно их надо вписывать.", "", "&9▷ &fНажмите, что бы выбрать"
   add "{SkullOwner:{Id:""50817ea4-f13d-47e5-ba1d-055df073bedc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI4ZDk4Y2U0N2ZiNzdmOGI2MDRhNzY2ZGRkMjU0OTIzMjU2NGY5NTYyMjVjNTlmM2UzYjdiODczYTU4YzQifX19""}]}}}" to item-nbt of {_customId}
 
   format gui slot 4 of {_player} with {_customId} to run:
@@ -178,7 +178,7 @@ function ChangeRItemSetting(player: player, setting: string, id: string):
   set {temp::%{_player}%::location} to {_player}'s location
 
   # Подготавливаем тайтл и субтайтл
-  set {_title} to "&e▽ &fВпишите в чат"
+  set {_title} to "&9▽ &fВпишите в чат"
   if {_setting} is "item.name":
     set {_subtitle} to "&7Название этого предмета"
   else if {_setting} is "item.lore":

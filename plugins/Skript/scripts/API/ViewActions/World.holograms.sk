@@ -15,7 +15,13 @@ function WR_Holo_DefaultHotelReceptionistCreate(player: player, location: locati
 
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
-  set {_lines::*} to "", "", "&7&lОтель", "&fПереместитесь в свою личную", "&fкомнату без всяких проблем!", "&e▷ &fПКМ"
+  set {_uuid} to {_player}'s uuid
+  set {_character} to getCurrentCharacter({_player})
+
+  if size of {data::rooms::%{_uuid}%::%{_character}%::rooms::*} > 0:
+    set {_lines::*} to "", "", "&c&lОтель", "&fПереместитесь в свою личную", "&fкомнату без всяких проблем!", "&c✕ &fУ вас уже есть", "&fсвоя квартира"
+  else:
+    set {_lines::*} to "", "", "&7&lОтель", "&fПереместитесь в свою личную", "&fкомнату без всяких проблем!", "&9▷ &fПКМ"
   set {_hologram::location} to getLocation("532.5, 54, 591", "world")
 
   if distance between {_player} and {_hologram::location} >= 3.5:
@@ -47,6 +53,12 @@ function WR_Holo_DefaultHotelReceptionistCreate(player: player, location: locati
     wait 1 tick
 
 function WR_Holo_DefaultHotelReceptionistClick(player: player):
+  set {_uuid} to {_player}'s uuid
+  set {_character} to getCurrentCharacter({_player})
+
+  if size of {data::rooms::%{_uuid}%::%{_character}%::rooms::*} > 0:
+    stop
+
   # Открываем небольшую менюшку с списком доступных
   # действий.
   open virtual chest inventory with size 5 named "&8&lОтель" to {_player}
@@ -94,7 +106,7 @@ function WR_Holo_JobCenterCreate(player: player, location: location):
 
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
-  set {_lines::*} to "", "", "&7&lЦентр Занятости", "&fНайдите самую подходящую", "&fвам работу без проблем!", "&e▷ &fПКМ"
+  set {_lines::*} to "", "", "&7&lЦентр Занятости", "&fНайдите самую подходящую", "&fвам работу без проблем!", "&9▷ &fПКМ"
   set {_hologram::location} to getLocation("541, 54, 641", "world")
 
   if distance between {_player} and {_hologram::location} >= 3.5:

@@ -5,7 +5,7 @@
 # ------------------------------------  #
 
 torsworda:
-  displayName: '&e[토른리넨]&3장식용 검A'
+  displayName: '&9[토른리넨]&3장식용 검A'
   system-ID: TorSwordA
   spawnMaterial: PIG_SPAWN_EGG
   itemGlowEffect: false

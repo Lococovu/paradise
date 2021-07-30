@@ -1,0 +1,55 @@
+function MailModule_OpenMailboxMenu(player: player, mailboxId: string):
+  # Открываем меню
+  open virtual chest inventory with size 4 named "&8Почтовый ящик" to {_player}
+
+  # Загружаем предметы
+  set {_uuid} to "%{_player}'s uuid%-%getCurrentCharacter({_player})%"
+  set {_items::*} to {data::mail::%{_mailboxId}%::%{_uuid}%::items::*}
+
+  set {_slot} to 0
+
+  loop {_items::*}:
+    # Удаляем ненужное
+    delete {_item}
+    delete {_item::*}
+
+    # Берём данные предмета
+    set {_id} to loop-value
+
+    set {_item::arrived} to {data::mail::item::%{_id}%::arrived}
+    {_item::arrived} is not true:
+      set {_item::arriveAfter} to {data::mail::item::%{_id}%::arriveAfter}
+
+      {_item::arriveAfter} is set
+      {_item::arriveAfter} <= now:
+        set {_item::arrived} to true
+
+    set {_item::picked} to {data::mail::item::%{_id}%::picked}
+    set {_item::itemId} to {data::mail::item::%{_id}%::itemId}
+    {_item::itemId} is not set:
+      set {_item::itemStack} to {data::mail::item::%{_id}%::itemStack}
+      set {_item} to {_item::itemStack}
+    else:
+      set {_item} to getItem({_item::itemId})
+
+    {_item} is set
+    {_item::picked} is not true
+    {_item::arrived} is true:
+      # Обновляем лор предмета
+      set {_item::visual} to {_item}
+      if {_player}'s inventory has space for 1 of {_item}:
+        set {_item::visual}'s lore to {_item}'s lore, "", "&a▷ &fНажмите, что бы забрать"
+      else:
+        set {_item::visual}'s lore to {_item}'s lore, "", "&c✕ &fВ вашем инвентаре нету места", "&7Отчистите хотя бы одно место в вашем инвентаре"
+
+      # Форматим
+      format gui slot {_slot} of {_player} with {_item::visual} to run:
+        if {_player}'s inventory has space for 1 of {_item}:
+          remove {_id} from {data::mail::%{_mailboxId}%::%{_uuid}%::items::*}
+
+          set {data::mail::item::%{_id}%::picked} to true
+          add {_item} to {_player}'s inventory
+
+          MailModule_OpenMailboxMenu({_player}, {_mailboxId})
+
+      add 1 to {_slot}

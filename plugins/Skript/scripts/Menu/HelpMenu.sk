@@ -1,10 +1,44 @@
-command help:
+command help [<text>]:
   trigger:
-    open virtual chest inventory with size 5 named "&8Помощь" to player
+    if arg 1 is not set:
+      open virtual chest inventory with size 5 named "&8Помощь" to player
 
-    # Пустые слоты
-    set {_empty} to player head named "&f"
-    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+      # Пустые слоты
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
 
-    set {_slots::*} to 3,4,5, 20,21,22,23,24, 29,30,31,32,33
-    format gui slot {_slots::*} of player with {_empty}
+      set {_slots::*} to 20,21,22,23,24, 29,30,31,32,33
+      format gui slot 3,4,5, {_slots::*} of player with {_empty}
+
+      # Работы
+      set {_work} to player head named "&9$ &fЗаработок денег" with lore "", "&f &fТут вы сможете найти невероятно интересные способы", "&f &fзаработка денег на данном сервере. Мы постарались", "&f &fописать все системные способы заработка. Тоесть", "&f &fмы не включали способы по типу воровства, продажи", "&f &fпредметов, и такое подобное", "", "&a▷ &fНажмите, что бы перейти"
+      add "{SkullOwner:{Id:""7a0345b9-b55f-462c-8fb5-0690193ec00d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA0NzE5YjNiOTdkMTk1YTIwNTcxOGI2ZWUyMWY1Yzk1Y2FmYTE2N2U3YWJjYTg4YTIxMDNkNTJiMzdkNzIyIn19fQ==""}]}}}" to item-nbt of {_work}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_work} to run:
+        execute player command "/help work"
+
+    else if arg 1 is "work":
+      open virtual chest inventory with size 5 named "&8Заработок денег" to player
+
+      # Пустые слоты
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+      set {_slots::*} to 20,21,22,23,24, 29,30,31,32,33
+      format gui slot 3,4,5, {_slots::*} of player with {_empty}
+
+      # Сбор мусора
+      set {_parttime::garbage} to player head named "&9 &fПродажа мусора &7(Подработка)" with lore "", "&f &fПо городу разбросанно невероятно огромное количество", "&f &fмусора... И именно вы можете его собирать и продавать", "&f &fмусорщику, который стоит прямо в Центральном Сквере!", "", "&f &fВы так же можете посмотреть интерактивный туториал,", "&f &fна котором всё кратко и доходчиво объяснят.", "", "&a▷ &fНажмите, что бы начать туториал", "&7Вы должны быть в своей квартире"
+      add "{SkullOwner:{Id:""ce21582f-cfaa-4a8a-bff7-ef0ba55aad51"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkYjgyNWJiYzdkYmQ3YzM2MGYzZmY2YTI2Njg4YTRhZmQ2YTBiMDI2MDVhZjQxYTIxYjkxYzRjYzMxZjI3ZiJ9fX0=""}]}}}" to item-nbt of {_parttime::garbage}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_parttime::garbage} to run:
+        TutorialsModule_CollectorTutorial(player)      
+
+    else:
+      execute player command "/help"

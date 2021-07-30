@@ -17,7 +17,7 @@ function SP_Holo_ShopStandCreate(player: player, location: location):
 
   # Давайте же сразу создадим эту голограмму и
   # отдадим информацию о текущей голограмме обратно.
-  set {_lines::*} to "", "", coloured {_description::*}, "&e▷ &fПКМ"
+  set {_lines::*} to "", "", coloured {_description::*}, "&9▷ &fПКМ"
   
   set {_hologram::location} to {_location}
   set {_hologram::location}'s y coordinate to 54.1

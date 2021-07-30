@@ -1,6 +1,3 @@
-authorization:
-    discordId: 497417711387672587
-
 character:
     main:
         name: Игорь Шпротов
@@ -8,7 +5,7 @@ character:
         gender: Мужской
         skin: BagelBen
         statistics:
-            hunger: 11
+            hunger: 10
         documents:
         - 7051-8930-8445-8684
 
@@ -20,8 +17,33 @@ relationship:
             - lastName
             - age
             - gender
+        38246440-25d7-3715-9885-6c65d69e4c45-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+            - gender
+        64c7cef4-8072-397d-ad33-c7e6358a5c8e-main:
+            knows:
+            - age
+            - gender
+            - lastName
+            - firstName
+        c5a409b0-4673-35d2-8022-32ebfc373121-main:
+            knows:
+            - firstName
+            - lastName
+            - age
+        fed07d54-c249-3d40-a918-13c69c8a1d94-main:
+            knows:
+            - lastName
+            - firstName
+            - age
 
 temp:
     createdPassport: да
 
 receivedDefaultItems: true
+
+authorization:
+    discordId: 497417711387672587

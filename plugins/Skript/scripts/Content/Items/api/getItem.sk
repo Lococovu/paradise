@@ -1,2 +1,11 @@
 function getItem(id: string) :: item:
-  return {data::items::%{_id}%::item}
+  if {data::items::%{_id}%::createFunction} is set:
+    set {_function} to {data::items::%{_id}%::createFunction}
+    set {_item} to {data::items::%{_id}%::item}
+
+    evaluate logging errors in {_errors::*}:
+      set {_item} to %{_function}%({_item})
+  else:
+    set {_item} to {data::items::%{_id}%::item}
+
+  return {_item}
