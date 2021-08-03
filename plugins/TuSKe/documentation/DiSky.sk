@@ -4,15 +4,15 @@ Events:
 		Patterns:
 			[on] discord command <([^\s]+)( .+)?$>
 		Event values:
-			event-object
 			event-bot
+			event-object
+			event-guild
 			event-channel
+			event-member
+			event-discordcommand
+			event-message
 			event-object
 			event-user
-			event-discordcommand
-			event-guild
-			event-message
-			event-member
 		Cancellable: true
 Conditions:
 	Bot is Paused in Guild:

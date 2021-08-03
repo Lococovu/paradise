@@ -1,0 +1,15 @@
+character:
+    main:
+        documents:
+        - 3330-894-9384-137
+        name: Шелби Портер
+        gender: Мужской
+        age: 28
+        skin: Voyaje
+        statistics:
+            hunger: 13
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

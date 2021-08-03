@@ -18,22 +18,6 @@ World_JobCenter_Person:
   location: world, 541, 53.800, 641
   lines:
   - '&9ⓘ'
-terminal-01:
-  location: world, 530.5, 53.800, 649.5
-  lines:
-  - '&9█'
-terminal-02:
-  location: world, 530.5, 53.800, 655.5
-  lines:
-  - '&9█'
-terminal-03:
-  location: world, -3854.5, 68.800, -2771.5
-  lines:
-  - '&9█'
-terminal-04:
-  location: world, -3863.5, 68.800, -2878.5
-  lines:
-  - '&9█'
 rouswud_4:
   location: world, 380.792, 53.200, 644.514
   lines:

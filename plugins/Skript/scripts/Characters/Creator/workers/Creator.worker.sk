@@ -298,17 +298,14 @@ function CharacterCreatorModule_StartCreatorWorker(player: player):
 
       # Выход игрока в мир
       if {_exit} is true:
-        apply potion of blindness of tier 2 to {_player} for 2 seconds
+        apply potion of blindness of tier 2 to {_player} for 2 second
 
-        if {authorized::%{_player}%} is true:
-          PlayerEntry({_player}, false)
-        else:
-          # TutorialsModule_AboutLawnightTutorial({_player})
-          set {_location} to getLocation("-15, 4, -195.5", "lobby")
-          teleport {_player} to {_location}
+        # TutorialsModule_AboutLawnightTutorial({_player})
+        set {_location} to getLocation("-15, 4, -195.5", "lobby")
+        teleport {_player} to {_location}
 
-          set {tutorial::%{_player}%} to true
-          StartAuthorization({_player})
+        set {tutorial::%{_player}%} to true
+        StartAuthorization({_player})
 
       # Отчищаем данные
       delete {workers::%{_player}%::characters::creator}

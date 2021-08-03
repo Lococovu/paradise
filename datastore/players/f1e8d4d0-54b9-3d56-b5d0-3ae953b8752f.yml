@@ -1,0 +1,13 @@
+character:
+    main:
+        documents:
+        - 8699-5509-5758-8722
+        name: Март Джеймсон
+        age: 19
+        gender: Мужской
+        skin: Wolf
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 150
+last-created-npc-id: 155
 npc:
   '0':
     metadata:
@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: type,equipment,inventory,spawned,skintrait,owner,scoreboardtrait,location,mounttrait
+    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,owner,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -102,7 +102,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: type,equipment,spawned,skintrait,inventory,owner,lookclose,scoreboardtrait,location,mounttrait
+    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,lookclose,owner,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -134,7 +134,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: type,equipment,inventory,skintrait,spawned,owner,scoreboardtrait,location,mounttrait
+    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,owner,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -168,42 +168,17 @@ npc:
           '1': 360.0
       type: PLAYER
       location:
-        bodyYaw: -99.54335
+        bodyYaw: 170.29773
         world: world
         x: '451.5819'
         y: '52.0'
         z: '695.288'
-        yaw: '-68.1422'
-        pitch: '-21.6046'
+        yaw: '-149.7023'
+        pitch: '-1.432'
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: type,equipment,skintrait,spawned,inventory,owner,lookclose,scoreboardtrait,location,mounttrait
-    navigator:
-      speedmodifier: '1.0'
-      avoidwater: false
-      usedefaultstuckaction: true
-  '148':
-    name: ''
-    uuid: fc12ba8b-1c0f-452d-8719-c8d021f6375c
-    traits:
-      location:
-        bodyYaw: 0.0
-        world: world
-        x: '540.0'
-        y: '52.0'
-        z: '683.5'
-        yaw: '0.0'
-        pitch: '0.0'
-      spawned: true
-      type: PLAYER
-      skintrait:
-        fetchDefaultSkin: true
-        updateSkins: false
-      owner:
-        owner: server
-        uuid: ''
-    traitnames: type,equipment,spawned,skintrait,inventory,owner,scoreboardtrait,location,mounttrait
+    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,lookclose,owner,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

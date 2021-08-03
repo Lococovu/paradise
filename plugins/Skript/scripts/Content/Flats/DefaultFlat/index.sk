@@ -115,7 +115,7 @@ function TeleportToDefaultFlat(player: player):
           teleport {_player} to {_location}
           set {_player}'s gamemode to spectator
 
-          send title "&fг. Лоунайт" with subtitle "&fОкруг" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
+          send title "&fг. Лоунайт" with subtitle "&fШтат Мичиган, округ Уэйн" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
           wait 4.5 seconds
 
           loop 4 times:
