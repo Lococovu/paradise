@@ -2,7 +2,20 @@
 # Функция, которая означает что игрок закончил
 # процесс авторизации.
 # 
-function PlayerEntry(player: player, empty: boolean):
+function PlayerEntry(player: player, empty: boolean = false):
+  loop {player::%{_player}%::holograms::*}:
+    delete hologram loop-value
+
+  # Выключаем все воркеры
+  set {workers::shopWorker::%{_player}%} to "stop"
+  set {workers::%{_player}%::viewWorker} to "stop"
+  set {workers::%{_player}%::relationship} to "stop"
+  set {workers::%{_player}%::inventory} to "stop"
+  set {workers::%{_player}%::emotions} to "stop"
+
+  wait 2 ticks
+  delete {workers::%{_player}%::*}
+
   set {authorized::%{_player}%} to true
   # Берём информацию про аккаунт игрока.
   
@@ -10,14 +23,22 @@ function PlayerEntry(player: player, empty: boolean):
   set {_skin} to {characters::%{_profile::uid}%::0::skin}
   setSkin({_player}, {_skin})
 
-  send title "&9☀ &fДобро пожаловать!" with subtitle "&7Мы действительно рады вас видеть." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
-
-  wait 2 seconds
+  if {_empty} is true:
+    send title "&9☀ &fДобро пожаловать!" with subtitle "&7Мы действительно рады вас видеть." to {_player} for 4 seconds with 0 ticks fade in and 1 second fade out
+    wait 2 seconds
 
   # Просто телепортируем игрока в его квартирку
 
   wait 2 ticks
-  
+
+  set {_receivedItems} to getReceivedDefaultItems({_player})
+  if {_receivedItems} is not true:
+    set {_uuid} to {_player}'s uuid
+    set {_character} to getCurrentCharacter({_player})
+
+    set {_uuid} to "%{_uuid}%-%{_character}%"
+    delete {data::%{_uuid}%::item::*}
+
   set {_uuid} to {_player}'s uuid
   set {_character} to getCurrentCharacter({_player})
 
@@ -34,7 +55,7 @@ function PlayerEntry(player: player, empty: boolean):
       teleport {_player} to {_location}
       set {_player}'s gamemode to spectator
 
-      send title "&9☀ &fг. Лоунайт, %{server::time::year}% год" with subtitle "" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
+      send title "&9☀ &fг. Лоунайт" with subtitle "" to {_player} for 7 seconds with 1 second fade in and 1 tick fade out
       wait 4.5 seconds
 
       loop 4 times:
@@ -61,6 +82,7 @@ function PlayerEntry(player: player, empty: boolean):
         wait 1 second
 
       reveal {_player}
+      reveal all players to {_player}
       set {authorized::%{_player}%} to true
 
       loadPlayerInventory({_player})

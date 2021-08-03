@@ -1,0 +1,13 @@
+on death of player:
+  set {_drops::*} to drops
+
+  remove drops from the drops
+  loop {_drops::*}:
+    if display name of loop-value contains "★":
+      remove loop-value from {_drops::*}
+    
+    if loop-value is stained glass pane:
+      remove loop-value from {_drops::*}
+
+  loop {_drops::*}:
+    drop loop-value at player's location

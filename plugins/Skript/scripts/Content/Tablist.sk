@@ -3,9 +3,10 @@ every 1 tick:
     # Прячем всех игроков
     # hide all players in tablist of loop-player
 
-    # Обновляем таблист
-    # Хеадер
-    set loop-player's tablist header to "&9&lʟᴀᴡɴɪɢʜᴛ%newline%%newline%&fМесто для рп-творчества%newline%"
+    if {authorized::%loop-player%} is true:
+      # Обновляем таблист
+      # Хеадер
+      set loop-player's tablist header to "&9&lʟᴀᴡɴɪɢʜᴛ%newline%%newline%&fМесто для рп-творчества%newline%"
 
-    # Футер
-    set loop-player's tablist footer to "%newline%Заходите к нам в дискорд!%newline%&9discord&f.lococovu.me"
+      # Футер
+      set loop-player's tablist footer to "%newline%Заходите к нам в дискорд!%newline%&9discord&f.lococovu.me"

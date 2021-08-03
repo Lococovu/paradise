@@ -1,0 +1,56 @@
+function TutorialsModule_HelloWorldTutorial(player: player):
+  # Телепортируем на локацию
+  set {_location} to getLocation("-15, 4, -195.5", "lobby")
+  teleport {_player} to {_location}
+
+  # Запускаем воркер с текстом
+  add "&fДобро пожаловать", "&f" to {_texts::1::*}
+  add "&fПеред началом игры", "&fвам нужно будет создать персонажа" to {_texts::2::*}
+  add "&fПосле этого вам", "&fпридётся зарегистрироваться" to {_texts::3::*}
+  add "&c &fВнимание!", "&fСервер находится на стадии тестирования" to {_texts::4::*}
+  add "&fА разработчик пока что", "&cуехал&f, так что его не будет ещё неделю" to {_texts::5::*}
+  add "&fСервер получился сырой как", "&cкиберпанк&f, так что простите." to {_texts::6::*}
+
+  set {_text::time} to 6
+  set {_text::timer} to 3
+  set {_text::current} to 0
+  set {_texts::size} to size of {_texts::*}
+
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      stop
+
+    if {_player}'s gamemode isn't spectator:
+      set {_player}'s gamemode to spectator
+
+    if distance between {_location} and {_player} > 0:
+      teleport {_player} to {_location}
+
+    # Таймер текста
+    if {_text::timer} <= 0:
+      add 1 to {_text::current}
+
+      if {_text::current} > {_texts::size}:
+        # Переходим к следующему туториалу
+        apply potion of blindness of tier 2 to {_player} for 4.5 seconds
+        
+        send title "&9¹ &fЗадание" with subtitle "&fСоздайте &7вашего&f идеального персонажа" to {_player} for 4 seconds with fade in 1 second and fade out 1 second
+        wait 4.5 seconds
+        CharacterCreatorModule_StartCreatorWorker({_player})
+
+        stop
+        
+      # Отправляем текст
+      set {_title} to {_texts::%{_text::current}%::1}
+      set {_subtitle} to {_texts::%{_text::current}%::2}
+
+      set {_time} to "%{_text::time} - 2% seconds" parsed as timespan
+      send title "%{_title}%" with subtitle "%{_subtitle}%" to {_player} for {_time} with fade in 1 second and fade out 1 second
+
+      set {_text::timer} to {_text::time}
+    else:
+      reduce {_text::timer} by 0.05
+
+    wait 1 tick 

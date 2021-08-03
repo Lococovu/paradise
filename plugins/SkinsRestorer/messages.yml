@@ -1,4 +1,4 @@
-PREFIX: '&9[&2SkinsRestorer&9] '
+PREFIX: ''
 HELP_SKIN_CLEAR: Clears your skin.
 HELP_SKIN_CLEAR_OTHER: Clears the skin of another player.
 HELP_SKIN_UPDATE: Updates your skin.
@@ -24,11 +24,11 @@ SKIN_DISABLED: '&4Error&8: &cThis skin is disabled by an administrator.'
 NOT_PREMIUM: '&4Error&8: &cPremium player with that name does not exist.'
 INVALID_PLAYER: '&4Error&8: &c%player is not a valid username or URL.'
 SKIN_COOLDOWN: '&4Error&8: &cYou can change your skin again in &9%s &cseconds.'
-SKIN_CHANGE_SUCCESS: '&2Your skin has been changed.'
-SKIN_CLEAR_SUCCESS: '&2Your skin has been cleared.'
+SKIN_CHANGE_SUCCESS: '&f'
+SKIN_CLEAR_SUCCESS: '&f.'
 SKIN_CLEAR_ISSUER: '&2Skin cleared for player %player.'
 MS_UPDATING_SKIN: '&2Uploading skin, please wait...(This may take up some time)'
-SUCCESS_UPDATING_SKIN: '&2Your skin has been updated.'
+SUCCESS_UPDATING_SKIN: ''
 SUCCESS_UPDATING_SKIN_OTHER: '&2Skin updated for player %player.'
 ERROR_UPDATING_SKIN: '&4Error&8: &cAn error occurred while updating your skin. Please
   try again later!'

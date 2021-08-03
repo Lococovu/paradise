@@ -1,0 +1,4 @@
+function WeaponGlockModule_FireWeapon(player: player):
+  set {_location} to location 1.5 meters infront of {_player}
+  
+  WeaponModule_StartBulletWorker({_player}, {_location})

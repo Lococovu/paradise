@@ -1,0 +1,12 @@
+function CharacterCreatorModule_GetDataHologramLocation(id: string) :: location:
+  # hard-coded
+  if {_id} is "name":
+    return getLocation("538, 54.5, 684.5", "world")
+  else if {_id} is "age":
+    return getLocation("538, 52.8, 684.5", "world")
+  else if {_id} is "gender":
+    return getLocation("542, 54.5, 684.5", "world")
+  else if {_id} is "skin":
+    return getLocation("542, 52.8, 684.5", "world")
+  else if {_id} is "character":
+    return getLocation("540, 52.8, 685", "world")

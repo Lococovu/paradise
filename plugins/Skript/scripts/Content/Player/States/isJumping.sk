@@ -12,13 +12,19 @@ function isJumpingWorker(player: player):
     set {_difference} to difference between {workers::%{_player}%::states::isJumping::lastJump} and now
     if {_difference} <= 2.5 second:
       set {workers::%{_player}%::states::isJumping} to true
+      add 1 to {workers::%{_player}%::states::isJumping::times}
     else:
       set {workers::%{_player}%::states::isJumping} to false
+      delete {workers::%{_player}%::states::isJumping::times}
 
     wait 1 second
 
 on jump:
   set {workers::%player%::states::isJumping::lastJump} to now
+
+  if {workers::%{_player}%::states::isJumping::times} >= 3:
+    cancel event
+    delete {workers::%{_player}%::states::isJumping::times}
 
   if {player::%player%::forbidJumping} is true:
     if {workers::%player%::states::isJumping} is true:

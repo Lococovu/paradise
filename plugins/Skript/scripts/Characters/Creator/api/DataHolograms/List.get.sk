@@ -1,0 +1,2 @@
+function CharacterCreatorModule_GetDataHologramsList() :: strings:
+  return "name", "age", "gender", "skin", "character"

@@ -103,7 +103,7 @@ function openRoomMenu(player: player, roomId: string):
     remove {_slot} from {_slots::*}
 
     format gui slot {_slot} of {_player} with {_cash} to run:
-      assignRoomToPlayer({_player}, "%{_roomId}%")
+      # assignRoomToPlayer({_player}, "%{_roomId}%")
 
     # Картой
     set {_card} to player head named "&c▢ &fРасплатиться карточкой" with lore "", "&f &fЕсть деньги на карточке? Ну так тогда", "&f &fиспользуйте именно её для оплаты этого товара!", "&f &fВсё максимально протсо и максимально быстро", "", "&7В разработке"

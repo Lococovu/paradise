@@ -3,16 +3,9 @@ function getCharacterName(player: player, character: string) :: string:
   set {_temp::*} to {_name} split at " "
 
   set {_firstName} to {_temp::1}
-  {_firstName} is not set:
-    set {_firstName} to "*%{_player}%"
-
   set {_lastName} to {_temp::2}
-  {_lastName} is not set:
-    set {_lastName} to "*%{_player}%"
 
-  if {_firstName} is {_lastName}:
-    return {_firstName}
-  else:
+  {_firstName} and {_lastName} is set:
     return "%{_firstName}% %{_lastName}%"
 
 function setCharacterName(player: player, character: string, name: string):

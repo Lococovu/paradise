@@ -1,0 +1,16 @@
+function CharacterCreatorModule_CreateCharacterNPC(player: player):
+  set {_location} to CharacterCreatorModule_GetNPCLocation()
+  set {_character::name} to getCharacterName({_player}, getCurrentCharacter({_player}))
+
+  # Спавним NPC
+  if {_character::name} is not set:
+    set {_character::name} to "Неизвестно"
+
+  create npc named "" with entity type player at {_location}
+  set {_npc} to last created npc
+
+  set {workers::%{_player}%::characters::creator::npcId} to {_npc}.getUniqueId()
+
+  # Добавляем в список NPC
+  set {workers::%{_player}%::characters::creator::npc} to {_npc}
+  add {_npc} to {workers::%{_player}%::characters::creator::npc::*}

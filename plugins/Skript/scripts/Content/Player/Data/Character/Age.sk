@@ -2,9 +2,6 @@ function getCharacterAge(player: player, character: string) :: number:
   set {_value} to yaml value "character.%{_character}%.age" from "player-%{_player}'s uuid%"
   set {_number} to "%{_value}%" parsed as number
 
-  {_number} is not set:
-    set {_number} to 18
-
   return {_number}
 
 function setCharacterAge(player: player, character: string, age: number):

@@ -1,0 +1,328 @@
+function CharacterCreatorModule_StartCreatorWorker(player: player):
+  # Останавливаем любой прошлый воркер
+  if {workers::%{_player}%::characters::creator} is set:
+    set {workers::%{_player}%::characters::creator} to "stop"
+    wait 2 ticks
+
+  # Отчищаем все данные
+  delete {workers::%{_player}%::characters::creator}
+  delete {workers::%{_player}%::characters::creator::*}
+  delete {workers::%{_player}%::characters::creator::holograms::*}
+
+  # Телепортируем игрока на стартовую локацию
+  set {_center} to CharacterCreatorModule_GetPlayerLocation()
+  teleport {_player} to {_center}
+
+  wait 2 ticks
+
+  # Отчищаем инвентарь (сохраняем)
+  savePlayerInventory({_player})
+
+  set {_empty} to player head named "&9"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to item-nbt of {_empty}
+
+  loop 9 times:
+    set {_slot} to loop-number - 1
+    set slot {_slot} of {_player}'s inventory to {_empty}
+
+  # Создаём голограммы
+  CharacterCreatorModule_CreateDataHolograms({_player})
+  
+  # Список всех голограмм
+  set {_dataHolograms::*} to CharacterCreatorModule_GetDataHologramsList()
+
+  # Создаём NPC
+  CharacterCreatorModule_CreateCharacterNPC({_player})
+
+  # Подготавливаем переменные о персонаже
+  set {_character::age} to getCharacterAge({_player}, getCurrentCharacter({_player}))
+  set {_character::name} to getCharacterName({_player}, getCurrentCharacter({_player}))
+  set {_character::gender} to getCharacterGender({_player}, getCurrentCharacter({_player}))
+  set {_character::skin} to getCharacterSkin({_player}, getCurrentCharacter({_player}))
+
+  # Запускаем воркер
+  set {_stage} to 1
+  set {_working} to true
+  
+  set {workers::%{_player}%::characters::creator::lookingAt} to "nothing"
+
+  while {_working} is true:
+    if {_player} is offline:
+      set {workers::%{_player}%::characters::creator} to "stop"
+    
+    # Обработка стадий
+    # Стадия: простой
+    if {_stage} is 1:
+      if {_stages::%{_stage}%::initialized} is not true:
+        set {_stages::%{_stage}%::initialized} to true
+
+        # Показуем голограммы игроку
+        loop {workers::%{_player}%::characters::creator::holograms::*}:
+          {_player} can not see hologram loop-value
+          reveal hologram loop-value to {_player}
+
+        # Обновляем данные персонажа
+        set {_character::age} to getCharacterAge({_player}, getCurrentCharacter({_player}))
+        set {_character::name} to getCharacterName({_player}, getCurrentCharacter({_player}))
+        set {_character::gender} to getCharacterGender({_player}, getCurrentCharacter({_player}))
+        set {_character::skin} to getCharacterSkin({_player}, getCurrentCharacter({_player}))
+
+        {_character::gender} is set:
+          if {_character::gender} contains "муж":
+            set {_visual::gender::icon} to "&9♂"
+          else:
+            set {_visual::gender::icon} to "&d♀"
+        else:
+          set {_visual::gender::icon} to "&7?"
+
+        # Данные для отображения
+        if {_character::age} is set:
+          set {_visual::age} to "%{_character::age}% лет"
+        else:
+          set {_visual::age} to "Неизвестно"
+
+        if {_character::name} is set:
+          set {_visual::name} to {_character::name}
+        else:
+          set {_visual::name} to "Неизвестно"
+
+        if {_character::gender} is set:
+          set {_visual::gender} to {_character::gender}
+        else:
+          set {_visual::gender} to "Неизвестно"
+
+        # Обновляем голограммы
+        loop {_dataHolograms::*}:
+          delete {_id}
+          delete {_entity}
+          delete {_hologram}
+
+          # Берём данные
+          set {_id} to loop-value
+          set {_entity} to {workers::%{_player}%::characters::creator::entity::%{_id}%}
+          set {_hologram} to {workers::%{_player}%::characters::creator::hologram::%{_id}%}
+
+          # Обновляем голограмму, на которую смотрит игрок
+          set {_hologram::lines::*} to CharacterCreatorModule_GetDataHologramLines({_id})
+
+          delete {_lines::*}
+          loop {_hologram::lines::*}:
+            set {_value} to loop-value-2
+            evaluate:
+              add "%{_value}%" to {_lines::*}
+
+          set all lines of hologram {_hologram} to {_lines::*}
+      
+      # Обновляем боссбар
+      loop {_dataHolograms::*}:
+        loop-value isn't "character":
+          if {_character::%loop-value%} is not set:
+            {_errors::*} doesn't contain loop-value:
+              add loop-value to {_errors::*}
+          else:
+            {_errors::*} contains loop-value:
+              remove loop-value from {_errors::*}
+
+      if size of {_errors::*} > 0:
+        set {_error} to first element of {_errors::*}
+
+        # hard-coded
+        if {_error} is "age":
+          set {_error::title} to "Возраст персонажа"
+        else if {_error} is "name":
+          set {_error::title} to "Имя персонажа"
+        else if {_error} is "gender":
+          set {_error::title} to "Пол персонажа"
+        else if {_error} is "skin":
+          set {_error::title} to "Скин персонажа"
+
+        set {_bossbar::title} to "&c⚠ &fВам нужно указать &c%{_error::title}%&f... &7(%4 - size of {_errors::*}% из 4)"
+        set {_bossbar::progress} to (1/4) * (4 - size of {_errors::*})
+
+      else:
+        set {_bossbar::title} to "&a✓ &fПерсонаж создан. Нажмите на &7вашего Персонажа&f что бы перейти к игре."
+        set {_bossbar::progress} to 1
+
+      # Обработка ивента нажатия
+      if {workers::%{_player}%::characters::creator::clicked} is true:
+        {_lookingAt} isn't "character":
+          # Переходим на стадию редактирования
+          set {_editing} to {_lookingAt}
+
+          delete {_stages::*}
+          delete {_lookingAt}
+          delete {workers::%{_player}%::characters::creator::clicked}
+
+          set {_stage} to 2
+        else:
+          size of {_errors::*} <= 0:
+            set {workers::%{_player}%::characters::creator} to "exit"  
+            delete {workers::%{_player}%::characters::creator::clicked}
+
+      # delete {_target}
+      # set {_target} to {_player}'s targeted entity
+      # if "%{_target}%" is "%getCharacterName({_player}, getCurrentCharacter({_player}))%":
+      #   set {workers::%{_player}%::characters::creator::lookingAt} to "nothing"
+      set {_lookingAt} to {workers::%{_player}%::characters::creator::lookingAt}
+
+      # Обновляем текст голограммы
+      set {_hologram} to {workers::%{_player}%::characters::creator::hologram::%{_lookingAt}%}
+      set {_hologram::lines::*} to CharacterCreatorModule_GetDataHologramHoverLines({_lookingAt})
+
+
+      delete {_lines::*}
+      loop {_hologram::lines::*}:
+        set {_value} to loop-value
+        evaluate:
+          add "%{_value}%" to {_lines::*}
+          
+      if last line of hologram {_hologram} isn't last element of {_lines::*}:
+        set lines of hologram {_hologram} to {_lines::*}
+
+      # Возвращаем текст других голограмм
+      # к начальному состоянию
+      if {_lookingAt::previous} isn't {_lookingAt}:
+        set {_hologram} to {workers::%{_player}%::characters::creator::hologram::%{_lookingAt::previous}%}
+        set {_hologram::lines::*} to CharacterCreatorModule_GetDataHologramLines({_lookingAt::previous})
+        delete {_lines::*}
+
+        # Обновляем название голограммы
+        loop {_hologram::lines::*}:
+          set {_value} to loop-value
+          evaluate:
+            add "%{_value}%" to {_lines::*}
+
+        {_dataHolograms::*} contains {_lookingAt::previous}:
+          set all lines of hologram {_hologram} to {_lines::*}
+        set {_lookingAt::previous} to {_lookingAt}
+
+    # Стадия: редактирование
+    else if {_stage} is 2:
+      if {_stages::%{_stage}%::initialized} is not true:
+        set {_stages::%{_stage}%::initialized} to true
+
+        # Прячем все голограммы
+        loop {workers::%{_player}%::characters::creator::holograms::*}:
+          hide hologram loop-value for {_player}
+
+        # Запускаем функцию редактирования
+        delete {workers::%{_player}%::characters::creator::ready}
+        ChangeProfileSetting({_player}, "rp.%{_editing}%", true)
+
+      # Возвращаемся
+      if {workers::%{_player}%::characters::creator::ready} is true:
+        # Проверяем обновлённые данные (и, если что, обновляем NPC)
+        set {_npc} to {workers::%{_player}%::characters::creator::npc}
+        if {_editing} is "skin":
+          # Обновляем скин
+          evaluate:
+            set {_npc}'s npc skin to getCharacterSkin({_player}, getCurrentCharacter({_player}))
+        
+        delete {_editing}
+        delete {_stages::*}
+
+        delete hologram {workers::%{_player}%::characters::creator::editHologram}
+
+        set {_stage} to 1
+
+    loop all holograms:
+      {_player} can see hologram loop-hologram:
+        {workers::%{_player}%::characters::creator::holograms::*} doesn't contain loop-hologram:
+          hide hologram loop-hologram from {_player}
+
+    # Прячем NPC от всех
+    loop {workers::%{_player}%::characters::creator::npc::*}:
+      set {_players::*} to all players
+      remove {_player} from {_players::*}
+
+      hide loop-value from {_players::*}
+
+    # Прячем игрока от всех
+    hide {_player}
+    hide all players from {_player}
+
+    # Проверяем локацию игрока
+    if distance between {_player} and {_center} > 0:
+      teleport {_player} to {_center}
+
+    # Боссбар
+    if {_bossbar} is not set:
+      set {_bossbar} to skellett new bossbar
+      set skellett colour of bossbar {_bossbar} to WHITE
+
+      set skellett title of bossbar {_bossbar} to "&f..."
+      add {_player} to bossbar {_bossbar}
+
+      skellett show bossbar {_bossbar}
+    else:
+      if {_bossbar::hide} is true:
+        hide bossbar {_bossbar}
+
+      # Обновляем тайтл боссбара
+      if skellett title of bossbar {_bossbar} isn't {_bossbar::title}:
+        set skellett title of bossbar {_bossbar} to {_bossbar::title}
+
+      # Обновляем прогресс боссбара
+      if skellett progress of bossbar {_bossbar} isn't {_bossbar::progress}:
+        if {_bossbar::progress} > 0.95:
+          set {_bossbar::progress} to 1
+
+        if {_bossbar::progress} < 0:
+          set {_bossbar::progress} to 0
+
+        set skellett progress of bossbar {_bossbar} to {_bossbar::progress}
+
+    # Синхронизация переменных
+    if {workers::%{_player}%::characters::creator} is not set:
+      set {workers::%{_player}%::characters::creator} to true
+
+    # Действие: остановка
+    set {_action} to {workers::%{_player}%::characters::creator}
+
+    if {_action} is "stop":
+      # Удаляем голограммы
+      loop {workers::%{_player}%::characters::creator::holograms::*}:
+        delete hologram loop-value
+
+      # Удаляем боссбар
+      if {_bossbar} is set:
+        hide bossbar {_bossbar}
+
+      # Удаляем NPC
+      loop {workers::%{_player}%::characters::creator::npc::*}:
+        destroy loop-value
+
+      # Удаляем всех существ
+      loop {workers::%{_player}%::characters::creator::entities::*}:
+        kill loop-value
+
+      # Выход игрока в мир
+      if {_exit} is true:
+        apply potion of blindness of tier 2 to {_player} for 2 seconds
+
+        if {authorized::%{_player}%} is true:
+          PlayerEntry({_player}, false)
+        else:
+          # TutorialsModule_AboutLawnightTutorial({_player})
+          set {_location} to getLocation("-15, 4, -195.5", "lobby")
+          teleport {_player} to {_location}
+
+          set {tutorial::%{_player}%} to true
+          StartAuthorization({_player})
+
+      # Отчищаем данные
+      delete {workers::%{_player}%::characters::creator}
+      delete {workers::%{_player}%::characters::creator::*}
+
+      stop
+
+    # Действие: выход
+    else if {_action} is "exit":
+      set {_exit} to true
+      set {workers::%{_player}%::characters::creator} to "stop"
+
+    wait 1 tick
+
+command startw:
+  trigger:
+    CharacterCreatorModule_StartCreatorWorker(player)

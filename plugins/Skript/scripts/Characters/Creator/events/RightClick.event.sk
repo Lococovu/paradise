@@ -1,0 +1,3 @@
+on right click:
+  {workers::%player%::characters::creator} is set:
+    set {workers::%player%::characters::creator::clicked} to true

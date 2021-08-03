@@ -1,0 +1,79 @@
+function CharacterCreatorModule_CreateDataHolograms(player: player):
+  # Берём список всех голограмм
+  set {_holograms::*} to CharacterCreatorModule_GetDataHologramsList()
+
+  # Подготавливаем переменные о персонаже
+  set {_character} to getCurrentCharacter({_player})
+  set {_character::age} to getCharacterAge({_player}, {_character})
+  set {_character::name} to getCharacterName({_player}, {_character})
+  set {_character::gender} to getCharacterGender({_player}, {_character})
+  set {_character::skin} to getCharacterSkin({_player}, {_character})
+
+  {_character::gender} is set:
+    if {_character::gender} contains "муж":
+      set {_visual::gender::icon} to "&9♂"
+    else:
+      set {_visual::gender::icon} to "&d♀"
+  else:
+    set {_visual::gender::icon} to "&7?"
+
+  # Данные для отображения
+  set {_visual::age} to {_character::age} or "Неизвестно"
+  set {_visual::name} to {_character::name} or "Неизвестно"
+  set {_visual::gender} to {_character::gender} or "Неизвестно"
+  set {_visual::skin} to {_character::skin} or "Неизвестно"
+
+  # Другие переменные
+  set {_center} to CharacterCreatorModule_GetPlayerLocation()
+
+  # Спавним все голограммы
+  loop {_holograms::*}:
+    # Отчищаем
+    delete {_id}
+    delete {_hologram}
+    delete {_hologram::*}
+
+    # Берём данные этой голограммы
+    set {_id} to loop-value
+    
+    set {_hologram::location} to CharacterCreatorModule_GetDataHologramLocation({_id})
+    set {_hologram::lines::*} to CharacterCreatorModule_GetDataHologramLines({_id})
+
+    # Обновляем название голограммы
+    delete {_lines::*}
+    loop {_hologram::lines::*}:
+      set {_value} to loop-value-2
+      evaluate:
+        add "%{_value}%" to {_lines::*}
+
+    # Создаём голограмму
+    {_hologram::location} is set 
+    create new hologram with clickable lines {_lines::*} at {_hologram::location} and store it in {_hologram}
+
+    make hologram {_hologram} invisible by default
+    reveal hologram {_hologram} to {_player}
+
+    # Добавляем созданную голограмму в список всех голограмм
+    set {workers::%{_player}%::characters::creator::hologram::%{_id}%} to {_hologram}
+    add {_hologram} to {workers::%{_player}%::characters::creator::holograms::*}
+    add {_hologram} to {player::%{_player}%::holograms::*}
+
+    # Готовим локацию
+    if x coordinate of {_hologram}'s location is x coordinate of {_center}:
+      set {_entity::location} to location 3 meters infront of {_player}
+    else:
+      if x coordinate of {_hologram}'s location >= x coordinate of {_center}:
+        set {_entity::location} to location 3 meters infront, 1.5 meters to the right of {_player}
+      else:
+        set {_entity::location} to location 3 meters infront, 1.5 meters to the left of {_player}
+
+    set {_entity::location}'s y coordinate to y coordinate of {_hologram::location} - 1
+
+    # Создаём армор стенд
+    spawn 1 armor stand at {_entity::location} with nbt "{NoGravity:1, Invisible:1}"
+    set {_entity} to last spawned armor stand
+
+    CharacterCreatorModule_StartHoloButtonWorker({_player}, {_id}, {_entity})
+
+    set {workers::%{_player}%::characters::creator::entity::%{_id}%} to {_entity}.getUniqueId()
+    add {_entity} to {workers::%{_player}%::characters::creator::entities::*}

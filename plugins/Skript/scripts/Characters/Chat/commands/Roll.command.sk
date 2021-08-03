@@ -1,0 +1,6 @@
+command roll:
+  trigger:
+    set {_roll} to random integer between 0 and 100
+
+    if {%player%::chat} is 1:
+      make player say "*кинул кубик и ему выпало &6%{_roll}% &eиз &6100&e."

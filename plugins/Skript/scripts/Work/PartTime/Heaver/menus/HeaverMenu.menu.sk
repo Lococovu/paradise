@@ -7,8 +7,62 @@ function WorkModule_OpenHeaverMenu(player: player):
     wait 2 ticks
 
   if {workers::%{_player}%::work::%{_workId}%} is set:
-    # Игрок уже работает на данной подработке
+    # Игрок уже {работает на данной подработке
+    open virtual chest inventory with size 3 named "&8Грузчик" to {_player}
 
+    # Пустые слоты
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+    set {_slots::*} to 12,13,14
+    format gui slot {_slots::*} of {_player} with {_empty}
+
+    # Закончить работу
+    set {_work::earned} to {workers::%{_player}%::work::%{_workId}%::earned}
+    set {_work::carried} to {workers::%{_player}%::work::%{_workId}%::carried}
+    
+    set {_stop} to player head named "&fЗакончить работу" with lore "", "&f &FНаработались уже? Ну тогда пора закончить", "&f &fработу и получить свои честно заработанные", "&f &fденьги! Просто нажмите сюда, что бы закончить работу.", "", "&9$ &fЗаработанно денег: &9%{_work::earned}%&f$", "&7За %{_work::carried}% разгруженных ящиков", "&7с товарами.", "", "&a▷ &fНажмите, что бы закончить работу"
+    add "{SkullOwner:{Id:""7bc7439b-e7d8-4f0c-b6bc-280667974d0d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjhkNmFkNjkyN2NkYWE5ZDgxNzkzMzdjYWRmOTY0NDYwNjcyMTE3YjMyNmU2MGY1YjFkMTlhNGI1NGYyYTMyMyJ9fX0=""}]}}}" to item-nbt of {_stop}
+
+    format gui slot 14 of {_player} with {_stop} to run:
+      close {_player}'s inventory
+
+      # Останавливаем воркер
+      set {workers::%{_player}%::work::%{_workId}%} to "stop"
+
+      # Выдаём деньги 
+      set {_output} to {_work::earned}
+      while {_output} > 0:
+        if {_output} >= 100:
+          set {_output} to {_output} - 100
+          set {_item} to GetMoneyBillItem(100)
+          add {_item} to {_items::*}
+        else if {_output} >= 50:
+          set {_output} to {_output} - 50
+          set {_item} to GetMoneyBillItem(50)
+          add {_item} to {_items::*}
+        else if {_output} >= 20:
+          set {_output} to {_output} - 20
+          set {_item} to GetMoneyBillItem(20)
+          add {_item} to {_items::*}
+        else if {_output} >= 10:
+          set {_output} to {_output} - 10
+          set {_item} to GetMoneyBillItem(10)
+          add {_item} to {_items::*}
+        else if {_output} >= 5:
+          set {_output} to {_output} - 5
+          set {_item} to GetMoneyBillItem(5)
+          add {_item} to {_items::*}
+        else:
+          set {_output} to {_output} - 1
+          set {_item} to GetMoneyBillItem(1)
+          add {_item} to {_items::*}
+
+      loop {_items::*}:
+        add loop-value to player's inventory
+
+      wait 2 ticks
+      set {hologram::%{_player}%::%{_workId}%::updateHologram} to true
   else:
     # Игрок ещё не работает на данной подработке
     open virtual chest inventory with size 3 named "&8Грузчик" to {_player}
@@ -22,7 +76,7 @@ function WorkModule_OpenHeaverMenu(player: player):
 
     # Информация о подработке (+туториал)
     # Начать работать
-    set {_start} to player head named "&fНачать работать" with lore "", "&f &fГрузчик - это одна из самых простых и самых", "&f &fбезопасных подработок, которые вы только встречали!", "", "&f &fПросто относите коробки из Точки А в Точку В и получайте", "&f &fза это деньги!", "", "&9$ &fПлата:", "&7от &91&f$ &7до &910&f$ &7за ящик", "", "&a▷ &fНажмите, что бы начать подработку", "&7Для того, что бы забрать деньги, которые вы", "&7заработали, вам нужно будет ещё раз зайти", "&7в это меню."
+    set {_start} to player head named "&fНачать работать" with lore "", "&f &fГрузчик - это одна из самых простых и самых", "&f &fбезопасных подработок, которые вы только встречали!", "", "&f &fПросто относите коробки из Точки А в Точку В и получайте", "&f &fза это деньги!", "", "&9$ &fПлата:", "&7от &91&f$ &7до &93&f$ &7за ящик", "", "&a▷ &fНажмите, что бы начать подработку", "&7Для того, что бы забрать деньги, которые вы", "&7заработали, вам нужно будет ещё раз зайти", "&7в это меню."
     add "{SkullOwner:{Id:""fd0c2633-9fdb-4049-87fb-222616d96066"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmE4ZjZiMTMxZWY4NDdkOTE2MGU1MTZhNmY0NGJmYTkzMjU1NGQ0MGMxOGE4MTc5NmQ3NjZhNTQ4N2I5ZjcxMCJ9fX0=""}]}}}" to item-nbt of {_start}
 
     format gui slot 14 of {_player} with {_start} to run:
@@ -30,3 +84,6 @@ function WorkModule_OpenHeaverMenu(player: player):
 
       # Запускаем воркер
       WorkModule_StartHeaverWorker({_player})
+      
+      wait 2 ticks
+      set {hologram::%{_player}%::%{_workId}%::updateHologram} to true

@@ -1,0 +1,48 @@
+on join:
+  load yaml "datastore/players/%player's uuid%.yml" as "player-%player's uuid%"
+  startConfigFileChecker(player)
+  
+  remove night vision from player
+  set join message to ""
+
+  # TODO
+  # Создаём паспорт для игрока
+  if yaml value "temp.createdPassport" from "player-%player's uuid%" is not set:
+    set {_createId} to random integer between 000 and 999
+
+    set {documents::create::%{_createId}%::type} to "passport"
+    set {documents::create::%{_createId}%::uuid} to player's uuid
+    set {documents::create::%{_createId}%::character} to "main"
+    set {_documentId} to createDocument("%{_createId}%")
+
+    addDocumentToPlayer(player, "%{_documentId}%")
+
+    set yaml value "temp.createdPassport" from "player-%player's uuid%" to "да"
+    save yaml "player-%player%"
+
+  delete {authorized::%player%}
+  delete {temp::%player%::*}
+
+  # Проверяем статус начального туториала
+  # set {_tutorial} to yaml value "firstJoinTutorial" from "player-%player's uuid%"
+  set {_tutorial} to {tutorial::%player%}
+  if {_tutorial} is not set:
+    AuthModule_StartGuestWorker(player)
+
+    # CharacterCreatorModule_StartCreatorWorker(player)
+    TutorialsModule_HelloWorldTutorial(player)
+  else:
+    set {_character::age} to getCharacterName(player, getCurrentCharacter(player))
+    set {_character::name} to getCharacterName(player, getCurrentCharacter(player))
+    set {_character::gender} to getCharacterName(player, getCurrentCharacter(player))
+    set {_character::skin} to getCharacterName(player, getCurrentCharacter(player))
+
+    {_character::age}, {_character::name}, {_character::gender} and {_character::skin} is set:
+      # Телепортируем игрока на нужную локацию
+      set {_location} to getLocation("-15, 4, -195.5", "lobby")
+      teleport player to {_location}
+
+      wait 1 tick
+      StartAuthorization(player)
+    else:
+      CharacterCreatorModule_StartCreatorWorker(player)

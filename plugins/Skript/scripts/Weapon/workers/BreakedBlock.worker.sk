@@ -1,0 +1,8 @@
+function WeaponModule_StartBreakedBlockWorker(location: location, blockToReplace: item = air):
+  set {_block} to "%block at {_location}%"
+  "%{_block}%" contains "glass":
+    set block at {_location} to {_blockToReplace}
+
+    wait 1 minute
+    set {_block} to "%{_block}%" parsed as item
+    set block at {_location} to {_block}

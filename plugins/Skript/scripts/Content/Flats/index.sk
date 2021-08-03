@@ -125,10 +125,6 @@ function loadRoomsHolograms(player: player):
       set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "RM_Holo_RoomEntranceCreate"
       set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "RM_Holo_RoomEntranceClick"
 
-command testr:
-  trigger:
-    loadRoomsHolograms(player)
-
 on load:
   delete {data::rooms::*}
   loadRooms()

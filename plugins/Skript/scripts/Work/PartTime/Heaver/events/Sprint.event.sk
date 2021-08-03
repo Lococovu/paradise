@@ -1,0 +1,4 @@
+on sprint toggle:
+  set {_workId} to WorkModule_GetHeaverWorkId()
+  if {workers::%player%::work::%{_workId}%::stage} is 2:
+    cancel event

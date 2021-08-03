@@ -1,10 +1,15 @@
 on load:
   set {_locations::*} to GarbageModule_GetGarbageLocations()
+  delete {data::collector::*}
 
   broadcast "&9[garbage] &fKill garbage"
 
   loop {_locations::*}:
     set {_location} to location of block at loop-value
+
+    loop all entities in radius 5 around {_location}:
+      if "%loop-entity%" contains "armor":
+        kill loop-entity
 
     loop {data::garbage::%{_location}%::items::*}:
       remove loop-value-2 from {data::garbage::%{_location}%::items::*}

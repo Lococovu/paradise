@@ -48,12 +48,12 @@ on chat:
       set {_message::radius} to 25
     else if message starts with "<":
       set {_message} to subtext of {_message} from characters 2 to (length of {_message})
-      set {_message::original} to "&7+name &9прошептал%{_gender::suffix}%&f: %coloured {_message}%"
+      set {_message::original} to "&7+name &eпрошептал%{_gender::suffix}%&f: %coloured {_message}%"
       
       set {_message::radius} to 5
     else if message start with "*":
       set {_message} to subtext of {_message} from characters 2 to (length of {_message})
-      set {_message::original} to "&9+name %{_message}%"
+      set {_message::original} to "&e+name %{_message}%"
       
       set {_message::radius} to 25
       set {_message::action} to true
@@ -164,7 +164,7 @@ every 1 tick:
             set {chat::%{_player}%::last} to 2
 
             set {_message} to subtext of {_message} from characters 2 to (length of {_message})
-            set {_message} to "&9%{_message}%"
+            set {_message} to "&e%{_message}%"
           else if {_message} starts with ">":
             set {_message} to subtext of {_message} from characters 2 to (length of {_message})
 

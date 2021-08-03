@@ -13,7 +13,7 @@ function WorkModule_StartHeaverWorker(player: player):
   # Запускаем воркер
 
   set {_work::state} to "WORKING"
-  set {_work::stage} to 2
+  set {_work::stage} to 1
   set {_work::earned} to 0
   set {_work::carried} to 0
 
@@ -25,11 +25,18 @@ function WorkModule_StartHeaverWorker(player: player):
     if {workers::%{_player}%::work::%{_workId}%} is not set:
       set {workers::%{_player}%::work::%{_workId}%} to true
 
+    # Проверяем дистанцию
+    set {_center} to getLocation("369, 52, 735.5", "world")
+    if distance between {_player} and {_center} >= 45:
+      set {workers::%{_player}%::work::%{_workId}%} to "stop"
+
     # Проверяем текущее действие
     set {_action} to {workers::%{_player}%::work::%{_workId}%}
 
     # Действие: остановка
     if {_action} is "stop":
+      reset {_player}'s walking speed
+
       # Прячем боссбар
       {_bossbar} is set:
         hide bossbar {_bossbar}
@@ -38,9 +45,14 @@ function WorkModule_StartHeaverWorker(player: player):
       loop {_holograms::*}:
         delete hologram loop-value
 
+      # Удаляем ящик
+      {_entity} is set:
+        kill {_entity}
+
       # Удаляем данные
       delete {workers::%{_player}%::work::%{_workId}%}
       delete {workers::%{_player}%::work::%{_workId}%::*}
+      set {workers::%{_player}%::work::%{_workId}%::state} to "STOPPED"
 
       # Стопаем
       stop
@@ -69,8 +81,8 @@ function WorkModule_StartHeaverWorker(player: player):
         spawn new hologram with lines {_lines::*} at {_location::hologram} and store it in {_hologram}
         add {_hologram} to {_holograms::*}
 
-        # make {_hologram} invisible by default
-        # reveal {_hologram} to {_player}
+        make hologram {_hologram} invisible by default
+        reveal hologram {_hologram} to {_player}
 
       # Проверяем местоположение игрока
       # (и его действия)
@@ -80,7 +92,7 @@ function WorkModule_StartHeaverWorker(player: player):
         if {_player} is sneaking:
           add 0.05 to {_shifting}
 
-        {_shifting} is set:
+        {_shifting} > 0:
           # Визуал
           set {_template::full} to "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛"
           set {_template::empty} to "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜"
@@ -95,16 +107,19 @@ function WorkModule_StartHeaverWorker(player: player):
           {_visual::empty} is not set:
             set {_visual::empty} to ""
 
-          send title "" with subtitle "&8%{_visual::full}%&7%{_visual::empty}%" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
+          send title "" with subtitle "&e%{_visual::full}%&7%{_visual::empty}%" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
 
           # Переход на вторую стадию
-          if {_shifting} >= 2:
+          if {_shifting} >= 3:
             delete {_stages::*}
             delete {_shifting}
             loop {_holograms::*}:
               delete hologram loop-value
               remove loop-value from {_holograms::*}
 
+            send title "&f" with subtitle "&f" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
+
+            set {_player}'s walking speed to 0.1
             set {_work::stage} to 2
       else:
         delete {_shifting}
@@ -117,7 +132,7 @@ function WorkModule_StartHeaverWorker(player: player):
         set {_stages::%{_work::stage}%::initialized} to true
 
         # Обновляем боссбар
-        set {_bossbar::title} to "&92 &fОтнесите ящики в &9Точку В"
+        set {_bossbar::title} to "&9² &fОтнесите ящики в &9Точку В"
 
         # Подготавливаем локации
         set {_locations::*} to WorkModule_GetHeaverDropdownLocations()
@@ -126,7 +141,7 @@ function WorkModule_StartHeaverWorker(player: player):
         set {_location} to random element of {_locations::*}
 
         set {_location::hologram} to {_location}
-        add 2.2 to y coordinate of {_location::hologram}
+        add 2.3 to y coordinate of {_location::hologram}
 
         # Спавним голограмму
         set {_lines::*} to "&e.____", "&e|   _  \", "&e|  |_)  |", "&e|   _  <", "&e|  |_)  |", "&e|____/", "&9i &fПодойдите сюда и зажмите", "&7SHIFT &fчто бы поставить ящик", "&fна полку."
@@ -134,8 +149,26 @@ function WorkModule_StartHeaverWorker(player: player):
         spawn new hologram with lines {_lines::*} at {_location::hologram} and store it in {_hologram}
         add {_hologram} to {_holograms::*}
         
-        # make {_hologram} invisible by default
-        # reveal {_hologram} to {_player}
+        make hologram {_hologram} invisible by default
+        reveal hologram {_hologram} to {_player}
+
+        # Спавним голову коробки
+        spawn 1 armor stand at {_player}'s location with nbt "{NoGravity:1, Invisible:1}"
+        set {_entity} to last spawned armor stand
+
+        set {_box} to player head with nbt "{SkullOwner:{Id:""ab92d0bd-2e1f-4783-821e-00d97b86d93a"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWYyNTg0OWU4Y2Q1ZTUzMmMzMGNiYThkZThiZWQwNjQwY2ZiMmVlYzUwOTI5OTk4YjEwNzgzOWJmYjBmMjRkNyJ9fX0=""}]}}}"
+        make {_entity} wear {_box}
+
+      # Скорость игрока
+      if {_player}'s walking speed isn't 0.1:
+        set {_player}'s walking speed to 0.1
+
+      # Блок перед игроком
+      {_entity} is set:
+        set {_location} to location 1 meters infront of {_player}
+        reduce {_location}'s y coordinate by 0.25
+
+        teleport {_entity} to {_location}
 
       # Проверяем местоположение игрока
       # (и его действия)
@@ -145,7 +178,7 @@ function WorkModule_StartHeaverWorker(player: player):
         if {_player} is sneaking:
           add 0.05 to {_shifting}
 
-        {_shifting} is set:
+        {_shifting} > 0:
           # Визуал
           set {_template::full} to "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛"
           set {_template::empty} to "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜"
@@ -160,23 +193,28 @@ function WorkModule_StartHeaverWorker(player: player):
           {_visual::empty} is not set:
             set {_visual::empty} to ""
 
-          send title "" with subtitle "&8%{_visual::full}%&7%{_visual::empty}%" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
+          send title "" with subtitle "&e%{_visual::full}%&7%{_visual::empty}%" to {_player} for 2 seconds with fade in 0 ticks and fade out 0 ticks
 
           # Переход на вторую стадию
           if {_shifting} >= 3:
             # Добавляем выполненный заказ
-            set {_bills::*} to 1, 5 and 10
+            set {_bills::*} to 1, 2 and 3
 
-            add random element of {_bills::*} to {_work::earned}
+            set {_earned} to random element of {_bills::*}
+            add {_earned} to {_work::earned}
             add 1 to {_work::carried}
 
             # Переходим на первую стадию
+            kill {_entity}
             delete {_stages::*}
             delete {_shifting}
             loop {_holograms::*}:
               delete hologram loop-value
               remove loop-value from {_holograms::*}
+            
+            send title "&f" with subtitle "&fВы заработали &9%{_earned}%&f$ &7(Всего: %{_work::earned}%$)" to {_player} for 2 seconds with fade in 0 ticks and fade out 1 second
 
+            reset {_player}'s walking speed
             set {_work::stage} to 1
 
     # Боссбар
@@ -213,8 +251,3 @@ function WorkModule_StartHeaverWorker(player: player):
     set {workers::%{_player}%::work::%{_workId}%::carried} to {_work::carried}
 
     wait 1 tick
-
-command stopw:
-  trigger:
-    set {_workId} to WorkModule_GetHeaverWorkId()
-    set {workers::%player%::work::%{_workId}%} to "stop"

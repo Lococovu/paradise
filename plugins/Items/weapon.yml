@@ -1,0 +1,11 @@
+glock:
+  weapon_glock:
+    type: 'item'
+    item: 'diamond horse armour'
+    visual:
+      title: '&c &fРевольвер &7(0/6)'
+      description:
+      - '&f &fДа'
+    action:
+      type: 'click'
+      function: 'WeaponGlockModule_FireWeapon'

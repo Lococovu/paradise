@@ -1,0 +1,69 @@
+function WeaponModule_BreakBlock(location: location):
+  set {_block} to block at {_location}
+
+  # Стекло
+  if "%{_block}%" contains "glass":
+    loop all blocks in radius 1 around {_location}:
+      WeaponModule_StartBreakedBlockWorker(loop-value)
+
+    # Рандомные блоки
+    loop all blocks in radius 3 around {_location}:
+      "%loop-block%" contains "glass":
+        add location of loop-block to {_random::*}
+
+    loop random integer between 3 and 6 times:
+      add random element of {_random::*} to {_blocks::*}
+
+    # Разрушаем сами блоки
+    loop {_blocks::*}:
+      WeaponModule_StartBreakedBlockWorker(loop-value)
+
+      loop all blocks in radius 1.5 around loop-value:
+        "%loop-value-2%" contains "glass":
+          set {block::%location of loop-value-2%::break} to 2
+          WeaponModule_StartBreakableBlockWorker(location of loop-value-2)
+
+          add location of loop-value-2 to {_shards::prepare::*}
+
+    # Подготавливаем позиции для осколков
+    loop {_shards::prepare::*}:
+      loop all blocks in radius 3 around loop-value:
+        chance of 10%:
+          add loop-value-2 to {_shards::*}
+
+    # Разбрасываем осколки
+    loop {_shards::*}:
+      delete {_time}
+      set {_location} to loop-value
+
+      while block at {_location} is air:
+        reduce y coordinate of {_location} by 1
+        
+        add 0.05 to {_time}
+        {_time} >= 3:
+          stop
+        wait 1 tick
+
+      # Спавним
+      add 1 to {_spawned}
+      GarbageModule_SpawnAtLocation({_location}, "garbage_glass_01")
+
+      # Эффекты
+      WeaponModule_StartSmokeEffectWorker({_location})
+
+      {_spawned} >= random integer between 4 and 8:
+        stop
+
+  # Доски
+
+  # Стенки
+
+command hunger:
+  trigger:
+    set {emotions::%player%::hunger::percent} to 100
+
+command killr:
+  trigger:  
+    loop all entities in radius 6 around player:
+      if loop-entity isn't player:
+        kill loop-entity

@@ -2,7 +2,7 @@ function GarbageModule_UpdateCollectorItemState(id: string):
   set {_item::limit} to {data::collector::%{_id}%::limit}
 
   if {_item::limit} is not set:
-    set {_item::limit} to random integer between 10 and 20
+    set {_item::limit} to random integer between 5 and 15
   else:
     {_item::limit} <= 0:
       set {_item::timeout} to {data::collector::%{_id}%::timeout}
@@ -22,9 +22,9 @@ function GarbageModule_UpdateCollectorItemState(id: string):
 
   set {_item::price} to {data::collector::%{_id}%::price}
   if {_item::price} is not set:
-    set {_bills::*} to 1 and 5
+    set {_bills::*} to 1, 2 and 3
 
-    chance of 75%:
+    chance of 45%:
       set {_item::price} to random element of {_bills::*}
 
   # Обновляем данные

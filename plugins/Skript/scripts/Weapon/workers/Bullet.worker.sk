@@ -1,0 +1,90 @@
+function WeaponModule_StartBulletWorker(player: player, location: location, bulletType: string = "ordinary"):
+  set {_working} to true
+  set {_direction} to direction from {_player} to {_location}
+
+  # Звук
+  play sound "ENTITY_GENERIC_EXPLODE" at volume 0.5 with pitch 2 at {_player}
+  chance of 25%:
+    play sound "BLOCK_ANVIL_LAND" at volume 0.1 with pitch 1.5 at {_player}
+
+  # Спавним пулю
+  set {_location::spawn} to {_location}
+  add 1 to {_location::spawn}'s y coordinate
+
+  spawn 1 armor stand at {_location::spawn} with nbt "{Small:1, Invisible:1, ShowArms:1, Pose:{RightArm:[45f,0f,0f]}}"
+  set {_bullet} to last spawned armor stand
+
+  set {_texture} to player head with nbt "{SkullOwner:{Id:""1887aa6a-240a-4927-b868-7d3631f03577"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2IyYjVkNDhlNTc1Nzc1NjNhY2EzMTczNTUxOWNiNjIyMjE5YmMwNThiMWYzNDY0OGI2N2I4ZTcxYmMwZmEifX19""}]}}}"
+  set {_bullet}'s tool to {_texture}
+
+  play large smoke with offset of 0, 0, 0 at {_location::spawn}
+  loop 3 times:
+    play large smoke with offset of 0, 0, 0 at {_location::spawn}
+
+  # Запускаем воркер
+  while {_working} is true:
+    # Двигаем пулю
+    push {_bullet} {_direction} at speed 2
+
+    # След за пулей
+    set {_effect::location} to location 0.3 meters above, 0.2 meters to the right of {_bullet}
+    play critical hit with offset of 0, 0, 0 at {_effect::location}
+
+    # Проверка блоков/игроков
+    if block infront of {_bullet} isn't air:
+      set {_location} to location of {_bullet}
+      set {_block} to block infront of {_bullet}
+
+      loop 6 times:
+        play explosion with offset of 0, 0, 0 at {_location}
+
+      # Добавляем...
+      set {_block::location} to {_block}'s location
+      set {_block::break} to {block::%{_block::location}%::break}
+      WeaponModule_StartBreakableBlockWorker({_block::location})
+
+      if {_block::break} > 5:
+        "%{_block}%" contains "glass":
+          WeaponModule_BreakBlock({_block::location})
+      else:
+        # Разные блоки
+
+        # Легко разрушаемые
+        if "%{_block}%" contains "glass":
+          add 5 to {block::%{_block::location}%::break}
+        
+        # Средней разрушимости
+        else if "%{_block}%" contains "wood":
+          add 1 to {block::%{_block::location}%::break}
+        # Трудно разрушаемые
+        else:
+          add 1.5 to {block::%{_block::location}%::break}
+
+          loop all blocks in radius 1 around {_block::location}:
+            add 1 to {block::%location of loop-value%::break}
+            WeaponModule_StartBreakableBlockWorker(location of loop-value)
+
+            chance of 20%:
+              WeaponModule_StartSmokeEffectWorker(location of loop-value)
+
+      kill {_bullet}
+      stop
+
+    loop all players in radius 2 around {_bullet}:
+      loop-player isn't {_player}:
+        # Дамажим игрока
+        damage loop-entity by 4
+
+        kill {_bullet}
+        stop
+
+    add 0.05 to {_time}
+    {_time} >= 4:
+      kill {_bullet}
+      stop
+
+    wait 1 tick
+
+command sound [<string>] [<number>]:
+  trigger:
+    play sound arg 1 at volume 1 with pitch arg 2 at player

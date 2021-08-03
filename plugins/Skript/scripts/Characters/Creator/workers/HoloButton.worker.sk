@@ -1,0 +1,30 @@
+function CharacterCreatorModule_StartHoloButtonWorker(player: player, buttonId: string, buttonEntity: entity):
+  set {_waiting} to true
+  wait 1 second
+
+  # Запускаем воркер
+  while {_waiting} is true:
+    if {_player} is offline:
+      stop
+
+    # Останавливаем
+    if {workers::%{_player}%::characters::creator} is not set:
+      stop
+
+    delete {_lookingAt}
+    set {_target} to {_player}'s targeted entity
+    loop all entities in radius 1 around {_target}:
+      set {_entity} to loop-entity
+      if {_entity}.getUniqueId() is {_buttonEntity}.getUniqueId():
+        set {_lookingAt} to {_buttonId}
+        exit 1 loop
+
+    {_lookingAt} is set:
+      {workers::%{_player}%::characters::creator::lookingAt} isn't {_lookingAt}:
+        set {workers::%{_player}%::characters::creator::lookingAt} to {_lookingAt}
+
+    wait 1 tick
+
+command tests2:
+  trigger:
+    set {workers::%player%::characters::creator} to "stop"

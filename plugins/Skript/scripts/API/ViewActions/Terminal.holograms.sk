@@ -11,10 +11,10 @@ function TR_Holo_TerminalCreate(player: player, location: location):
   # отдадим информацию о текущей голограмме обратно.
   set {_auth::type} to getIpAuthType({_player})
 
-  if {_auth::type} isn't "guest":
-    set {_lines::*} to "", "", "&7&lТерминал", "&fВыводите и вводите деньги", "&fна ваш кредитный счёт.", "&9▷ &fПКМ"
-  else:
-    set {_lines::*} to "", "", "&c&lТерминал", "&fВыводите и вводите деньги", "&fна ваш кредитный счёт.", "&c✕ &fРазблокируется", "&fпосле Авторизации"
+  # if {_auth::type} isn't "guest":
+  #   set {_lines::*} to "", "", "&7&lТерминал", "&fВыводите и вводите деньги", "&fна ваш кредитный счёт.", "&9▷ &fПКМ"
+  # else:
+  set {_lines::*} to "", "", "&c&lТерминал", "&fВыводите и вводите деньги", "&fна ваш кредитный счёт.", "&c✕ &fВ разработке"
 
   set {_hologram::location} to {_location}
   set {_hologram::location}'s y coordinate to 54
@@ -55,4 +55,4 @@ function TR_Holo_TerminalCreate(player: player, location: location):
 
 function TR_Holo_TerminalClick(player: player):
   # Открываем меню терминала
-  openTerminal({_player}, 0)
+  # openTerminal({_player}, 0)

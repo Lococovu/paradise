@@ -14,6 +14,20 @@
 
 eatable:
 
+shards:
+  garbage_glass_01:
+    type: 'item'
+    item: 'white stained glass pane'
+    visual:
+      title: '&7▽ &fСтекло'
+      description:
+      - '&f &fДа'
+    action:
+      type: 'click'
+      function: 'AC_FeedAction'
+      variables:
+      - "foodCount=0"
+
 props:
   garbage_soda_01:
     type: 'item'

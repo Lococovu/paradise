@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 4
+last-created-npc-id: 150
 npc:
   '0':
     metadata:
@@ -11,13 +11,13 @@ npc:
     uuid: dcb5fa28-6a93-47b0-8dc0-a082b079fac9
     traits:
       location:
-        bodyYaw: 91.400055
+        bodyYaw: 89.62141
         world: world
-        x: '534.3009'
+        x: '534.3004'
         y: '52.0'
-        z: '591.0226'
-        yaw: '91.4001'
-        pitch: '1.8'
+        z: '590.9743'
+        yaw: '89.6214'
+        pitch: '-1.3365'
       skintrait:
         fetchDefaultSkin: true
         signature: qlNMP5Zm66mj6DoQxbBiEMaG2TP/CvckoQmufqCKOZrIcmMHgr9AW2rz15AavAH8uv4++IqtZEBes+nZ4MN5QxyxOceMevAotgxXifhJNBkMCW/sUoUZ7ebWT1QYwiTRwXUii2vXmZIJtY/JCeKsjnIA7fjxwUHv73D1eZXAjlI/BceX/elQMUwzHL7Uv5HM5VU0byOa5CYyua7Ybjnfi7bzAT41fqdSFRIeKLG9tpyd+lACI257bK17CB2CAnHrnoIxqd6luup6m0SWiwIame9cMFajFZCzQL1rblov0domNlkg+U0ZKxLlYzR+KBEi5pfzE2SQjaYEzqiMcngM2fpnY/TZB+2g2h+nDD+J1/KlPV0+Jfgsf+p1GFaMvGerH5XagbZQ6eBsHPqvw5ju3dQEJ2gei+/3DxuSDcHS52aPFYyRCa+T3t7qmFYx8R4fWLSBvyD58mpMIu+i/aLDgtEJ2T+QR4ZkfqhM6RkZICT90ndyaSoCjVIkgn85XhJZ/OFljOpn44bscKCjuZxeqiKH/nm6DJvMihGaJfOGso5WXO19dMUWkQVXO53vUWWFcSTInAF0OXCMWk4JzM/cPuipMnVdP9JkvkPPHc3JgWuRk9Ff6oFIUgYs5OSD224BNP+wXXENdSF559sCAL8QVI6FYldGOalSBFPRy6olqNQ=
@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: location,owner,scoreboardtrait,type,skintrait,mounttrait,inventory,spawned,equipment
+    traitnames: type,equipment,inventory,spawned,skintrait,owner,scoreboardtrait,location,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -72,12 +72,12 @@ npc:
     uuid: 7dbbbf33-c74f-4f15-a42f-4a7611a92a5d
     traits:
       location:
-        bodyYaw: 95.01665
+        bodyYaw: 51.221344
         world: world
         x: '543.3'
         y: '52.0'
-        z: '641.0362'
-        yaw: '56.7952'
+        z: '640.9441'
+        yaw: '91.1782'
         pitch: '0.0'
       spawned: true
       lookclose:
@@ -102,7 +102,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: location,lookclose,scoreboardtrait,owner,type,skintrait,mounttrait,spawned,inventory,equipment
+    traitnames: type,equipment,spawned,skintrait,inventory,owner,lookclose,scoreboardtrait,location,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -111,6 +111,7 @@ npc:
     metadata:
       cached-skin-uuid-name: brrr_ighttt
       cached-skin-uuid: ee3fb8b8-938f-4159-8588-8ae7e5c483af
+      nameplate-visible: 'false'
     name: cardmake
     uuid: db538173-5d81-4a92-871e-7e0a3584edfd
     traits:
@@ -123,17 +124,17 @@ npc:
       type: PLAYER
       spawned: true
       location:
-        bodyYaw: 90.66492
+        bodyYaw: -128.33784
         world: world
-        x: '366.3003'
-        y: '52.0'
-        z: '667.5015'
-        yaw: '90.6649'
-        pitch: '1.3503'
+        x: '365.6698'
+        y: '49.0'
+        z: '679.0313'
+        yaw: '-128.3378'
+        pitch: '28.4786'
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: location,scoreboardtrait,owner,type,skintrait,mounttrait,inventory,spawned,equipment
+    traitnames: type,equipment,inventory,skintrait,spawned,owner,scoreboardtrait,location,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -142,6 +143,7 @@ npc:
     metadata:
       cached-skin-uuid-name: blockane
       cached-skin-uuid: 95b051b0-5f16-4b77-8c8e-b02f3f1e6158
+      nameplate-visible: 'false'
     name: collector
     uuid: d8cad3c4-e269-42df-8635-27d1b32946b6
     traits:
@@ -166,17 +168,42 @@ npc:
           '1': 360.0
       type: PLAYER
       location:
-        bodyYaw: 143.29265
+        bodyYaw: -99.54335
         world: world
-        x: '451.3'
+        x: '451.5819'
         y: '52.0'
-        z: '695.5275'
-        yaw: '-176.7074'
-        pitch: '-73.7241'
+        z: '695.288'
+        yaw: '-68.1422'
+        pitch: '-21.6046'
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: location,lookclose,scoreboardtrait,owner,type,skintrait,mounttrait,spawned,inventory,equipment
+    traitnames: type,equipment,skintrait,spawned,inventory,owner,lookclose,scoreboardtrait,location,mounttrait
+    navigator:
+      speedmodifier: '1.0'
+      avoidwater: false
+      usedefaultstuckaction: true
+  '148':
+    name: ''
+    uuid: fc12ba8b-1c0f-452d-8719-c8d021f6375c
+    traits:
+      location:
+        bodyYaw: 0.0
+        world: world
+        x: '540.0'
+        y: '52.0'
+        z: '683.5'
+        yaw: '0.0'
+        pitch: '0.0'
+      spawned: true
+      type: PLAYER
+      skintrait:
+        fetchDefaultSkin: true
+        updateSkins: false
+      owner:
+        owner: server
+        uuid: ''
+    traitnames: type,equipment,spawned,skintrait,inventory,owner,scoreboardtrait,location,mounttrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

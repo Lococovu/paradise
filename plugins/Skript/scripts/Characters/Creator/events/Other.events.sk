@@ -1,0 +1,27 @@
+on drop:
+  {workers::%player%::characters::creator} is set:
+    cancel event
+
+on pickup:
+  {workers::%player%::characters::creator} is set:
+    cancel event
+
+on inventory click:
+  {workers::%player%::characters::creator} is set:
+    cancel event
+
+on offhand switch:
+  {workers::%player%::characters::creator} is set:
+    cancel event
+
+on click:
+  {workers::%player%::characters::creator} is set:
+    cancel event
+
+on damage:
+  {workers::%victim%::characters::creator} is set:
+    cancel event
+
+on jump:
+  {workers::%player%::characters::creator} is set:
+    cancel event

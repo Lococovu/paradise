@@ -1,0 +1,21 @@
+function WeaponModule_StartSmokeEffectWorker(location: location):
+  set {_time} to random integer between 3 and 6
+  set {_waiting} to true
+
+  while {_waiting} is true:
+    loop all blocks in radius 2 around {_location}:
+      set {_effect::location} to {_location}
+      
+      y coordinate of loop-block <= y coordinate of {_location}:
+        block at {_effect::location} is air:
+          reduce y coordinate of {_effect::location} by 0.5
+        else:
+          add 0.5 to y coordinate of {_effect::location}
+
+        chance of 20%:
+          play campfire signal smoke with offset of 0, 0, 0 at {_effect::location}
+    
+    reduce {_time} by 0.05
+    if {_time} <= 0:
+      stop
+    wait 1 tick

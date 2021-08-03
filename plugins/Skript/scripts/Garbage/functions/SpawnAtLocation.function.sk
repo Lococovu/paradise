@@ -1,67 +1,50 @@
-function GarbageModule_SpawnAtLocation(place: location):
-  set {_place} to location of block at {_place}
-  set {_location} to {_place}
-
-  # Проверяем кол-во мусора в данной локации
-  set {_size} to size of {data::garbage::%{_place}%::items::*}
-  if {_size} < 6:
-    # Подготавливаем точки
-    loop all blocks in radius 3 around {_location}:
-      loop-block isn't air or iron bars or ladder or flower pot or player head or any fence or any trapdoor or any gate or grass or tall grass or large fern or fern or long grass or any flower or any carpet or any pressure plate or any button
-      block above loop-block is air:
-        add location of loop-block to {_points::*}
-
-    loop random integer between 1 and 4 times:
-      set {_location::random} to random element of {_points::*}
-      remove {_location::random} from {_points::*}
-
-      add {_location::random} to {_locations::*}
-
+function GarbageModule_SpawnAtLocation(locations: locations, items: strings = "none"):
+  if {_items::*} contains "none":
     set {_items::*} to GarbageModule_GetGarbageItems()
 
-    # Спавним мусор
-    loop {_locations::*}:
-      # Удаляем ненужные переменные
-      delete {_item}
-      delete {_location}
+  # Спавним мусор
+  loop {_locations::*}:
+    # Удаляем ненужные переменные
+    delete {_item}
+    delete {_location}
 
-      # Подготавливаем локацию
-      set {_location} to loop-value
+    # Подготавливаем локацию
+    set {_location} to loop-value
 
-      if block at {_location} is any slab:
-        remove 0.88 from y coordinate of {_location}
-      else:
-        remove 0.4 from y coordinate of {_location}
+    if block at {_location} is any slab:
+      remove 0.88 from y coordinate of {_location}
+    else:
+      remove 0.4 from y coordinate of {_location}
 
-      # Рандомный мусорный предмет
-      set {_item} to random element of {_items::*}
-      set {_item} to getItem("%{_item}%")
+    # Рандомный мусорный предмет
+    set {_item} to random element of {_items::*}
+    set {_item} to getItem("%{_item}%")
 
-      {_item} is set
-      # Спавним
-      # Рандомим локацию
-      add random integer between -0.25 and 0.25 to {_location}'s x coordinate
-      add random integer between -0.25 and 0.25 to {_location}'s z coordinate
+    {_item} is set
+    # Спавним
+    # Рандомим локацию
+    add random integer between -0.25 and 0.25 to {_location}'s x coordinate
+    add random integer between -0.25 and 0.25 to {_location}'s z coordinate
 
-      add 0.35 to x coordinate of {_location}
-      remove 0.15 from z coordinate of {_location}
+    add 0.35 to x coordinate of {_location}
+    remove 0.15 from z coordinate of {_location}
 
-      set {_location}'s yaw to random integer between -180 and 180
+    set {_location}'s yaw to random integer between -180 and 180
 
-      "%{_item}%" doesn't contain "head":
-        add 0.1 to y coordinate of {_location}
-        set {_pose} to "Pose:{RightArm:[0f,0f,0f]}"
-      else:
-        set {_pose} to "Pose:{RightArm:[-45f,0f,0f]}"
+    "%{_item}%" doesn't contain "head":
+      add 0.1 to y coordinate of {_location}
+      set {_pose} to "Pose:{RightArm:[0f,0f,0f]}"
+    else:
+      set {_pose} to "Pose:{RightArm:[-45f,0f,0f]}"
 
-      spawn 1 armor stand at {_location} with nbt "{Invisible:1b,ShowArms:1b,NoGravity:1b,%{_pose}%}"
-      set {_entity} to last spawned armor stand
+    spawn 1 armor stand at {_location} with nbt "{Invisible:1b,ShowArms:1b,NoGravity:1b,%{_pose}%}"
+    set {_entity} to last spawned armor stand
 
-      set {_entity}'s held item to {_item}
+    set {_entity}'s held item to {_item}
 
-      # Сохраняем данные энтити
-      add {_entity} to {data::garbage::%{_place}%::items::*}
-      
-      set {entity::%{_entity}%::type} to "garbage"
-      set {entity::%{_entity}%::garbagePlace} to {_place}
-      set {entity::%{_entity}%::garbageItem} to {_item}
+    # Сохраняем данные энтити
+    add {_entity} to {data::garbage::%{_place}%::items::*}
+    
+    set {entity::%{_entity}%::type} to "garbage"
+    set {entity::%{_entity}%::garbagePlace} to {_place}
+    set {entity::%{_entity}%::garbageItem} to {_item}

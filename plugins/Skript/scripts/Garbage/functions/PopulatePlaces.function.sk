@@ -16,4 +16,25 @@ function GarbageModule_Populate():
       add loop-player to {_players::*}
 
     size of {_players::*} <= 0:
-      GarbageModule_SpawnAtLocation({_location})
+      set {_place} to {_location}
+
+      # Проверяем кол-во мусора в данной локации
+      set {_size} to size of {data::garbage::%{_place}%::items::*}
+      if {_size} < 6:
+        # Подготавливаем точки
+        loop all blocks in radius 3 around {_location}:
+          loop-block isn't air or iron bars or ladder or flower pot or player head or any fence or any trapdoor or any gate or grass or tall grass or large fern or fern or long grass or any flower or any carpet or any pressure plate or any button
+          block above loop-block is air:
+            add location of loop-block to {_points::*}
+
+        loop random integer between 1 and 4 times:
+          set {_location::random} to random element of {_points::*}
+          remove {_location::random} from {_points::*}
+
+          add {_location::random} to {_location::places::*}
+
+        set {_items::*} to GarbageModule_GetGarbageItems()
+
+      GarbageModule_SpawnAtLocation({_location::places::*}, {_items::*})
+
+    

@@ -20,7 +20,13 @@ function loadPlayerInventory(player: player):
   set {_slot} to 0
   loop 9 times:
     set {_uuid} to {_player}'s uuid
+    set {_character} to getCurrentCharacter({_player})
+
+    set {_uuid} to "%{_uuid}%-%{_character}%"
+
     set {_item} to {data::%{_uuid}%::item::%{_slot}%}
+    {_item} is not set:
+      set {_item} to air
     set slot {_slot} of {_player}'s inventory to {_item}
 
     add 1 to {_slot}
@@ -126,6 +132,10 @@ function savePlayerInventory(player: player):
   loop 9 times:
     set {_item} to slot {_slot} of {_player}'s inventory
     set {_uuid} to {_player}'s uuid
+    set {_character} to getCurrentCharacter({_player})
+
+    set {_uuid} to "%{_uuid}%-%{_character}%"
+
     set {data::%{_uuid}%::item::%{_slot}%} to {_item}
 
     add 1 to {_slot}

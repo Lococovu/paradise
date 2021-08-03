@@ -1,0 +1,27 @@
+on death:
+  set death message to ""
+  
+  # Выключаем все вокеры
+  set {workers::shopWorker::%{_player}%} to "stop"
+  set {workers::%{_player}%::viewWorker} to "stop"
+  set {workers::%{_player}%::relationship} to "stop"
+  set {workers::%{_player}%::inventory} to "stop"
+  set {workers::%{_player}%::emotions} to "stop"
+
+  wait 1 tick
+
+  set {_uuid} to player's uuid
+  set {_character} to getCurrentCharacter(player)
+
+  set {_uuid} to "%{_uuid}%-%{_character}%"
+
+  delete {data::%{_uuid}%::item::*}
+  set {death::%player%::location} to player's location
+
+  force player to respawn
+
+on respawn:
+  teleport player to {death::%player%::location}
+  clear player's inventory
+
+  DeathModule_StartDeadWorker(player)

@@ -2,23 +2,24 @@ options:
   blocked_blocks: end crystal or end portal frame or redstone block or daylight sensor or tripwire hook or redstone torch or minecart or spawn egg or comparator or sticky piston or notch apple or golden apple or observer or activator rail or detector rail
 
 on inventory open:
-  "%event-inventory%" contains "hopper" or "shulker"
-  cancel event
+  {workers::%player%::roomEditor} is set:
+    "%event-inventory%" contains "hopper" or "shulker"
+    cancel event
 
-# on item enchant:
-#   cancel event
-
-# on piston extending:
-#   cancel event
+on piston extending:
+  loop blocks in radius 2 around location of event-block:
+    {block::%location of loop-block%::room} is set:
+      cancel event
+      stop
 
 on right click:
-  target block is pumpkin or crafting table or furnace or chest or trapped chest or ender chest or shulker or button or lever or dispenser or dropper or hopper or comparator or anvil or enchanting table or beacon or brewing stand or observer
-  {workers::%player%::roomEditor} is set:
+  {workers::%player%::roomEditor} is set
+  target block is pumpkin or crafting table or furnace or chest or trapped chest or ender chest or shulker or button or lever or dispenser or dropper or hopper or comparator or anvil or enchanting table or beacon or brewing stand or observer:
     cancel event
 
 on right click:
-  target entity is armor stand or item frame
   {workers::%player%::roomEditor} is set:
+    target entity is armor stand or item frame
     cancel event
 
 on eating:

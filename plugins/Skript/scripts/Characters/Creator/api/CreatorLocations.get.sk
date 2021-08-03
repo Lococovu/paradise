@@ -1,0 +1,16 @@
+# Стартовая позиция
+function CharacterCreatorModule_GetPlayerLocation() :: location:
+  set {_location} to getLocation("540, 52, 688.5", "world")
+  set {_location}'s yaw to -180
+
+  return {_location}
+
+# Локация NPC
+function CharacterCreatorModule_GetNPCLocation() :: location:
+  set {_location} to getLocation("540, 52, 683.5", "world")
+
+  return {_location}
+
+# Локация Голограммы
+function CharacterCreatorModule_GetEditHologramLocation() :: location:
+  return getLocation("540, 53, 684", "world")

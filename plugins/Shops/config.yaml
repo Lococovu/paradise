@@ -17,19 +17,19 @@ shop:
         item:
           tomato:
             id: "tomato"
-            price: 5
+            price: 4
             amount: 20
           onion:
             id: "onion"
-            price: 10
+            price: 3
             amount: 20
           pepper:
             id: "pepper"
-            price: 15
+            price: 5
             amount: 20
           apple:
             id: "apple"
-            price: 15
+            price: 3
             amount: 20
       2:
         title: "&7&lМясное"
@@ -44,19 +44,19 @@ shop:
         item:
           sausage_01:
             id: "sausage_01"
-            price: 15
+            price: 8
             amount: 20
           sausage_02:
             id: "sausage_02"
-            price: 35
+            price: 15
             amount: 20
           chicken_mince:
             id: "chicken_mince"
-            price: 35
+            price: 10
             amount: 20
           pork_mince:
             id: "pork_mince"
-            price: 45
+            price: 15
             amount: 20
       3:
         title: "&7&lХлебобулочные"
@@ -69,7 +69,7 @@ shop:
         item:
           bread:
             id: "bread"
-            price: 10
+            price: 2
             amount: 20
       4:
         title: "&7&lМолочные"
@@ -85,19 +85,19 @@ shop:
         item:
           milk:
             id: 'milk'
-            price: 25
+            price: 4
             amount: 20
           yogurt_01:
             id: 'yogurt_01'
-            price: 35
+            price: 15
             amount: 20
           yogurt_02:
             id: 'yogurt_02'
-            price: 35
+            price: 15
             amount: 20
           cheese_01:
             id: 'cheese_01'
-            price: 30
+            price: 5
             amount: 20
       5:
         title: "&7&lБакалея"
@@ -124,22 +124,22 @@ shop:
 
           drink_01:
             id: "water"
-            price: 15
+            price: 5
             amount: 20
 
           drink_02:
             id: "soda"
-            price: 30
+            price: 10
             amount: 20
 
           fastfood_01:
             id: "freezed_burger"
-            price: 20
+            price: 12
             amount: 20
 
           fastfood_02:
             id: "freezed_fries"
-            price: 45
+            price: 15
             amount: 20
 
     # Terminals

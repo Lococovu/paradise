@@ -8,6 +8,8 @@ function AnimationsModule_PlayScene(p: player,points: locations,speed: number=0.
   set {_s} to size of {_points::*}
   set {_ma} to 360*{_s}
   
+  delete {animations::%{_p}%}
+
   # copy sources and prepare for de-normalize
   loop {_points::*}:
     set {_points::%loop-index%} to loop-value
@@ -58,6 +60,13 @@ function AnimationsModule_PlayScene(p: player,points: locations,speed: number=0.
   set {_points::%{_ss}%} to {_points::%{_s}%}
   set {_i} to 0
   while {_i} is less than {_s}:
+
+    if {animations::%{_p}%} is "stop":
+      {_gamemode} is "spectator":
+        {_a}.remove()
+
+      delete {animations::%{_p}%}
+      stop
 
     set {_p::1} to {_points::%{_i}%}
     set {_ss} to {_i}+1

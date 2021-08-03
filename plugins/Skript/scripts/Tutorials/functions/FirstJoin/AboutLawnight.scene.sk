@@ -1,0 +1,471 @@
+function TutorialsModule_AboutLawnightTutorial(player: player):
+  set {_waiting} to true
+  set {_location} to {_player}'s location
+
+  set {_stage} to 4
+  delete {animations::%{_player}%}
+
+  # Запускаем воркер
+  while {_waiting} is true:
+    if {_player} is offline:
+      stop
+
+    # Первая стадия
+    if {_stage} is 1:
+      if {_stages::%{_stage}%::initialized} is not true:
+        set {_stages::%{_stage}%::initialized} to true
+
+        set {_character::name} to getCharacterName({_player}, getCurrentCharacter({_player}))
+
+        send title "&fОтлично, &7%{_character::name}%" with subtitle "&fНу а теперь давайте расскажем вам про правила" to {_player} for 4 seconds with fade in 1 second and fade out 1 second
+        set {_stage::time} to 4
+
+      # Проверяем дистанцию
+      if distance between {_player} and {_location} > 0:
+        teleport {_player} to {_location}
+
+      # Таймер
+      reduce {_stage::time} by 0.05
+      if {_stage::time} <= 0:
+        delete {_stages::*}
+        
+        set {_stage} to 2
+
+    # Вторая стадия
+    else if {_stage} is 2:
+      if {_stages::%{_stage}%::initialized} is not true:
+        set {_stages::%{_stage}%::initialized} to true
+
+        delete {_texts::*}
+
+        set {_location} to getLocation("-15, 4, -195.5", "lobby")
+        teleport {_player} to {_location}
+
+        # Готовим текст
+        add "&fЛоунайт - это серьезный", "&fрп-проект. Поэтому и правила тут серьезные" to {_texts::1::*}
+        add "&fНо мы зачастую относимся", "&fснисходительно к постоянным игрокам" to {_texts::2::*}
+        add "&fПравила вы можете найти", "&fна нашем дискорд-канале: &9lawnight&f.lococovu.me" to {_texts::3::*}
+        add "&fТак же вам, наверное,", "&fстоит рассказать про базовые функции сервера" to {_texts::4::*}
+        add "&fДавайте же тогда", "&fэтим и займёмся, согласны?" to {_texts::5::*}
+
+        set {_text::time} to 6
+        set {_text::timer} to 3
+        set {_text::current} to 0
+        set {_texts::size} to size of {_texts::*}
+
+      # Проверяем гейммод игрока
+      if {_player}'s gamemode isn't spectator:
+        set {_player}'s gamemode to spectator
+
+      # Дистанцию от главной локации
+      if distance between {_location} and {_player} > 0:
+        teleport {_player} to {_location}
+
+      # Таймер на текст
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        if {_text::current} > {_texts::size}:
+          # Переходим к следующему туториалу
+          apply potion of blindness of tier 2 to {_player} for 4.5 seconds
+          
+          delete {_stages::*}
+          set {_stage} to 3
+
+        else:  
+          # Отправляем текст
+          set {_title} to {_texts::%{_text::current}%::1}
+          set {_subtitle} to {_texts::%{_text::current}%::2}
+
+          set {_time} to "%{_text::time} - 2% seconds" parsed as timespan
+          send title "%{_title}%" with subtitle "%{_subtitle}%" to {_player} for {_time} with fade in 1 second and fade out 1 second
+
+          set {_text::timer} to {_text::time}
+      else:
+        reduce {_text::timer} by 0.05
+
+    else if {_stage} is 3:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+        
+        delete {_texts::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("474, 58, 622", "world")
+
+        # 2
+        set {_location::2} to getLocation("474, 60, 635", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to 0
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        set {animations::%{_player}%} to "stop"
+        while {animations::%{_player}%} is set:
+          add 1 to {_checked}
+
+          {_checked} >= 20:
+            delete {animations::%{_player}%}
+          wait 1 tick
+
+        teleport {_player} to {_location::1}
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fДеньги - это, считайте, самое главное.", "&fИбо именно с помощью денег вы", "&fбудете иметь возможность выжить." to {_texts::1::*}
+        add "&fСпособов заработка тут много, но", "&fмы расскажем только про пару-тройку способов." to {_texts::2::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          
+          delete {_stages::*}
+          add 1 to {_stage}
+
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    # Стадия 4: Сбор мусора
+    else if {_stage} is 4:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+        
+        delete {_texts::*}
+        delete {_points::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("466.5, 55.5, 650.5", "world")
+
+        # 2
+        set {_location::2} to getLocation("452.5, 55, 647.5", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to loop-value
+          set {_location}'s yaw to 150
+          set {_location}'s pitch to 30
+
+          add {_location} to {_points::*}
+
+        add getLocation("450.5, 61, 651", "world") to {_points::*}
+        add getLocation("453.5, 58, 670", "world") to {_points::*}
+        add getLocation("453.5, 54, 676.5", "world") to {_points::*}
+
+        # 3
+        set {_location::1} to getLocation("453.5, 54.5, 683", "world")
+
+        # 4
+        set {_location::2} to getLocation("454.5, 53, 695.5", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to loop-value
+          set {_location}'s yaw to 10
+          set {_location}'s pitch to 15
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        set {animations::%{_player}%} to "stop"
+        while {animations::%{_player}%} is set:
+          add 1 to {_checked}
+
+          {_checked} >= 20:
+            delete {animations::%{_player}%}
+          wait 1 tick
+
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fПо всему городу раскиданны горы", "&fмусора. Вы его можете собирать и", "&fпродавать &7Мусорщику&f." to {_texts::1::*}
+        add "&fМиллионы вы на этом деле не заработаете,", "&fно сможете насобирать хоть немного денег на", "&fбуханку хлеба либо на стаканчик с водой" to {_texts::2::*}
+        add "" to {_texts::3::*}
+        add "&fСдать мусор, кстати, вы можете", "&fу мусорщика, который находится в Центральном", "&fсквере города Лоунайт." to {_texts::4::*}
+        add "&fБольше про этот способ вы можете", "&fузнать на странице помощи &7/help" to {_texts::5::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          
+          delete {_stages::*}
+          add 1 to {_stage}
+        
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    # Стадия 5: грузчик
+    else if {_stage} is 5:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+        
+        delete {_texts::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("421, 64, 681", "world")
+
+        # 2
+        set {_location::2} to getLocation("443, 64, 681", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to -90
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fНа складе строительных материалов", "&fвсегда нужны грузчики. Работа проста - вам", "&fпросто нужно перетаскивать коробки." to {_texts::1::*}
+        add "&fБольше про этот способ вы можете", "&fузнать на странице помощи &7/help" to {_texts::2::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          
+          delete {_stages::*}
+          add 1 to {_stage}
+        
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    # Стадия 6.1: система крафтов (рассказ)
+    else if {_stage} is 6:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+        
+        delete {_texts::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("421, 64, 681", "world")
+
+        # 2
+        set {_location::2} to getLocation("443, 64, 681", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to -90
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fБыстро мы с работами справились, да?", "&fТеперь давайте так же быстро пройдёмся", "&fпо &7Системе крафтов&f." to {_texts::1::*}
+        add "&7Система крафтов&f - это невероятно", "&fинтересная штука, которая позволяет вам", "&fсоздавать какие-либо предметы." to {_texts::2::*}
+        add "&fВы можете создавать еду,", "&fоружие, мебель, одежду и многое-многое", "&fдругое." to {_texts::3::*}
+        add "&fТоесть да, вы можете снять", "&fкакое-то помещение в аренду и открыть", "&fсвой невероятно крутой бизнес!" to {_texts::4::*}
+        add "&fВсё создаётся игроками,", "&fи это как и проблема так и", "&fпреимущество Лоунайта." to {_texts::5::*}
+        add "&fКупить начальные елементы", "&fдля крафта вы можете &7Магазинах&f,", "про которые мы расскажем позже" to {_texts::6::*}
+        add "&fСуществует огромное кол-во различных", "&fстанков и верстаков, и информацию про всё это вы", "&fможете найти на странице помощи &7/help" to {_texts::7::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          
+          delete {_stages::*}
+          add 1 to {_stage}
+        
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    # Стадия 6.2 (7): система крафтов (показ верстака)
+
+    # Стадия 7.1 (7): магазин (про магазин)
+    else if {_stage} is 7:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+        
+        delete {_texts::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("421, 64, 681", "world")
+
+        # 2
+        set {_location::2} to getLocation("443, 64, 681", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to -90
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&7Магазины&f. Их существует не так уж", "&fи много, но они продают самые", "&fнужные материалы для всех крафтов." to {_texts::1::*}
+        add "&fИнформацию о местоположении магазинов", "&fвы можете найти на страничке", "&7Карта Сервера (/gps)" to {_texts::2::*}
+        add "&fТак же на этой страничке вы сможете", "&fнайти местоположение других интересных", "&fмест, которые вам точно пригодятся!" to {_texts::3::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          
+          delete {_stages::*}
+          add 1 to {_stage}
+        
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+
+    # Стадия 7.2 (8): про GPS
+
+    # Стадия 8 (8): конец
+    else if {_stage} is 8:
+      if {_stage::%{_stage}%::initialized} is not true:
+        set {_stage::%{_stage}%::initialized} to true
+        
+        delete {_texts::*}
+
+        # Подготавливаем точки маршрута
+        # 1
+        set {_location::1} to getLocation("421, 64, 681", "world")
+
+        # 2
+        set {_location::2} to getLocation("443, 64, 681", "world")
+
+        loop all blocks between {_location::1} and {_location::2}:
+          set {_location} to location of loop-block
+          set {_location}'s yaw to -90
+
+          add {_location} to {_points::*}
+
+        # Запускаем сцену
+        AnimationsModule_PlayScene({_player}, {_points::*}, 0.05, "survival")
+
+        # Подготавливаем текст
+        add "&fМы старались рассказать про всё", "&fсамое главное. Про то, без чего", "&fвы не прожили бы и дня." to {_texts::1::*}
+        add "&fНа сервере, естественно, есть", "&fнамного больше различных систем, например,", "&f Редактор предметов, Редактор квартир, Эмоции..." to {_texts::2::*}
+        add "&fИнформацию про всё это вы сможете", "&fнайти на страничке помощи &7/help", "&fну либо спросив у постоянных игроков/Администрации" to {_texts::3::*}
+        # add "&f", "&f", "&f" to {_texts::4::*}
+
+        set {_text::timer} to 6
+        set {_text::current} to 1
+        set {_texts::size} to size of {_texts::*}
+
+        # Создаём голограмму
+        create new hologram with lines {_texts::%{_text::current}%::*} that follows {_player} with offset (1.75 meters above, 3 meters infront) and store it in {_text::hologram}
+
+        make hologram {_text::hologram} invisible by default
+        reveal hologram {_text::hologram} to {_player}
+
+      # Таймер текста
+      if {_text::timer} <= 0:
+        add 1 to {_text::current}
+
+        # Меняем текст
+        set all lines of hologram {_text::hologram} to {_texts::%{_text::current}%::*}
+
+        if {_text::current} > {_texts::size}:
+          delete hologram {_text::hologram}
+          
+          # Начинаем авторизацию
+          set {_location} to getLocation("-15, 4, -195.5", "lobby")
+          teleport {_player} to {_location}
+
+          StartAuthorization({_player})
+          stop
+
+
+        set {_text::timer} to 8
+      else:
+        reduce {_text::timer} by 0.05
+
+    wait 1 tick
+
+command test4:
+  trigger:
+    TutorialsModule_AboutLawnightTutorial(player)

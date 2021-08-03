@@ -1,0 +1,23 @@
+function AuthModule_StartPlayerWorker(player: player):
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      set {_action} to "stop" 
+
+    if {authorized::%{_player}%} is true:
+      set {_action} to "stop"
+
+    if {_action} is "stop":
+      stop
+
+    if {_player}'s gamemode isn't adventure or creative:
+      set {_player}'s gamemode to adventure
+
+    # Лупим игроков
+    loop all players:
+      if {authorized::%loop-player%} is true:
+        {_player} can not see loop-player:
+          reveal loop-player to {_player}
+
+    wait 1 tick

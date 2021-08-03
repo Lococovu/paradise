@@ -77,7 +77,7 @@ function OpenCharacterEditorMenu(player: player):
 # Функция, которая будет заниматься
 # процессом изменения профиля пользователя
 # 
-function ChangeProfileSetting(player: player, setting: string):
+function ChangeProfileSetting(player: player, setting: string, fromVisualEditor: boolean = false):
   # Давайте сначала сохраним текущую локацию игрока
   delete {authorized::%{_player}%}
   set {temp::%{_player}%::location} to {_player}'s location
@@ -93,12 +93,25 @@ function ChangeProfileSetting(player: player, setting: string):
   else if {_setting} is "rp.skin":
     set {_subtitle} to "&7Имя аккаунта с скином."
   
-
   # Ну а теперь давайте телепортируем игрока
   # в тёмную комнату
-  set {_location} to getLocation("538.5, 59, 586.5", "world")
-  teleport {_player} to {_location}
+  {_fromVisualEditor} is false:
+    set {_location} to getLocation("538.5, 59, 586.5", "world")
+    teleport {_player} to {_location}
   
+  else:
+    # Спавним голограмму
+    set {_location} to CharacterCreatorModule_GetEditHologramLocation()
+
+    set {_lines::*} to "..."
+    create new hologram with lines {_lines::*} at {_location} and store it in {_hologram}
+
+    make hologram {_hologram} invisible by default
+    reveal hologram {_hologram} to {_player}
+
+    set {workers::%{_player}%::characters::creator::editHologram} to {_hologram}
+    add {_hologram} to {workers::%{_player}%::characters::creator::holograms::*}
+
   # Запускаем воркер и ждём ответа игрока
   set {_waiting} to true
 
@@ -110,7 +123,12 @@ function ChangeProfileSetting(player: player, setting: string):
       stop
     
     # Визуальное отображение
-    send title "%{_title}%" with subtitle "%{_subtitle}%" to {_player} for 2 seconds with 0 ticks fade in and 0 ticks fade out
+    {_fromVisualEditor} is false:
+      send title "%{_title}%" with subtitle "%{_subtitle}%" to {_player} for 2 seconds with 0 ticks fade in and 0 ticks fade out
+    else:
+      set {_lines::*} to "%{_title}%", "%{_subtitle}%"
+      if first line of hologram {_hologram} isn't {_title}:
+        set all lines of hologram {_hologram} to {_lines::*}
 
     # Получаем ответ и обрабатываем его
     if {temp::%{_player}%::chat::output} is set:
@@ -140,7 +158,8 @@ function ChangeProfileSetting(player: player, setting: string):
           set {_title} to "&c▽ &fВпишите &cимя и фамилию"
         else:
           # Написав об удачном изменении (с помощью уведомления)
-          sendNotification({_player}, "&a✔ &fВаше имя успешно изменено &7(%getCharacterName({_player}, getCurrentCharacter({_player}))%)", 6)
+          {_fromVisualEditor} is false:
+            sendNotification({_player}, "&a✔ &fВаше имя успешно изменено &7(%getCharacterName({_player}, getCurrentCharacter({_player}))%)", 6)
       else if {_setting} is "rp.age":
         delete {_age}
         set {_age} to {_output} parsed as number
@@ -160,7 +179,9 @@ function ChangeProfileSetting(player: player, setting: string):
               # Меняем возраст персонажа
               setCharacterAge({_player}, getCurrentCharacter({_player}), {_age})
 
-              sendNotification({_player}, "&a✔ &fВаш возраст успешно изменен &7(%{_age}%)", 6)
+              {_fromVisualEditor} is false:
+                sendNotification({_player}, "&a✔ &fВаш возраст успешно изменен &7(%{_age}% л.)", 6)
+      
       else if {_setting} is "rp.gender":
         delete {_continue}
         set {_gender} to {_output}        
@@ -180,38 +201,49 @@ function ChangeProfileSetting(player: player, setting: string):
           else:
             set {_icon} to "♀"
 
-          sendNotification({_player}, "&a✔ &fВаш пол успешно изменен &7(%{_icon}% %{_gender}%)", 6)
+          {_fromVisualEditor} is false:
+            sendNotification({_player}, "&a✔ &fВаш пол успешно изменен &7(%{_icon}% %{_gender}%)", 6)
         else:
           set {_error} to true
           set {_title} to "&c▽ &fВыберите из &cсписка"
 
       else if {_setting} is "rp.skin":
         setCharacterSkin({_player}, getCurrentCharacter({_player}), {_output})
-        sendNotification({_player}, "&a✔ &fВаш скин успешно изменен &7(%{_output}%)", 6)
+        
+        {_fromVisualEditor} is false:
+          sendNotification({_player}, "&a✔ &fВаш скин успешно изменен &7(%{_output}%)", 6)
 
       if {_error} is not true:
-        # И теперь перенесём игрока обратно
-        set {_location} to {temp::%{_player}%::location}
-        if {_location} is not set:
-          set {_location} to getLocation("-3964.5, 96, -2217", "world")
-          set {_location}'s yaw to 166
+        if {_fromVisualEditor} is true:
+          set {authorized::%{_player}%} to true
+          set {workers::%{_player}%::characters::creator::ready} to true
+          send title "&f" with subtitle "&f" to {_player} for 2 seconds with 0 ticks fade in and 1 second fade out
 
-        set {authorized::%{_player}%} to true
-        set {_player}'s gamemode to adventure
+          stop
+        else:
+          # И теперь перенесём игрока обратно
+          set {_location} to {temp::%{_player}%::location}
+          if {_location} is not set:
+            set {_location} to getLocation("-3964.5, 96, -2217", "world")
+            set {_location}'s yaw to 166
 
-        teleport {_player} to {_location}
+          set {authorized::%{_player}%} to true
+          set {_player}'s gamemode to adventure
 
-        send title "&f" with subtitle "&f" to {_player} for 2 seconds with 0 ticks fade in and 1 second fade out
+          teleport {_player} to {_location}
 
-        delete {temp::%{_player}%::chat::input}
-        delete {temp::%{_player}%::chat::output}
-        stop
+          send title "&f" with subtitle "&f" to {_player} for 2 seconds with 0 ticks fade in and 1 second fade out
+
+          delete {temp::%{_player}%::chat::input}
+          delete {temp::%{_player}%::chat::output}
+          stop
 
     # Проверяем переменные
     if {temp::%{_player}%::chat::input} is not set:
       set {temp::%{_player}%::chat::input} to true
 
-    if {_player}'s gamemode isn't spectator:
-      set {_player}'s gamemode to spectator
+    {_fromVisualEditor} is false:
+      if {_player}'s gamemode isn't spectator:
+        set {_player}'s gamemode to spectator
 
     wait 1 tick

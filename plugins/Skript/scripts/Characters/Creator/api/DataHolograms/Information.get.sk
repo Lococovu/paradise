@@ -1,0 +1,24 @@
+function CharacterCreatorModule_GetDataHologramLines(id: string) :: strings:
+  # hard-coded
+  if {_id} is "name":
+    return "&9♢ &fИмя персонажа", "&7%%{_visual::name}%%"
+  else if {_id} is "age":
+    return "&9⁰ &fВозраст персонажа", "&7%%{_visual::age}%%"
+  else if {_id} is "gender":
+    return "&9%%{_visual::gender::icon}%% &fПол персонажа", "&7%%{_visual::gender}%%"
+  else if {_id} is "skin":
+    return "&9❃ &fИгровой скин", "&7То, как вас видят игроки"
+  else if {_id} is "character":
+    return ""
+
+function CharacterCreatorModule_GetDataHologramHoverLines(id: string) :: strings:
+  if {_id} is "name":
+    return "&9♢ &fИмя персонажа", "&7▷ &fНажмите, что бы поменять"
+  else if {_id} is "age":
+    return "&9⁰ &fВозраст персонажа", "&7▷ &fНажмите, что бы поменять"
+  else if {_id} is "gender":
+    return "&9%%{_visual::gender::icon}%% &fПол персонажа", "&7▷ &fНажмите, что бы поменять"
+  else if {_id} is "skin":
+    return "&9❃ &fИгровой скин", "&7▷ &fНажмите, что бы поменять"
+  else if {_id} is "character":
+    return ""

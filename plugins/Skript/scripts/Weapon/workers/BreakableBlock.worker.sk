@@ -1,0 +1,24 @@
+function WeaponModule_StartBreakableBlockWorker(location: location):
+  set {_block} to block at {_location}
+
+  if {workers::block::%{_location}%} is set:
+    stop
+
+  # Запускаем воркер
+  set {_working} to true
+  while {_working} is true:
+    
+    # Состояние блока
+    set {_break::stage} to {block::%{_location}%::break}
+    show block break stage {_break::stage} at {_block} to all players
+
+    # Переменные
+    if {workers::block::%{_location}%} is not set:
+      set {workers::block::%{_location}%} to true
+
+    add 0.05 to {_time}
+    if {_time} >= 15:
+      delete {block::%{_location}%::break}
+      delete {workers::block::%{_location}%}
+      stop
+    wait 1 tick

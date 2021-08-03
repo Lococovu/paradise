@@ -1,0 +1,25 @@
+function DeathModule_StartDeadWorker(player: player):
+  set {_time} to 30
+  set {_waiting} to true
+  set {_location} to {_player}'s location
+
+  while {_waiting} is true:
+    if {_player} is offline:
+      stop
+
+    # Локация
+    if distance between {_location} and {_player} >= 25:
+      push {_player} direction from {_player} to {_location} at speed 1.5
+
+    # Гейммод
+    if {_player}'s gamemode isn't spectator:
+      set {_player}'s gamemode to spectator
+
+    send action bar "&9i &fВы сможете играть через &9%round({_time})% &fс." to {_player}
+
+    reduce {_time} by 0.05
+    if {_time} <= 0:
+      PlayerEntry({_player})
+      stop
+
+    wait 1 tick

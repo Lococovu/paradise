@@ -31,66 +31,6 @@ on drop:
 on quit:
   set leave message to ""
 
-# 
-# Телепорт игрока на точку авториазации
-# и начало этой самой авторизации.
-# 
-on join:
-  load yaml "datastore/players/%player's uuid%.yml" as "player-%player's uuid%"
-  startConfigFileChecker(player)
-
-  set join message to ""
-
-  # TODO
-  # Создаём паспорт для игрока
-  if yaml value "temp.createdPassport" from "player-%player's uuid%" is not set:
-    set {_createId} to random integer between 000 and 999
-
-    set {documents::create::%{_createId}%::type} to "passport"
-    set {documents::create::%{_createId}%::uuid} to player's uuid
-    set {documents::create::%{_createId}%::character} to "main"
-    set {_documentId} to createDocument("%{_createId}%")
-
-    addDocumentToPlayer(player, "%{_documentId}%")
-
-    set yaml value "temp.createdPassport" from "player-%player's uuid%" to "да"
-    save yaml "player-%player%"
-
-  delete {authorized::%player%}
-  delete {temp::%player%::*}
-
-  # Телепортируем игрока на нужную локацию
-  set {_location} to getLocation("-15, 4, -195.5", "lobby")
-  teleport player to {_location}
-
-  wait 1 tick
-  StartAuthorization(player)
-
-  # Сначала проверяем текущую сессию игрока
-  # set {_ip} to player's ip
-  # if {ip::%{_ip}%::auth::discordId} is set:
-  #   # Игрок уже авторизован:
-  #   # теперь нам надо проверить текущее состояние сессии
-  #   # и, если авторизация прошла более чем день назад,
-  #   # запросить авторизацию со стороны игрока
-  #   set {_player::time} to {ip::%{_ip}%::auth::authTime}
-  #   if {_player::time} is not set:
-  #     set {_player::time} to now
-  #     add 2 days to {_player::time}
-
-  #   set {_now} to now
-  #   if difference between {_now} and {_player::time} >= 6 hours:
-  #     # Удаляем всё самое ненужное
-  #     delete {ip::%{_ip}%::*}
-
-  #     # И стартуем авторизацию заного
-  #     StartAuthorization(player)
-  #   else:
-  #     AuthorizationDone(player)
-  # else:
-  #   # Игроку нужно авторизоваться
-  #   StartAuthorization(player)
-
 on right click:
   if {authorized::%player%} is not true:
     set {temp::%player%::authClicked} to true

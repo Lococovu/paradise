@@ -4,81 +4,81 @@ Events:
 		Patterns:
 			[on] anvil [item] (combine|merge)
 		Event values:
-			event-inventory
 			event-player
+			event-inventory
 		Cancellable: true
 	On Anvil Rename:
 		ID: anvil_rename
 		Patterns:
 			[on] anvil [item] rename
 		Event values:
-			event-inventory
-			event-string
-			event-itemstack
 			event-player
+			event-string
+			event-inventory
+			event-itemstack
 		Cancellable: true
 	On GUI click:
 		ID: gui_click
 		Patterns:
 			[on] gui (action|click)
 		Event values:
-			event-inventory
-			event-clicktype
+			event-player
 			event-string
+			event-inventory
 			event-integer
 			event-itemstack
-			event-player
+			event-clicktype
 		Cancellable: true
 	On Inventory drag:
 		ID: inventory_drag
 		Patterns:
 			[on] inventory drag
 		Event values:
-			event-inventory
-			event-string
-			event-itemstack
 			event-player
+			event-string
+			event-inventory
+			event-itemstack
 		Cancellable: true
 	On Inventory move:
 		ID: inventory_move
 		Patterns:
 			[on] inventory move
 		Event values:
+			event-player
 			event-string
 			event-itemstack
-			event-player
 		Cancellable: true
 	On Item craft:
 		ID: item_craft
 		Patterns:
 			[on] [tuske] prepare item craft
 		Event values:
-			event-inventory
-			event-recipe
 			event-slot
-			event-itemstack
 			event-player
+			event-recipe
+			event-itemstack
+			event-inventory
 		Cancellable: false
 	On Item damage:
 		ID: item_damage
 		Patterns:
 			[on] [player] item damage
 		Event values:
-			event-itemtype
-			event-itemstack
-			event-world
 			event-player
+			event-world
+			event-itemstack
+			event-itemtype
 		Cancellable: true
 	On Spawner spawn:
 		ID: spawner_spawn
 		Patterns:
 			[on] [mob] spawner spawn
 		Event values:
-			event-block
 			event-commandsender
+			event-world
 			event-location
 			event-entity
-			event-world
+			event-block
 		Cancellable: true
 Conditions:
 	CondCanEat:

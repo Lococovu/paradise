@@ -41,7 +41,7 @@ function EM_hungerWorker(player: player):
     # Медленно убираем кол-во еды у игрока
     if {_reduceTimer} is not set:
       set {_reduceTimer} to 60
-      reduce {_hunger} by 0.5
+      reduce {emotions::%{_player}%::hunger::percent} by 0.5
 
     # Таймер
     if {_reduceTimer} is set:

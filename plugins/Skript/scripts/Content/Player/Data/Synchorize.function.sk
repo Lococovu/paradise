@@ -1,0 +1,17 @@
+function synchronizeValue(player: player, character: string, value: string):
+  if {_value} is "age":
+    set {_value} to yaml value "character.%{_character}%.age" from "player-%{_player}'s uuid%"
+    set {_number} to "%{_value}%" parsed as number
+
+    set {character::%{_player}%::%{_character}%::age} to {_number}
+  else if {_value} is "gender":
+    set {_gender} to yaml value "character.%{_character}%.gender" from "player-%{_player}'s uuid%"
+
+    {_gender} is set:
+      {_gender} contains "муж":
+        set {character::%{_player}%::%{_character}%::gender} to "мужской"
+      else:
+        set {character::%{_player}%::%{_character}%::gender} to "женский"
+  else if {_value} is "name":
+    set {_name} to yaml value "character.%{_character}%.name" from "player-%{_player}'s uuid%"
+    set {character::%{_player}%::%{_character}%::name} to {_name}

@@ -1,0 +1,27 @@
+function AuthModule_StartGuestWorker(player: player):
+  set {_working} to true
+
+  while {_working} is true:
+    if {_player} is offline:
+      set {_action} to "stop" 
+
+    if {authorized::%{_player}%} is true:
+      set {_action} to "stop"
+
+    if {_action} is "stop":
+      stop
+
+    if {_player}'s gamemode isn't adventure or spectator:
+      set {_player}'s gamemode to adventure
+
+    # Таблист
+    # хеадер
+    set {_player}'s tablist header to "&e&lʟᴀᴡɴɪɢʜᴛ%newline%%newline%&fНачальный туториал. После его прохождения%newline%&fУ вас будет понимание базовых механик проекта%newline%&fи того, как вообще тут играть.%newline%"
+
+    # Футер
+    set {_player}'s tablist footer to "%newline%Заходите к нам в дискорд!%newline%&ediscord&f.lococovu.me"
+
+    hide {_player} from all players
+    hide all players from {_player}
+
+    wait 1 tick
