@@ -12,7 +12,3 @@ function MailModule_LoadHolograms(player: player):
       set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
       set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_MailboxCreate"
       set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_MailboxClick"
-
-command testm:
-  trigger:
-    MailModule_LoadHolograms(player)

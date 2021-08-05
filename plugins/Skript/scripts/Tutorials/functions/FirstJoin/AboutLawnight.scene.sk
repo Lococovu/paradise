@@ -465,7 +465,3 @@ function TutorialsModule_AboutLawnightTutorial(player: player):
         reduce {_text::timer} by 0.05
 
     wait 1 tick
-
-command test4:
-  trigger:
-    TutorialsModule_AboutLawnightTutorial(player)

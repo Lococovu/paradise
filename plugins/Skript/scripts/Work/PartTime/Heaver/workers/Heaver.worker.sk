@@ -165,10 +165,10 @@ function WorkModule_StartHeaverWorker(player: player):
 
       # Блок перед игроком
       {_entity} is set:
-        set {_location} to location 1 meters infront of {_player}
-        reduce {_location}'s y coordinate by 0.25
+        set {_entity::location} to location 1 meters infront of {_player}
+        reduce {_entity::location}'s y coordinate by 0.25
 
-        teleport {_entity} to {_location}
+        teleport {_entity} to {_entity::location}
 
       # Проверяем местоположение игрока
       # (и его действия)

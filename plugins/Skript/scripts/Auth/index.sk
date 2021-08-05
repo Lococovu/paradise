@@ -110,9 +110,8 @@ function StartAuthorization(player: player):
     if distance between {_player} and {_location} > 0:
       teleport {_player} to {_location}
 
-    if {_player} doesn't have night vision:
-      apply potion of night vision of tier 4 without any particles to {_player} for 1 day
-
+    apply potion of night vision of tier 4 without any particles to {_player} for 1 day replacing the existing effect
+    hide all players from {_player}
     hide {_player}
 
     # Боссбар
@@ -235,6 +234,7 @@ function StartAuthorization(player: player):
             teleport {_player} to {_location}
 
           hide {_player}
+          hide all players from {_player}
 
           # Проверка действия
           if {temp::%{_player}%::authClicked} is set:
@@ -322,6 +322,8 @@ function StartAuthorization(player: player):
             set {_working} to false
             stop
 
+          apply potion of night vision of tier 4 without any particles to {_player} for 1 day replacing the existing effect
+
           # Проверка локации
           if yaw of {_player}'s location isn't yaw of {_location}:
             teleport {_player} to {_location}
@@ -333,6 +335,7 @@ function StartAuthorization(player: player):
             teleport {_player} to {_location}
 
           hide {_player}
+          hide all players from {_player}
 
           # Боссбар
           if {_bossbar} is set:

@@ -24,7 +24,3 @@ function CharacterCreatorModule_StartHoloButtonWorker(player: player, buttonId: 
         set {workers::%{_player}%::characters::creator::lookingAt} to {_lookingAt}
 
     wait 1 tick
-
-command tests2:
-  trigger:
-    set {workers::%player%::characters::creator} to "stop"

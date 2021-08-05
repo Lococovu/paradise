@@ -319,7 +319,3 @@ function CharacterCreatorModule_StartCreatorWorker(player: player):
       set {workers::%{_player}%::characters::creator} to "stop"
 
     wait 1 tick
-
-command startw:
-  trigger:
-    CharacterCreatorModule_StartCreatorWorker(player)

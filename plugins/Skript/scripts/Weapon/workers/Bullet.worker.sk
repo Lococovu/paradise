@@ -84,7 +84,3 @@ function WeaponModule_StartBulletWorker(player: player, location: location, bull
       stop
 
     wait 1 tick
-
-command sound [<string>] [<number>]:
-  trigger:
-    play sound arg 1 at volume 1 with pitch arg 2 at player

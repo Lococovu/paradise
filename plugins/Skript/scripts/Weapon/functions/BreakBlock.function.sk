@@ -57,13 +57,3 @@ function WeaponModule_BreakBlock(location: location):
   # Доски
 
   # Стенки
-
-command hunger:
-  trigger:
-    set {emotions::%player%::hunger::percent} to 100
-
-command killr:
-  trigger:  
-    loop all entities in radius 6 around player:
-      if loop-entity isn't player:
-        kill loop-entity

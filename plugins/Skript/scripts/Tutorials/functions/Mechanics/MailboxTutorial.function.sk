@@ -52,7 +52,3 @@ function TutorialsModule_StartMailboxTutorial(player: player):
   AnimationsModule_PlayScene({_player}, {_locations::*}, 0.035)
 
   # Ждём конца
-
-command tt1:
-  trigger:
-    TutorialsModule_StartMailboxTutorial(player)
