@@ -12,7 +12,7 @@ SlashCommand:
   # SlashCommands take like an hour to be updated on Discord.
   # However, we can send multiple command at once, and all of them will be updated.
   # If false, single command builders can't be registered, needs a list of commands.
-  AllowSingle: false
+  AllowSingle: true
 
 # Intents managing when DiSky login a new Discord bot.
 # Keep in mind if you disable some which are enabled by default,

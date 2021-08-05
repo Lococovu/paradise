@@ -1,0 +1,30 @@
+# Root-Files
+banned-ips.json
+banned-players.json
+ops.json
+.console-history
+permissions.ym
+usercache.json
+version_history.json
+wepif.yml
+whitelist.json
+
+# Logs
+/logs
+
+# World files
+
+# Plugins
+bStats/
+FastAsyncWorldEdit/
+MorkazSk/
+SK-NBeeT/
+Players/
+Skins/
+TuSKe/
+update/
+
+# Other files
+advancements/
+playerdata/
+stats/
