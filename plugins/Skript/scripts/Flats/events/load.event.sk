@@ -1,0 +1,5 @@
+on load:
+  wait 5 seconds
+
+  delete {data::rooms::*}
+  loadRooms()

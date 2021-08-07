@@ -1,0 +1,72 @@
+function loadRoomNode(node: string, file: string):
+  # Подготавливаем ИД предмета
+  set {_temp::*} to {_node} split at "."
+  set {_size} to size of {_temp::*}
+  set {_id} to {_temp::%{_size}%}
+
+  # Загружаем самые главные данные про квартиру
+  # (её регион)
+  set {_regions::*} to yaml list "%{_node}%.regions" from {_file}
+
+  size of {_regions::*} >= 1
+  # И так же загружаем другие данные про квартиру
+  set {_roomType} to yaml value "%{_node}%.roomType" from {_file}
+  {_roomType} is not set:
+    set {_roomType} to "unknown"
+  
+  set {_address} to yaml value "%{_node}%.address" from {_file}
+  {_address} is not set:
+    set {_address} to "Неизвестно"
+
+  set {_price} to yaml value "%{_node}%.price" from {_file}
+  {_price} is not set:
+    set {_price} to 1500
+
+  set {_modifiers::*} to yaml list "%{_node}%.modifiers" from {_file}
+  if size of {_modifiers::*} <= 0:
+    add "rentable" to {_modifiers::*}
+
+  # Разные цены для аренды и для покупки
+  if FlatsModule_isBuyable({_modifiers::*}) and FlatsModule_isRentable({_modifiers::*}) is true:
+    set {_price::buy} to yaml value "%{_node}%.price.buy" from {_file}
+    set {_pricy::rent} to yaml value "%{_node}%.price.rent" from {_file}
+
+  set {data::rooms::%{_id}%::regions::*} to {_regions::*}
+  set {data::rooms::%{_id}%::hologramLocation} to {_holoLocation}
+
+  set {data::rooms::%{_id}%::modifires::*} to {_modifiers::*}
+
+  set {data::rooms::%{_holoLocation}%::roomId} to {_id}
+
+  set {data::rooms::%{_id}%::type} to {_roomType}
+  set {data::rooms::%{_id}%::address} to {_address}
+  set {data::rooms::%{_id}%::price} to {_price}
+
+  if size of {_price::*} >= 2:
+    set {data::rooms::%{_id}%::price::buy} to {_price::buy}
+    set {data::rooms::%{_id}%::price::rent} to {_price::rent}
+
+  set {data::rooms::%{_id}%::configFile} to {_file}
+  set {data::rooms::%{_id}%::configNode} to {_node}
+
+  set {_center} to yaml value "%{_node}%.center" from {_file}
+  set {data::rooms::%{_id}%::center} to getLocation("%{_center}%", "world")
+
+  set {data::rooms::%{_id}%::isRentable} to true if FlatsModule_isRentable({_modifiers::*}) is true else false
+  set {data::rooms::%{_id}%::isBuyable} to true if FlatsModule_isBuyable({_modifiers::*}) is true else false
+
+  loadOccupationData("%{_id}%", "%{_node}%", "%{_file}%")
+
+  # Грузим регионы
+  loop {_regions::*}:
+    set {_temp::*} to loop-value split at "/"
+
+    set {_location::1} to getLocation("%{_temp::1}%", "world")
+    set {_location::2} to getLocation("%{_temp::2}%", "world")
+
+    loop all blocks within {_location::1} and {_location::2}:
+      set {block::%location of loop-block%::room} to {_id}
+
+  add {_id} to {data::rooms::list::*}
+
+  broadcast "[rooms] Loaded room id %{_id}% from %{_file}% (regions: %{_regions::*}%, price: %{_price}%, address: %{_address}%, type: %{_roomType}%)"

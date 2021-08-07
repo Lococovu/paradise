@@ -1,4 +1,4 @@
-function getRoomTypeLabel(type: string) :: string:
+function FlatsModule_getRoomTypeLabel(type: string) :: string:
   if {_type} is "1":
     return "1-но комнатная квартира"
   else if {_type} is "2":

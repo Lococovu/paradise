@@ -1,0 +1,44 @@
+function assignRoomToPlayer(player: player, roomId: string):
+  # Берём информацию о комнате
+  set {_room::type} to {data::rooms::%{_roomId}%::type}
+  set {_room::isRentable} to {data::rooms::%{_roomId}%::isRentable}
+
+  set {_node} to {data::rooms::%{_roomId}%::configNode}
+  set {_file} to {data::rooms::%{_roomId}%::configFile}
+
+  {_file} and {_node} is set
+  # Ассайгним комнату этому игроку
+  if yaml {_file} is not loaded:
+    load yaml "%{_file}%" as {_file}
+  else:
+    reload yaml {_file}
+
+  # Отчищаем старые данные
+  if yaml value "%{_node}%.occupant.uuid" from {_file} is set:
+    set {_occupant::previous::uuid} to yaml value "%{_node}%.occupant.uuid" from {_file}
+    delete yaml value "%{_node}%.occupant.uuid" from {_file}
+  if yaml value "%{_node}%.occupant.character" from {_file} is set:
+    set {_occupant::previous::character} to yaml value "%{_node}%.occupant.character" from {_file}
+    delete yaml value "%{_node}%.occupant.character" from {_file}
+  if yaml value "%{_node}%.occupant.rentTime" from {_file} is set:
+    set {_rentTime} to yaml value "%{_node}%.occupant.rentTime" from {_file}
+    delete yaml value "%{_node}%.occupant.rentTime" from {_file}
+
+  # Ставим новые данные
+  set yaml value "%{_node}%.occupant.uuid" from {_file} to {_player}'s uuid
+  set yaml value "%{_node}%.occupant.character" from {_file} to getCurrentCharacter({_player})
+
+  if {_room::isRentable} is true:
+    if {_occupant::previous::uuid} is {_player}'s uuid:
+      set {_time} to {_rentTime}
+    else:
+      set {_time} to now's unix timestamp
+    
+    add 1800 to {_time}
+
+    set {_time} to {_time}
+    set yaml value "%{_node}%.occupant.rentTime" from {_file} to "%{_time}%"
+
+  save yaml {_file}
+
+  loadOccupationData("%{_roomId}%", "%{_node}%", "%{_file}%")

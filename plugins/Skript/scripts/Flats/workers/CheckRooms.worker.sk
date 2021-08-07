@@ -1,0 +1,50 @@
+every 5 seconds:
+  loop {data::rooms::list::*}:
+    set {_roomId} to loop-value
+
+    # Проверяем можно ли эту квартиру арендовать
+    if {data::rooms::%{_roomId}%::isRentable} is true:
+      # Отчищаем временные данные
+      delete {_room::*}
+      delete {_occupant::*}
+
+      # Берём данные квартиры
+      set {_room::rentTime} to {data::rooms::%{_roomId}%::occupant::rentTime}
+      set {_occupant::uuid} to {data::rooms::%{_roomId}%::occupant::uuid}
+
+      {_room::rentTime} is set:
+        # Проверяем
+        set {_now} to now's unix timestamp
+
+        if {_now} >= {_room::rentTime}:
+          # Отчищаем
+          FlatsModule_reassignRoom("%{_roomId}%")
+
+          delete {data::rooms::%{_roomId}%::occupant::*}
+        
+          # Уведомление
+          FlatsModule_notifyAbountRent("%{_room::id}%")
+        else:
+          # Проверяем дату
+          set {_time} to "%{_room::rentTime} - {_now}% seconds" parsed as timespan
+
+          if {_time} <= 15 minutes:
+            if {temp::%{_occupant::uuid}%::notified::15} is not true:
+              set {temp::%{_occupant::uuid}%::notified::15} to true
+              FlatsModule_notifyAbountRent("%{_room::id}%")
+          
+          if {_time} <= 10 minutes:
+            if {temp::%{_occupant::uuid}%::notified::10} is not true:
+              set {temp::%{_occupant::uuid}%::notified::10} to true
+              FlatsModule_notifyAbountRent("%{_room::id}%")
+
+          if {_time} <= 5 minutes:
+            if {temp::%{_occupant::uuid}%::notified::5} is not true:
+              set {temp::%{_occupant::uuid}%::notified::5} to true
+              FlatsModule_notifyAbountRent("%{_room::id}%")
+
+      else:
+        if {data::rooms::%{_roomId}%::occupant::uuid} is set:
+          FlatsModule_reassignRoom("%{_roomId}%")
+
+          delete {data::rooms::%{_roomId}%::occupant::*}

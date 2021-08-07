@@ -1,0 +1,21 @@
+function parseTimespan(timespan: timespan) :: string:
+  set {_time} to "%{_timespan}%"
+
+  replace all "minutes" in {_time} with "м."
+  replace all "minute" in {_time} with "м."
+
+  replace all "seconds" in {_time} with "с."
+  replace all "second" in {_time} with "с."
+
+  replace all " and " in {_time} with " "
+  replace all "  " in {_time} with " "
+
+  # Replacing numbers after dots
+  set {_temp::*} to {_time} split at " "
+  loop {_temp::*}:
+    if loop-value doesn't contain "ч" or "м" or "с":
+      loop-value contains ".":
+        set {_replace::*} to loop-value split at "."
+        replace all ".%{_replace::2}%" in {_time} with ""
+
+  return {_time}

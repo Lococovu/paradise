@@ -6,6 +6,8 @@ character:
         age: 19
         gender: Мужской
         skin: Wolf
+        statistics:
+            hunger: 13.5
 
 temp:
     createdPassport: да

@@ -1,0 +1,383 @@
+function openRoomMenu(player: player, roomId: string):
+  # Открываем меню
+  open virtual chest inventory with size 5 named "&8Квартира" to {_player}
+
+  # Берём информацию о комнате
+  set {_room::type} to {data::rooms::%{_roomId}%::type}
+  set {_room::price} to {data::rooms::%{_roomId}%::price}
+  set {_room::address} to {data::rooms::%{_roomId}%::address}
+
+  set {_occupant::uuid} to {data::rooms::%{_roomId}%::occupant::uuid}
+  set {_occupant::character} to {data::rooms::%{_roomId}%::occupant::character}
+  
+  # Проверяем статус квартиры
+  if {_occupant::uuid} or {_occupant::character} is not set:
+    set {_room::bought} to false
+  else:
+    set {_room::bought} to true
+
+    set {_character} to getCurrentCharacter({_player})
+    if "%{_occupant::uuid}%/%{_occupant::character}%" is "%{_player}'s uuid%/%{_character}%":
+      set {_occupant::isCurrentPlayer} to true
+    else:
+      set {_occupant::isCurrentPlayer} to false
+
+  set {_room::isBuyable} to {data::rooms::%{_roomId}%::isBuyable}
+  set {_room::isRentable} to {data::rooms::%{_roomId}%::isRentable}
+  
+  # Строим меню
+  if {_room::bought} is true:
+    if {_occupant::isCurrentPlayer} is true:
+      # Настройки квартиры
+    
+      # Пустые кнопки
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+      set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+      format gui slot {_slots::*} of {_player} with {_empty}
+
+      # {SkullOwner:{Id:"""",Properties:{textures:[{Value:""""}]}}}
+      # Редактировать квартиру
+      set {_edit} to player head named "&9▤ &fРедактировать квартиру" with lore "", "&f &fДа-да, вы правильно всё услышали! Вы можете",  "&f &fредактировать комнату так, как вам вздумается. У вас", "&f &fесть полный набор всех блоков из майнкрафта для постройки", "&f &fвашей лучшей квартиры!", "", "&9▷ &fНажмите, что бы перейти в режим редактирования", "&7После перехода в этот режим вы будете считаться", "&7нон-рп игроком."
+      add "{SkullOwner:{Id:""fce8faf0-185b-458b-83fb-13fce393b813"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2NhZDgxN2ViMDllNTQ2M2Y2OTg3ZTVlNDljZDY2ZTk0NWM4YzQyODg5NjMwYjdhMjEzNzc4OTJkMmY5ZjUzMiJ9fX0=""}]}}}" to item-nbt of {_edit}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of {_player} with {_edit} to run:
+        startRoomEditor({_player}, "%{_roomId}%")
+      
+      # Продлить аренду (если можно)
+      if {_room::isRentable}:
+        set {_now} to now's unix timestamp
+        set {_rent::time} to {data::rooms::%{_roomId}%::occupant::rentTime}
+        
+        set {_rent::expiresIn} to "%{_rent::time} - {_now}% seconds" parsed as timespan
+        set {_rent::expiresIn::visual} to parseTimespan({_rent::expiresIn})
+
+        # Предмет
+        set {_rent} to player head named "&7$ &fАренда" with lore "", "&f &fТут написанна краткая информация про статус аренды", "&f &fэтого помещения. Продливать аренду квартиры можно", "&f &fтолько когда до конца её аренды остаётся 15 минут,", "&f &fи продливать аренду можно только на дополнительные пол часа.", "", "&9🕐 &fОсталось времени аренды:", "&7%{_rent::expiresIn::visual}%", "", "&9$ &fСтоимость продления:", "&9%{_room::price}%$&f/&730 м.", ""
+        
+        if {_rent::expiresIn} <= 15 minutes:
+          add "{SkullOwner:{Id:""01e6224d-f694-4403-b2ce-2792431ccb0c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQ5YjYzYzNiNzQ1ZjVkZjg1MTE3NTk3MmVlZmQ3N2VjYTUyNjlkNDg2N2M0ZWRhMTU5NGZmM2U2NjM0NjU4In19fQ==""}]}}}" to item-nbt of {_rent}
+        else:
+          add "{SkullOwner:{Id:""6b0802b6-0e69-40a2-9fd5-0c7b20e840c5"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg2YjlkNThiY2QxYTU1NWY5M2U3ZDg2NTkxNTljZmQyNWI4ZGQ2ZTliY2UxZTk3MzgyMjgyNDI5MTg2MiJ9fX0=""}]}}}" to item-nbt of {_rent}
+
+        # Можно ли продлить аренду
+        if {_rent::expiresIn} <= 15 minutes:
+          set {_extend::eligable} to ifCanBuyUsingCash({_player}, {_room::price})
+          
+          if {_extend::eligable} is true:
+            set {_rent::extendable} to true
+            add "&a▢ &fНажмите, что бы расплатиться" to {_rent}'s lore
+          else:
+            set {_rent::extendable} to false
+            add "&c✕ &fНедостаточно средств", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_rent}'s lore
+        else:
+          set {_rent::extendable} to false
+          add "&c✕ &fНевозможно продлить аренду", "&7Нужно, что бы до конца аренды оставалось", "&7приблезительно 15 минут" to {_rent}'s lore
+
+        set {_slot} to first element of {_slots::*}
+        remove {_slot} from {_slots::*}
+
+        format gui slot {_slot} of {_player} with {_rent} to run:
+          # Продливаем аренду (если можно)
+          if {_rent::extendable} is true:
+            # Продлеваем квартиру
+            loop all items in {_player}'s inventory:
+              if name of loop-item contains "$":
+                set {_quantity} to item amount of loop-item
+                add "%{_quantity}%-%uncoloured name of loop-item%" to {_bills::*}
+
+            # Считаем...
+            set {_price} to {_room::price}
+            set {_moneyTaken} to 0
+
+            while {_moneyTaken} < {_price}:
+              delete {_smallestBill}
+              
+              # Выбираем самую маленькую купюру
+              loop {_bills::*}:
+                set {_temp::*} to loop-value split at "-"
+
+                set {_bill} to {_temp::2}
+                replace all "$" in {_bill} with ""
+
+                set {_bill} to "%{_bill}%" parsed as number
+
+                set {_amount} to {_temp::1} parsed as number
+                {_amount} is not set:
+                  set {_amount} to 1
+
+                if {_bill} is 1:
+                  if {_smallestBill} isn't 1:
+                    set {_smallestBill} to 1
+                else if {_bill} is 5:
+                  if {_smallestBill} isn't 5:
+                    set {_smallestBill} to 5
+                else if {_bill} is 10:
+                  if {_smallestBill} isn't 10:
+                    set {_smallestBill} to 10
+                else if {_bill} is 20:
+                  if {_smallestBill} isn't 20:
+                    set {_smallestBill} to 20
+                else if {_bill} is 50:
+                  if {_smallestBill} isn't 50:
+                    set {_smallestBill} to 50
+                else if {_bill} is 100:
+                  if {_smallestBill} isn't 100:
+                    set {_smallestBill} to 100
+
+                set {_loop} to loop-value
+
+              add {_amount} * {_smallestBill} to {_moneyTaken}
+              remove {_loop} from {_bills::*}
+              
+              loop {_amount} times:
+                add {_smallestBill} to {_taken::*}
+
+              wait 1 tick
+
+            # Берём самую маленькую купюру из инвентаря игрока
+            loop {_taken::*}:
+              set {_item} to GetMoneyBillItem(loop-value)
+
+              remove 1 of {_item} from {_player}'s inventory
+            
+            if {_moneyTaken} is not set:
+              {_cash::lowest} is set
+              add {_cash::lowest} to {_moneyTaken}
+              set {_cash::lowest} to GetMoneyBillItem({_cash::lowest})
+
+              remove {_cash::lowest} from {_player}'s inventory
+
+            # Возвращаем деньги, которые спиздили у игрока
+            if {_moneyTaken} > {_price}:
+              set {_output} to {_moneyTaken} - {_price}
+              set {_time} to 6
+
+              while {_output} > 0:
+                if {_output} >= 100:
+                  set {_output} to {_output} - 100
+                  set {_item} to GetMoneyBillItem(100)
+                  add {_item} to {_items::*}
+                else if {_output} >= 50:
+                  set {_output} to {_output} - 50
+                  set {_item} to GetMoneyBillItem(50)
+                  add {_item} to {_items::*}
+                else if {_output} >= 20:
+                  set {_output} to {_output} - 20
+                  set {_item} to GetMoneyBillItem(20)
+                  add {_item} to {_items::*}
+                else if {_output} >= 10:
+                  set {_output} to {_output} - 10
+                  set {_item} to GetMoneyBillItem(10)
+                  add {_item} to {_items::*}
+                else if {_output} >= 5:
+                  set {_output} to {_output} - 5
+                  set {_item} to GetMoneyBillItem(5)
+                  add {_item} to {_items::*}
+                else:
+                  set {_output} to {_output} - 1
+                  set {_item} to GetMoneyBillItem(1)
+                  add {_item} to {_items::*}
+
+                reduce {_time} by 0.05
+                if {_time} <= 0:
+                  stop
+                wait 1 tick
+
+              loop {_items::*}:
+                add loop-value to {_player}'s inventory
+
+            # Регистрируем квартиру на игрока      
+            assignRoomToPlayer({_player}, "%{_roomId}%")
+            openRoomMenu({_player}, "%{_roomId}%")
+
+      # Заказать ключ
+      set {_orderKey} to player head named "&9◇ &fЗаказать ключи от двери" with lore "", "&f &fВам же нужно как-то закрывать свою дверь, да?", "&f &fПриватность там, все дела... Ну так закажите ключ", "&f &fименно от этой двери, и он придёт на ближайший почтовый", "&f &fящик!", "", "&9▷ &fНажмите, что бы перейти", "&7Доставка ключа осуществляется с помощью", "&7почтовой компании."
+      add "{SkullOwner:{Id:""18a9931f-8983-424a-85b8-26895d3d4a8d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2Q4NzZmODJkNTNjNmIxM2Q4OGViMjFiZTMyMTE5ZjFhYWI2MzFkZGY2ZjZhZTlkNmJjMzc0MmVkMWRlYSJ9fX0=""}]}}}" to item-nbt of {_orderKey}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of {_player} with {_orderKey} to run:
+        # orderRoomKeyMenu({_player}, "%{_roomId}%")
+
+      # Сожительство
+      set {_cooperate} to player head named "&7☻ &fСожители" with lore "", "&f &fХотите дать возможность какому-то игроку редактировать", "&f &fэту квартиру? Ну или же редактировать только определённую", "&f &fкомнату? Ну так добавьте его сюда и настройте его права!", "", "&7В разработке"
+      add "{SkullOwner:{Id:""19c010f8-3d3d-4c3d-b9e2-1ea61d517bff"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTQ2NDg3ZjBjMzI4ZjViMDI5MjJjYTk1YmVhNWQwN2QwZThmN2VkNjIwNjBlYjRhMTc5OTllNzkzZGRkM2E5MyJ9fX0=""}]}}}" to item-nbt of {_cooperate}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of {_player} with {_cooperate}
+
+      # Продать квартиру
+      set {_sell} to player head named "&7▽ &fПродать квартиру" with lore "", "&f &fЭта квартира вам уже не нужна? Ну так продайте", "&f &fеё и получите за это небольшой процент от её стоимости!", "&f &fВы так же можете переписать эту квартиру на какого-либо игрока,", "&f &fи запросить за неё немного больше денег!", "", "&7В разработке"
+      add "{SkullOwner:{Id:""874ae835-78a1-4bcf-9d0d-a9ee24e554ee"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQxZjRlZGJjNjhjOTA2MTM1NTI0MmJkNzNlZmZjOTI5OWEzMjUyYjlmMTFlODJiNWYxZWM3YjNiNmFjMCJ9fX0=""}]}}}" to item-nbt of {_sell}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of {_player} with {_sell}
+
+    else:
+      # Информация о том, что квартира
+      # уже купленна
+
+
+  else:
+    # Информация для покупки
+
+    # Информация о квартире
+    set {_information} to player head named "&9 &fИнформация о квартире" with lore ""
+    add "{SkullOwner:{Id:""08a21c84-663b-4638-a31e-2f0423a3853f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2OTJmOTljYzZkNzgyNDIzMDQxMTA1NTM1ODk0ODQyOThiMmU0YTAyMzNiNzY3NTNmODg4ZTIwN2VmNSJ9fX0=""}]}}}" to item-nbt of {_information}
+
+    format gui slot 4 of {_player} with {_information}
+
+    # Пустые кнопки
+    set {_empty} to player head named "&f"
+    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+    set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+    format gui slot {_slots::*} of {_player} with {_empty}
+    
+    # Покупка наличными
+    set {_cash::eligible} to ifCanBuyUsingCash({_player}, {_room::price})
+
+    set {_cash} to player head named "&9$ &fРасплатиться наличными" with lore "", "&f &fСамая обычная расплата наличными деньгами. Главное", "&f &fчто бы вам хватило денег в вашем инвентаре!", "", "&9## &fОбщая стоимость покупки:", "&9%{_room::price}%&f$", ""
+
+    if {_cash::eligible} is true:
+      add "{SkullOwner:{Id:""7a0345b9-b55f-462c-8fb5-0690193ec00d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA0NzE5YjNiOTdkMTk1YTIwNTcxOGI2ZWUyMWY1Yzk1Y2FmYTE2N2U3YWJjYTg4YTIxMDNkNTJiMzdkNzIyIn19fQ==""}]}}}" to item-nbt of {_cash}  
+      add "&9▢ &fНажмите, что бы расплатиться" to {_cash}'s lore
+    else:
+      add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_cash}
+      add "&c✕ &fНедостаточно средств", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_cash}'s lore
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of {_player} with {_cash} to run:
+      if {_cash::eligible} is true:
+        # Покупаем квартиру
+        loop all items in {_player}'s inventory:
+          if name of loop-item contains "$":
+            set {_quantity} to item amount of loop-item
+            add "%{_quantity}%-%uncoloured name of loop-item%" to {_bills::*}
+
+        # Считаем...
+        set {_price} to {_room::price}
+        set {_moneyTaken} to 0
+
+        while {_moneyTaken} < {_price}:
+          delete {_smallestBill}
+          
+          # Выбираем самую маленькую купюру
+          loop {_bills::*}:
+            set {_temp::*} to loop-value split at "-"
+
+            set {_bill} to {_temp::2}
+            replace all "$" in {_bill} with ""
+
+            set {_bill} to "%{_bill}%" parsed as number
+
+            set {_amount} to {_temp::1} parsed as number
+            {_amount} is not set:
+              set {_amount} to 1
+
+            if {_bill} is 1:
+              if {_smallestBill} isn't 1:
+                set {_smallestBill} to 1
+            else if {_bill} is 5:
+              if {_smallestBill} isn't 5:
+                set {_smallestBill} to 5
+            else if {_bill} is 10:
+              if {_smallestBill} isn't 10:
+                set {_smallestBill} to 10
+            else if {_bill} is 20:
+              if {_smallestBill} isn't 20:
+                set {_smallestBill} to 20
+            else if {_bill} is 50:
+              if {_smallestBill} isn't 50:
+                set {_smallestBill} to 50
+            else if {_bill} is 100:
+              if {_smallestBill} isn't 100:
+                set {_smallestBill} to 100
+
+            set {_loop} to loop-value
+
+          add {_amount} * {_smallestBill} to {_moneyTaken}
+          remove {_loop} from {_bills::*}
+          
+          loop {_amount} times:
+            add {_smallestBill} to {_taken::*}
+
+          wait 1 tick
+
+        # Берём самую маленькую купюру из инвентаря игрока
+        loop {_taken::*}:
+          set {_item} to GetMoneyBillItem(loop-value)
+
+          remove 1 of {_item} from {_player}'s inventory
+        
+        if {_moneyTaken} is not set:
+          {_cash::lowest} is set
+          add {_cash::lowest} to {_moneyTaken}
+          set {_cash::lowest} to GetMoneyBillItem({_cash::lowest})
+
+          remove {_cash::lowest} from {_player}'s inventory
+
+        # Возвращаем деньги, которые спиздили у игрока
+        if {_moneyTaken} > {_price}:
+          set {_output} to {_moneyTaken} - {_price}
+          set {_time} to 6
+
+          while {_output} > 0:
+            if {_output} >= 100:
+              set {_output} to {_output} - 100
+              set {_item} to GetMoneyBillItem(100)
+              add {_item} to {_items::*}
+            else if {_output} >= 50:
+              set {_output} to {_output} - 50
+              set {_item} to GetMoneyBillItem(50)
+              add {_item} to {_items::*}
+            else if {_output} >= 20:
+              set {_output} to {_output} - 20
+              set {_item} to GetMoneyBillItem(20)
+              add {_item} to {_items::*}
+            else if {_output} >= 10:
+              set {_output} to {_output} - 10
+              set {_item} to GetMoneyBillItem(10)
+              add {_item} to {_items::*}
+            else if {_output} >= 5:
+              set {_output} to {_output} - 5
+              set {_item} to GetMoneyBillItem(5)
+              add {_item} to {_items::*}
+            else:
+              set {_output} to {_output} - 1
+              set {_item} to GetMoneyBillItem(1)
+              add {_item} to {_items::*}
+
+            reduce {_time} by 0.05
+            if {_time} <= 0:
+              stop
+            wait 1 tick
+
+          loop {_items::*}:
+            add loop-value to {_player}'s inventory
+
+        # Регистрируем квартиру на игрока      
+        assignRoomToPlayer({_player}, "%{_roomId}%")
+        openRoomMenu({_player}, "%{_roomId}%")
+
+    # Картой
+    set {_card} to player head named "&c▢ &fРасплатиться карточкой" with lore "", "&f &fЕсть деньги на карточке? Ну так тогда", "&f &fиспользуйте именно её для оплаты этого товара!", "&f &fВсё максимально протсо и максимально быстро", "", "&7В разработке"
+    add "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}" to item-nbt of {_card}
+    # add "{SkullOwner:{Id:""2552d160-1ddc-4bc3-b08b-996d8ce92505"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI5Zjc2ZGE1OTMwNTM1YWNhNjA3MzVhYjZmYjhmYTlhMmQ0ZDlhZDk1MTg5MTJkMTEyZDc4NWMyOTk0Zjg3MCJ9fX0=""}]}}}" to item-nbt of {_card}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of {_player} with {_card}

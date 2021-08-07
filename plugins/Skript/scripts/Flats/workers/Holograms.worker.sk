@@ -1,0 +1,120 @@
+function FlatsModule_StartHologramsWorker(player: player):
+  if {workers::%{_player}%::flats::holograms} is set:
+    set {workers::%{_player}%::flats::holograms} to "stop"
+    wait 2 ticks
+
+  delete {workers::%{_player}%::flats::holograms}
+  delete {workers::%{_player}%::flats::holograms::*}
+
+  while true:
+    if {_player} is offline:
+      set {workers::%{_player}%::flats::holograms} to "stop"
+
+    if {workers::%{_player}%::flats::holograms} is not set:
+      set {workers::%{_player}%::flats::holograms} to true
+
+    delete {_roomId}
+    loop all blocks in radius 1 around {_player}:
+      if {block::%location of loop-block%::room} is set:
+        set {_roomId} to {block::%location of loop-block%::room}
+        exit 1 loop
+
+    # Отображаем
+    if {_roomId} is set:
+      delete {_created}
+      if {_hologram} is set:
+        if hologram {_hologram} is deleted:
+        else:
+          set {_created} to true
+
+      if {_created} isn't true:
+        create new hologram with clickable lines "..." at {_player}'s location and store it in variable {_hologram}
+        make hologram {_hologram} invisible by default
+
+      # Берём данные квартиры
+      if {_retrievedData} is not true:
+        set {_retrievedData} to true
+
+        # Хозаин
+        set {_occupant::uuid} to {data::rooms::%{_roomId}%::occupant::uuid}
+        set {_occupant::character} to {data::rooms::%{_roomId}%::occupant::character}
+
+        # Данные квартиры
+        set {_room::address} to {data::rooms::%{_roomId}%::address}
+        set {_room::modifiers::*} to {data::rooms::%{_roomId}%::modifiers::*}
+
+        set {_room::isRentable} to {data::rooms::%{_roomId}%::isRentable}
+        set {_room::isBuyable} to {data::rooms::%{_roomId}%::isBuyable}
+
+        set {_room::price} to {data::rooms::%{_roomId}%::price}
+
+      # Отображаем голограмму
+      delete {_relationshipHologramExpanded}
+      loop {workers::%{_player}%::relationship::holograms::*}:
+        set {_index} to loop-index
+
+        if {workers::%{_player}%::relationship::holograms::%{_index}%::expandedMenu} is set:
+          set {_relationshipHologramExpanded} to true
+          exit 1 loop
+
+      if {_relationshipHologramExpanded} is true:
+        {_player} can see hologram {_hologram}
+        hide hologram {_hologram} from {_player}
+      else:
+        {_player} can not see hologram {_hologram}
+        reveal hologram {_hologram} to {_player}
+
+        if {_player} can not see hologram {_hologram}:
+          reveal hologram {_hologram} to {_player}
+    
+      # Перемещаем голограмму
+      set {_holo::location} to location 2.5 meters infront and 1.5 meters to the left of {_player}
+      add 1.85 to y coordinate of {_holo::location}
+    
+      teleport hologram {_hologram} to {_holo::location}
+
+      {_occupant::uuid} and {_occupant::character} is set:
+        {_occupant::uuid} is {_player}'s uuid
+        {_occupant::character} is getCurrentCharacter({_player})
+        if {_updated} is not set:
+          set {_updated} to true
+          set {_timer} to 6
+
+          set {_lines::*} to "&fНажмите &9[F] &fчто бы", "&fоткрыть меню помещения."
+          set all lines of hologram {_hologram} to {_lines::*}
+      else:
+        if {_updated} is not set:
+          set {_updated} to true
+
+          if {_room::isRentable} is true:
+            set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$&f/&730 м.", "&9[F]"
+          else:
+            set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$", "&9[F]"
+          set all lines of hologram {_hologram} to {_lines::*}
+
+    else:
+      # Отчищаем данные
+      delete {_room::*}
+      delete {_occupant::*}
+      delete {_updated}
+      delete {_retrievedData}
+
+      # Удаляем голограмму
+      {_player} can see hologram {_hologram}:
+        delete hologram {_hologram}
+
+    set {_action} to {workers::%{_player}%::flats::holograms}
+    if {_action} is "stop":
+      {_hologram} is set:
+        delete hologram {_hologram}
+
+      delete {workers::%{_player}%::flats::holograms}
+      delete {workers::%{_player}%::flats::holograms::*}
+      
+      stop
+
+    wait 1 tick
+
+command hg:
+  trigger:
+    FlatsModule_StartHologramsWorker(player)

@@ -1,0 +1,242 @@
+command createRoom:
+  trigger:
+    set {_stage} to 0
+
+    # Загружаем файл
+    set {_file} to "/plugins/Rooms/editor/%player%.yml"
+    load yaml "%{_file}%" as {_file}
+
+    while true:
+      if player is offline:
+        stop
+
+      # Стадия: 0
+      # Ид квартиры
+      if {_stage} is 0:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Ид квартиры"
+          set {_subtitle} to "Пример: rouswud_4_1 (Улица Роузвуд 4, квартира ##1)"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          set {_output} to {temp::%player%::chat::output}
+
+          # Сохраняем
+          set {_room::id} to {_output}
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          # Переходим на следующую стадию
+          add 1 to {_stage}
+
+      # Стадия: 1
+      # Тип квартиры
+      else if {_stage} is 1:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Тип квартиры"
+          set {_subtitle} to "Впишите число из списка: 1 (одно-комнатная), 2 (...), 3"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          set {_output} to {temp::%player%::chat::output}
+
+          # Сохраняем
+          set {_room::roomType} to {_output}
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          # Переходим на следующую стадию
+          add 1 to {_stage}
+
+      # Стадия: 2
+      # Адресс
+      else if {_stage} is 2:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Адресс квартиры"
+          set {_subtitle} to "Пример: Ул. Роузвуд, 4, Кв. №1"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          set {_output} to {temp::%player%::chat::output}
+
+          # Сохраняем
+          set {_room::address} to {_output}
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          # Переходим на следующую стадию
+          add 1 to {_stage}
+
+      # Стадия: 3
+      # Модификаторы (buyable, rentable)
+      else if {_stage} is 3:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Покупка или аренда?"
+          set {_subtitle} to "Выберите из списка: buyable (покупка) или rentable (аренда)"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          set {_output} to {temp::%player%::chat::output}
+
+          # Сохраняем
+          add {_output} to {_room::modifiers::*}
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          # Переходим на следующую стадию
+          add 1 to {_stage}
+
+      # Стадия: 4
+      # Цена
+      else if {_stage} is 4:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Цена квартиры"
+          set {_subtitle} to "Да"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          set {_output} to {temp::%player%::chat::output}
+
+          # Сохраняем
+          set {_room::price} to {_output}
+          
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          # Переходим на следующую стадию
+          add 1 to {_stage}
+
+      # Стадия: 5
+      # Локации (Края)
+      else if {_stage} is 5:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          clear player's inventory
+
+          set {_point::1} to player head named "&fПервая точка" with nbt "{SkullOwner:{Id:""cc580a79-3444-4a8a-a236-ffb3a4e584fc"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2E1MTZmYmFlMTYwNThmMjUxYWVmOWE2OGQzMDc4NTQ5ZjQ4ZjZkNWI2ODNmMTljZjVhMTc0NTIxN2Q3MmNjIn19fQ==""}]}}}"
+          set {_point::2} to player head named "&fВторая точка" with nbt "{SkullOwner:{Id:""76e59870-f172-4a44-80b5-96f67058ce9e"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDY5OGFkZDM5Y2Y5ZTRlYTkyZDQyZmFkZWZkZWMzYmU4YTdkYWZhMTFmYjM1OWRlNzUyZTlmNTRhZWNlZGM5YSJ9fX0=""}]}}}"
+
+          loop {_point::*}:
+            add loop-value to player's inventory
+
+          delete {temp::%player%::adminRoom::points::*}
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Поставьте точки"
+          set {_subtitle} to "Края квартиры. Когда закончите - напишите что-то в чат"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          # Регистрируем точки
+          set {_room::regions::*} to {temp::%player%::adminRoom::points::*}
+
+          add 1 to {_stage}
+
+      # Стадия: 6
+      # Центр
+      else if {_stage} is 6:
+        if {_stages::%{_stage}%::initialized} is not true:
+          set {_stages::%{_stage}%::initialized} to true
+
+          clear player's inventory
+
+          delete {temp::%player%::chat::input}
+          delete {temp::%player%::chat::output}
+
+          set {_title} to "Центр комнаты"
+          set {_subtitle} to "Просто встань на центр комнаты и напиши что-то в чат"
+
+        if {temp::%player%::chat::input} is not true:
+          set {temp::%player%::chat::input} to true
+
+        if {temp::%player%::chat::output} is set:
+          set {_location} to player's location
+          set {_room::center} to "%x coordinate of {_location}%, %y coordinate of {_location}%, %z coordinate of {_location}%"
+
+          add 1 to {_stage}
+
+      # Сохраняем
+      else if {_stage} is 7:
+        set yaml value "rooms.%{_room::id}%.type" from {_file} to "room"
+        set yaml value "rooms.%{_room::id}%.roomType" from {_file} to {_room::roomType}
+        set yaml list "rooms.%{_room::id}%.modifiers" from {_file} to {_room::modifiers::*}
+        set yaml value "rooms.%{_room::id}%.price" from {_file} to {_room::price}
+        set yaml value "rooms.%{_room::id}%.address" from {_file} to {_room::address}
+        set yaml list "rooms.%{_room::id}%.regions" from {_file} to {_room::regions::*}
+        set yaml value "rooms.%{_room::id}%.center" from {_file} to {_room::center}
+
+        save yaml {_file}
+        send "Готово"
+
+        loadRoomNode("rooms.%{_room::id}%", {_file})
+        stop
+
+      send title "%{_title}%" with "%{_subtitle}%" to player for 2 seconds with 0 ticks fade in and 1 second fade out
+
+      wait 1 tick
+    
+on place:
+  if name of player's held item contains "Первая":
+    cancel event
+    set {temp::%player%::adminEditor::point::1} to location of block above event-block
+    send "Точка поставленна"
+
+  else if name of player's held item contains "Вторая":
+    cancel event
+    {temp::%player%::adminEditor::point::1} is set:
+      send "Квадрат добавлен"
+      set {_point} to {temp::%player%::adminEditor::point::1}
+      set {_location} to event-block's location
+
+      add "%x coordinate of {_point}%, %y coordinate of {_point}%, %z coordinate of {_point}%/%x coordinate of {_location}%, %y coordinate of {_location}%, %z coordinate of {_location}%" to {temp::%player%::adminRoom::points::*}
+
+      delete {temp::%player%::adminEditor::point::1}
+
+command test:
+  trigger:
+    set {_player} to player
+    {_player}.setGravity(true)

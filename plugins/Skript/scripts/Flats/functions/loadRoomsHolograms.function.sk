@@ -1,0 +1,3 @@
+function loadRoomsHolograms(player: player):
+  # Просто запускаем воркер для комнаты
+  FlatsModule_StartHologramsWorker({_player})

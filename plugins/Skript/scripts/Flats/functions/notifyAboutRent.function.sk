@@ -1,0 +1,1 @@
+function FlatsModule_notifyAbountRent(roomId: string):

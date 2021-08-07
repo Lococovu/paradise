@@ -42,7 +42,14 @@ function PlayerEntry(player: player, empty: boolean = false):
   set {_uuid} to {_player}'s uuid
   set {_character} to getCurrentCharacter({_player})
 
-  if size of {data::rooms::%{_uuid}%::%{_character}%::rooms::*} > 0:
+  loop {data::rooms::%{_uuid}%::%{_character}%::rooms::*}:
+    set {_roomId} to loop-value
+
+    {data::rooms::%{_roomId}%::occupant::uuid} is {_uuid}:
+      {data::rooms::%{_roomId}%::occupant::character} is {_character}
+      set {_foundRoom} to true
+
+  if {_foundRoom} is true:
     # Телепортируем игрока в первую комнату
     set {_roomId} to first element of {data::rooms::%{_uuid}%::%{_character}%::rooms::*}
 

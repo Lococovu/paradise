@@ -1,0 +1,18 @@
+function loadRooms():
+  load all yaml from directory "/plugins/Rooms"
+  loop all of the currently loaded yaml files:
+    set {_file} to loop-value-1
+    set {_nodes::*} to all yaml nodes of {_file}
+
+    loop {_nodes::*}:
+      set {_node} to loop-value-2
+      set {_index} to loop-index parsed as number
+      set {_value} to yaml value loop-value-2 from {_file}
+      
+      # Проверяем...
+      set {_temp::*} to {_node} split at "."
+      set {_size} to size of {_temp::*}
+      {_temp::%{_size}%} is "type"
+      {_value} is "room":
+        set {_node::previous} to {_index} - 1
+        loadRoomNode({_nodes::%{_node::previous}%}, {_file})

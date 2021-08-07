@@ -1,0 +1,158 @@
+rooms:
+    graf_2_8:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 20
+        address: Ул. Граф 2, Пом. №8
+        regions:
+        - 497.5, 55.5, 723.5/503.5, 52.5, 731.5
+        center: 499.99, 52, 726.87
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    osvald_4_1:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 75
+        address: Ул. Освальд 4, Пом. №1
+        regions:
+        - 540.5, 59.5, 595.5/527.5, 52.5, 603.5
+        center: 534.38, 52, 599.06
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    osvald_4_2:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 75
+        address: Ул. Освальд 4, Пом. №2
+        regions:
+        - 540.5, 59.5, 609.5/528.5, 52.5, 617.5
+        center: 535.14, 52, 613.04
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    rouswud_6_1:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 15
+        address: Ул. Роузвуд 6
+        regions:
+        - 374.5, 55.5, 680.5/379.5, 52.5, 671.5
+        center: 376.5, 52, 676.18
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    rouswud_2:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 30
+        address: Ул. Роузвуд 2
+        regions:
+        - 371.5, 57.5, 603.5/379.5, 52.5, 618.5
+        center: 375.07, 52, 610.4
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    rouswud_12:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 25
+        address: Ул. Роузвуд 12
+        regions:
+        - 357.5, 57.5, 612.5/366.5, 52.5, 625.5
+        center: 361.37, 52, 617.8
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    rouswud_9:
+        type: room
+        roomType: 1
+        modifiers:
+        - buyable
+        price: 30
+        address: Ул. Роузвуд 9
+        regions:
+        - 365.5, 57.5, 688.5/356.5, 52.5, 699.5
+        center: 361.36, 52, 693.4
+        occupant:
+            uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+            character: main
+    osvald_10_1:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5000
+        address: Ул. Освальд 10, Кв. №1
+        regions:
+        - 546.5, 63.5, 656.5/541.5, 64.5, 659.5
+        - 539.5, 63.5, 658.5/530.5, 65.5, 671.5
+        - 541.5, 63.5, 671.5/546.5, 64.5, 667.5
+        - 541.5, 63.5, 661.5/546.5, 64.5, 665.5
+        center: 535.28, 62, 665.31
+    osvald_10_2:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5000
+        address: Ул. Освальд 10, Кв. №2
+        regions:
+        - 541.5, 65.5, 651.5/546.5, 62.5, 645.5
+        - 530.5, 65.5, 646.5/540.5, 62.5, 632.5
+        - 541.5, 63.5, 633.5/546.5, 64.5, 637.5
+        - 541.5, 63.5, 639.5/546.5, 64.5, 643.5
+        center: 535.49, 62, 640.92
+    osvald_10_3:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5250
+        address: Ул. Освальд 10, Кв. №3
+        regions:
+        - 546.5, 70.5, 659.5/541.5, 67.5, 653.5
+        - 539.5, 70.5, 658.5/529.5, 67.5, 672.5
+        - 541.5, 68.5, 671.5/546.5, 69.5, 667.5
+        - 546.5, 68.5, 661.5/541.5, 69.5, 665.5
+        center: 535.44, 67, 665.35
+    osvald_10_4:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5250
+        address: Ул. Освальд 10, Кв. №4
+        regions:
+        - 541.5, 68.5, 651.5/546.5, 69.5, 645.5
+        - 539.5, 68.5, 646.5/530.5, 70.5, 633.5
+        - 541.5, 68.5, 637.5/546.5, 69.5, 633.5
+        - 541.5, 68.5, 643.5/546.5, 69.5, 639.5
+        - 546.5, 70.5, 645.5/541.5, 67.5, 651.5
+        center: 534.87, 67, 639.88
+    osvald_10_5:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5500
+        address: Ул. Освальд 10, Кв. №5
+        regions:
+        - 539.5, 73.5, 658.5/530.5, 75.5, 671.5
+        - 541.5, 73.5, 671.5/546.5, 74.5, 667.5
+        - 541.5, 73.5, 661.5/546.5, 74.5, 665.5
+        - 546.5, 73.5, 653.5/541.5, 74.5, 659.5
+        center: 535.59, 72, 666.13

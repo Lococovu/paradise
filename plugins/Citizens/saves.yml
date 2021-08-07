@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 155
+last-created-npc-id: 158
 npc:
   '0':
     metadata:
@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,owner,scoreboardtrait
+    traitnames: inventory,mounttrait,spawned,owner,scoreboardtrait,type,equipment,location,skintrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -102,7 +102,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,lookclose,owner,scoreboardtrait
+    traitnames: inventory,mounttrait,spawned,scoreboardtrait,owner,type,equipment,location,skintrait,lookclose
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -134,7 +134,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,owner,scoreboardtrait
+    traitnames: inventory,mounttrait,scoreboardtrait,owner,spawned,type,equipment,skintrait,location
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -178,7 +178,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: equipment,skintrait,inventory,type,mounttrait,location,spawned,lookclose,owner,scoreboardtrait
+    traitnames: inventory,mounttrait,scoreboardtrait,spawned,owner,type,equipment,skintrait,location,lookclose
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

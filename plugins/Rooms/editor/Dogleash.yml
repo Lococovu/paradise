@@ -1,0 +1,15 @@
+rooms:
+    test_1:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 10
+        address: da
+        regions:
+        - 525.5, 53.5, 649.5/522.5, 56.5, 653.5
+        center: 524.26, 52.03, 650.46
+        occupant:
+            uuid: f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f
+            character: main
+            rentTime: 1.62834676589E9

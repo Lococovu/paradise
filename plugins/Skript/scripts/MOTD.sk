@@ -1,8 +1,8 @@
+options:
+  dev: true
+
 on server ping:
-  set motd to "&9&lʟᴀᴡɴɪɢʜᴛ &7- &fРоле-Плей сервер%newline%&9❤ &7discord&f.lococovu.me"
-
-on block place:
-  cancel event
-
-on block break:
-  cancel event
+  if {@dev}:
+    set motd to "&9&lʟᴀᴡɴɪɢʜᴛ &7- &cDEV Сервер%newline%&7Тут ведётся разработка"
+  else:
+    set motd to "&9&lʟᴀᴡɴɪɢʜᴛ &7- &fРоле-Плей сервер%newline%&9❤ &7discord&f.lococovu.me"

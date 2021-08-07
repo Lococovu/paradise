@@ -1,11 +1,11 @@
-rouswud:
+flats:
     rouswud_4_room1:
         type: room
         roomType: '1'
         address: Ул. Роузвуд, 4, Кв. №1
-        price: 10000
+        price: 20
         modifiers:
-        - buyable
+        - rentable
         hologramLocation: 376.5, 53, 645.5
         regions:
         - 379, 57, 647.5/374, 53, 660

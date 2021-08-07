@@ -1,0 +1,18 @@
+function loadOccupationData(id: string, node: string, file: string):
+  reload yaml {_file}
+
+  set {_uuid} to yaml value "%{_node}%.occupant.uuid" from {_file}
+  set {_character} to yaml value "%{_node}%.occupant.character" from {_file}
+
+  set {data::rooms::%{_id}%::occupant::uuid} to {_uuid}
+  set {data::rooms::%{_id}%::occupant::character} to {_character}
+
+  # Доп. данные, если игрок арендовал квартиру
+  if {data::rooms::%{_id}%::isRentable}:
+    set {data::rooms::%{_id}%::occupant::rentTime} to yaml value "%{_node}%.occupant.rentTime" from {_file}
+    if {data::rooms::%{_id}%::occupant::rentTime} is not set:
+      delete {data::rooms::%{_id}%::occupant::*}
+
+  {_uuid} and {_character} is set
+  {data::rooms::%{_uuid}%::%{_character}%::rooms::*} doesn't contain {_id}:
+    add {_id} to {data::rooms::%{_uuid}%::%{_character}%::rooms::*}

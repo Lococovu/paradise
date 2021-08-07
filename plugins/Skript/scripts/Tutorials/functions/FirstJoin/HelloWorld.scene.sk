@@ -7,9 +7,6 @@ function TutorialsModule_HelloWorldTutorial(player: player):
   add "&fДобро пожаловать", "&f" to {_texts::1::*}
   add "&fПеред началом игры", "&fвам нужно будет создать персонажа" to {_texts::2::*}
   add "&fПосле этого вам", "&fпридётся зарегистрироваться" to {_texts::3::*}
-  add "&c &fВнимание!", "&fСервер находится на стадии тестирования" to {_texts::4::*}
-  add "&fА разработчик пока что", "&cуехал&f, так что его не будет ещё неделю" to {_texts::5::*}
-  add "&fСервер получился сырой как", "&cкиберпанк&f, так что простите." to {_texts::6::*}
 
   set {_text::time} to 6
   set {_text::timer} to 3
@@ -21,6 +18,9 @@ function TutorialsModule_HelloWorldTutorial(player: player):
   while {_waiting} is true:
     if {_player} is offline:
       stop
+
+    if {workers::%{_player}%::tutorials::helloworld} is not true:
+      set {workers::%{_player}%::tutorials::helloworld} to true
 
     if {_player}'s gamemode isn't spectator:
       set {_player}'s gamemode to spectator
@@ -40,6 +40,7 @@ function TutorialsModule_HelloWorldTutorial(player: player):
         wait 4.5 seconds
         CharacterCreatorModule_StartCreatorWorker({_player})
 
+        delete {workers::%{_player}%::tutorials::helloworld}
         stop
         
       # Отправляем текст

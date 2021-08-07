@@ -419,3 +419,50 @@ ClickedSlot:
 OS-Stuff:
 - '[the] server[['']s] java version'
 - '[the] java version of [the] server'
+PluginHooks:
+  LibsDisguises:
+  - '[skellett] [[Libs]Disguises] [(entity|player)] %entity% (1¦(is|[does] (ha(s|ve)))|2¦(do[es](n''t|
+    not) have|is(n''t| not))) [a] disguise[d]'
+  - '[skellett] [[Libs]Disguises] un[( |-)]disguise %entity%'
+  - '[skellett] [[Libs]Disguises] name visib(le|ility) [state] of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s name visib(le|ility) [state]'
+  - '[skellett] [[Libs]Disguises] self view[ing] disguise [state] of %entities%[['']s]'
+  - '[skellett] [[Libs]Disguises] %entities%''s self view[ing] disguise [state]'
+  - '[skellett] [[Libs]Disguises] [the] entity of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s disguise entity'
+  - '[skellett] [[Libs]Disguises] [held] item of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s [held] item'
+  - '[skellett] [[Libs]Disguises] [set] Disguise [of] next [spawned] [entity] (as|to)
+    %disguise%'
+  - '[skellett] [[Libs]Disguises] [custom] name of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] disguise %disguise%''s [custom] name'
+  - '[skellett] [[Libs]Disguises] disguise %disguise% (1¦(is|[does] (ha(s|ve)))|2¦(do[es](n''t|
+    not) have|is(n''t| not))) [a] [custom] name'
+  - '[skellett] [[Libs]Disguises] [held] offhand item of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s [held] offhand item'
+  - '[the] [skellett] [[Libs]Disguises] disguise [of] %entity% [(to|from) player %player%]'
+  - '[skellett] [[Libs]Disguises] %entity%''s disguise [(to|from) player %player%]'
+  - '[skellett] [[Libs]Disguises] (vanish[ed]|invisible) [state] of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s (vanish[ed]|invisible) [state]'
+  - '[skellett] [[Libs]Disguises] (block[ing]|right[(-| )]click[ing]) [state] of disguise
+    %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s (block[ing]|right[(-| )]click[ing])
+    [state]'
+  - '[skellett] [[Libs]Disguises] Disguise type of %entities%[['']s]'
+  - '[skellett] [[Libs]Disguises] %entities%''s disguise type'
+  - '[skellett] [[Libs]Disguises] (sprint[ing]|run[ning]) [state] of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s (sprint[ing]|run[ning]) [state]'
+  - '[skellett] [[Libs]Disguises] [a] [new] disguise [with] type (1¦%-string%|2¦%-disguisetype%)
+    [with block [id] %-integer%] [(and|with) data [id] %-integer%] [with [user[ ]]name
+    %-string%] [(and|with) baby [state] %-boolean%]'
+  - '[skellett] [[Libs]Disguises] (sneak[ing]|crouch[ing]) [state] of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s (sneak[ing]|crouch[ing]) [state]'
+  - '[skellett] [[Libs]Disguises] (burning|ignited|lit) [state] of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s (burning|ignited|lit) [state]'
+  - '[skellett] [[Libs]Disguises] [the] (item|equipment) [in] slot %equipmentslot%
+    (of|in) disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] slot %equipmentslot% (of|in) disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] [(the|all)] [of] [the] client [viewed] disguise[['']s]
+    [of] %entity%'
+  - '[skellett] [[Libs]Disguises] [(the|all)] [of] [the] armo[u]r of disguise %disguise%'
+  - '[skellett] [[Libs]Disguises] %disguise%''s armo[u]r'

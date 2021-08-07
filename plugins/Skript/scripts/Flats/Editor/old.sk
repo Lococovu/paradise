@@ -284,6 +284,7 @@ on block break:
         set {_passed} to true
 
     if {_passed} isn't true:
+      delete {workers::%player%::roomEditor}
       cancel event
 
 on right click:
@@ -314,4 +315,5 @@ on block place:
         set {_passed} to true
 
     if {_passed} isn't true:
+      delete {workers::%player%::roomEditor}
       cancel event

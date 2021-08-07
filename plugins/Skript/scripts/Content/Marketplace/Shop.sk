@@ -316,7 +316,7 @@ function openShopStandMenu(player: player, shopId: string, standId: string):
             itemCooldown({_player}, "%{_slot}%" parsed as number, "%{_shopId}%", "%{_standId}%")
 
 function itemCooldown(player: player, slot: number, shopId: string, standId: string):
-  set {_time} to 2
+  set {_time} to 1
   set {_working} to true
 
   set {_title} to {shop::%{_shopId}%::%{_standId}%::title}
@@ -339,12 +339,12 @@ function itemCooldown(player: player, slot: number, shopId: string, standId: str
     if "%name of {_player}'s current inventory%" doesn't contain {_title}:
       stop
 
-    reduce {_time} by 1
+    reduce {_time} by 0.1
     if {_time} < 0:
       openShopStandMenu({_player}, {_shopId}, {_standId})
       stop
 
-    wait 1 second
+    wait 1 tick
 
 function openTerminalMenu(player: player):
   if {workers::shopWorker::%{_player}%::inShop} is set:
