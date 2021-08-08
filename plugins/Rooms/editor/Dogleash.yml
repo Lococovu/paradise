@@ -13,3 +13,14 @@ rooms:
             uuid: f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f
             character: main
             rentTime: 1.62834676589E9
+    test_10:
+        type: room
+        roomType: 2
+        modifiers:
+        - rentable
+        price: 10
+        address: daw
+        regions:
+        - 472.5, 53.5, 705.5/476.5, 56.5, 700.5
+        center: 473.82, 53.37, 703.19
+        occupant: {}

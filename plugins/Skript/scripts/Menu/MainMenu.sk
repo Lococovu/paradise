@@ -7,8 +7,8 @@ command menu:
     set {_empty} to player head named "&f"
     add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
 
-    set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
-    format gui slot {_slots::*} of player with {_empty}
+    set {_slots::*} to 11,12,13, 20,21,22, 29,30,31
+    format gui slot 15,24, {_slots::*} of player with {_empty}
 
     # Меню игрока
     set {_player} to player head named "&9☃ &fМеню персонажа" with lore "", "&f &fВ этом небольшом меню вы сможете найти абсолютно", "&f &fвсю информацию про вашего текущего персонажа. Вы так", "&f &fже сможете найти список всех доступных действий, дополнительных", "&f &fпредметов для рп-отыгровки и многое другое!", "", "&9▷ &fНажмите, что бы перейти"
@@ -35,6 +35,38 @@ command menu:
     format gui slot {_slot} of player with {_gps} to run:
       execute player command "/gps"
 
+    # Работы
+    set {_parttime} to player head named "&7↗ &fСписок подработок" with lore "", "&f &fХотите подзаработать хоть немного денег", "&f &fна проживание? Ну тогда вам уж точко сюда! Заходите", "&f &Fв это небольшое меню и ищите подработку на свой вкус", "&f &fи цвет!", "", "&9▷ &fНажмите, что бы перейти"
+    add "{SkullOwner:{Id:""80a61cf7-f0a3-4eee-a797-aa658e197017"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE1NWQyMWM3NzNjNzY1MmJlOTg0YmQ3NTNkZDhiM2QyMjVkOWE5NTBkMWQyM2ViZjBmYzVjOWVkYzM4NDBjYiJ9fX0=""}]}}}" to item-nbt of {_parttime}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_parttime} to run:
+      execute player command "/gps work"
+
+    # Аренда помещений
+    set {_rent} to player head named "&7↗ &fПомещения на аренду" with lore "", "&f &fХотите сделать свою небольшую кафешку ну или", "&f &fдругой какой-то бизнес? Заходите в этот список", "&f &fи арендуйте любое бизнес помещение для любых", "&f &fпожеланий!", "", "&9▷ &fНажмите, что бы перейти"
+    add "{SkullOwner:{Id:""67303f01-b659-4ce5-8706-b623a16c1db2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y3Y2RlZWZjNmQzN2ZlY2FiNjc2YzU4NGJmNjIwODMyYWFhYzg1Mzc1ZTlmY2JmZjI3MzcyNDkyZDY5ZiJ9fX0=""}]}}}" to item-nbt of {_rent}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_rent} to run:
+      execute player command "/gps rent"
+
+    # Крафты
+    set {_crafts} to player head named "&7↗ &fКрафты &7(Одежда, еда, оружие...)" with lore "", "&f &fВы уже арендовали помещение для бизнеса но не знаете", "&f &fчто делать? Тогда вам стоит занятся рукоделием! Тут", "&f &fвы сможете посмотреть список крафтов еды, одежды, инструментов", "&f &fи даже оружия! Всё невероятно просто и быстро.", "", "&9▷ &fНажмите, что бы перейти"
+    add "{SkullOwner:{Id:""7eff1016-ea9b-45db-b8c1-8ce8862472fd"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJiODRlMzQ4YWI1OGJlMDQzNWY2MWUwMjdmYTZkZmU1NTdiZWU4ODkzZjFjMTBjM2MyYmViZDIwMjVkYSJ9fX0=""}]}}}" to item-nbt of {_crafts}
+
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    format gui slot {_slot} of player with {_crafts} to run:
+      execute player command "/help crafts"
+
+    # Доска объявление  
+
     # Помощь
     set {_help} to player head named "&9i &fПомощь" with lore "", "&f &fНе знаете что делать? Хотите получше познакомиться", "&f &fс сервером и всеми его возможностями? Ну тогда вам сюда!", "&f &fТут вы сможете найти полную документацию по каждой функции", "&f &fсервера. Так же вы сможете получить ответы на самые", "&f &fчастые вопросы!", "", "&9▷ &fНажмите, что бы перейти"
     add "{SkullOwner:{Id:""a8806521-1911-4885-87ac-5a65755364e2"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZWExZjUxZjI1M2ZmNTE0MmNhMTFhZTQ1MTkzYTRhZDhjM2FiNWU5YzZlZWM4YmE3YTRmY2I3YmFjNDAifX19""}]}}}" to item-nbt of {_help}
@@ -44,3 +76,12 @@ command menu:
 
     format gui slot {_slot} of player with {_help} to run:
       execute player command "/help"
+    
+    # Настройки
+    set {_slot} to 15
+
+    set {_settings} to player head named "&9◇ &fНастройки" with lore "", "&f &fХотите отключить &7ООС &fчат? Хотите, например,", "&f &fвоспользоваться нашими встроенными макросами для", "&f &fулучшения вашего рп-процесса? Ну так тогда вам именно сюда!", "&f &fТут намного больше настроек чем вам может показаться!", "", "&9▷ &fНажмите, что бы перейти"
+    add "{SkullOwner:{Id:""3979b007-eecd-4e69-b3fd-69d1b84fd402"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTRkNDliYWU5NWM3OTBjM2IxZmY1YjJmMDEwNTJhNzE0ZDYxODU0ODFkNWIxYzg1OTMwYjNmOTlkMjMyMTY3NCJ9fX0=""}]}}}" to item-nbt of {_settings}
+
+    format gui slot {_slot} of player with {_settings} to run:
+      execute player command "/settings"

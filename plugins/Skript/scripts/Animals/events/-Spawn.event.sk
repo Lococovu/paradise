@@ -1,0 +1,3 @@
+on spawn:
+  if event-entity isn't armor stand or item frame:
+    cancel event

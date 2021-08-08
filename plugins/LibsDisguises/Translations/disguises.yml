@@ -499,3 +499,7 @@
 
 # Used for the disgiuse modify radius command to list all disguisetypes
 "DisgiseType": "DisgiseType"
+
+# Name for the GlowItemFrame EntityType, this is used in radius commands
+
+# Name for the GlowSquid EntityType, this is used in radius commands

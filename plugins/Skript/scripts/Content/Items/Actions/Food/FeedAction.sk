@@ -4,5 +4,5 @@ function AC_FeedAction(player: player, foodCount: string):
   add {_foodCount} to {emotions::%{_player}%::hunger::percent}
   setCharacterHungerLevel({_player}, getCurrentCharacter({_player}), {emotions::%{_player}%::hunger::percent})
 
-  set {_item} to {_player}'s held item
+  set {_item} to {_player}'s tool
   remove 1 of {_item} from {_player}'s inventory

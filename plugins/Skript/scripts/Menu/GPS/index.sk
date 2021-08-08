@@ -1,43 +1,127 @@
-command gps:
+command gps [<text>]:
   trigger:
-    open virtual chest inventory with size 5 named "&8GPS" to player
+    if arg 1 is not set:
+      execute player command "/gps all"
+    else if arg 1 is "categories":
+      open virtual chest inventory with size 6 named "&8GPS | Категории" to player
 
-    # Пустые слота
-    set {_empty} to player head named "&f"
-    add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+      # Пустые слота
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
 
-    set {_slots::*} to 3,4,5
-    format gui slot {_slots::*} of player with {_empty}
+      set {_slots::*} to 20,21,22,23,24, 29,30,31,32,33
+      format gui slot 3,4,5, {_slots::*} of player with {_empty}
 
-    # Заполняем места
-    set {_slot} to 9
-    set {_places::*} to yaml list "places" from "gps-places"
-    loop {_places::*}:
-      delete {_item}
-      delete {_place}
-      delete {_place::*}
+      # Назад
+      set {_back} to player head named "&9◁ &fВернуться ко всем местам" with lore "", "&f &fНасмотрелись на места этой категории? Ну тогда", "&f &fвам, наверное, пора возвращаться обратно ко всем", "&f &fдоступным местам!", "", "&9▷ &fНажмите, что бы вернуться"
+      add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
 
-      set {_place} to loop-value
+      format gui slot 3 of player with {_back} to run:
+        execute player command "/gps"
 
-      # Берём данные этого места
-      set {_place::title} to yaml value "place.%{_place}%.title" from "gps-places"
-      set {_place::nbt} to yaml value "place.%{_place}%.nbt" from "gps-places"
-      set {_place::description::*} to yaml list "place.%{_place}%.description" from "gps-places"
+      # Заполняем места
+      set {_slot} to 9
+      set {_categories::*} to yaml list "categories" from "gps-places"
+      loop {_categories::*}:
+        delete {_wip}
+        delete {_item}
+        delete {_category}
+        delete {_category::*}
 
-      set {_place::location} to yaml value "place.%{_place}%.location" from "gps-places"
-      set {_place::location} to getLocation({_place::location}, "world")
+        set {_category} to loop-value
 
-      {_place::location} is set
-      set {_item} to player head named coloured {_place::title} with lore coloured {_place::description::*}
-      add "%{_place::nbt}%" to item-nbt of {_item}
+        # Берём данные этого места
+        set {_category::title} to yaml value "category.%{_category}%.title" from "gps-places"
+        set {_category::nbt} to yaml value "category.%{_category}%.nbt" from "gps-places"
+        set {_category::description::*} to yaml list "category.%{_category}%.description" from "gps-places"
 
-      add "", "&9➹ &fНажмите, что бы проложить маршрут", "&7Вам нужно находится на улице. Точки маршурта", "&7прокладываются по автомобильным дорогам." to {_item}'s lore
+        {_category::title}, {_category::nbt} is set
+        set {_item} to player head named coloured {_category::title} with lore coloured {_category::description::*}
+        add "%{_category::nbt}%" to item-nbt of {_item}
 
-      format gui slot {_slot} of player with {_item} to run:
-        close player's inventory
-        startGPSWorker(player, "%{_place}%")
+        if yaml value "category.%{_category}%.wip" from "gps-places" is not set:
+          add "", "&9▷ &fНажмите, что бы перейти" to {_item}'s lore
+        else:
+          set {_wip} to true
 
-      add 1 to {_slot}
+        set {_slot} to first element of {_slots::*}
+        remove {_slot} from {_slots::*}
+
+        format gui slot {_slot} of player with {_item} to run:
+          if {_wip} is not true:
+            execute player command "/gps %{_category}%"
+
+    else:
+      set {_category} to arg 1
+
+      if {_category} isn't "all":
+        set {_title} to yaml value "category.%{_category}%.inventoryTitle" from "gps-places"
+        if {_title} is not set:
+          set {_title} to "Неизвестная категория"
+
+        open virtual chest inventory with size 6 named "&8GPS | %{_title}%" to player
+      else:
+        open virtual chest inventory with size 6 named "&8GPS" to player
+
+      # Пустые слота
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+      set {_slots::*} to 3,4,5
+      format gui slot {_slots::*} of player with {_empty}
+
+      # Назад
+      if {_category} isn't "all":
+        set {_back} to player head named "&9◁ &fВернуться ко всем местам" with lore "", "&f &fНасмотрелись на места этой категории? Ну тогда", "&f &fвам, наверное, пора возвращаться обратно ко всем", "&f &fдоступным местам!", "", "&9▷ &fНажмите, что бы вернуться"
+        add "{SkullOwner:{Id:""0216fff0-74cd-4468-ac75-9614475231d9"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjOWU0ZGNmYTQyMjFhMWZhZGMxYjViMmIxMWQ4YmVlYjU3ODc5YWYxYzQyMzYyMTQyYmFlMWVkZDUifX19""}]}}}" to item-nbt of {_back}
+
+        format gui slot 3 of player with {_back} to run:
+          execute player command "/gps"
+
+      # Категории мест
+      set {_categories} to player head named "&9▤ &fКатегории местоположений" with lore "", "&f &fИнтересны только определённые места? Ну так тогда", "&f &fпосмотрите на весь список категорий именно в этом меню!", "", "&9▷ &fНажмите, что бы перейти"
+      add "{SkullOwner:{Id:""782b9aa1-4bae-4cd3-980c-f6e70dacf56a"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDg4M2Q2NTZlNDljMzhjNmI1Mzc4NTcyZjMxYzYzYzRjN2E1ZGQ0Mzc1YjZlY2JjYTQzZjU5NzFjMmNjNGZmIn19fQ==""}]}}}" to item-nbt of {_categories}
+
+      format gui slot 4 of player with {_categories} to run:
+        execute player command "/gps categories"
+
+      # Заполняем места
+      set {_slot} to 9
+      set {_places::*} to yaml list "places" from "gps-places"
+      loop {_places::*}:
+        delete {_item}
+        delete {_place}
+        delete {_place::*}
+
+        set {_place} to loop-value
+
+        # Берём данные этого места
+        set {_place::title} to yaml value "place.%{_place}%.title" from "gps-places"
+        set {_place::nbt} to yaml value "place.%{_place}%.nbt" from "gps-places"
+        set {_place::description::*} to yaml list "place.%{_place}%.description" from "gps-places"
+
+        set {_place::location} to yaml value "place.%{_place}%.location" from "gps-places"
+        set {_place::location} to getLocation({_place::location}, "world")
+
+        {_category} is "all":
+          set {_place::category} to "all"
+        else:
+          set {_place::category} to yaml value "place.%{_place}%.category" from "gps-places"
+          if {_place::category} is not set:
+            set {_place::category} to "all"
+
+        {_place::location} is set
+        {_place::category} is {_category}
+        set {_item} to player head named coloured {_place::title} with lore coloured {_place::description::*}
+        add "%{_place::nbt}%" to item-nbt of {_item}
+
+        add "", "&9➹ &fНажмите, что бы проложить маршрут", "&7Вам нужно находится на улице. Точки маршурта", "&7прокладываются по автомобильным дорогам." to {_item}'s lore
+
+        format gui slot {_slot} of player with {_item} to run:
+          close player's inventory
+          startGPSWorker(player, "%{_place}%")
+
+        add 1 to {_slot}
 
 on load:
   set {_file} to "/plugins/GPS/places.yml"

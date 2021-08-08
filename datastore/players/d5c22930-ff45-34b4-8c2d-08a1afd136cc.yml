@@ -7,7 +7,7 @@ character:
         age: 4
         skin: eblan
         statistics:
-            hunger: 14
+            hunger: 38.5
 
 temp:
     createdPassport: да

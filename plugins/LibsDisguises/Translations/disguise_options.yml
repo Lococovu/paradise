@@ -538,3 +538,11 @@
 
 # Used as a shortcut for setBaby(false) when disguising an entity
 "adult": "adult"
+
+# Found in the disguise options for Axolotl and uses a boolean
+
+# Found in the disguise options for GlowSquid and uses a int
+
+# Found in the disguise options for Goat and uses a boolean
+
+# Found in the disguise options for Skeleton and uses a boolean

@@ -76,7 +76,7 @@ function openRoomMenu(player: player, roomId: string):
             add "&c✕ &fНедостаточно средств", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_rent}'s lore
         else:
           set {_rent::extendable} to false
-          add "&c✕ &fНевозможно продлить аренду", "&7Нужно, что бы до конца аренды оставалось", "&7приблезительно 15 минут" to {_rent}'s lore
+          add "&c✕ &fНевозможно продлить аренду", "&7Нужно, что бы до конца аренды оставалось", "&7приблизительно 15 минут" to {_rent}'s lore
 
         set {_slot} to first element of {_slots::*}
         remove {_slot} from {_slots::*}

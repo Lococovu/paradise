@@ -35,6 +35,7 @@ function assignRoomToPlayer(player: player, roomId: string):
       set {_time} to now's unix timestamp
     
     add 1800 to {_time}
+    # add 10 to {_time}
 
     set {_time} to {_time}
     set yaml value "%{_node}%.occupant.rentTime" from {_file} to "%{_time}%"

@@ -1,0 +1,14 @@
+function WorkModule_GetBuilderDropdownLocations() :: locations:
+  add getLocation("493.5, 58, 667.5", "world") to {_locations::*}
+  add getLocation("495.5, 57, 660.5", "world") to {_locations::*}
+  add getLocation("490.5, 57.5, 660.5", "world") to {_locations::*}
+  add getLocation("485.5, 57, 661.6", "world") to {_locations::*}
+  add getLocation("486.5, 63.5, 660.5", "world") to {_locations::*}
+  add getLocation("495.5, 61.5, 660.5", "world") to {_locations::*}
+  add getLocation("496.5, 44, 683.5", "world") to {_locations::*}
+  add getLocation("493.5, 44, 674.5", "world") to {_locations::*}
+  add getLocation("497, 42, 664", "world") to {_locations::*}
+  add getLocation("488.5, 52.5, 660.4", "world") to {_locations::*}
+  add getLocation("496.5, 52.5, 660.5", "world") to {_locations::*}
+
+  return {_locations::*}

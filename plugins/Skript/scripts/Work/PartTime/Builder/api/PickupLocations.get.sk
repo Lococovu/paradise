@@ -1,0 +1,8 @@
+function WorkModule_GetBuilderPickupLocations() :: locations:
+  add getLocation("502.5, 52, 689.5", "world") to {_locations::*}
+  add getLocation("505.5, 52, 679.5", "world") to {_locations::*}
+  add getLocation("505.5, 52, 670", "world") to {_locations::*}
+  add getLocation("485.5, 52, 695.5", "world") to {_locations::*}
+  add getLocation("505.5, 52, 694.5", "world") to {_locations::*}
+
+  return {_locations::*}

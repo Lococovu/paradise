@@ -1,0 +1,3 @@
+function SettingsModule_setPlayerSetting(player: player, setting: string, value: string):
+  set yaml value "settings.%{_setting}%" from "player-%{_player}'s uuid%" to {_value}
+  save yaml "player-%{_player}'s uuid%"

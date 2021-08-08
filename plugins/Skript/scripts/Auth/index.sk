@@ -104,9 +104,9 @@ function StartAuthorization(player: player):
       delete {authorized::%{_player}%}
 
     # Гейммод игрока
-    if {_player}'s gamemode isn't survival:
-      set {_player}'s gamemode to survival
-
+    if {_player}'s gamemode isn't adventure:
+      set {_player}'s gamemode to adventure
+      
     if distance between {_player} and {_location} > 0:
       teleport {_player} to {_location}
 

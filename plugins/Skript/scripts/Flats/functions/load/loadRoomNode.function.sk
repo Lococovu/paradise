@@ -1,4 +1,7 @@
 function loadRoomNode(node: string, file: string):
+  unload yaml {_file}
+  load yaml {_file} as {_file}
+  
   # Подготавливаем ИД предмета
   set {_temp::*} to {_node} split at "."
   set {_size} to size of {_temp::*}
@@ -70,3 +73,16 @@ function loadRoomNode(node: string, file: string):
   add {_id} to {data::rooms::list::*}
 
   broadcast "[rooms] Loaded room id %{_id}% from %{_file}% (regions: %{_regions::*}%, price: %{_price}%, address: %{_address}%, type: %{_roomType}%)"
+
+command reloadRoom [<text>]:
+  trigger:
+    set {_id} to arg 1
+
+    set {_file} to {data::rooms::%{_id}%::configFile}
+    set {_node} to {data::rooms::%{_id}%::configNode}
+    
+    broadcast "[rooms] Reload room id %{_id}% (file: %{_file}%, node: %{_node}%)"
+
+    {_file} and {_node} is set
+    broadcast "[rooms] Reloading..."
+    loadRoomNode({_node}, {_file})

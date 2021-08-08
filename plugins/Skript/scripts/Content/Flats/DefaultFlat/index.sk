@@ -155,7 +155,7 @@ function TeleportToDefaultFlat(player: player):
 
         teleport {_player} to {_location}
         
-        set {_player}'s gamemode to survival
+        set {_player}'s gamemode to adventure
 
         # Показываем этого игрока всем другим игрокам
         reveal all players to {_player}

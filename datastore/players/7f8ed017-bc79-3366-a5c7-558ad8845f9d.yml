@@ -1,0 +1,13 @@
+character:
+    main:
+        documents:
+        - 6972-3160-6717-7678
+        name: Негры Пидорасы
+        gender: Мужской
+        age: 0
+        skin: Chillno
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

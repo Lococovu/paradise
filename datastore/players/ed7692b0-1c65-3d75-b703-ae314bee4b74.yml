@@ -1,0 +1,15 @@
+character:
+    main:
+        documents:
+        - 5995-4062-9713-7876
+        name: Итан Редфилд
+        gender: Мужской
+        age: 19
+        skin: gey
+        statistics:
+            hunger: 3.5
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

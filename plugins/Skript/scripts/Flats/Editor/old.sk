@@ -51,6 +51,13 @@ on stepping on a tripwire:
 on explosion:
   cancel event
 
+command stopEditor:
+  trigger:
+    set {workers::%player%::roomEditor} to "stop"
+
+command startEditor [<text>]:
+  trigger:
+    startRoomEditor(player, arg 1)
 
 function startRoomEditor(player: player, roomId: string):
   # Берём информацию о комнате
@@ -85,6 +92,8 @@ function startRoomEditor(player: player, roomId: string):
     set {workers::%{_player}%::roomEditor::region::%loop-index%::1} to {_location::1}
     set {workers::%{_player}%::roomEditor::region::%loop-index%::2} to {_location::2}
 
+    broadcast "load region: %{_location::1}% %{_location::2}%"
+
     add loop-index to {workers::%{_player}%::roomEditor::regions::*}
 
   # Выключаем воркер инвентаря
@@ -105,7 +114,7 @@ function startRoomEditor(player: player, roomId: string):
   set slot 8 of {_player} to {_editorMenu}
 
   # Телепортируем игрока
-  teleport {_player} to {_room::center}
+  # teleport {_player} to {_room::center}
   set {_player}'s gamemode to creative
 
   hide {_player}
@@ -130,7 +139,7 @@ function startRoomEditor(player: player, roomId: string):
       if {_action} is "stop":
         if {_player} is online:
           # Телепортируем игрока в его квартиру
-          set {_player}'s gamemode to survival
+          set {_player}'s gamemode to adventure
 
           teleport {_player} to {workers::%{_player}%::roomEditor::startLocation}
           reveal {_player}
@@ -144,9 +153,16 @@ function startRoomEditor(player: player, roomId: string):
         hide bossbar {_bossbar}
         stop
 
-    if {_player}'s location isn't within {_location::1} and {_location::2}:
-      teleport {_player} to {_room::center}
+    loop {workers::%{_player}%::roomEditor::regions::*}:
+      set {_location::1} to {workers::%{_player}%::roomEditor::region::%loop-value%::1}
+      set {_location::2} to {workers::%{_player}%::roomEditor::region::%loop-value%::2}
 
+      if {_player}'s location is within {_location::1} and {_location::2}:
+        set {_passed::teleportToCenter} to true
+
+    if {_passed::teleportToCenter} isn't true:
+      teleport {_player} to {_room::center}
+      
     if {_bossbar::titleTimer} is not set:
       set {_bossbar::titleTimer} to 6
       
@@ -248,7 +264,7 @@ command editor:
       loop {_categories::*}:
         add size of {heads_category::%{_category}%::list::*} to {_size}
 
-      format gui slot {_slot} of player with {_heads} named "&9▤ &fБиблиотека голов" with lore "", "&f &fНевероятно огромная библиотека полностью бесплатных", "&f &fи кастомных голов! На данный момент в библиотеки находится", "&f &fприблезительно &9%{_size}%&f разнообразных голов! Преукрасьте", "&f &fваше помещение с этими невероятно крутыми головами!", "", "&9▷ &fНажмите, что бы перейти" to run:
+      format gui slot {_slot} of player with {_heads} named "&9▤ &fБиблиотека голов" with lore "", "&f &fНевероятно огромная библиотека полностью бесплатных", "&f &fи кастомных голов! На данный момент в библиотеки находится", "&f &fприблизительно &9%{_size}%&f разнообразных голов! Преукрасьте", "&f &fваше помещение с этими невероятно крутыми головами!", "", "&9▷ &fНажмите, что бы перейти" to run:
         execute player command "/heads"
 
       # Редактор армор-стендов
@@ -284,7 +300,6 @@ on block break:
         set {_passed} to true
 
     if {_passed} isn't true:
-      delete {workers::%player%::roomEditor}
       cancel event
 
 on right click:
@@ -315,5 +330,9 @@ on block place:
         set {_passed} to true
 
     if {_passed} isn't true:
-      delete {workers::%player%::roomEditor}
       cancel event
+
+every 1 second:
+  loop all players:
+    if {workers::%loop-player%::roomEditor} is set:
+      delete {workers::%loop-player%::roomEditor}

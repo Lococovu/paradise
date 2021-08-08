@@ -151,7 +151,7 @@ function startGPSWorker(player: player, place: string):
         add {_line::*} to {_lines::*}
 
         # Спавним голограмму конца маршрута
-        set {_holo::lines::*} to "&9/\", "&9/  \", "&9/ /\ \", "&9/ ____ \", "&9/_/    \_\", "", "%{_place::title}%"
+        set {_holo::lines::*} to "&e/\", "&e/  \", "&e/ /\ \", "&e/ ____ \", "&e/_/    \_\", "", "%{_place::title}%"
 
         set {_location} to {_place::holo}
         set {_location}'s y coordinate to 54

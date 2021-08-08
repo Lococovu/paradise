@@ -31,8 +31,8 @@ CenterMessageSize: 62
 Enable1_8pvp: false
 
 PluginHooks:
-    LibsDisguises: true
+    LibsDisguises: false
     # If you use Citizens https://www.spigotmc.org/resources/citizens.13811/
     Npc: false
     # If you use CorpseReborn https://www.spigotmc.org/resources/corpsereborn.29875/
-    CorpseReborn: false
+    CorpseReborn: true

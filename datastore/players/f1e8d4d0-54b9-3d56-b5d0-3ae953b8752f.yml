@@ -7,9 +7,13 @@ character:
         gender: Мужской
         skin: Wolf
         statistics:
-            hunger: 13.5
+            hunger: 18.5
 
 temp:
     createdPassport: да
 
 receivedDefaultItems: true
+
+settings:
+    chat:
+        oocEnabled: false

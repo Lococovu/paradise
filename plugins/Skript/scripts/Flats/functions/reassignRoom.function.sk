@@ -10,8 +10,6 @@ function FlatsModule_reassignRoom(roomId: string):
   else:
     reload yaml {_file}
 
-  broadcast "%{_node}% || %{_file}%"
-
   # Отчищаем старые данные
   if yaml value "%{_node}%.occupant.uuid" from {_file} is set:
     delete yaml value "%{_node}%.occupant.uuid" from {_file}

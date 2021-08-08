@@ -466,3 +466,14 @@ PluginHooks:
     [of] %entity%'
   - '[skellett] [[Libs]Disguises] [(the|all)] [of] [the] armo[u]r of disguise %disguise%'
   - '[skellett] [[Libs]Disguises] %disguise%''s armo[u]r'
+  CorpseReborn:
+  - '[the] name of corpse %corpse%'
+  - corpse %corpse%'s name
+  - (delete|unregister|remove) (the|all) [of] [the] corpse[s]
+  - '[the] corpse with ID %string%'
+  - (spawn|create) [a] corpse [with] [player [data]] %player% at %location% [with]
+    id %string% [[with] inventory %-itemstacks%] [[with] helmet %-itemstack%[(,| and)]
+    chestplate %-itemstack%[(,| and)] leg[ging][s] %-itemstack%[(,| and)] boot[s]
+    %-itemstack%] [holding [item] %-itemstack%] [[and] offhand [item] %-itemstack%]]
+  - '[(the|all)] [of] [the] corpse[s]'
+  - (delete|remove|unregister) corpse %corpse%

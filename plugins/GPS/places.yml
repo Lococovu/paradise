@@ -1,11 +1,100 @@
+categories:
+- rent
+- work
+- terminal
+- mailbox
+- government
+- custom
+
+category:
+  rent:
+    inventoryTitle: 'Помещения для аренды'
+    title: '&fПомещения для аренды'
+    nbt: '{SkullOwner:{Id:"352a93d2-629a-4740-b487-5750a3e98cdf",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNkMDJjZGMwNzViYjFjYzVmNmZlM2M3NzExYWU0OTc3ZTM4YjkxMGQ1MGVkNjAyM2RmNzM5MTNlNWU3ZmNmZiJ9fX0="}]}}}'
+    description:
+    - ''
+    - '&f &fТут вы сможете найти огроменный список'
+    - '&f &fвсех помещений, которые можно арендовать!'
+    - '&f &fТут каждый найдёт помещение для себя - '
+    - '&f &fтут есть даже невероятно огромные и'
+    - '&f &fневероятно маленькие и недорогие'
+    - '&f &fварианты! Вы уж точно найдёте идеальное'
+    - '&f &fместо для вашего бизнеса!'
+  work:
+    inventoryTitle: 'Подработки'
+    title: '&fПодработки'
+    nbt: '{SkullOwner:{Id:"80a61cf7-f0a3-4eee-a797-aa658e197017",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE1NWQyMWM3NzNjNzY1MmJlOTg0YmQ3NTNkZDhiM2QyMjVkOWE5NTBkMWQyM2ViZjBmYzVjOWVkYzM4NDBjYiJ9fX0="}]}}}'
+    description:
+    - ''
+    - '&f &fРешили заработать немного денег'
+    - '&f &fна пропитание и на проживание?'
+    - '&f &fНу тогда, если вы ещё не готовы'
+    - '&f &fк настоящим профессиям, можете'
+    - '&f &fпоработать на подработках!'
+    - ''
+    - '&f &fМного денег вы тут не заработаете,'
+    - '&f &fно на еду вам уж точно хватит!'
+
+  terminal:
+    inventoryTitle: 'Терминалы'
+    title: '&fТерминалы'
+    nbt: '{SkullOwner:{Id:"68d80c7f-8331-4747-85f8-f2a476406cef",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI5Zjc2ZGE1OTMwNTM1YWNhNjA3MzVhYjZmYjhmYTlhMmQ0ZDlhZDk1MTg5MTJkMTEyZDc4NWMyOTk0Zjg3MCJ9fX0="}]}}}'
+    description:
+    - ''
+    - '&f &fВ терминалах вы можете снять либо'
+    - '&f &Fже положить деньги на вашу'
+    - '&f &fкредитную карточку, что очень'
+    - '&f &fудобно и безопасно! Только'
+    - '&f &fбудьте осторожны с преступниками!'
+
+  mailbox:
+    inventoryTitle: 'Почтовые ящики'
+    title: '&fПочтовые ящики'
+    nbt: '{SkullOwner:{Id:"244678f1-df93-49b4-916f-47bddd112e80",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWIyODE1Yjk5YzEzYmZjNTViNGM1YzI5NTlkMTU3YTYyMzNhYjA2MTg2NDU5MjMzYmMxZTRkNGY3ODc5MmM2OSJ9fX0="}]}}}'
+    description:
+    - ''
+    - '&f &fХотите отправить другу какой-то товар'
+    - '&f &fпочте? Ну или же забрать свой товар'
+    - '&f &fс какого-либо почтового ящика?'
+    - '&f &fТогда заходите в этот список'
+    - '&f &fи ищите местоположение нужного'
+    - '&f &fвам почтового ящика!'
+
+  government:
+    inventoryTitle: 'Государственные объекты'
+    title: '&fГосударственные объекты'
+    nbt: '{SkullOwner:{Id:"5bfcdea1-0ee9-4e79-83a1-6b8acc104cc7",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWY2YmIzYWQ4ZGFmMGMxNDk5YjVlNDZkY2Y0MTc2YzgzNDU0MzU1M2ExYTgxODAwOWU3Njc1ZTg5NjI5NWUxYSJ9fX0="}]}}}'
+    description:
+    - ''
+    - '&f &fБольница, пожарное отделение,'
+    - '&f &fотделение полиции и так далее'
+    - '&f &fи такое подобное. Всё это вы можете'
+    - '&f &fнайти именно тут!'
+
+  custom:
+    inventoryTitle: 'Пользовательские точки'
+    wip: true
+    title: '&e☆ &fПользовательские точки'
+    nbt: '{SkullOwner:{Id:"a36e6694-fa87-48d2-abdb-62eaf2b6711d",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19"}]}}}'
+    description:
+    - ''
+    - '&f &fДа-да, игроки тоже могут ставить свои'
+    - '&f &Fточки GPS, что бы их можно было проще'
+    - '&f &fнайти!'
+    - ''
+    - '&7В разработке'
+
 places:
 - nrp_shop_01
 - job_center
+- heaver
+- handyman
 
 place:
   nrp_shop_01:
-    title: "&fПродуктовый Магазин &7(Улица Пушкина)"
+    title: "&fПродуктовый Магазин &7(Ул. Освальд 10/2)"
     description:
+    - ''
     - " &fРешили приготовить что-то поесть,"
     - " &fа ингридиентов под руками нет? Ну так"
     - " &fтогда быстро шуруйте сюда и покупайте"
@@ -20,9 +109,47 @@ place:
     location: "517.3, 52, 664.5"
     holo_location: "528, 52, 665"
 
-  job_center:
-    title: "&fЦентр Занятости &7(Улица Ленина)"
+  heaver:
+    title: '&fПодработка Грузчиком &7(Городской Склад)'
+    category: 'work'
     description:
+    - ''
+    - '&f &fХотите поработать на невероятно простой'
+    - '&f &fработе? Ну тогда вы попали по адрессу!'
+    - '&f &fРаботая грузчик вам нужно будет'
+    - '&f &fтолько перемещать коробки из Точки A'
+    - '&f &fв Точку B и ничего более!'
+    - ''
+    - '&9$ &fЗаработок:'
+    - '&fот &91&f$ до &93&f$ за коробку'
+    nbt: '{SkullOwner:{Id:"3e96b45a-b105-4f9d-93da-0e93f656a964",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWFjNDNjOWViNTRjM2I4ZmQwNzc4NmZjZTU5ZDQwZWNhM2QwMWQ1NDE5Yzc5Yjc3MzFjNDkzMWU3YTdkODdhMyJ9fX0="}]}}}'
+    location: "367.5, 52, 707.5"
+    holo_location: "367.5, 52, 719.5"
+
+  handyman:
+    title: '&fПодработка Подсобником &7(Стройка ЖК)'
+    category: 'work'
+    description:
+    - ''
+    - '&f &fЭта подработка немного сложнее'
+    - '&f &fи опаснее чем тот же самый Грузчик...'
+    - '&f &fНо и денег вы тут получите намного'
+    - '&f &fбольше и быстрее! Главное не'
+    - '&f &fсломать себе ничего на'
+    - '&f &fэтой стройке...'
+    - ''
+    - '&9$ &fЗаработок:'
+    - '&fот &92&f$ до &96&f$ за коробку'
+    nbt: '{SkullOwner:{Id:"5b15c970-c9c0-4570-836f-8a22477d5389",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWUxZDRiYzQ2OWQyOWQyMmE3ZWY2ZDIxYTYxYjQ1MTI5MWYyMWJmNTFmZDE2N2U3ZmQwN2I3MTk1MTJlODdhMSJ9fX0="}]}}}'
+    location: "474.5, 52, 697.5"
+    holo_location: "480.5, 52, 697.5"
+  
+    # {SkullOwner:{Id:"",Properties:{textures:[{Value:""}]}}}
+
+  job_center:
+    title: "&fЦентр Занятости &7(Ул. Освальд 10/1)"
+    description:
+    - ''
     - " &fВам нужно подыскать какую-либо работёнку"
     - " &fдля заработка денег? Приходите в Центр Занятости"
     - " &fгорода Лоунайт и мигом же ищите себе"

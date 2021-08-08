@@ -1,0 +1,18 @@
+character:
+    main:
+        documents:
+        - 1366-7545-9694-6232
+        name: Семен Шакальников
+        age: 1
+        gender: Мужской
+        skin: DarkVermillion
+        statistics:
+            hunger: 27.5
+
+temp:
+    createdPassport: да
+
+authorization:
+    discordId: 462293717244444692
+
+receivedDefaultItems: true

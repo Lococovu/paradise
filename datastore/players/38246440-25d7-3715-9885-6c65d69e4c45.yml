@@ -1,0 +1,18 @@
+character:
+    main:
+        documents:
+        - 9108-9441-2671-2585
+        name: Сано Манджиро
+        age: 22
+        gender: Мужской
+        skin: PlayFarca
+        statistics:
+            hunger: 10.5
+
+temp:
+    createdPassport: да
+
+authorization:
+    discordId: 582278506541613059
+
+receivedDefaultItems: true

@@ -61,6 +61,9 @@ function loadPlayerInventory(player: player):
     if {_player} is offline:
       set {workers::%{_player}%::inventory} to "stop"
     
+    if {_player}'s gamemode isn't adventure:
+      set {_player}'s gamemode to adventure
+
     if {workers::%{_player}%::inventory} is not set:
       set {workers::%{_player}%::inventory} to true
     else:
@@ -123,6 +126,10 @@ function loadPlayerInventory(player: player):
       set slot 9 of {_player} to {_item}
 
     wait 1 tick
+
+command stopinv:
+  trigger:
+    set {workers::%player%::inventory} to "STOP"
 
 function notifyEmotion(player: player, emotion: string):
   # TODO

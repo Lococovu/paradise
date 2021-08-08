@@ -1,0 +1,13 @@
+character:
+    main:
+        documents:
+        - 133-92-2829-6567
+        name: мама харам
+        age: 0
+        gender: Мужской
+        skin: gey
+
+temp:
+    createdPassport: да
+
+receivedDefaultItems: true

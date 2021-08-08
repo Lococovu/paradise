@@ -122,3 +122,15 @@ osvald_12:
   location: world, 578.362, 53.418, 615.300
   lines:
   - Освальд 12
+pawnshop:
+  location: world, 534.5, 47.85, 634.5
+  lines:
+  - '&9ⓘ'
+work_builder:
+  location: world, 488.5, 53.800, 700.5
+  lines:
+  - '&9ⓘ &fПодработка'
+work_heaver:
+  location: world, 365.5, 53.800, 745.5
+  lines:
+  - '&9ⓘ &fПодработка'

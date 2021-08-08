@@ -1,3 +1,7 @@
+command entry:
+  trigger:
+    PlayerEntry(player, false)
+
 # 
 # Функция, которая означает что игрок закончил
 # процесс авторизации.
@@ -45,14 +49,15 @@ function PlayerEntry(player: player, empty: boolean = false):
   loop {data::rooms::%{_uuid}%::%{_character}%::rooms::*}:
     set {_roomId} to loop-value
 
-    {data::rooms::%{_roomId}%::occupant::uuid} is {_uuid}:
+    {data::rooms::%{_roomId}%::isBuyable} is true:
+      {data::rooms::%{_roomId}%::occupant::uuid} is {_uuid}:
       {data::rooms::%{_roomId}%::occupant::character} is {_character}
-      set {_foundRoom} to true
+      set {_roomid} to {_roomId}
+      
+      exit 1 loop
 
-  if {_foundRoom} is true:
-    # Телепортируем игрока в первую комнату
-    set {_roomId} to first element of {data::rooms::%{_uuid}%::%{_character}%::rooms::*}
-
+  if {_roomId} is set:
+    # Телепортируем игрока в его квартиру
     set {_center} to {data::rooms::%{_roomId}%::center}
     {_center} is set:
       # Давайте отобразим небольшую анимацию времени
@@ -96,9 +101,6 @@ function PlayerEntry(player: player, empty: boolean = false):
       teleport {_player} to {_center}
 
       playerWorkers({_player})
-
-      wait 2 ticks
-      RM_Holo_RoomEntranceCreate({_player}, {data::rooms::%{_roomId}%::hologramLocation})
     else:
       loadPlayerInventory({_player})
       TeleportToDefaultFlat({_player})

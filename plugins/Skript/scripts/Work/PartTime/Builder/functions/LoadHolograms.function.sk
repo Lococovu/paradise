@@ -1,0 +1,14 @@
+function WorkModule_LoadBuilderHolograms(player: player):
+  set {_locations::*} to WorkModule_GetBuilderHologramLocations()
+  
+  loop {_locations::*}:
+    # Берём данные
+    set {_location} to location of block at loop-value
+
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WP_Holo_BuilderCreate"
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WP_Holo_BuilderClick"
+
+command loadh2:
+  trigger:
+    WorkModule_LoadBuilderHolograms(player)

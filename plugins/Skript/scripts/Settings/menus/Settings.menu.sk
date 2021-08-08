@@ -3,4 +3,38 @@ command settings [<text>]:
     if arg 1 is not set:
       open virtual chest inventory with size 6 named "&8Настройки" to player
 
-      
+      # Пустые кнопки
+      set {_empty} to player head named "&f"
+      add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+      set {_slots::*} to 12,13,14, 21,22,23, 30,31,32
+      format gui slot {_slots::*} of player with {_empty}
+
+      # OOC Чат
+      set {_ooc::enabled} to SettingsModule_getPlayerSetting(player, "chat.oocEnabled")
+      if {_ooc::enabled} is "false":
+        set {_state::icon} to "&c✕"
+        set {_state::text} to "&cВыключен"
+        set {_button::*} to "&a✓ &fНажмите, что бы включить", "&7Вы будете видеть все сообщения из ООС-чата", "&7и сможете в него писать."
+
+        set {_nbt} to "{SkullOwner:{Id:""3ca8eb09-ce9f-427c-81f0-b9cd7790e06d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==""}]}}}"
+      else:
+        set {_state::icon} to "&a✓"
+        set {_state::text} to "&7Включён"
+        set {_button::*} to "&c✕ &fНажмите, что бы выключить", "&7Вы перестанете видеть сообщения из OOC-чата", "&7и не будете иметь возможность в него писать."
+
+        set {_nbt} to "{SkullOwner:{Id:""956f278e-0077-4776-82e4-c8c806e584c6"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QwMDA3MzExZjY1ODk0NTg2Nzg4NDk0NTcyMmE0MzBjNTI3ZjMyMjNiOTA5NjEyZTQ1ZDAzMjA4OTZlYWU5YSJ9fX0=""}]}}}"
+
+      set {_ooc} to player head named "%{_state::icon}% &fOOC-Чат &7(%{_state::text}%&7)" with lore "", "&f &fНе хотите видеть надоедливые сообщения из &7ООС-Чата", "&f &fи хотите полностью погрузиться в своего персонажа? Ну тогда", "&f &fданная настройка именно для вас! Просто выключите этот", "&f &fнадоедливыей &7OOC-Чат&f и играйте спокойно!", "", {_button::*}
+      add "%{_nbt}%" to item-nbt of {_ooc}
+
+      set {_slot} to first element of {_slots::*}
+      remove {_slot} from {_slots::*}
+
+      format gui slot {_slot} of player with {_ooc} to run:
+        if {_ooc::enabled} isn't "false":
+          SettingsModule_setPlayerSetting(player, "chat.oocEnabled", "false")
+        else:
+          SettingsModule_setPlayerSetting(player, "chat.oocEnabled", "true")
+
+        execute player command "/settings"

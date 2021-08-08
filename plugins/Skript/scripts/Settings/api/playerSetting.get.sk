@@ -1,2 +1,3 @@
-function SettingsModule_getPlayerSetting(player: player, setting: string):
-  
+function SettingsModule_getPlayerSetting(player: player, setting: string) :: string:
+  set {_value} to yaml value "settings.%{_setting}%" from "player-%{_player}'s uuid%"
+  return "%{_value}%"

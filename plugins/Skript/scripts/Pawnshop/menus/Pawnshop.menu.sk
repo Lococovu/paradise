@@ -1,0 +1,186 @@
+function PawnshopModule_OpenPawnshopMenu(player: player):
+  open virtual chest inventory with size 4 named "&8Ломбард" to {_player}
+
+  # Пустые кнопки
+  set {_empty} to player head named "&f"
+  add "{SkullOwner:{Id:""ee6cb849-1384-4efa-bed7-23ff26bf79b1"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQ5MzExN2I5ZTE4MGUwZGMzOWU1ZThhMDUwODQ4MmNmMWY2MGU0NDZlMDIyOTc4ZmUwNjUxYTU2MmE1OTdmIn19fQ==""}]}}}" to {_empty}'s nbt
+
+  set {_slots::sell::*} to 13,14,15
+  set {_slots::buy::*} to 22,23,24
+  format gui slot 11,20, {_slots::sell::*}, {_slots::buy::*} of {_player} with {_empty}
+
+  # На продажу
+  set {_sell} to player head named "&9▷ &fПродажа предметов" with lore "", "&f &fЛомбардщик скупает самые обычные предметы по", "&f &fнереално завышеным ценам! Только поспешите - он может", "&f &fскупить только ограниченное количество того", "&f &fили иного предмета!", "", "&7В разработке"
+  add "{SkullOwner:{Id:""7a0345b9-b55f-462c-8fb5-0690193ec00d"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA0NzE5YjNiOTdkMTk1YTIwNTcxOGI2ZWUyMWY1Yzk1Y2FmYTE2N2U3YWJjYTg4YTIxMDNkNTJiMzdkNzIyIn19fQ==""}]}}}" to item-nbt of {_sell}
+
+  format gui slot 11 of {_player} with {_sell}
+
+  # На покупку
+  set {_buy} to player head named "&9▷ &fПокупка раритета" with lore "", "&f &fТак же у этого человека вы можете купить", "&f &fневероятно раритетные вещи, например, футбольный мяч,", "&f &fшахматы или какие-либо карты.", "", "&9i &fВсе раритетные предметы, которые сейчас", "&f &fможно купить находятся справа.", "&7Этот список обновляется каждый день. Лимит", "&7тоже обновляется ежедневно."
+  add "{SkullOwner:{Id:""746a7d9c-48dd-4507-9635-bd943b8a83d5"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmUwMDJkOTc3MjNiOGNjOTgwMmQzMGZlOGU0Y2VmMzYxZTU2Y2YyZTQ5YWU5MWYyNzRkYTcyZjQ3ODEzNDExOCJ9fX0=""}]}}}" to item-nbt of {_buy}
+
+  format gui slot 20 of {_player} with {_buy}
+
+  # Мяч
+  set {_items::buy::*} to "soccerball"
+
+  loop {_items::buy::*}:
+    # Отчищаем
+    delete {_item}
+    delete {_item::*}
+
+    # Берём данные
+    set {_id} to loop-value
+    set {_item} to getItem("%{_id}%")
+
+    {_item} is set
+    set {_item::visual} to {_item}
+    PawnshopModule_loadItemState("%{_id}%")
+
+    # Дополнительные данные
+    set {_item::price} to "%{data::pawnshop::%{_id}%::price}%" parsed as number
+    set {_item::limit} to "%{data::pawnshop::%{_id}%::limit}%" parsed as number
+    set {_item::timeout} to {data::pawnshop::%{_id}%::timeout}
+    if {_item::timeout} is not set:
+      set {_item::timeout} to now
+
+    set {_slot} to first element of {_slots::buy::*}
+    remove {_slot} from {_slots::buy::*}
+
+    add "", "&9$ &fЦена за 1 шт.", "&9%{_item::price}%$", "", "&9 &fОсталось штук:", "&9%{_item::limit}% &fшт." to {_item::visual}'s lore
+    if {_item::limit} > 0:
+      set {_cash::eligable} to ifCanBuyUsingCash({_player}, {_item::price})
+
+      if {_cash::eligable} is true:
+        if {_item::timeout} <= now:
+          add "", "&a▢ &fНажмите, что бы купить" to {_item::visual}'s lore
+        else:
+          add "", "&c✕ &fНевозможно купить предмет", "&7Прийдите через минут 5-10 и попробуйте", "&7снова." to {_item::visual}'s lore
+      else:
+        add "", "&c✕ &fНедостаточно средсвт", "&7Нужно что бы денежные купюры были в", "&7вашем инвентаре." to {_item::visual}'s lore
+
+    else:
+      add "&c✕ &fТовар закончился", "&7Пополнение товара происходит каждый день." to {_item::visual}'s lore
+
+    format gui slot {_slot} of {_player} with {_item::visual} to run:
+      if {_item::limit} > 0:
+        if {_cash::eligable} is true:
+          # Покупаем предмет
+          loop all items in {_player}'s inventory:
+            if name of loop-item contains "$":
+              set {_quantity} to item amount of loop-item
+              add "%{_quantity}%-%uncoloured name of loop-item%" to {_bills::*}
+
+          # Считаем...
+          set {_price} to {_item::price}
+          set {_moneyTaken} to 0
+
+          while {_moneyTaken} < {_price}:
+            delete {_smallestBill}
+            
+            # Выбираем самую маленькую купюру
+            loop {_bills::*}:
+              set {_temp::*} to loop-value-2 split at "-"
+
+              set {_bill} to {_temp::2}
+              replace all "$" in {_bill} with ""
+
+              set {_bill} to "%{_bill}%" parsed as number
+
+              set {_amount} to {_temp::1} parsed as number
+              {_amount} is not set:
+                set {_amount} to 1
+
+              if {_bill} is 1:
+                if {_smallestBill} isn't 1:
+                  set {_smallestBill} to 1
+              else if {_bill} is 5:
+                if {_smallestBill} isn't 5:
+                  set {_smallestBill} to 5
+              else if {_bill} is 10:
+                if {_smallestBill} isn't 10:
+                  set {_smallestBill} to 10
+              else if {_bill} is 20:
+                if {_smallestBill} isn't 20:
+                  set {_smallestBill} to 20
+              else if {_bill} is 50:
+                if {_smallestBill} isn't 50:
+                  set {_smallestBill} to 50
+              else if {_bill} is 100:
+                if {_smallestBill} isn't 100:
+                  set {_smallestBill} to 100
+
+              set {_loop} to loop-value-2
+
+            add {_amount} * {_smallestBill} to {_moneyTaken}
+            remove {_loop} from {_bills::*}
+            
+            loop {_amount} times:
+              add {_smallestBill} to {_taken::*}
+
+            wait 1 tick
+
+          # Берём самую маленькую купюру из инвентаря игрока
+          loop {_taken::*}:
+            set {_item} to GetMoneyBillItem(loop-value-2)
+
+            remove 1 of {_item} from {_player}'s inventory
+          
+          if {_moneyTaken} is not set:
+            {_cash::lowest} is set
+            add {_cash::lowest} to {_moneyTaken}
+            set {_cash::lowest} to GetMoneyBillItem({_cash::lowest})
+
+            remove {_cash::lowest} from {_player}'s inventory
+
+          # Возвращаем деньги, которые спиздили у игрока
+          if {_moneyTaken} > {_price}:
+            set {_output} to {_moneyTaken} - {_price}
+            set {_time} to 6
+
+            while {_output} > 0:
+              if {_output} >= 100:
+                set {_output} to {_output} - 100
+                set {_item} to GetMoneyBillItem(100)
+                add {_item} to {_items::*}
+              else if {_output} >= 50:
+                set {_output} to {_output} - 50
+                set {_item} to GetMoneyBillItem(50)
+                add {_item} to {_items::*}
+              else if {_output} >= 20:
+                set {_output} to {_output} - 20
+                set {_item} to GetMoneyBillItem(20)
+                add {_item} to {_items::*}
+              else if {_output} >= 10:
+                set {_output} to {_output} - 10
+                set {_item} to GetMoneyBillItem(10)
+                add {_item} to {_items::*}
+              else if {_output} >= 5:
+                set {_output} to {_output} - 5
+                set {_item} to GetMoneyBillItem(5)
+                add {_item} to {_items::*}
+              else:
+                set {_output} to {_output} - 1
+                set {_item} to GetMoneyBillItem(1)
+                add {_item} to {_items::*}
+
+              reduce {_time} by 0.05
+              if {_time} <= 0:
+                stop
+              wait 1 tick
+
+            loop {_items::*}:
+              add loop-value-2 to {_player}'s inventory
+
+          # Отдаём предмет
+          set {_item} to getItem("%{_id}%")
+          InventoryModule_GiveItem({_player}, {_item})
+
+          # Таймаут на покупку
+          set {_time} to now
+          add 10 seconds to {_time}
+
+          set {data::pawnshop::%{_id}%::timeout} to {_time}
+          reduce {data::pawnshop::%{_id}%::limit} by 1
+
+          close {_player}'s inventory

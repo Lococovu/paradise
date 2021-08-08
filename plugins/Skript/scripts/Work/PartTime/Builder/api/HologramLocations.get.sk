@@ -1,0 +1,4 @@
+function WorkModule_GetBuilderHologramLocations() :: locations:
+  add getLocation("488.5, 52, 700.5", "world") to {_locations::*}
+
+  return {_locations::*}

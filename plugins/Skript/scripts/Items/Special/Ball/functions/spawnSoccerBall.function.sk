@@ -1,0 +1,6 @@
+function SpecialItemsModule_SpawnSoccerBall(player: player):  
+  set {_item} to {_player}'s tool
+  remove 1 of {_item} from {_player}'s inventory
+
+  # Спавним мячик
+  SpecialItemsModule_StartSoccerBallWorker({_player}'s location)

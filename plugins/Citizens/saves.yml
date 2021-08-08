@@ -1,6 +1,6 @@
 # Citizens NPC Storage
 
-last-created-npc-id: 158
+last-created-npc-id: 169
 npc:
   '0':
     metadata:
@@ -58,7 +58,7 @@ npc:
       owner:
         owner: juiipup
         uuid: 65c42bcc-04c1-3f6e-ad37-67ee39d36457
-    traitnames: inventory,mounttrait,spawned,owner,scoreboardtrait,type,equipment,location,skintrait
+    traitnames: type,equipment,inventory,spawned,location,owner,mounttrait,skintrait,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -102,7 +102,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: inventory,mounttrait,spawned,scoreboardtrait,owner,type,equipment,location,skintrait,lookclose
+    traitnames: type,equipment,inventory,spawned,location,owner,mounttrait,skintrait,lookclose,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -134,7 +134,7 @@ npc:
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: inventory,mounttrait,scoreboardtrait,owner,spawned,type,equipment,skintrait,location
+    traitnames: type,equipment,inventory,spawned,owner,location,mounttrait,skintrait,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false
@@ -168,17 +168,60 @@ npc:
           '1': 360.0
       type: PLAYER
       location:
-        bodyYaw: 170.29773
+        bodyYaw: -125.59216
         world: world
         x: '451.5819'
         y: '52.0'
         z: '695.288'
-        yaw: '-149.7023'
-        pitch: '-1.432'
+        yaw: '-165.5922'
+        pitch: '0.0'
       owner:
         owner: Voyaje
         uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
-    traitnames: inventory,mounttrait,scoreboardtrait,spawned,owner,type,equipment,skintrait,location,lookclose
+    traitnames: type,equipment,inventory,spawned,location,owner,mounttrait,skintrait,lookclose,scoreboardtrait
+    navigator:
+      speedmodifier: '1.0'
+      avoidwater: false
+      usedefaultstuckaction: true
+  '161':
+    metadata:
+      cached-skin-uuid-name: nordt_
+      cached-skin-uuid: 30d5bdcb-f23a-4a96-844c-35359e69950c
+    name: lombard
+    uuid: 4e051c0d-91f9-4a11-9fa8-5fbda2d7f44e
+    traits:
+      type: PLAYER
+      skintrait:
+        fetchDefaultSkin: true
+        signature: p76j9gbFRHkIuOUcXXUAPQv6nE1htRgYR8oAi2OJeIp4MM3eUNweiAFP5u+nIyi5u1X0w2/3THSKIdBpt143sTcsXOrCEmdxixmqkjk5LrbQ/vEjDqWwOUrC8eAUPL5xtXpHv0lPdW9tJhYz1HDSV8Kk61rBdzoKuyKMt1Yof5O8vIKaNVuKtk8C6XKEd6hVqUodmQDS2VhJiHflRSJI41qYRytj20XI/rpgVA5iV4m7SqS3mcdMF9/Uq5FGJEOVhjH1P5gSOgdvGgSfWBVlJW5rKF/X1KJPXDq392ZTJs5U4eZYm7K5/qc31zlqjoVNmV0Bf/Q8J6TsFHwoavZP2o8G1EgQWVHVWYOQVS79bgpNspHj1Lar7i+NAvy9FO9Rd62f2ENiF5HkyGJ7ZfaQAqGPOWeWU1iat60lnn/uLGsjmExECti42v8fj2J0zhls29Q5/TxSzEaVvSxhlGp05z3UGgllDm/pdFOGO1UItTEtN72YwfvEmWEC8nW230RtWJW7t5zYErVTH2xW0MkEiCZWi3qNxZcL2nPxjgIkvPwrrjSNTCqaIlX0kPxRr6wj8eq3qo/45/U7UkAAehMJ6rLvVQj0ZcikZAjEsMuKSTFkahvxJfzquPj3uz0/ktbM6fNT/Qn0LKOClPqwiNcpX/Aru80nIrbetNj4/2lHsBU=
+        skinName: nordt_
+        textureRaw: ewogICJ0aW1lc3RhbXAiIDogMTYyODM0NjEzMzU4MiwKICAicHJvZmlsZUlkIiA6ICIzMGQ1YmRjYmYyM2E0YTk2ODQ0YzM1MzU5ZTY5OTUwYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJOT1JEVF8iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzdjNDk5NThlYjJhOTQzMzJjZWZkYjFlNzc5NTEwYmViZDcyYmExM2U5MzdiMTcwZTAwZWI0MGM1NTZlNGY1ZiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9
+        updateSkins: false
+      lookclose:
+        range: '5.0'
+        enabled: true
+        enableRandomLook: false
+        randomLookDelay: 60
+        realisticlooking: false
+        randomPitchRange:
+          '0': -10.0
+          '1': 0.0
+        randomYawRange:
+          '0': 0.0
+          '1': 360.0
+      spawned: true
+      location:
+        bodyYaw: -92.51526
+        world: world
+        x: '532.6947'
+        y: '46.0'
+        z: '634.3962'
+        yaw: '-89.7175'
+        pitch: '0.0'
+      owner:
+        owner: Voyaje
+        uuid: d5c22930-ff45-34b4-8c2d-08a1afd136cc
+    traitnames: type,equipment,inventory,spawned,location,owner,mounttrait,skintrait,lookclose,scoreboardtrait
     navigator:
       speedmodifier: '1.0'
       avoidwater: false

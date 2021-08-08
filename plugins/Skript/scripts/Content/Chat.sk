@@ -14,6 +14,11 @@ on chat:
       set {%player%::chat} to 0
       sendNotification(player, "&c⚠ &fВ этой комнате можно общаться только в &7OOC &fчате.", 6)
 
+  if {%player%::chat} isn't 1:
+    if SettingsModule_getPlayerSetting(player, "chat.oocEnabled") is "false":
+      set {%player%::chat} to 1
+      sendNotification(player, "&c✕ &fВы выключили &7OOC-Чат&f. Включите его в настройках, что бы использовать его.", 6)
+
   if {%player%::chat} is 1:
     # Начальное...
     if message contains "((":
@@ -105,6 +110,14 @@ on chat:
 
   else:
     set {_character::name} to getCharacterName(player, getCurrentCharacter(player))
+    set {_cooldown} to {temp::%player%::chat::oocCooldown}
+
+    if {_cooldown} >= now:
+      send "&c✕ &fПожалуйста, пишите в &7ООС&f чат медленнее."
+      stop
+    else:
+      set {temp::%player%::chat::oocCooldown} to now
+      add 2.5 seconds to {temp::%player%::chat::oocCooldown}
 
     loop all players:
       if "%loop-player%" is "%player%":
@@ -118,7 +131,9 @@ on chat:
           set {_string::name} to "%{_character::name}% %{_color}%(Вы)"
         else:
           set {_string::name} to "%{_character::name}% (%player%)"
-      send "&7[OOC] %{_string::name}%&f: %message%" to loop-player
+
+      if SettingsModule_getPlayerSetting(loop-player, "chat.oocEnabled") isn't "false":
+        send "&7[OOC] %{_string::name}%&f: %message%" to loop-player
 
 every 1 tick:
   loop all players:
@@ -194,12 +209,17 @@ command ooc:
   trigger:
     if {%player%::chat} is not set:
       set {%player%::chat} to 1
+    
+    if SettingsModule_getPlayerSetting(player, "chat.oocEnabled") is "false":
+      sendNotification(player, "&c✕ &fВы выключили &7OOC-Чат&f. Включите его в настройках, что бы использовать его.", 6)
+      stop
+    
     if {%player%::chat} is 1:
       play sound "block.end_portal_frame.fill" with pitch 0.5 to player
-      sendNotification(player, "&7▽ &fВы переключили чат на &7OOC", 6)
+      sendNotification(player, "&7▽ &fВы переключили чат на &7OOC", 3)
       set {%player%::chat} to 0
     else:
-      sendNotification(player, "&c⚠ &fВы уже находитесь в этом чате.", 6)
+      sendNotification(player, "&c⚠ &fВы уже находитесь в этом чате.", 3)
     
 command rp:
   trigger:
@@ -207,10 +227,10 @@ command rp:
       set {%player%::chat} to 1
     if {%player%::chat} is 0:
       if {defaultRoom::%player%} is true:
-        sendNotification(player, "&c⚠ &fВ этой комнате можно общаться только в &7OOC &fчате.", 6)
+        sendNotification(player, "&c⚠ &fВ этой комнате можно общаться только в &7OOC &fчате.", 3)
       else:
         play sound "block.end_portal_frame.fill" with pitch 1.5 to player
-        sendNotification(player, "&a△ &fВы переключили чат на &aRP", 6)
+        sendNotification(player, "&a△ &fВы переключили чат на &aRP", 3)
         set {%player%::chat} to 1
     else:
-      sendNotification(player, "&c⚠ &fВы уже находитесь в этом чате.", 6)
+      sendNotification(player, "&c⚠ &fВы уже находитесь в этом чате.", 3)

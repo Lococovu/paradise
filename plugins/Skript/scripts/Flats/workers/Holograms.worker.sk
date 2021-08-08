@@ -15,6 +15,7 @@ function FlatsModule_StartHologramsWorker(player: player):
 
     delete {_roomId}
     loop all blocks in radius 1 around {_player}:
+      y coordinate of location of loop-block >= {_player}'s y coordinate
       if {block::%location of loop-block%::room} is set:
         set {_roomId} to {block::%location of loop-block%::room}
         exit 1 loop
@@ -22,18 +23,23 @@ function FlatsModule_StartHologramsWorker(player: player):
     # Отображаем
     if {_roomId} is set:
       delete {_created}
+      set {_initialized} to true
       if {_hologram} is set:
         if hologram {_hologram} is deleted:
         else:
           set {_created} to true
 
       if {_created} isn't true:
-        create new hologram with clickable lines "..." at {_player}'s location and store it in variable {_hologram}
+        create new hologram with clickable lines "" at {_player}'s location and store it in variable {_hologram}
         make hologram {_hologram} invisible by default
 
       # Берём данные квартиры
       if {_retrievedData} is not true:
         set {_retrievedData} to true
+        set {_update::timer} to 1
+
+        delete {_occupant::*}
+        delete {_room::*}
 
         # Хозаин
         set {_occupant::uuid} to {data::rooms::%{_roomId}%::occupant::uuid}
@@ -57,15 +63,12 @@ function FlatsModule_StartHologramsWorker(player: player):
           set {_relationshipHologramExpanded} to true
           exit 1 loop
 
-      if {_relationshipHologramExpanded} is true:
+      if {_relationshipHologramExpanded} or {_hide} is true:
         {_player} can see hologram {_hologram}
         hide hologram {_hologram} from {_player}
       else:
         {_player} can not see hologram {_hologram}
         reveal hologram {_hologram} to {_player}
-
-        if {_player} can not see hologram {_hologram}:
-          reveal hologram {_hologram} to {_player}
     
       # Перемещаем голограмму
       set {_holo::location} to location 2.5 meters infront and 1.5 meters to the left of {_player}
@@ -75,22 +78,42 @@ function FlatsModule_StartHologramsWorker(player: player):
 
       {_occupant::uuid} and {_occupant::character} is set:
         {_occupant::uuid} is {_player}'s uuid
-        {_occupant::character} is getCurrentCharacter({_player})
-        if {_updated} is not set:
-          set {_updated} to true
-          set {_timer} to 6
+        {_occupant::character} is getCurrentCharacter({_player}):
+          if {_hide::timer} is not set:
+            {_hide} isn't true
+            delete {_hide}
+            set {_hide::timer} to 5
 
-          set {_lines::*} to "&fНажмите &9[F] &fчто бы", "&fоткрыть меню помещения."
-          set all lines of hologram {_hologram} to {_lines::*}
+          set {_lines::*} to "&f%{_roomId}%", "&fНажмите &9[F] &fчто бы", "&fоткрыть меню помещения."
       else:
-        if {_updated} is not set:
-          set {_updated} to true
+        if {_hide} is set:
+          delete {_hide}
+          delete {_hide::timer}
+        if {_room::isRentable} is true:
+          set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$&f/&730 м.", "&9[F]"
+        else:
+          set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$", "&9[F]"
 
-          if {_room::isRentable} is true:
-            set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$&f/&730 м.", "&9[F]"
-          else:
-            set {_lines::*} to "&7%{_room::address}%", "&9$ &fСтоимость: &9%{_room::price}%$", "&9[F]"
-          set all lines of hologram {_hologram} to {_lines::*}
+      # Обновляем линии голограммы
+      if last line of hologram {_hologram} isn't last element of {_lines::*}:
+        set all lines of hologram {_hologram} to {_lines::*}
+
+      {_update::timer} is set:
+        reduce {_update::timer} by 0.05
+        
+        if {_update::timer} <= 0:
+          delete {_retrievedData}
+
+      {_hide::timer} is set:
+        reduce {_hide::timer} by 0.05
+
+        send action bar "&9i &fГолограмма скроется через &9%round({_hide::timer})% &fc." to {_player}
+
+        if {_hide::timer} <= 0:
+          set {_hide} to true
+          delete {_hide::timer}
+
+          send action bar "&9i &fВы можете открыть меню помещения нажав &9[F] &fна клавиатуре." to {_player}
 
     else:
       # Отчищаем данные
@@ -98,6 +121,10 @@ function FlatsModule_StartHologramsWorker(player: player):
       delete {_occupant::*}
       delete {_updated}
       delete {_retrievedData}
+
+      if {workers::%{_player}%::roomEditor} is not set:
+        delete {_hide}
+        delete {_hide::timer}
 
       # Удаляем голограмму
       {_player} can see hologram {_hologram}:

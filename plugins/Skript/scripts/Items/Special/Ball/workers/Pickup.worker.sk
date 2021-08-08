@@ -1,0 +1,33 @@
+function SpecialItemsModule_StartSoccerBallPickupWorker(player: player, ball: entity):
+  if {workers::%{_player}%::soccerball::pickupworker} is set:
+    delete {workers::%{_player}%::soccerball::pickupworker}
+    wait 2 tick
+    if {workers::%{_player}%::soccerball::pickupworker} is set:
+      stop
+
+  while true:
+    if {_player} is offline:
+      stop
+
+    if {workers::%{_player}%::soccerball::pickupworker} is not set:
+      set {workers::%{_player}%::soccerball::pickupworker} to true
+
+    # Проверяем
+    if {_player} isn't sneaking:
+      stop
+    else:
+      add 0.05 to {_shifting}
+      
+    # Забираем мяч
+    if {_shifting} >= 0.25:
+
+      set {_item} to getItem("soccerball")
+      drop {_item} at {_ball}
+
+      kill {_ball}
+
+      wait 1 second
+      delete {workers::%{_player}%::soccerball::pickupworker}
+      stop
+
+    wait 1 tick

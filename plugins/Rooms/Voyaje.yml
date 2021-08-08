@@ -1,0 +1,140 @@
+rooms:
+    osvald_4_1:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 75
+        address: Ул. Освальд 4, Пом. №1
+        regions:
+        - 541, 59.5, 595.5/528.5, 52.5, 603.5
+        center: 534.38, 52, 599.06
+        occupant: {}
+    osvald_4_2:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 75
+        address: Ул. Освальд 4, Пом. №2
+        regions:
+        - 541, 59.5, 609.5/529, 52.5, 617.5
+        center: 535.14, 52, 613.04
+        occupant: {}
+    rouswud_6_1:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 15
+        address: Ул. Роузвуд 6
+        regions:
+        - 374.5, 55.5, 681/379.5, 52.5, 672.5
+        center: 376.5, 52, 676.18
+        occupant: {}
+    rouswud_2:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 30
+        address: Ул. Роузвуд 2
+        regions:
+        - 371.5, 57.5, 603.5/379.5, 52.5, 618.5
+        center: 375.07, 52, 610.4
+        occupant: {}
+    rouswud_12:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 25
+        address: Ул. Роузвуд 12
+        regions:
+        - 357.5, 57.5, 612.5/366.5, 52.5, 625.5
+        center: 361.37, 52, 617.8
+        occupant: {}
+    rouswud_9:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 30
+        address: Ул. Роузвуд 9
+        regions:
+        - 366, 57.5, 688.5/357, 52.5, 699.5
+        center: 361.36, 52, 693.4
+        occupant: {}
+    osvald_10_1:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5000
+        address: Ул. Освальд 10, Кв. №1
+        regions:
+        - 547, 62, 656.5/541.5, 64.5, 660
+        - 540, 62, 658.5/530.5, 65.5, 672
+        - 541.5, 62, 671.5/546.5, 64.5, 667.5
+        - 541.5, 62, 661.5/546.5, 64.5, 665.5
+        - 540, 62, 659/541, 64.5, 660
+        - 540, 62, 663.5/541, 64.5, 664
+        center: 535.28, 62, 665.31
+        occupant:
+            uuid: f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f
+            character: main
+    osvald_10_2:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5000
+        address: Ул. Освальд 10, Кв. №2
+        regions:
+        - 541.5, 65.5, 651.5/546.5, 62.5, 645.5
+        - 530.5, 65.5, 646.5/540.5, 62.5, 632.5
+        - 541.5, 63.5, 633.5/546.5, 64.5, 637.5
+        - 541.5, 63.5, 639.5/546.5, 64.5, 643.5
+        center: 535.49, 62, 640.92
+    osvald_10_3:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5250
+        address: Ул. Освальд 10, Кв. №3
+        regions:
+        - 546.5, 70.5, 659.5/541.5, 67.5, 653.5
+        - 539.5, 70.5, 658.5/529.5, 67.5, 672.5
+        - 541.5, 68.5, 671.5/546.5, 69.5, 667.5
+        - 546.5, 68.5, 661.5/541.5, 69.5, 665.5
+        center: 535.44, 67, 665.35
+    osvald_10_4:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5250
+        address: Ул. Освальд 10, Кв. №4
+        regions:
+        - 541.5, 68.5, 651.5/546.5, 69.5, 645.5
+        - 539.5, 68.5, 646.5/530.5, 70.5, 633.5
+        - 541.5, 68.5, 637.5/546.5, 69.5, 633.5
+        - 541.5, 68.5, 643.5/546.5, 69.5, 639.5
+        - 546.5, 70.5, 645.5/541.5, 67.5, 651.5
+        center: 534.87, 67, 639.88
+    osvald_10_5:
+        type: room
+        roomType: 3
+        modifiers:
+        - buyable
+        price: 5500
+        address: Ул. Освальд 10, Кв. №5
+        regions:
+        - 539.5, 73.5, 658.5/530.5, 75.5, 671.5
+        - 541.5, 73.5, 671.5/546.5, 74.5, 667.5
+        - 541.5, 73.5, 661.5/546.5, 74.5, 665.5
+        - 546.5, 73.5, 653.5/541.5, 74.5, 659.5
+        center: 535.59, 72, 666.13
+    graf_2_5:
+        occupant: {}

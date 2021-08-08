@@ -10,9 +10,11 @@
 # Website: https://papermc.io/ 
 # Docs: https://paper.readthedocs.org/ 
 
+use-display-name-in-quit-message: false
 verbose: false
 config-version: 20
 settings:
+  log-named-entity-deaths: true
   load-permissions-yml-before-plugins: true
   bungee-online-mode: true
   console-has-all-permissions: false
@@ -57,6 +59,20 @@ settings:
     total-multiplier: 0.98
   async-chunks:
     threads: -1
+  use-display-name-in-quit-message: false
+  console:
+    enable-brigadier-highlighting: true
+    enable-brigadier-completions: true
+  loggers:
+    deobfuscate-stacktraces: true
+  item-validation:
+    display-name: 8192
+    loc-name: 8192
+    lore-line: 8192
+    book:
+      title: 8192
+      author: 8192
+      page: 16384
 messages:
   no-permission: '&cI''m sorry, but you do not have permission to perform this command.
     Please contact the server administrators if you believe that this is in error.'
@@ -66,6 +82,7 @@ messages:
     flying-player: Flying is not enabled on this server
     flying-vehicle: Flying is not enabled on this server
 timings:
+  url: https://timings.aikar.co/
   enabled: true
   verbose: true
   server-name-privacy: false
@@ -78,6 +95,15 @@ timings:
   server-name: Unknown Server
 world-settings:
   default:
+    ender-dragons-death-always-places-dragon-egg: false
+    allow-using-signs-inside-spawn-protection: false
+    update-pathfinding-on-block-update: true
+    fix-wither-targeting-bug: false
+    allow-player-cramming-damage: false
+    map-item-frame-cursor-limit: 128
+    fix-items-merging-through-walls: false
+    seed-based-feature-search-loads-chunks: true
+    show-sign-click-command-failure-msgs-to-player: false
     optimize-explosions: false
     baby-zombie-movement-modifier: 0.5
     disable-teleportation-suffocation-check: false
@@ -159,6 +185,8 @@ world-settings:
           per-player: false
           day: 5
     entity-per-chunk-save-limit:
+      fireball: -1
+      small_fireball: -1
       experience_orb: -1
       snowball: -1
       ender_pearl: -1
@@ -214,6 +242,7 @@ world-settings:
       - NORMAL
       - HARD
     anti-xray:
+      max-block-height: 64
       enabled: false
       engine-mode: 1
       max-chunk-section-index: 3
@@ -242,3 +271,24 @@ world-settings:
       maximum: 0.0
     generator-settings:
       flat-bedrock: false
+    mob-effects:
+      undead-immune-to-certain-effects: true
+      spiders-immune-to-poison-effect: true
+      immune-to-wither-effect:
+        wither: true
+        wither-skeleton: true
+    spawn-limits:
+      monsters: -1
+      animals: -1
+      water-animals: -1
+      water-ambient: -1
+      ambient: -1
+    tick-rates:
+      sensor:
+        villager:
+          secondarypoisensor: 40
+      behavior:
+        villager:
+          validatenearbypoi: -1
+    unsupported-settings:
+      fix-invulnerable-end-crystal-exploit: true

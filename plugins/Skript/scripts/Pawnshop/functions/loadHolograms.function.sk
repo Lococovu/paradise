@@ -1,0 +1,11 @@
+function PawnshopModule_loadHolograms(player: player):
+  set {_location} to location of block at getLocation("534.5, 47, 634.5", "world")
+
+  {_location} is set:
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::type} to "hologram"
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::hoverAction} to "WR_Holo_PawnshopCreate"
+    set {workers::%{_player}%::viewWorker::block::%{_location}%::clickAction} to "WR_Holo_PawnshopClick"
+
+command loadh:
+  trigger:
+    PawnshopModule_loadHolograms(player)

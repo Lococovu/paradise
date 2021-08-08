@@ -1,0 +1,45 @@
+rooms:
+    graf_2_4:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 50
+        address: Ул. Граф 2, Пом. №4
+        regions:
+        - 464.5, 56.5, 723.5/470.5, 52.5, 731.5
+        center: 466.92, 52, 726.55
+        occupant: {}
+    graf_2_7:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 50
+        address: Ул. Граф 2, Пом. №7
+        regions:
+        - 490.5, 56.5, 723.5/496.5, 52.5, 731.5
+        center: 493.01, 52, 726.82
+        occupant: {}
+    graf_2_10:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 50
+        address: Ул. Граф 2, Пом. №10
+        regions:
+        - 450.5, 61.5, 723.5/456.5, 57.5, 731.5
+        center: 452.9, 57, 726.68
+        occupant: {}
+    graf_2_16:
+        type: room
+        roomType: 1
+        modifiers:
+        - rentable
+        price: 50
+        address: Ул. Граф 2, Пом. №16
+        regions:
+        - 497.5, 61.5, 723.5/503.5, 57.5, 731.5
+        center: 499.82, 57, 726.55
+        occupant: {}

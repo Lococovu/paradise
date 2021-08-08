@@ -1,0 +1,5 @@
+function InventoryModule_GiveItem(player: player, item: item):
+  if {_player}'s inventory have space for 1 of {_item}:
+    add {_item} to {_player}'s inventory
+  else:
+    drop {_item} at {_player}'s location

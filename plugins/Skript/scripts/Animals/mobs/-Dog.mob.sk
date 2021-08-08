@@ -1,0 +1,79 @@
+function AnimalsModule_CreateDogMob(location: location, player: player):
+  spawn 1 wolf at {_location}
+  set {_entity} to last spawned wolf
+
+  # Характер собаки
+  # Люди -> Очень боится/Боиться но интересно/Обожает
+  # Опасность -> Убегает/Прячется/Нападает
+  # Голод -> 
+  set {_character::people} to 2
+
+  # Голограмма
+  create new hologram with lines "" that follows {_entity} with offset of 1.2 meters above and store it in {_hologram}
+
+  # Запускаем воркер
+  set {_time} to 30
+  while true:
+    # set path target of {_entity} to {_player}
+
+    delete {_players::*}
+    loop all players in radius 5 around {_entity}:
+      add loop-player to {_players::*}
+
+    if size of {_players::*} > 0:
+      # Очень боится людей
+      if {_character::people} is 1:
+        set {_lines::*} to "Боиться"
+
+        set {_player} to random element of {_players::*}
+        set {_location} to 
+
+        set path target with speed 1.5 of {_entity} to {_location}
+
+      # Боится но интересно
+      else if {_character::people} is 2:
+        set {_lines::*} to "Боиться"
+
+        if {_player} is not set:
+          set {_player} to random element of {_players::*}
+        set {_location} to location direction from {_player} to {_entity}
+
+        set path target with speed 0.8 of {_entity} to {_location}
+
+        delete {_scared}
+        loop {_players::*}:
+          if loop-player is not sneaking:
+            set {_scared} to true
+
+        if {_scared} isn't true:
+          if {_player} is sneaking:
+            # Интересно
+            set {_lines::*} to "Интересно"
+            set path target with speed 0.15 of {_entity} to {_player}'s location
+
+      # Любит людей
+      else if {_character::people} is 3:
+        set {_lines::*} to "Возбужденна"
+
+        if {_player} is not set:
+          set {_player} to random element of {_players::*}
+        set path target with speed 0.8 of {_entity} to {_player}'s location
+
+        if distance between {_player} and {_entity} <= 0.6:
+          set {_lines::*} to "Радуется"
+
+    # Обновляем голограмму
+    if first line of hologram {_hologram} isn't first element of {_lines::*}:
+      set all lines of hologram {_hologram} to {_lines::*}
+
+    reduce {_time} by 0.05
+    if {_time} <= 0:
+      broadcast "STOP"
+      delete hologram {_hologram}
+      kill {_entity}
+      stop
+    wait 1 tick
+
+command spawnDog:
+  trigger:
+    AnimalsModule_CreateDogMob(player's location, player)

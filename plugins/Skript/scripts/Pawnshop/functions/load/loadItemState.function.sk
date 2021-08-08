@@ -1,0 +1,19 @@
+function PawnshopModule_loadItemState(id: string):
+  set {_item::limit} to {data::pawnshop::%{_id}%::limit}
+
+  if {_item::limit} is not set:
+    set {_item::limit} to random integer between 5 and 15
+
+  set {_item::price} to {data::pawnshop::%{_id}%::price}
+  if {_item::price} is not set:
+    set {_bills::*} to 10,15,35
+
+    set {_item::price} to random element of {_bills::*}
+
+  # Обновляем данные
+  set {data::pawnshop::%{_id}%::limit} to {_item::limit}
+  
+  if {_item::price} is not set:
+    delete {data::pawnshop::%{_id}%::price}
+  else:
+    set {data::pawnshop::%{_id}%::price} to {_item::price}
